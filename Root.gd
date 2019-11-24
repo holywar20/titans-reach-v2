@@ -38,12 +38,7 @@ func _ready():
 	self.loadScreen( "TITLE" )
 
 	self.globalBus = GameWorld.getGlobalBusRef()
-	self.onStartNewGame = self.globalBus.register( "NewGame_Start_Begin" , self, 'startNewGame', globalBus.USES_PAYLOAD )
-
-	print( self.onStartNewGame )
-
-func _exit_tree():
-	self.globalBus.unregister( globalBus.events.NewGame_Start_Begin , onStartNewGame )
+	self.onStartNewGame = self.globalBus.register( "NewGame_Start_Begin" , self, 'startNewGame' )
 
 func _clearSelf():
 	for child in self.gameLayer.get_children():

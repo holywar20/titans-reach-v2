@@ -28,7 +28,7 @@ func emit( eventName , payLoad = null ):
 	else:
 		self.emit_signal( eventName )
 
-func register( eventName: String , ref , functionName : String , usesPayload : bool ):
+func register( eventName: String , ref : Node , functionName : String ):
 	print( eventName , ref , functionName )
 	
 	self.connect( eventName , ref , functionName )

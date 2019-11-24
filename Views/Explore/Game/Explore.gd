@@ -6,14 +6,6 @@ onready var starShip		= get_node("Starship")	# The Starship Node. #TODO Dynamica
 # The event bus.
 var eventBus = GameWorld.getEventBus( "EXPLORE" )
 
-onready var planetScene = load("res://TravelMap/CelestialBodies/Planet.tscn")
-onready var starScene = load("res://TravelMap/CelestialBodies/Star.tscn")
-
-const AU = 1000 # Scaling factor for all planet orbits
-const PLANET_SCALE = 10 #Scaling factor for all planet sizes
-
-var starName = null
-var decorators = []
 var planetDict = {}
 var starDict = {}
 
@@ -28,10 +20,21 @@ func _process( delta ):
 	#self.miniMap.update()
 
 func _ready():
-	var star = StarFactory.generateRandomStar( StarFactory.TEXTURE.FULL )
-	star.set_global_position( Vector2(0 , 0) )
+	var star = StarFactory.generateRandomStar( Star.TEXTURE.FULL )
+	star.set_global_position( Vector2( 0 , 0 ) )
 	self.systemBase.add_child( star )
 
+	var planets = PlanetFactory.generateAllPlanetsFromStar( star )
+	
+	for planet in planets:
+		if( planet ):
+			var orbitSize = star.getOrbitalDistance( planet.orbit )
+			var randomRadian = randf() * 3.14 * 2
+			var orbitalPosition = Vector2( cos(randomRadian) , sin(randomRadian) )
+			planet.set_global_position( orbitalPosition * orbitSize )
+			self.systemBase.add_child( planet )
+		else:
+			pass
 	## TODO - CLicking a planet event
 	## TODO --clicking an object event
 	## TODO - Clicking self event
@@ -65,7 +68,7 @@ func gotoNewStarSystem( mySeed , someRadialVector = 0):
 	# var dict = StarSystemGenerator.generateRandomSystem( mySeed )
 	# self.populateStarSystem( dict.star , dict.planets, dict.connections, dict.decorators )
 
-func populateStarSystem( starDict , planetDict , connections, decorators ):
+func populateStarSystem( starDict, planetDict, decorators , connections ):
 	self._clearStarSystem()
 	# TODO add minimap link + events
 	
@@ -91,7 +94,7 @@ func populateStarSystem( starDict , planetDict , connections, decorators ):
 		var myPlanetInstance = self.planetScene.instance()
 		myPlanetInstance.set_name( planetObject.planetName )
 		self.systemBase.add_child( myPlanetInstance )
-		var orbitSize = AU + ( starDict['orbitSize'] * orbit * AU )
+		var orbitSize = starDict.getOrbitalDistance( orbit )
 		
 		var randomRadian = randf() * 3.14 * 2
 		myPosition = Vector2( cos(randomRadian) , sin(randomRadian) )
@@ -105,6 +108,3 @@ func populateStarSystem( starDict , planetDict , connections, decorators ):
 		self.miniMap.placeNewPlanet( orbit, myPosition , planetObject.planetColor )
 
 		lastPosition = myPosition * orbitSize
-	
-	myStarInstance.update()
-	self._positionStarship( ( lastPosition ) + Vector2( 50, 50 ) ) # currently just orbits last planet on entering system. 

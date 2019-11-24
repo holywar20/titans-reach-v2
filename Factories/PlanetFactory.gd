@@ -1,5 +1,8 @@
 extends Node
 
+var planetScene = load("res://ReusableGameObjects/Planet/Planet.tscn")
+
+# Percents should add up to 100, or else behavior may get weird.
 var randomPlanetTable = {
 	"LessTboilLine" :        { "L" : 20, "M" : 10, "G": 20 ,"IG" : 0,  "T" : 0 ,  "B" : 30, "I" : 0,  "S" : 20, "H": 0},
 	"EqualboilLine" :        { "L" : 10, "M" : 10, "G": 20 ,"IG" : 0,  "T" : 10 , "B" : 30, "I" : 0,  "S" : 20, "H": 0},
@@ -8,27 +11,143 @@ var randomPlanetTable = {
 	"GreaterfreezeLine":     { "L" : 5,  "M" : 10, "G": 10 ,"IG" : 20, "T" : 0 , "B" : 15, "I" : 15,  "S" : 5,  "H": 20}
 }
 
-var planetDictionary = { 
-	1 : NO_PLANET_DICT, 2 : NO_PLANET_DICT,3 : NO_PLANET_DICT ,
-	4 : NO_PLANET_DICT, 5 : NO_PLANET_DICT,6 : NO_PLANET_DICT ,
-	7 : NO_PLANET_DICT ,8 : NO_PLANET_DICT,9 : NO_PLANET_DICT
+# TODO - map these commodities to the item system
+var planetMinerals = [
+	"Meneshium" , "Lead" , "Gold" , "Tin" , "Mercury" , "Cobolt" , "Nickel" , "Iron" 
+]
+
+var planetClassData = {
+	"L" : {
+		"classification" : "L" , "className" : "Lava",
+		"massHi" : 1.4  , "massLo" : .6 ,
+		"radiusHi" : 1.3  , "radiusLo" : .7,
+		"biosphereChance" : 25,
+		"atmosphere" : "Sulfur Dioxide",
+		"color" : Color.crimson
+	} , "M" : {
+		"classification" : "M" , "className" : "Mesoplanet" ,
+		"massHi" : .6  , "massLo" : .05 ,
+		"radiusHi" : .4  , "radiusLo" : .7,
+		"biosphereChance" : 0,
+		"atmosphere": "None",
+		"color" : Color.brown 
+	} , "G" : {
+		"classification" : "G" , "className" : "Gas Giant",
+		"massHi" : 80  , "massLo" : 22 ,
+		"radiusHi" : 2 	, "radiusLo": 1.8,
+		"biosphereChance" : 0,
+		"atmosphere": "Hydrogen, Helium",
+		"color" : Color.darkorange 
+	} ,"IG" : {
+		"classification" : "IG" , "className" : "Ice Giants" ,
+		"massHi" : 21  , "massLo" : 3 ,
+		"radiusHi" : 1.3  , "radiusLo" : 1.2,
+		"biosphereChance" : 0 ,
+		"atmosphere" : "Hydrogen, Helium, Water",
+		"color" : Color.darkcyan
+	}, "T" : {
+		"classification" : "T" , "className" : "Terran",
+		"massHi" : 1.4  , "massLo" : .6 ,
+		"radiusHi" : 1.3  , "radiusLo" : .7,
+		"biosphereChance" : 50,
+		"atmosphere" : "Nitrogen, Oxygen",
+		"color" : Color.darkolivegreen
+	}, "B" : {
+		"classification" : "L" , "className" : "Barren",
+		"massHi" : 1.4  , "massLo" : .6 ,
+		"radiusHi" : 1.3  , "radiusLo" : .7,
+		"biosphereChance" : 0,
+		"atmosphere" : "Carbon Dioxide",
+		"color" : Color.brown
+	}, "I" : {
+		"classification" : "L" , "className" : "Ice" ,
+		"massHi" : 1.4  , "massLo" : .6 ,
+		"radiusHi" : 1.3  , "radiusLo" : .7,
+		"biosphereChance" : 25,
+		"atmosphere" : "Nitrogen, Oxygen",
+		"color" : Color.cadetblue 
+	}, "S" : {
+		"classification" : "L" , "className" : "Storm",
+		"massHi" : 1.4  , "massLo" : .6 ,
+		"radiusHi" : 1.3  , "radiusLo" : .7,
+		"biosphereChance" : 0,
+		"atmosphere" : "Hydrogen Cynanide",
+		"color" : Color.darkviolet 
+	} , "H" : {
+		"classification" : "H" , 'className' : "Hydrocarbon",
+		"massHi" : 1.4  , "massLo" : .6 ,
+		"radiusHi" : 1.3  , "radiusLo" : .7,
+		"biosphereChance" : 0,
+		"atmosphere" : "Methane, Nitrogen",
+		"color" : Color.beige
+	}
 }
 
 func _ready():
 	pass
 
-func generatePlanet( orbit, starData , decorators ):
+func generateAllPlanetsFromStar( myStar ):
+	seed( myStar.starSeed )
+	randi()
+	
+	var planetArray = []
+
+	for orbit in range( 0 , myStar.ORBIT_COUNT ):
+		print( orbit )
+		if( randi() % 100 < myStar.chanceOfPlanetPerOrbit ):
+			planetArray.append( self.generateOnePlanet( orbit, myStar ) )
+			myStar.setOrbitState( orbit, true )
+		else:
+			planetArray.append( null )
+			myStar.setOrbitState( orbit, false )
+			continue # No planet at this orbit. Moving on. 
+
+	return planetArray
+
+func generateOnePlanet( orbit,  myStar ):
+	var planetClass = self._rollPlanetType( orbit, myStar)
+	var myPlanet = self._rollPlanetDetails( orbit, planetClass , myStar )
+	print( myPlanet )
+	return myPlanet
+
+
+func _rollPlanetDetails( orbit, planetClass , star ):
+	var p = self.planetClassData[planetClass]
+
+	var planet = self.planetScene.instance()
+	
+	planet.fullName = star.getName() + " " + str(orbit + 1) # TODO - Make roman Numerals. Also should add ability for 'uniquely' named planets.
+	planet.planetSeed = null
+	planet.orbit = orbit
+	planet.classification = p.classification
+	planet.className = p.className
+	planet.color = p.color
+
+	planet.atmopshere = p.atmosphere
+	
+	planet.radius = Common.randDiffPercents( p['radiusHi'], p['radiusLo'] )
+	planet.mass = Common.randDiffPercents( p['massHi'] , p['massLo'] )
+	planet.temp = 200 # TODO - base this on some formula
+
+	planet.fullTexturePath = "res://TextureBank/Stars/celestial_blank.png"
+	planet.iconTexturePath = "res://TextureBank/Stars/celestial_blank.png"
+
+	print(planet)
+
+	return planet
+
+func _rollPlanetType( orbit ,star ):
 	var allowedPlanets = {}
 
-	if( orbit < starData['boilLine'] ):
+	if( orbit < star.boilLine ):
 		allowedPlanets = randomPlanetTable["LessTboilLine"]
-	if( orbit == starData['boilLine'] ):
+	elif( orbit == star.boilLine ):
 		allowedPlanets = randomPlanetTable["EqualboilLine"]
-	if( orbit > starData['boilLine'] && orbit < starData['freezeLine'] ):
+	elif( orbit > star.boilLine && orbit < star.freezeLine ):
 		allowedPlanets = randomPlanetTable["BetweenBoilAndFreeze"]
-	if( orbit == starData['freezeLine'] ):
+	elif( orbit == star.freezeLine ):
 		allowedPlanets = randomPlanetTable["EqualfreezeLine"]
-	if( orbit > starData['freezeLine'] ):
+	if( orbit > star.freezeLine ):
 		allowedPlanets = randomPlanetTable["GreaterfreezeLine"]
 
 	var random = randi()%100 + 1
@@ -42,7 +161,4 @@ func generatePlanet( orbit, starData , decorators ):
 			myPlanetClass = planet
 			break
 
-	var myPlanet = Planet.new()
-	myPlanet.initPlanet( orbit, starData, myPlanetClass , decorators.fullName )
-
-	return myPlanet
+	return myPlanetClass

@@ -14,10 +14,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Classes/EventBus.gd"
 }, {
-"base": "Sprite",
+"base": "Node2D",
 "class": "Star",
 "language": "GDScript",
-"path": "res://SpriteClasses/Star.gd"
+"path": "res://ReusableGameObjects/Star/Star.gd"
 } ]
 _global_script_class_icons={
 "EventBus": "",
@@ -35,6 +35,7 @@ config/icon="res://icon.png"
 Common="*res://Helpers/Common.gd"
 GameWorld="*res://GameState/GameWorld.gd"
 StarFactory="*res://Factories/StarFactory.gd"
+PlanetFactory="*res://Factories/PlanetFactory.gd"
 
 [display]
 

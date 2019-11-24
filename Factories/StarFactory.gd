@@ -3,6 +3,8 @@ extends Node
 func _ready():
 	pass
 
+onready var starScene = load("res://ReusableGameObjects/Star/star.tscn")
+
 var starSystemFirstNames = [
 	"Abbadon" , "Alpophis", "Margeddon" , "Callistamere" , "Gypsy" , "Orlus" , "Cylus" , "Verune" , "Callus" , "Infidel" , "Wayward" , "Titans"
 ]
@@ -23,64 +25,78 @@ var starPrototypes = {
 		"massLo" : .08   , "massHi" : .45  ,   "radius" :  .4 , 
 		"textureFragment" : "res://TextureBank/Stars/celestial_blank.png", 
 		"boilLine": 0    , "freezeLine": 2 , "orbitSize" : .8 , "habitableChance" : 20  ,  
-		"tempHi" : 3700 , "tempLo": 2400 },
-		
+		"tempHi" : 3700 , "tempLo": 2400 ,
+		"color" : Color.tomato
+	},
 	"K" : { "classification" : "K", "className" : "Orange Dwarf", 
 		"textureFragment" : "res://TextureBank/Stars/celestial_blank.png", 
 		"massLo" : .45   , "massHi" : .8   ,   "radius" :  .6 , 
 		"boilLine": 1    , "freezeLine": 3 , "orbitSize" : .9 , "habitableChance" : 60, 
-		"tempHi" : 3700 , "tempLo": 5200 },
-		
+		"tempHi" : 3700 , "tempLo": 5200 ,
+		"color" : Color.burlywood
+	},
 	"G" : { "classification" : "G", "className" : "Yellow Dwarf", 
 		"textureFragment" : "res://TextureBank/Stars/celestial_blank.png", 
 		"massLo" : .8    , "massHi" : 1.04 ,   "radius" :  .7 , 
 		"boilLine": 2    , "freezeLine": 4 , "orbitSize" : 1 , "habitableChance" : 50 ,
-		"tempHi" : 5200 , "tempLo": 6000 },
-		
+		"tempHi" : 5200 , "tempLo": 6000 ,
+		"color" : Color.cornflower 
+	},	
 	"F" : { "classification" : "G", "className" : "Yellow-White Dwarf", 
 		"textureFragment" : "res://TextureBank/Stars/celestial_blank.png", 
 		"massLo" : 1.04  , "massHi" : 1.4  ,   "radius" :  .8 , 
 		"boilLine": 3    , "freezeLine": 5 , "orbitSize" : 1.1 , "habitableChance" : 40,
-		"tempHi" : 7500 , "tempLo": 6000  },
-		
+		"tempHi" : 7500 , "tempLo": 6000  ,
+		"color" : Color.whitesmoke
+	},
 	"A" : { "classification" : "A", "className" : "A-Type Star", 
 		"textureFragment" : "res://TextureBank/Stars/celestial_blank.png",
 		"massLo" : 1.4   , "massHi" : 2.1  ,   "radius" :  1, 
 		"boilLine": 4    , "freezeLine": 6 , "orbitSize" : 1.2 , "habitableChance" : 30 ,
-		"tempHi" : 10000 , "tempLo": 7500 },
+		"tempHi" : 10000 , "tempLo": 7500, 
+		"color" : Color.lightskyblue 
+	},
 		
 	"B" : { "classification" : "B", "className" : "B-Type Star", 
 		"textureFragment" : "res://TextureBank/Stars/celestial_blank.png",
 		"massLo" : 2.1   , "massHi" : 16  ,   "radius" :  1.5, 
 		"boilLine": 5    , "freezeLine": 7 , "orbitSize" : 1.3, "habitableChance" : 20 ,
-		"tempHi" : 10000 , "tempLo": 30000 },
+		"tempHi" : 10000 , "tempLo": 30000, 
+		"color" : Color.cyan
+	},
 		
 	"O" : { "classification" : "O", "className":	"O-Type Star", 
 		"textureFragment" : "res://TextureBank/Stars/celestial_blank.png", 
 		"massLo" : 16    , "massHi" :  40  ,   "radius" : 1.6  , 
 		"boilLine": 6    , "freezeLine": 8 , "orbitSize" : 1.4 , "habitableChance" : 10 ,
-		"tempHi" : 50000 , "tempLo": 30000 },
+		"tempHi" : 50000 , "tempLo": 30000 ,
+		"color" : Color.lightsteelblue
+	},
 		
 	"N" : { "classification" : "N","className" : "Neutron Star", 
 		"textureFragment" : "res://TextureBank/Stars/celestial_blank.png",  
 		"massLo" : 1.4, "massHi": 3.0	   , "radius" : .2  , 
 		"boilLine": 1    , "freezeLine": 2 , "orbitSize" : 1  , "habitableChance" : 0,
-		"tempHi" : 100000 , "tempLo": 10000 },
+		"tempHi" : 100000 , "tempLo": 10000 ,
+		"color" : Color.ivory
+	},
 		
 	"R" : { "classification" : "R","className" : "Red Giant", 
 		"textureFragment" : "res://TextureBank/Stars/celestial_blank.png", 
 		"massLo" : .8 , "massHi": 5.0 , "radius" :  1.6 , 
 		"boilLine": 4    , "freezeLine": 7 , "orbitSize" : 1.8, "habitableChance" : 20 ,
-		"tempHi" : 5200 , "tempLo": 24000 },
+		"tempHi" : 5200 , "tempLo": 24000 ,
+		"color" : Color.darkred
+	},
 		
 	"H" : { "classification" : "H", "className" : "Hyper Giant", 
 		"textureFragment" : "res://TextureBank/Stars/celestial_blank.png", 
 		"massLo" : 40 , "massHi": 120 , "radius" :  1.3 , 
 		"boilLine": 8    , "freezeLine": 9 , "orbitSize" : 2.4, "habitableChance" : 10  ,
-		"tempHi" : 100000 , "tempLo": 30000 },
+		"tempHi" : 100000 , "tempLo": 30000,
+		"color" : Color.ivory
+	},
 }
-
-enum TEXTURE{ FULL, SMALL , ICON }
 
 func generateRandomStar( textureSize : int , thisSeed = 100000 ):
 	seed( thisSeed )
@@ -88,7 +104,7 @@ func generateRandomStar( textureSize : int , thisSeed = 100000 ):
 
 	var pro = self._getRandomPrototypeStar( thisSeed )
 
-	var myStar = Star.new()
+	var myStar = starScene.instance()
 	myStar['starSeed']			= thisSeed
 	myStar['classification'] 	= pro['classification']
 	myStar['className']  		= pro['className']
@@ -102,22 +118,15 @@ func generateRandomStar( textureSize : int , thisSeed = 100000 ):
 	myStar['smallTexturePath'] = pro['textureFragment']
 	myStar['iconTexturePath']	= pro['textureFragment'] 
 
-	if( textureSize ==  self.TEXTURE.FULL ):
-		myStar.set_texture( load( myStar.fullTexturePath ) )
-	elif ( textureSize == self.TEXTURE.SMALL ):
-		myStar.set_texture( load( myStar.smallTexturePath ) )
-	elif( textureSize == self.TEXTURE.ICON ):
-		myStar.set_texture( load( myStar.TEXTURE.ICON ) )
+	myStar['color'] = pro['color']
 
-	var idx = randi() % self.starSystemFirstNames.size()
-	myStar['firstName'] = self.starSystemFirstNames[idx]
-
-	idx = randi() % self.starSystemFirstNames.size()
-	myStar['lastName'] = self.starSystemLastNames[idx]
+	var firstNameIdx = randi() % self.starSystemFirstNames.size()
+	var lastNameIdx = randi() % self.starSystemFirstNames.size()
+	myStar.setName( self.starSystemFirstNames[firstNameIdx] , self.starSystemLastNames[lastNameIdx] )
 
 	myStar['mass'] = Common.randDiffPercents( pro['massHi'], pro['massLo'] )
 	myStar['mass'] = Common.randDiffPercents( pro['tempHi'], pro['tempLo'] )
-	
+
 	return myStar
 
 func _getRandomPrototypeStar( thisSeed : int ):

@@ -4,7 +4,7 @@ var rotationSpeed = 10
 var rotationAcceleration = .2
 var acceleration = 100000
 
-var velocityMaxForward = 150
+var velocityMaxForward = 500
 var velocityMaxBackward = 150
 
 const TIME_FACTOR = 40000.00
