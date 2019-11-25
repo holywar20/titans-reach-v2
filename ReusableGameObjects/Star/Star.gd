@@ -3,7 +3,7 @@ extends Node2D
 class_name Star
 
 onready var nodes = {
-	'sprite'		: get_node("Sprite"),
+	'sprite'		: get_node("Area2D/Sprite"),
 	'nameLabel'	: get_node("Label")
 }
 
@@ -27,6 +27,7 @@ var temp = 0
 var mass = 0
 var orbitSize = 0
 var color = Color( 0 , 0 ,0 , 0 )
+var description = ""
 
 # IMG Data
 var smallTexturePath = "" 
@@ -38,11 +39,13 @@ var orbitArray = [ false , false , false, false, false, false, false, false, fal
 var connectionArray = []
 var chanceOfPlanetPerOrbit = 100
 
+var eventBus = EventBusStore.getEventBus( EventBusStore.BUS.EXPLORE )
+
 enum TEXTURE{ FULL, SMALL , ICON }
 
 func _ready():
 	self.nodes.nameLabel.set_text( self.getName() )
-	self.nodes.sprite.set_texture( load( fullTexturePath ) ) # DO we need an override for this?
+	self.nodes.sprite.set_texture( load( self.fullTexturePath ) ) # DO we need an override for this?
 	self.nodes.sprite.set_self_modulate( self.color )
 
 func getName():
@@ -73,6 +76,5 @@ func setName( fName : String , lName: String ):
 	self.lastName = lName
 
 func _onAreaInputEvent( viewport, event, shape_idx ):
-	if( Input.is_mouse_button_pressed( BUTTON_LEFT ) ):
-		pass # TODO - link to event bus.
-	
+	if( event.is_action_pressed( "GUI_SELECT" ) ):
+		self.eventBus.emit( "StarClickedStart" , self )

@@ -93,7 +93,6 @@ func generateAllPlanetsFromStar( myStar ):
 	var planetArray = []
 
 	for orbit in range( 0 , myStar.ORBIT_COUNT ):
-		print( orbit )
 		if( randi() % 100 < myStar.chanceOfPlanetPerOrbit ):
 			planetArray.append( self.generateOnePlanet( orbit, myStar ) )
 			myStar.setOrbitState( orbit, true )
@@ -107,7 +106,6 @@ func generateAllPlanetsFromStar( myStar ):
 func generateOnePlanet( orbit,  myStar ):
 	var planetClass = self._rollPlanetType( orbit, myStar)
 	var myPlanet = self._rollPlanetDetails( orbit, planetClass , myStar )
-	print( myPlanet )
 	return myPlanet
 
 
@@ -131,8 +129,6 @@ func _rollPlanetDetails( orbit, planetClass , star ):
 
 	planet.fullTexturePath = "res://TextureBank/Stars/celestial_blank.png"
 	planet.iconTexturePath = "res://TextureBank/Stars/celestial_blank.png"
-
-	print(planet)
 
 	return planet
 

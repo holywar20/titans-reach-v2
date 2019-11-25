@@ -1,0 +1,92 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Views/Explore/UI/SubUI/Assignments.gd" type="Script" id=1]
+[ext_resource path="res://ReusableUI/CrewmanDetail/CrewmanDetail.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Views/Explore/UI/SubUI/AssignmentsSubUI/Command.tscn" type="PackedScene" id=3]
+
+[node name="Assignments" type="PanelContainer" groups=[
+"SubUI",
+]]
+margin_right = 1000.0
+margin_bottom = 800.0
+script = ExtResource( 1 )
+
+[node name="Main" type="HBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 993.0
+margin_bottom = 793.0
+
+[node name="Left" type="VBoxContainer" parent="Main"]
+editor/display_folded = true
+margin_right = 327.0
+margin_bottom = 786.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Main/Left"]
+margin_right = 327.0
+margin_bottom = 14.0
+text = "Crew"
+align = 1
+valign = 1
+
+[node name="List" type="VBoxContainer" parent="Main/Left"]
+margin_top = 18.0
+margin_right = 327.0
+margin_bottom = 304.0
+custom_constants/separation = 10
+alignment = 1
+
+[node name="Crew" parent="Main/Left/List" instance=ExtResource( 2 )]
+
+[node name="Crew2" parent="Main/Left/List" instance=ExtResource( 2 )]
+margin_top = 74.0
+margin_bottom = 138.0
+
+[node name="Crew3" parent="Main/Left/List" instance=ExtResource( 2 )]
+margin_top = 148.0
+margin_bottom = 212.0
+
+[node name="Crew4" parent="Main/Left/List" instance=ExtResource( 2 )]
+margin_top = 222.0
+margin_bottom = 286.0
+
+[node name="Right" type="VBoxContainer" parent="Main"]
+margin_left = 331.0
+margin_right = 986.0
+margin_bottom = 786.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Label" type="Label" parent="Main/Right"]
+margin_right = 655.0
+margin_bottom = 14.0
+text = "Stations"
+align = 1
+valign = 1
+
+[node name="Command" parent="Main/Right" instance=ExtResource( 3 )]
+
+[node name="Command2" parent="Main/Right" instance=ExtResource( 3 )]
+margin_top = 121.0
+margin_bottom = 220.0
+
+[node name="Command3" parent="Main/Right" instance=ExtResource( 3 )]
+margin_top = 224.0
+margin_bottom = 323.0
+
+[node name="Command4" parent="Main/Right" instance=ExtResource( 3 )]
+margin_top = 327.0
+margin_bottom = 426.0
+
+[node name="Command5" parent="Main/Right" instance=ExtResource( 3 )]
+margin_top = 430.0
+margin_bottom = 529.0
+
+[node name="Command6" parent="Main/Right" instance=ExtResource( 3 )]
+margin_top = 533.0
+margin_bottom = 632.0
+
+[node name="Command7" parent="Main/Right" instance=ExtResource( 3 )]
+margin_top = 636.0
+margin_bottom = 735.0

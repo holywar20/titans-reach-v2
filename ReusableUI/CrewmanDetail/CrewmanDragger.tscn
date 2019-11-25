@@ -1,0 +1,26 @@
+[gd_scene format=2]
+
+[node name="Crewman" type="VBoxContainer"]
+editor/display_folded = true
+margin_left = 68.0
+margin_right = 327.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="."]
+margin_right = 259.0
+margin_bottom = 14.0
+text = "{NAME}"
+
+[node name="Label2" type="Label" parent="."]
+margin_top = 18.0
+margin_right = 259.0
+margin_bottom = 32.0
+text = "HP"
+
+[node name="Label3" type="Label" parent="."]
+margin_top = 36.0
+margin_right = 259.0
+margin_bottom = 50.0
+text = "Morale"

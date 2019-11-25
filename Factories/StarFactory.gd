@@ -98,6 +98,19 @@ var starPrototypes = {
 	},
 }
 
+const starDescriptions = {
+	"M" : "Also known as Red Dwarfs",
+	"K" : "Also known as Orange Dwarfs, K Class stars are 5 times as common as G Class Stars, and most habitable planets in the galaxy orbit such a star. They have stable output over billions of years, and the stars are so long lived, that not a single K-Class star has expanded into a red giant. They have extremely stable but somewhat low tempatures over their life times and so the most useful will be those that orbit extremely close to their home star.",
+	"G" : "Also known as Yellow-White Dwarfs, The G-Class star is prototyped by a very well known star, The Sun. G-Class stars have a relatively long life time but are relativey energetic over most of their lives. After between 8 and 12 Billion Years, a G-Class star will normally expand into a massive red giant, increasing their lumonisity thousand fold and swallowing most of their inner planets.",
+	"F" : "F-Class stars are highly energetic stars that are stable for a relatively short billion to 2 billion years. Life is possible in a system like this but is very rare. Life from  F-Class star especially must be hardy, as the baleful light of the star can easily strip atmospheres. Life bearing worlds will tend to be extremely high mass with strong magnetic fields and active volcanism.",
+	"A" : "",
+	"B" : "",
+	"O" : "",
+	"N" : "Neutron Stars are the left over corpses of stars destroyed in a supernova",
+	"R" : "A Red-Giant is what was once a very normal star, expanded and bloated by years of accumulating helium ash on their cores. Not large enough to burn these heavy materials, the outer layers expand while the core contracts. Red-Giant systems are incredibly dangerous, especially once you get close to the beast. The Star can take months to circumnaviate safely at sublight, and the bath of radiation makes most forms of radiative cooling completely ineffective.",
+	"H" : "Hypergiants are 80 to 100 solar mass stars that burn with more energy in a second than a sun-like star does in a year. These massive nuclear furnaces churn through material so rapidly that they are fundementally unstable. Every year they slough off enormous amounts of their mass, while the core contracts ever denser, producing incredible amounts of heat and energy. Hypergiant systems are essentially almost uninhabitable. Even the best radiation shielding can only last against the onslaught of the star for a few hours, and regular outpourings of gas and material liken it more to a constant explosion than the gentle caress of a stellar wind. Worlds around Hypergiants are rare, almost always pure balls of Magma that have yet to cool since the stars formation. Hypergiants also often serve as Nexus Stars. It's high gravity can make it hard to open stable rip routes, but once open travel to and from Hypergiant systems is extremely fast."
+}
+
 func generateRandomStar( textureSize : int , thisSeed = 100000 ):
 	seed( thisSeed )
 	randi()
@@ -106,6 +119,7 @@ func generateRandomStar( textureSize : int , thisSeed = 100000 ):
 
 	var myStar = starScene.instance()
 	myStar['starSeed']			= thisSeed
+	myStar['description']		= self.starDescriptions[pro['classification']]
 	myStar['classification'] 	= pro['classification']
 	myStar['className']  		= pro['className']
 	myStar['radius'] 				= pro['radius']

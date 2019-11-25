@@ -8,19 +8,19 @@ onready var debugLayer = get_node( "DebugLayer" )
 
 const VIEWS = {
 	"EXPLORE" : {
-		"UI" : "" ,
+		"UI" : "res://Views/Explore/UI/Explore.tscn" ,
 		"GAME" : "res://Views/Explore/Game/Explore.tscn",
-		"EVENTBUS"	: GameWorld.EVENT_BUS.EXPLORE
+		"EVENTBUS"	: "EXPLORE"
 	} , 
 	"BATTLE" : {
 		"UI" : "" ,
 		"Game" : "",
-		"EVENTBUS" : GameWorld.EVENT_BUS.BATTLE
+		"EVENTBUS" : "BATTLE"
 	} ,
 	"TITLE" : {
 		"UI" : "res://Views/Title/UI/Title.tscn" ,
 		"Game" : "",
-		"EVENTBUS" : GameWorld.EVENT_BUS.TITLE
+		"EVENTBUS" : "TITLE"
 	}
 }
 
@@ -28,17 +28,13 @@ const POPUPS = {
 	"BattlePosition" : ""
 	}
 
-
-var globalBus = GameWorld.getEventBus("")
-
-# Event Keys
-var onStartNewGame = null
+var globalBus = null
 
 func _ready():
+	self.globalBus = EventBusStore.getGlobalEventBus()
 	self.loadScreen( "TITLE" )
 
-	self.globalBus = GameWorld.getGlobalBusRef()
-	self.onStartNewGame = self.globalBus.register( "NewGame_Start_Begin" , self, 'startNewGame' )
+	self.globalBus.register( "NewGame_Start_Begin" , self, 'startNewGame' )
 
 func _clearSelf():
 	for child in self.gameLayer.get_children():
@@ -59,7 +55,6 @@ func _loadBattlePositionPopup( myCrew, battleType , myBattleOrder , inBattle = t
 	self.popupLayer.add_child( myPopup )
 
 func startNewGame():
-	print("Starting new Game")
 	self.loadScreen( "EXPLORE" )
 
 func loadSavedGame():
@@ -78,19 +73,15 @@ func loadScreen( screenName ):
 		match screenName:
 			"EXPLORE" :
 				self._loadExploreScreen()
-				print("loading Explore")
 			"BATTLE" :
 				self._loadBattleScreen()
-				print("loading Battle")
 			"TITLE":
 				self._loadTitleScreen()
-				print("loading Title")
 
 func _loadTitleScreen():
 	self._clearSelf()
 
 	var ui 	= load( self.VIEWS.TITLE.UI )
-	print( self.VIEWS.TITLE.UI )
 	var uiInstance = ui.instance()
 	self.UILayer.add_child( uiInstance )
 
@@ -100,9 +91,9 @@ func _loadBattleScreen():
 func _loadExploreScreen():
 	self._clearSelf()
 	
-	#var ui = load( self.VIEWS.EXPLORE.UI )
-	#var uiInstance = ui.instance()
-	#self.UILayer.add_child(uiInstance);
+	var ui = load( self.VIEWS.EXPLORE.UI )
+	var uiInstance = ui.instance()
+	self.UILayer.add_child( uiInstance );
 
 	var exploreMap = load( self.VIEWS.EXPLORE.GAME )
 	var exploreMapInstance = exploreMap.instance()

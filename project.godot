@@ -15,12 +15,18 @@ _global_script_classes=[ {
 "path": "res://Classes/EventBus.gd"
 }, {
 "base": "Node2D",
+"class": "Planet",
+"language": "GDScript",
+"path": "res://ReusableGameObjects/Planet/Planet.gd"
+}, {
+"base": "Node2D",
 "class": "Star",
 "language": "GDScript",
 "path": "res://ReusableGameObjects/Star/Star.gd"
 } ]
 _global_script_class_icons={
 "EventBus": "",
+"Planet": "",
 "Star": ""
 }
 
@@ -36,6 +42,7 @@ Common="*res://Helpers/Common.gd"
 GameWorld="*res://GameState/GameWorld.gd"
 StarFactory="*res://Factories/StarFactory.gd"
 PlanetFactory="*res://Factories/PlanetFactory.gd"
+EventBusStore="*res://GameState/EventBusStore.gd"
 
 [display]
 
@@ -50,12 +57,22 @@ theme/custom_font="res://TextThemes/LightWeight.tres"
 
 GUI_ZOOM_IN={
 "deadzone": 0.5,
-"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":4,"pressed":false,"doubleclick":false,"script":null)
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":4,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 GUI_ZOOM_OUT={
 "deadzone": 0.5,
-"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":5,"pressed":false,"doubleclick":false,"script":null)
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":5,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+GUI_SELECT={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+GUI_UNSELECT={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 

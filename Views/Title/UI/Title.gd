@@ -1,10 +1,12 @@
 extends Control
 
-var globalBus = null # A refrence to the global event bus, declared in GameWorld
+var globalBus = EventBusStore.getGlobalEventBus()
 
 func _ready():
-	self.globalBus = GameWorld.getGlobalBusRef()
+	pass
 
 func newGameButtonClick():
 	self.globalBus.emit( "NewGame_Start_Begin" , [] )
 
+func exit_tree():
+	pass

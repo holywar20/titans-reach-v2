@@ -8,7 +8,6 @@ const IGNORES_PAYLOAD = false
 var noLogEvents = []
 var eventStore = {}
 var events = {}
-var debugLog = null
 
 # TODO - Make Global
 const RAND_KEY_SIZE = 8
@@ -20,20 +19,19 @@ func _ready():
 func addEvents( eventStrings ):
 	for eventName in eventStrings:
 		self.add_user_signal( eventName )
+		events[eventName] = 0
 
 func emit( eventName , payLoad = null ):
-	print("Emitting , " , eventName )
+	print("Emitting , " , eventName , payLoad )
 	if( payLoad ):
 		self.emit_signal( eventName , payLoad )
 	else:
 		self.emit_signal( eventName )
 
 func register( eventName: String , ref : Node , functionName : String ):
-	print( eventName , ref , functionName )
-	
+	print("Registering for event , " , eventName )
+	self.events[eventName] = events[eventName] + 1
 	self.connect( eventName , ref , functionName )
-
-	return "success"
 
 func unregister( eventName ,  key ):
 	if( !eventName || !key):

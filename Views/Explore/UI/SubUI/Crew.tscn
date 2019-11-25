@@ -1,0 +1,14 @@
+[gd_scene format=2]
+
+[node name="Crew" type="PanelContainer" groups=[
+"SubUI",
+]]
+margin_right = 1000.0
+margin_bottom = 800.0
+
+[node name="Label" type="Label" parent="."]
+margin_left = 7.0
+margin_top = 393.0
+margin_right = 993.0
+margin_bottom = 407.0
+text = "Crew!"

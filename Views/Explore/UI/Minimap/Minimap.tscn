@@ -1,0 +1,43 @@
+[gd_scene format=2]
+
+[node name="Minimap" type="PanelContainer"]
+margin_right = 400.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 0, 400 )
+
+[node name="VBox" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 393.0
+margin_bottom = 393.0
+
+[node name="Label" type="Label" parent="VBox"]
+margin_right = 386.0
+margin_bottom = 31.0
+text = "Minimap
+"
+align = 1
+valign = 1
+
+[node name="Map" type="PanelContainer" parent="VBox"]
+margin_top = 35.0
+margin_right = 386.0
+margin_bottom = 266.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Data" type="PanelContainer" parent="VBox"]
+margin_top = 270.0
+margin_right = 386.0
+margin_bottom = 386.0
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBox/Data"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 379.0
+margin_bottom = 109.0
+text = "Ink
+Fuel
+Food
+Date"

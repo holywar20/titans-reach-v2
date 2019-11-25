@@ -31,7 +31,7 @@ func _exit_tree():
 	pass
 	# EventBus.unregister( EventBus.GLOBAL_UPDATED_SHIP , self.shipDataUpdateEventKey )
 
-func _input(ev):
+func _unhandled_input( ev ):
 	# TODO - add some smoothing to this to make it look nicer.
 	if( ev.is_action_pressed( "GUI_ZOOM_IN" ) ):
 		var myZoom = myCamera.get_zoom() 
@@ -53,7 +53,6 @@ func _physics_process( delta ):
 		self.goRotation( +1, delta )
 	
 	if( Input.is_key_pressed( KEY_UP ) ):
-		print("pressing up key")
 		self.accelerate( 1 , delta )
 	elif( self.speed > 0 ):
 		self.decelerate( delta )
