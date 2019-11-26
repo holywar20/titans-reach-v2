@@ -2,16 +2,8 @@ extends Node
 
 class_name EventBus
 
-const USES_PAYLOAD = true
-const IGNORES_PAYLOAD = false
-
-var noLogEvents = []
-var eventStore = {}
-var events = {}
-
-# TODO - Make Global
-const RAND_KEY_SIZE = 8
-const RAND_KEY_SET = "ABCDEFGHIJKLMPNOPQRSTUVWXYZ0123456789"
+# LONG TODO - EventBus Phase 2
+var events = {} # A count of all the things registered for an event
 
 func _ready():
 	pass
@@ -19,13 +11,29 @@ func _ready():
 func addEvents( eventStrings ):
 	for eventName in eventStrings:
 		self.add_user_signal( eventName )
-		events[eventName] = 0
+		self.events[eventName] = 0
 
-func emit( eventName , payLoad = null ):
-	print("Emitting , " , eventName , payLoad )
-	if( payLoad ):
-		self.emit_signal( eventName , payLoad )
-	else:
+# Currently only supports up to 5 arguments. Godot signals don't use variable numbers of arguments.
+# So yes - this ugly code exists, but it gets the job done, and it's contained here.
+func emit( eventName : String , p = [] ):
+	print("Emitting , " , eventName , p )
+
+	if( p.size() >= 5 ):
+		print("5")
+		self.emit_signal( eventName , p[0], p[1] , p[2] , p[3] , p[4] )
+	elif( p.size() == 4):
+		print("4")
+		self.emit_signal( eventName , p[0], p[1] , p[2] , p[3] )
+	elif( p.size() == 3 ):
+		print("3")
+		self.emit_signal( eventName, p[0] , p[1], p[2] )
+	elif( p.size() == 2 ):
+		print("2")
+		self.emit_signal( eventName, p[0] , p[1] )
+	elif( p.size() == 1 ):
+		print("1")
+		self.emit_signal( eventName, p[0] ) 
+	elif( true ): # Default
 		self.emit_signal( eventName )
 
 func register( eventName: String , ref : Node , functionName : String ):
@@ -33,22 +41,6 @@ func register( eventName: String , ref : Node , functionName : String ):
 	self.events[eventName] = events[eventName] + 1
 	self.connect( eventName , ref , functionName )
 
-func unregister( eventName ,  key ):
-	if( !eventName || !key):
-		# TODO - Add this to some form of logging
-		return false # Need a valid key & name. Bailing for sake of app stability in the face of potentially bad refrences. 
-
-	if( self.eventStore[eventName].has( key ) ):
-		self.eventStore[eventName].erase( key )
-
-# TODO - Make Global
-func genRandomKey():
-	var myKey = ""
-	# TODO - a better way for random that doesn't involve string concatenation.
-
-	for keyItem in range( self.RAND_KEY_SIZE ):
-		var myKeyValue = randi()% self.RAND_KEY_SET.length()
-		
-		myKey += RAND_KEY_SET[myKeyValue]
-	
-	return myKey
+func unregister( eventName : String,  key ):
+	# TODO  how would you unsubscribe from an event?
+	pass

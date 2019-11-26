@@ -1,89 +1,92 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Views/Explore/UI/Explore.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://Views/Explore/UI/Minimap/Minimap.tscn" type="PackedScene" id=3]
-[ext_resource path="res://ReusableUI/Context/Context.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Themes/Core.tres" type="Theme" id=1]
+[ext_resource path="res://Views/Explore/UI/Explore.gd" type="Script" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://Views/Explore/UI/Minimap/Minimap.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ReusableUI/Context/Context.tscn" type="PackedScene" id=5]
 
 [node name="Explore" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-script = ExtResource( 1 )
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="Buttons" type="HBoxContainer" parent="."]
+editor/display_folded = true
 margin_right = 1920.0
-margin_bottom = 70.0
+margin_bottom = 72.0
 custom_constants/separation = 20
 
 [node name="Assignments" type="Button" parent="Buttons"]
 margin_right = 200.0
-margin_bottom = 70.0
+margin_bottom = 72.0
 rect_min_size = Vector2( 200, 60 )
 focus_mode = 0
 custom_constants/hseparation = 20
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Assignments"
-icon = ExtResource( 2 )
+icon = ExtResource( 3 )
 
 [node name="Personal" type="Button" parent="Buttons"]
 margin_left = 220.0
 margin_right = 420.0
-margin_bottom = 70.0
+margin_bottom = 72.0
 rect_min_size = Vector2( 200, 60 )
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Crew"
-icon = ExtResource( 2 )
+icon = ExtResource( 3 )
 
 [node name="Equipment" type="Button" parent="Buttons"]
 margin_left = 440.0
 margin_right = 640.0
-margin_bottom = 70.0
+margin_bottom = 72.0
 rect_min_size = Vector2( 200, 60 )
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Equipment"
-icon = ExtResource( 2 )
+icon = ExtResource( 3 )
 
 [node name="Ship" type="Button" parent="Buttons"]
 margin_left = 660.0
 margin_right = 860.0
-margin_bottom = 70.0
+margin_bottom = 72.0
 rect_min_size = Vector2( 200, 60 )
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Ship"
-icon = ExtResource( 2 )
+icon = ExtResource( 3 )
 
 [node name="Cargo" type="Button" parent="Buttons"]
 margin_left = 880.0
 margin_right = 1080.0
-margin_bottom = 70.0
+margin_bottom = 72.0
 rect_min_size = Vector2( 200, 60 )
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Cargo"
-icon = ExtResource( 2 )
+icon = ExtResource( 3 )
 
 [node name="Starmap" type="Button" parent="Buttons"]
 margin_left = 1100.0
 margin_right = 1300.0
-margin_bottom = 70.0
+margin_bottom = 72.0
 rect_min_size = Vector2( 200, 60 )
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Starmap"
-icon = ExtResource( 2 )
+icon = ExtResource( 3 )
 
 [node name="Dynamic" type="HBoxContainer" parent="."]
-margin_top = 74.0
+margin_top = 76.0
 margin_right = 1920.0
 margin_bottom = 1016.0
 mouse_filter = 2
@@ -92,7 +95,7 @@ size_flags_vertical = 3
 
 [node name="Tab-Bind" type="Control" parent="Dynamic"]
 margin_right = 1516.0
-margin_bottom = 942.0
+margin_bottom = 940.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -100,21 +103,25 @@ size_flags_vertical = 3
 [node name="Right" type="VBoxContainer" parent="Dynamic"]
 margin_left = 1520.0
 margin_right = 1920.0
-margin_bottom = 942.0
+margin_bottom = 940.0
 rect_min_size = Vector2( 400, 0 )
 mouse_filter = 0
 
-[node name="Minimap" parent="Dynamic/Right" instance=ExtResource( 3 )]
+[node name="Minimap" parent="Dynamic/Right" instance=ExtResource( 4 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 400.0
+margin_bottom = 400.0
 
 [node name="Spacer" type="Control" parent="Dynamic/Right"]
 margin_top = 404.0
 margin_right = 400.0
-margin_bottom = 538.0
+margin_bottom = 536.0
 size_flags_vertical = 3
 
-[node name="Context" parent="Dynamic/Right" instance=ExtResource( 4 )]
-margin_top = 542.0
-margin_bottom = 942.0
+[node name="Context" parent="Dynamic/Right" instance=ExtResource( 5 )]
+margin_top = 540.0
+margin_bottom = 940.0
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 margin_top = 1020.0

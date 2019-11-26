@@ -11,7 +11,7 @@ var randomPlanetTable = {
 	"GreaterfreezeLine":     { "L" : 5,  "M" : 10, "G": 10 ,"IG" : 20, "T" : 0 , "B" : 15, "I" : 15,  "S" : 5,  "H": 20}
 }
 
-# TODO - map these commodities to the item system
+# TODO - map these commodities to the item system, or maybe make Item constants that refer to specific item keys
 var planetMinerals = [
 	"Meneshium" , "Lead" , "Gold" , "Tin" , "Mercury" , "Cobolt" , "Nickel" , "Iron" 
 ]
@@ -123,12 +123,15 @@ func _rollPlanetDetails( orbit, planetClass , star ):
 
 	planet.atmopshere = p.atmosphere
 	
+	var randomRadian = randf() * 3.14 * 2
+	
+	planet.radial = Vector2( cos(randomRadian) , sin(randomRadian) )
 	planet.radius = Common.randDiffPercents( p['radiusHi'], p['radiusLo'] )
 	planet.mass = Common.randDiffPercents( p['massHi'] , p['massLo'] )
 	planet.temp = 200 # TODO - base this on some formula
 
 	planet.fullTexturePath = "res://TextureBank/Stars/celestial_blank.png"
-	planet.iconTexturePath = "res://TextureBank/Stars/celestial_blank.png"
+	planet.iconTexturePath = "res://TextureBank/Stars/celestial_blank_icon.png"
 
 	return planet
 

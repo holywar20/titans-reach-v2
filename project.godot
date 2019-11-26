@@ -10,6 +10,11 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node",
+"class": "Crew",
+"language": "GDScript",
+"path": "res://Classes/Crew.gd"
+}, {
+"base": "Node",
 "class": "EventBus",
 "language": "GDScript",
 "path": "res://Classes/EventBus.gd"
@@ -25,6 +30,7 @@ _global_script_classes=[ {
 "path": "res://ReusableGameObjects/Star/Star.gd"
 } ]
 _global_script_class_icons={
+"Crew": "",
 "EventBus": "",
 "Planet": "",
 "Star": ""
@@ -51,7 +57,7 @@ window/size/height=1080
 
 [gui]
 
-theme/custom_font="res://TextThemes/LightWeight.tres"
+theme/custom="res://Themes/Core.tres"
 
 [input]
 

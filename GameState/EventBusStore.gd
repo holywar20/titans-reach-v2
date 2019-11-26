@@ -31,6 +31,9 @@ const EXPLORE_EVENTS = [
 	"StarClickedStart" , "StarClickedEnd",
 	"PlanetClickedStart" , "PlanetClickedEnd",
 
+	# Called on the _ready function of the Explore Page
+	"CelestialsLoadingOnMap" , "CelestialsLoadedOnMap",
+
 	# Cancel current action that is only partially complete, or exit a context menu
 	"GeneralCancel"
 ]

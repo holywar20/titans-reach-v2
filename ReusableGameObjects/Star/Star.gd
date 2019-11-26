@@ -48,8 +48,15 @@ func _ready():
 	self.nodes.sprite.set_texture( load( self.fullTexturePath ) ) # DO we need an override for this?
 	self.nodes.sprite.set_self_modulate( self.color )
 
+func setName( fName : String , lName: String ):
+	self.firstName = fName
+	self.lastName = lName
+
 func getName():
 	return self.firstName + " " + self.lastName
+
+func getColor():
+	return self.color
 
 func setOrbitState( orbit : int , state : bool ):
 	self.orbitArray[orbit] = state 
@@ -71,10 +78,8 @@ func _draw():
 		var targetVector = Vector2( cos(radians) * 100000 , sin(radians) * 100000 ) 
 		draw_line( Vector2(0, 0) , targetVector, self.CONNECTION_COLOR , self.ORBIT_LINE_WIDTH )
 
-func setName( fName : String , lName: String ):
-	self.firstName = fName
-	self.lastName = lName
+
 
 func _onAreaInputEvent( viewport, event, shape_idx ):
 	if( event.is_action_pressed( "GUI_SELECT" ) ):
-		self.eventBus.emit( "StarClickedStart" , self )
+		self.eventBus.emit( "StarClickedStart" , [self] )

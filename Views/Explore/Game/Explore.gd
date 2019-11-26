@@ -11,6 +11,7 @@ var starDict = {}
 
 func _ready():
 	self.globalEventBus.emit( "ExploreScreen_Open_Begin" , [ "EXPLORE" ] )
+	self.eventBus.emit("CelestialsLoadingOnMap")
 
 	var star = StarFactory.generateRandomStar( Star.TEXTURE.FULL )
 	star.set_global_position( Vector2( 0 , 0 ) )
@@ -21,16 +22,17 @@ func _ready():
 	for planet in planets:
 		if( planet ):
 			var orbitSize = star.getOrbitalDistance( planet.orbit )
-			var randomRadian = randf() * 3.14 * 2
-			var orbitalPosition = Vector2( cos(randomRadian) , sin(randomRadian) )
-			planet.set_global_position( orbitalPosition * orbitSize )
+			planet.set_global_position( planet.radial * orbitSize )
 			self.systemBase.add_child( planet )
 		else:
 			pass
-	## TODO - Clicking self event
-	## TODO - clicking a planet event
+
+	# TODO - Hoist this into a loadSolarSystem method, that accepts a seed as a callable ( Potentially a WorldFactory )
+	# TODO - Load anomolies
+	##TODO - Clicking self event
 
 	self.globalEventBus.emit( "ExploreScreen_Open_End" , [ "EXPLORE" ] )
+	self.eventBus.emit("CelestialsLoadedOnMap" , [ planets, star, null ] )
 
 func _unhandled_input( event ):
 	if( event.is_action_pressed("GUI_UNSELECT") ):

@@ -22,6 +22,7 @@ var radius = null
 var mass = null
 var temp = null
 var color = null
+var radial = null
 
 # Various Flags
 var isBiopshere = false 
@@ -41,4 +42,12 @@ func _ready():
 
 func _onAreaInputEvent( viewport, event, shape_idx ):
 	if( event.is_action_pressed( "GUI_SELECT" ) ):
-		self.eventBus.emit( "PlanetClickedStart" , self )
+		self.eventBus.emit( "PlanetClickedStart" , [self] )
+
+# Getters & Setters
+func getIconTexturePath():
+	return self.iconTexturePath
+
+func getColor():
+	return self.color
+
