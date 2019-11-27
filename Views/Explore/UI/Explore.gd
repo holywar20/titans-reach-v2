@@ -5,6 +5,9 @@ onready var tabBase		= get_node("Dynamic/Tab-Bind")
 var eventBus = null
 var subUIOpen = "None"
 
+var playerCrew = []
+var playerShip = []
+
 const MENU = { 
 	'ASSIGNMENTS'	: "res://Views/Explore/UI/SubUI/Assignments.tscn" , 
 	'CREW' 			: "res://Views/Explore/UI/SubUI/Crew.tscn" , 
@@ -55,6 +58,9 @@ func setEvents( eventBus : EventBus ):
 
 	self.eventBus.register( "PlayerContactingAreasUpdated" , self , "_onPlayerContactingAreasUpdated" )
 
+func setPlayerCrew( crew ):
+	self.playerCrew = crew
+
 func menuButtonPressed( menuTarget : String ):
 	for tab in self.tabBase.get_children():
 		tab.queue_free()
@@ -67,6 +73,7 @@ func menuButtonPressed( menuTarget : String ):
 		
 		self.subUIOpen = menuTarget
 		var subUIScene = load( self.MENU[menuTarget] )
+		print( self.MENU[menuTarget] )
 		var subUI = subUIScene.instance()
 		
 		if( subUI.has_method( "setEvents" ) ):

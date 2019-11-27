@@ -1,5 +1,8 @@
 extends Node
 
+# TODO - Add in factory refs, and pass all objects we care about through chains of connected views
+# TODO - Then remove factories from the global namespace
+
 onready var UILayer = get_node( "UILayer" )
 onready var pauseLayer = get_node( "PauseLayer" )
 onready var popupLayer = get_node( "PopupLayer" )
@@ -26,6 +29,8 @@ const POPUPS = {
 	}
 
 var globalBus = null
+var playerShip = null
+var playerCrew = CrewFactory.generateManyCrew( 30 , 5 )
 
 func _ready():
 	self.globalBus = EventBusStore.getGlobalEventBus()
@@ -50,6 +55,9 @@ func _loadBattlePositionPopup( myCrew, battleType , myBattleOrder , inBattle = t
 	myPopup.initScene( myCrew, battleType , myBattleOrder , inBattle )
 
 	self.popupLayer.add_child( myPopup )
+
+func getPlayerCrew():
+	return self.playerCrew
 
 func startNewGame():
 	self.loadScreen( "EXPLORE" )
@@ -93,11 +101,13 @@ func _loadExploreScreen():
 	var ui = load( self.VIEWS.EXPLORE.UI )
 	var uiInstance = ui.instance()
 	uiInstance.setEvents( eventBus )
-	self.UILayer.add_child( uiInstance );
+
+	self.UILayer.add_child( uiInstance )
 
 	var exploreMap = load( self.VIEWS.EXPLORE.GAME )
 	var exploreMapInstance = exploreMap.instance()
 	exploreMapInstance.setEvents( eventBus )
+
 	self.gameLayer.add_child( exploreMapInstance )
 
 	# Generate the previous system, by using the random seed, which was saved in StarSystemGenerator

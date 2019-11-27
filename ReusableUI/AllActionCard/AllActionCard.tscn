@@ -1,0 +1,12 @@
+[gd_scene format=2]
+
+[node name="AllActionCard" type="VBoxContainer"]
+margin_top = 93.0
+margin_right = 455.0
+margin_bottom = 124.0
+
+[node name="AbiltiesLabel" type="Label" parent="."]
+margin_right = 455.0
+margin_bottom = 31.0
+text = "Abilities"
+align = 1

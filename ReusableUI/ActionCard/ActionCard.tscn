@@ -1,0 +1,22 @@
+[gd_scene format=2]
+
+[node name="Focus" type="VBoxContainer"]
+margin_right = 456.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+
+[node name="TitleRow" type="HBoxContainer" parent="."]
+margin_right = 456.0
+margin_bottom = 31.0
+
+[node name="ActionIcon" type="TextureRect" parent="TitleRow"]
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="ActionName" type="Label" parent="TitleRow"]
+margin_left = 4.0
+margin_right = 456.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "{ACTION_NAME}"
+align = 1

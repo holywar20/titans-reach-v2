@@ -2,8 +2,6 @@ extends Node
 
 class_name Crew
 
-const DUMMY_CREWMAN = 'DUMMY' # A dummy crewman to simplify code. All actions are assigned to this guy.
-
 const BASE_WEIGHT = 3
 const BASE_HP = 12
 const BASE_MORALE = 8
@@ -87,11 +85,8 @@ var resists = {
 	}
 }
 
-func _init( key : String , cp : int ):
-	self.key = key
-	self.cp = cp
-
-	self._buildBasicActions()
+func _init():
+	pass
 
 func setCosmetic( sex : String , fname : String, mname : String ,  lname : String ):
 	self.sex = sex
@@ -118,6 +113,7 @@ func finalizeNewCharacter():
 
 
 func _buildBasicActions():
+	pass
 	# TODO - impliment actions
 	#var myAction = ActionGenerator.getActionByActionKey( "Brawl" )
 	#self.actions.append( myAction )
@@ -176,31 +172,17 @@ func _calculateResists():
 	self.resists.CHA.Lock.total 		= self.resists.CHA.Lock.value 	+ self.resists.CHA.Lock.mod
 	self.resists.CHA.Slow.total 		= self.resists.CHA.Slow.value 	+ self.resists.CHA.Slow.mod
 
-func canEquipItem( itemKey ):
-	var canEquip = true
-	var item = ItemManager.getCrewEquipableItem(itemKey)
+func canEquipItem( item ):
+	# TODO - impliment
+	pass 
 
-	if( item ):
-		if( item.carryWeight + self.weight > self.weightCapacity ):
-			canEquip = false
-	else:
-		canEquip = false
-	
-	return canEquip
+func equipEquipment( item ):
+	# TODO - impliment
+	pass
 
-func equipEquipment( itemKey ):
-	self.equipment.append( itemKey )
-	
-	var item = ItemManager.getCrewEquipableItem( itemKey )
-	self.weight = self.weight + item.carryWeight
-	self.updateAbilities()
-
-func removeEquipment( itemKey ):
-	self.equipment.erase( itemKey )
-
-	var item = ItemManager.getCrewEquipableItem( itemKey )
-	self.weight = self.weight - item.carryWeight
-	self.updateAbilities()
+func removeEquipment( item ):
+	# TODO - impliment
+	pass
 
 func getPrimaryTreeString():
 	if ( self.primaryTree ) :
@@ -277,57 +259,60 @@ func getStation():
 func _updatePassives():
 	self.passives = []
 
-	for itemKey in self.equipment:
-		var myItem = ItemManager.getCrewEquipableItem( itemKey )
+	#for itemKey in self.equipment:
+	#	var myItem = ItemManager.getCrewEquipableItem( itemKey )
 
-		for passive in myItem.passives:
-			self.passives.append( passives )
-			
-			if( passive.PASSIVE_TYPE.TRAIT_MOD ):
-				pass
-			elif( passive.PASSIVE_TYPE.DERIVED_MOD ):
-				pass
-				#self.traits[passive.effect].mod += passive.value
-			elif( passive.PASSIVE_TYPE.STATUS_EFFECT_BONUS ):
-				pass
-			elif( passive.PASSIVE_TYPE.STATUS_EFFECT ):
-				pass
+	#	for passive in myItem.passives:
+	#		self.passives.append( passives )
+	#		
+	#		if( passive.PASSIVE_TYPE.TRAIT_MOD ):
+	#			pass
+	#		elif( passive.PASSIVE_TYPE.DERIVED_MOD ):
+	#			pass
+	#			#self.traits[passive.effect].mod += passive.value
+	#		elif( passive.PASSIVE_TYPE.STATUS_EFFECT_BONUS ):
+	#			pass
+	#		elif( passive.PASSIVE_TYPE.STATUS_EFFECT ):
+	#			pass
 
 # Update all temporary passives from status effects / equipment, etc. Essentially passives on a timer. 
 func _updateTempPassives():
-	for passive in self.temporaryPassives:
-		if( passive.passRound() ):
-			
-			if( passive.PASSIVE_TYPE.TRAIT ):
-				pass
-			elif( passive.PASSIVE_TYPE.DERIVED ):
-				pass
-				#self[passive.effect].mod += passive.value
-			elif( passive.PASSIVE_TYPE.STATUS_EFFECT):
-				pass
-		
-		else:
-			pass # TODO some kind of code to clean up the passive without blowing the dictionary up.
+	self.passives = []
+	
+	#for passive in self.temporaryPassives:
+	#	if( passive.passRound() ):
+	#		
+	#		if( passive.PASSIVE_TYPE.TRAIT ):
+	#			pass
+	#		elif( passive.PASSIVE_TYPE.DERIVED ):
+	#			pass
+	#			#self[passive.effect].mod += passive.value
+	#		elif( passive.PASSIVE_TYPE.STATUS_EFFECT):
+	#pass
+	#	
+	#	else:
+	#		pass # TODO some kind of code to clean up the passive without blowing the dictionary up.
 
 func _updateEquipmentActions():
+	# TODO - impliment
+	pass
+	#for itemKey in self.equipment:
+	#	var myItem = ItemManager.getCrewEquipableItem( itemKey )
 
-	for itemKey in self.equipment:
-		var myItem = ItemManager.getCrewEquipableItem( itemKey )
+	#	for action in myItem.actions:
+	#		var crewAction = action.duplicate( 15 )
 
-		for action in myItem.actions:
-			var crewAction = action.duplicate( 15 )
+	#		if( action.actionType == action.ACTION_TYPES.ACTION ):
+	#			crewAction.calculateSelf( self )
+	#			self.actions.append( crewAction )
 
-			if( action.actionType == action.ACTION_TYPES.ACTION ):
-				crewAction.calculateSelf( self )
-				self.actions.append( crewAction )
+	#		if( action.actionType == action.ACTION_TYPES.STANCE ):
+	#			crewAction.calculateSelf( self )
+	#			self.stances.append( crewAction )
 
-			if( action.actionType == action.ACTION_TYPES.STANCE ):
-				crewAction.calculateSelf( self )
-				self.stances.append( crewAction )
-
-			if( action.actionType == action.ACTION_TYPES.INSTANT ):
-				crewAction.calculateSelf( self )
-				self.instants.append( crewAction )
+	#		if( action.actionType == action.ACTION_TYPES.INSTANT ):
+	#			crewAction.calculateSelf( self )
+	#			self.instants.append( crewAction )
 
 func _updateTalentActions():
 	pass
@@ -352,16 +337,8 @@ func updateAbilities( inBattle = false ):
 
 # Return a dictionary of 'modified' crewman actions that include any status effects
 func getCrewmanActions():
-	var actionArray = []
-	# TODO - add Talent actions in here as well
-
-	for item in self.equipment:
-		var myItem = ItemManager.getCrewEquipableItem( item )
-
-		for action in myItem.actions:
-			actionArray.append( action )
-
-	return actionArray
+	# TODO - Impliment
+	pass
 
 func applyDamage( damage , damageType ):
 	# TODO impliment damage reduction

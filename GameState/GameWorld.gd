@@ -4,6 +4,7 @@ extends Node
 var systemSeed = 10000
 
 var playerShip = null
+var playerCrew = null
 
 func _ready():
 	pass
