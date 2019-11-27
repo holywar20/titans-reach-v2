@@ -35,7 +35,7 @@ margin_right = 330.0
 margin_bottom = 532.0
 size_flags_vertical = 3
 
-[node name="Focus" parent="HBox/Left" instance=ExtResource( 4 )]
+[node name="ActionCard" parent="HBox/Left" instance=ExtResource( 4 )]
 margin_top = 536.0
 margin_right = 330.0
 margin_bottom = 800.0

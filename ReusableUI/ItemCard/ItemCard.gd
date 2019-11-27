@@ -34,12 +34,13 @@ func loadItemData( item ):
 
 	self._clearDisplay()
 
-	if ( item.category == ItemClass.CATEGORY.WEAPON ):
-		self._displayAsWeapon( item )
-	if( item.category == ItemClass.CATEGORY.FRAME ):
-		self._displayAsFrame( item )
-	if( item.category == ItemClass.CATEGORY.EQUIPMENT ):
-		self._displayAsEquipment( item )
+	# TODO - Impliment fully
+	#if ( item.category == ItemClass.CATEGORY.WEAPON ):
+	#	self._displayAsWeapon( item )
+	#if( item.category == ItemClass.CATEGORY.FRAME ):
+	#	self._displayAsFrame( item )
+	#if( item.category == ItemClass.CATEGORY.EQUIPMENT ):
+	#	self._displayAsEquipment( item )
 
 func _setTargeting( action ):
 	self.nodes.targeting.set_visible( true )
@@ -83,7 +84,7 @@ func _clearDisplay():
 
 	self.nodes.countLine.set_visible( false )
 
-func _displayAsWeapon( item : ItemClass ):
+func _displayAsWeapon( item  ):
 
 	self.nodes.targeting.set_visible( true )
 	self.nodes.subHeader.set_visible( true )
@@ -91,10 +92,10 @@ func _displayAsWeapon( item : ItemClass ):
 	self.nodes.subHeaderWeight.set_visible( true )
 	self.nodes.subHeaderWeight.set_text( "Weight : " + str( item.carryWeight ) )
 
-	Log.log(   item.getAllActionDisplay() )
+	#Log.log(   item.getAllActionDisplay() )
 	self._displayLines( item.getAllActionDisplay() )
 
-func _displayAsEquipment( item : ItemClass ):
+func _displayAsEquipment( item  ):
 	self.nodes.targeting.set_visible( true )
 	self.nodes.subHeader.set_visible( true )
 
@@ -106,7 +107,7 @@ func _displayAsEquipment( item : ItemClass ):
 
 	self._displayLines( item.getAllActionDisplay() )
 
-func _displayAsFrame( item : ItemClass ):
+func _displayAsFrame( item ):
 	self.nodes.subHeader.set_visible( true )
 
 	self.nodes.subHeaderType.set_visible( true )
