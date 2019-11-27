@@ -1,47 +1,69 @@
 extends Node2D
 
-onready var systemBase = get_node("System")		# All system objects should be added to this node.
-onready var starShip	= get_node("Starship")	# The Starship Node. #TODO Dynamically load this from a ship class.
+# All system objects should be added to this node.
+onready var systemBase = get_node("System")
+onready var anomBase = get_node("Anomolies")
+onready var shipAvatar = get_node("PlayerShip")
 
-var eventBus = EventBusStore.getEventBus( EventBusStore.BUS.EXPLORE )
+var eventBus = null
 var globalEventBus = EventBusStore.getGlobalEventBus()
 
-var planetDict = {}
-var starDict = {}
+var star = null
+var planets = null
+var ship = null
 
 func _ready():
 	self.globalEventBus.emit( "ExploreScreen_Open_Begin" , [ "EXPLORE" ] )
 	self.eventBus.emit("CelestialsLoadingOnMap")
 
-	var star = StarFactory.generateRandomStar( Star.TEXTURE.FULL )
-	star.set_global_position( Vector2( 0 , 0 ) )
-	self.systemBase.add_child( star )
+	# TODO - take a seed
+	self._buildStar()
+	self._buildPlanets()
+	self._buildAnoms()
 
-	var planets = PlanetFactory.generateAllPlanetsFromStar( star )
-	
-	for planet in planets:
-		if( planet ):
-			var orbitSize = star.getOrbitalDistance( planet.orbit )
-			planet.set_global_position( planet.radial * orbitSize )
-			self.systemBase.add_child( planet )
-		else:
-			pass
+	self.ship = GameWorld.getPlayerShip()
+	self.shipAvatar.setEvents( self.eventBus )
 
-	# TODO - Hoist this into a loadSolarSystem method, that accepts a seed as a callable ( Potentially a WorldFactory )
-	# TODO - Load anomolies
+	# TODO - Hoist this into a loadSolarSystem method.
 	##TODO - Clicking self event
-
 	self.globalEventBus.emit( "ExploreScreen_Open_End" , [ "EXPLORE" ] )
 	self.eventBus.emit("CelestialsLoadedOnMap" , [ planets, star, null ] )
-
-func _unhandled_input( event ):
-	if( event.is_action_pressed("GUI_UNSELECT") ):
-		self.eventBus.emit("GeneralCancel") 
 
 func _exit_tree():
 	self.globalEventBus.emit("ExploreScreen_Close_Begin" , [ "EXPLORE" ] )
 	# Any clean up we care to do? 
 	self.globalEventBus.emit("ExploreScreen_Close_End" , [ "EXPLORE" ] )
+
+func _buildStar():
+	self.star = StarFactory.generateRandomStar( Star.TEXTURE.FULL )
+	self.star.set_global_position( Vector2( 0 , 0 ) )
+	self.star.setEvents( self.eventBus )
+	self.systemBase.add_child( star )
+
+func _buildPlanets():
+	self.planets = PlanetFactory.generateAllPlanetsFromStar( star )
+
+	for planet in planets:
+		if( planet ):
+			var orbitSize = star.getOrbitalDistance( planet.orbit )
+			planet.set_global_position( planet.radial * orbitSize )
+			planet.setEvents( self.eventBus )
+			self.systemBase.add_child( planet )
+		else:
+			pass
+
+func _buildAnoms():
+	var anom = AnomolyFactory.generateAnomoly( null , self.eventBus )
+	self.anomBase.add_child( anom ) 
+
+func setEvents( eventBus : EventBus ):
+	self.eventBus = eventBus
+
+func _unhandled_input( event ):
+	if( event.is_action_pressed("GUI_UNSELECT") ):
+		self.eventBus.emit("GeneralCancel") 
+
+
 
 func _clearStarSystem():
 	var myChildren = self.systemBase.get_children()

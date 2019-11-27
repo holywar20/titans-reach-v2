@@ -123,11 +123,36 @@ size_flags_vertical = 3
 margin_top = 540.0
 margin_bottom = 940.0
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="Footer" type="Panel" parent="."]
 margin_top = 1020.0
 margin_right = 1920.0
 margin_bottom = 1080.0
 rect_min_size = Vector2( 0, 60 )
+
+[node name="Near" type="Panel" parent="Footer"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -107.0
+margin_top = -102.0
+margin_right = 107.0
+margin_bottom = -62.0
+
+[node name="Button" type="Button" parent="Footer/Near"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -67.0
+margin_top = -15.5
+margin_right = 67.0
+margin_bottom = 15.5
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Investigate Anomoly"
 [connection signal="pressed" from="Buttons/Assignments" to="." method="menuButtonPressed" binds= [ "ASSIGNMENTS" ]]
 [connection signal="pressed" from="Buttons/Personal" to="." method="menuButtonPressed" binds= [ "CREW" ]]
 [connection signal="pressed" from="Buttons/Equipment" to="." method="menuButtonPressed" binds= [ "EQUIPMENT" ]]

@@ -38,7 +38,8 @@ func _ready():
 	self.nodes.sprite.set_texture( load( fullTexturePath ) ) # DO we need an override for this?
 	self.nodes.sprite.set_self_modulate( self.color )
 
-	self.eventBus = EventBusStore.getEventBus( EventBusStore.BUS.EXPLORE )
+func setEvents( eventBus : EventBus ):
+	self.eventBus = eventBus
 
 func _onAreaInputEvent( viewport, event, shape_idx ):
 	if( event.is_action_pressed( "GUI_SELECT" ) ):

@@ -28,6 +28,7 @@ var mass = 0
 var orbitSize = 0
 var color = Color( 0 , 0 ,0 , 0 )
 var description = ""
+var hoverText = "Star"
 
 # IMG Data
 var smallTexturePath = "" 
@@ -39,7 +40,7 @@ var orbitArray = [ false , false , false, false, false, false, false, false, fal
 var connectionArray = []
 var chanceOfPlanetPerOrbit = 100
 
-var eventBus = EventBusStore.getEventBus( EventBusStore.BUS.EXPLORE )
+var eventBus = null
 
 enum TEXTURE{ FULL, SMALL , ICON }
 
@@ -47,6 +48,9 @@ func _ready():
 	self.nodes.nameLabel.set_text( self.getName() )
 	self.nodes.sprite.set_texture( load( self.fullTexturePath ) ) # DO we need an override for this?
 	self.nodes.sprite.set_self_modulate( self.color )
+
+func setEvents( eventBus : EventBus ):
+	self.eventBus = eventBus
 
 func setName( fName : String , lName: String ):
 	self.firstName = fName
@@ -77,8 +81,6 @@ func _draw():
 		var radians = deg2rad( self.connectionArray[connection].degrees )
 		var targetVector = Vector2( cos(radians) * 100000 , sin(radians) * 100000 ) 
 		draw_line( Vector2(0, 0) , targetVector, self.CONNECTION_COLOR , self.ORBIT_LINE_WIDTH )
-
-
 
 func _onAreaInputEvent( viewport, event, shape_idx ):
 	if( event.is_action_pressed( "GUI_SELECT" ) ):

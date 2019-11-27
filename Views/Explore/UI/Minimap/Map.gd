@@ -7,7 +7,7 @@ const LINE_SEGMENTS = 20
 var mapSize = self.get_size()
 var center = Vector2( (mapSize.x / 2 ) , (mapSize.y / 2 ) )
 
-var eventBus = EventBusStore.getEventBus( EventBusStore.BUS.EXPLORE )
+var eventBus = null
 
 var celestials = {
 	'Star'		: get_node("Star"),
@@ -17,7 +17,11 @@ var celestials = {
 }
 
 func _ready():
-	print("Map is ready")
+	pass
+
+func setEvents( eventBus : EventBus ):
+	self.eventBus = eventBus
+
 	self.eventBus.register("CelestialsLoadedOnMap", self, "_initMap")
 
 func _initMap( planets, star , anomolies ):
@@ -33,6 +37,8 @@ func _initMap( planets, star , anomolies ):
 		texture.set_self_modulate( planet.getColor() )
 		texture.set_global_position( position )
 		self.celestials.Planets.add_child( texture )
+
+	# TODO - do something with anomolies
 
 func _draw():
 	for x in range( 1 , 9 ):

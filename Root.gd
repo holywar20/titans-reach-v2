@@ -10,17 +10,14 @@ const VIEWS = {
 	"EXPLORE" : {
 		"UI" : "res://Views/Explore/UI/Explore.tscn" ,
 		"GAME" : "res://Views/Explore/Game/Explore.tscn",
-		"EVENTBUS"	: "EXPLORE"
 	} , 
 	"BATTLE" : {
 		"UI" : "" ,
 		"Game" : "",
-		"EVENTBUS" : "BATTLE"
 	} ,
 	"TITLE" : {
 		"UI" : "res://Views/Title/UI/Title.tscn" ,
 		"Game" : "",
-		"EVENTBUS" : "TITLE"
 	}
 }
 
@@ -90,13 +87,17 @@ func _loadBattleScreen():
 
 func _loadExploreScreen():
 	self._clearSelf()
-	
+
+	var eventBus = EventBus.new()
+
 	var ui = load( self.VIEWS.EXPLORE.UI )
 	var uiInstance = ui.instance()
+	uiInstance.setEvents( eventBus )
 	self.UILayer.add_child( uiInstance );
 
 	var exploreMap = load( self.VIEWS.EXPLORE.GAME )
 	var exploreMapInstance = exploreMap.instance()
+	exploreMapInstance.setEvents( eventBus )
 	self.gameLayer.add_child( exploreMapInstance )
 
 	# Generate the previous system, by using the random seed, which was saved in StarSystemGenerator

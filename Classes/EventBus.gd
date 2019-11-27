@@ -16,22 +16,17 @@ func addEvents( eventStrings ):
 # Currently only supports up to 5 arguments. Godot signals don't use variable numbers of arguments.
 # So yes - this ugly code exists, but it gets the job done, and it's contained here.
 func emit( eventName : String , p = [] ):
-	print("Emitting , " , eventName , p )
+	print("Emitting Event : " , eventName ,  " with Payload " , p )
 
 	if( p.size() >= 5 ):
-		print("5")
 		self.emit_signal( eventName , p[0], p[1] , p[2] , p[3] , p[4] )
 	elif( p.size() == 4):
-		print("4")
 		self.emit_signal( eventName , p[0], p[1] , p[2] , p[3] )
 	elif( p.size() == 3 ):
-		print("3")
 		self.emit_signal( eventName, p[0] , p[1], p[2] )
 	elif( p.size() == 2 ):
-		print("2")
 		self.emit_signal( eventName, p[0] , p[1] )
 	elif( p.size() == 1 ):
-		print("1")
 		self.emit_signal( eventName, p[0] ) 
 	elif( true ): # Default
 		self.emit_signal( eventName )

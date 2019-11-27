@@ -1,6 +1,6 @@
 extends PanelContainer
 
-var eventBus = EventBusStore.getEventBus( EventBusStore.BUS.EXPLORE )
+var eventBus = null
 
 onready var nodes = {
 	"ObjectName"	: get_node("VBox/ObjectName"),
@@ -10,12 +10,15 @@ onready var nodes = {
 }
 
 func _ready():
+	self.set_visible( false )
+
+func setEvents( eventBus : EventBus ):
+	self.eventBus = eventBus
+
 	self.eventBus.register( "StarClickedStart"	, self , "onStarClickedStart" )
 	self.eventBus.register( "PlanetClickedStart"	, self , "onPlanetClickedStart")
 
 	self.eventBus.register( "GeneralCancel" , self, "onGeneralCancel")
-
-	self.set_visible( false )
 
 # Methods that respond to events
 func onStarClickedStart( star : Star ):
