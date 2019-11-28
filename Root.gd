@@ -29,6 +29,8 @@ const POPUPS = {
 	}
 
 var globalBus = null
+
+var playerGear = null
 var playerShip = null
 var playerCrew = CrewFactory.generateManyCrew( 30 , 5 )
 
@@ -58,6 +60,9 @@ func _loadBattlePositionPopup( myCrew, battleType , myBattleOrder , inBattle = t
 
 func getPlayerCrew():
 	return self.playerCrew
+
+func getPlayerShip():
+	return self.playerShip
 
 func startNewGame():
 	self.loadScreen( "EXPLORE" )
@@ -96,11 +101,11 @@ func _loadBattleScreen():
 func _loadExploreScreen():
 	self._clearSelf()
 
-	var eventBus = EventBus.new()
-
 	var ui = load( self.VIEWS.EXPLORE.UI )
 	var uiInstance = ui.instance()
-	uiInstance.setEvents( eventBus )
+	
+	var eventBus = EventBus.new()
+	uiInstance.setupScene( eventBus , self.playerShip, self.playerCrew )
 
 	self.UILayer.add_child( uiInstance )
 

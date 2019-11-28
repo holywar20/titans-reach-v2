@@ -2,7 +2,6 @@ extends VBoxContainer
 
 var character
 
-onready var expandedDataScene = null
 onready var expandedHeader = get_node("Header")
 
 const DATA_ROW_GROUP = "TraitDataRow"
@@ -20,8 +19,6 @@ func loadCharacterDataExpanded( character : Crew ):
 	var traitStatBlocks = self.character.getAllTraitStatBlocks()
 
 	for key in traitStatBlocks:
-		var dataRow = expandedDataScene.instance()
-		dataRow.add_to_group ( self.DATA_ROW_GROUP )
 
 		var statBlock = traitStatBlocks[key]
 
@@ -33,9 +30,6 @@ func loadCharacterDataExpanded( character : Crew ):
 			statBlock.total
 		]
 
-		dataRow.loadData ( statBlockArray )
-		self.add_child( dataRow )
-
 
 func loadCharacterDataDense( character : Crew ):
 	self._clear()
@@ -45,15 +39,9 @@ func loadCharacterDataDense( character : Crew ):
 	var traitStatBlocks = self.character.getAllTraitStatBlocks()
 
 	for key in traitStatBlocks:
-		var dataRow = expandedDataScene.instance()
-		dataRow.add_to_group ( self.DATA_ROW_GROUP )
-
 		var statBlock = traitStatBlocks[key]
 
 		var statBlockArray = [
 			statBlock.name , 
 			statBlock.total
 		]
-
-		dataRow.loadData( statBlockArray )
-		self.add_child( dataRow )

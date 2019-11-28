@@ -1,14 +1,104 @@
-[gd_scene format=2]
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Views/Explore/UI/SubUI/Cargo.gd" type="Script" id=1]
+[ext_resource path="res://ReusableUI/ItemCard/ItemCard.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ReusableUI/ActionCard/ActionCard.tscn" type="PackedScene" id=3]
 
 [node name="Cargo" type="PanelContainer" groups=[
 "SubUI",
 ]]
 margin_right = 1000.0
 margin_bottom = 800.0
+script = ExtResource( 1 )
 
-[node name="Label" type="Label" parent="."]
-margin_left = 7.0
-margin_top = 393.0
-margin_right = 993.0
-margin_bottom = 407.0
-text = "Cargo!"
+[node name="HBox" type="HBoxContainer" parent="."]
+margin_right = 1000.0
+margin_bottom = 800.0
+
+[node name="Right" type="VBoxContainer" parent="HBox"]
+margin_right = 664.0
+margin_bottom = 800.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Title Bar" type="HBoxContainer" parent="HBox/Right"]
+margin_right = 664.0
+margin_bottom = 31.0
+
+[node name="Label" type="Label" parent="HBox/Right/Title Bar"]
+margin_right = 664.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "{ SHIP NAME } CARGO BAY"
+align = 1
+
+[node name="ItemList" type="ItemList" parent="HBox/Right"]
+margin_top = 35.0
+margin_right = 664.0
+margin_bottom = 756.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+items = [ "Item", null, false ]
+
+[node name="Footer" type="Panel" parent="HBox/Right"]
+margin_top = 760.0
+margin_right = 664.0
+margin_bottom = 800.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="DataRow" type="HBoxContainer" parent="HBox/Right/Footer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Mass" type="Label" parent="HBox/Right/Footer/DataRow"]
+margin_right = 163.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+text = "Mass : xx / xx"
+
+[node name="Volume" type="Label" parent="HBox/Right/Footer/DataRow"]
+margin_left = 167.0
+margin_right = 330.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+text = "Volume : xx / xx"
+
+[node name="Food" type="Label" parent="HBox/Right/Footer/DataRow"]
+margin_left = 334.0
+margin_right = 497.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+text = "Food : X days"
+
+[node name="Fuel" type="Label" parent="HBox/Right/Footer/DataRow"]
+margin_left = 501.0
+margin_right = 664.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+text = "Fuel : X days"
+
+[node name="Left" type="VBoxContainer" parent="HBox"]
+margin_left = 668.0
+margin_right = 1000.0
+margin_bottom = 800.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBox/Left"]
+margin_right = 332.0
+margin_bottom = 31.0
+text = "Item Details"
+align = 1
+
+[node name="Root" parent="HBox/Left" instance=ExtResource( 2 )]
+margin_top = 35.0
+margin_right = 332.0
+margin_bottom = 295.0
+
+[node name="Focus" parent="HBox/Left" instance=ExtResource( 3 )]
+margin_top = 299.0
+margin_right = 332.0
+margin_bottom = 330.0

@@ -2,11 +2,14 @@ extends VBoxContainer
 
 onready var tabBase		= get_node("Dynamic/Tab-Bind")
 
-var eventBus = null
-var subUIOpen = "None"
+var draggableScene = load("")
 
+# Passed in by the parent
+var eventBus = null
 var playerCrew = []
 var playerShip = []
+
+var subUIOpen = "None"
 
 const MENU = { 
 	'ASSIGNMENTS'	: "res://Views/Explore/UI/SubUI/Assignments.tscn" , 
@@ -26,11 +29,17 @@ const EXPLORE_EVENTS = [
 	# Called on the _ready function of the Explore Page
 	"CelestialsLoadingOnMap" 	, "CelestialsLoadedOnMap",
 
+	# Draggable events
+	"DraggableClicked"			, "DraggableReleased",
+
 	# Interactable Collision Events , emitted by the players ship
-	"AnomolyEntered"				,"AnomolyExited",
-	"PlanetEntered" 				,"PlanetExited" ,
-	"ConnectionEntered"			,"ConnectionExited",
+	"AnomolyEntered"				, "AnomolyExited",
+	"PlanetEntered" 				, "PlanetExited" ,
+	"ConnectionEntered"			, "ConnectionExited",
 	"StarEntered"					, "StarExited",
+
+	"SubUIOpenBegin"				, "SubUIOpenEnd",
+	"SubUICloseBegin"				, "SubUIOCloseEnd",
 
 	# Issued by player ship whenever it notices a change in the Areas it's interacting with.
 	"PlayerContactingAreasUpdated",
@@ -42,44 +51,54 @@ const EXPLORE_EVENTS = [
 onready var nodes = {
 	"NearObjectModal"		: get_node("Footer/Near"),
 	"NearObjectButton"	: get_node("Footer/Near/Button"),
-	
 	"Context"				: get_node("Dynamic/Right/Context"),
 	"Minimap"				: get_node("Dynamic/Right/Minimap")
 }
+
+func setupScene( eventBus: EventBus, playerShip : Starship , playerCrew ):
+	self.eventBus = eventBus
+	self.eventBus.addEvents( self.EXPLORE_EVENTS )
+
+	self.eventBus.register( "PlayerContactingAreasUpdated" , self , "_onPlayerContactingAreasUpdated" )
+	self.eventBus.register( "DraggableClicked" , self , "_onDraggableClicked" ) 
+
+	self.playerShip = playerShip
+	self.playerCrew = playerCrew
 
 func _ready():
 	# Nodes need to exist before we can set the eventBus on them.
 	self.nodes.Context.setEvents( self.eventBus )
 	self.nodes.Minimap.setEvents( self.eventBus )
 
-func setEvents( eventBus : EventBus ):
-	self.eventBus = eventBus
-	self.eventBus.addEvents( self.EXPLORE_EVENTS )
-
-	self.eventBus.register( "PlayerContactingAreasUpdated" , self , "_onPlayerContactingAreasUpdated" )
-
-func setPlayerCrew( crew ):
-	self.playerCrew = crew
-
 func menuButtonPressed( menuTarget : String ):
 	for tab in self.tabBase.get_children():
 		tab.queue_free()
 
 	if( self.subUIOpen == menuTarget ):
-		self.eventBus.emit( "SubUICloseBegin" )
 		self.subUIOpen = "None"
 	else:
-		self.eventBus.emit("SubUIOpenBegin")
-		
 		self.subUIOpen = menuTarget
 		var subUIScene = load( self.MENU[menuTarget] )
-		print( self.MENU[menuTarget] )
 		var subUI = subUIScene.instance()
-		
-		if( subUI.has_method( "setEvents" ) ):
-			subUI.setEvents( self.eventBus )
+
+		self.setupSubUI( menuTarget , subUI )
 
 		self.tabBase.add_child( subUI )
+
+func setupSubUI( menuTarget : String , subUI ):
+	match menuTarget:
+		"ASSIGNMENTS":
+			subUI.setupScene( eventBus , playerCrew )
+		"CREW":
+			subUI.setupScene( eventBus , playerCrew )
+		"EQUIPMENT":
+			subUI.setupScene( eventBus , playerCrew )
+		"SHIP":
+			subUI.setupScene( eventBus )
+		"CARGO":
+			subUI.setupScene( eventBus )
+		"STARMAP":
+			subUI.setupScene( eventBus )
 
 func _onPlayerContactingAreasUpdated( bodies ):
 	if( bodies.size() == 0 ):

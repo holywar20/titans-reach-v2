@@ -21,8 +21,9 @@ func _ready():
 	self._buildPlanets()
 	self._buildAnoms()
 
-	self.ship = GameWorld.getPlayerShip()
+	self.ship = Starship.new()
 	self.shipAvatar.setEvents( self.eventBus )
+	self.shipAvatar.setStarship( self.ship )
 
 	# TODO - Hoist this into a loadSolarSystem method.
 	##TODO - Clicking self event
@@ -62,8 +63,6 @@ func setEvents( eventBus : EventBus ):
 func _unhandled_input( event ):
 	if( event.is_action_pressed("GUI_UNSELECT") ):
 		self.eventBus.emit("GeneralCancel") 
-
-
 
 func _clearStarSystem():
 	var myChildren = self.systemBase.get_children()

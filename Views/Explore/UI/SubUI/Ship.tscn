@@ -1,14 +1,182 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Views/Explore/UI/SubUI/Ship.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
 
 [node name="Ship" type="PanelContainer" groups=[
 "SubUI",
 ]]
 margin_right = 1000.0
 margin_bottom = 800.0
+script = ExtResource( 1 )
 
-[node name="Label" type="Label" parent="."]
-margin_left = 7.0
-margin_top = 393.0
-margin_right = 993.0
-margin_bottom = 407.0
-text = "StarShip!"
+[node name="HBox" type="HBoxContainer" parent="."]
+margin_right = 1000.0
+margin_bottom = 800.0
+
+[node name="Ship" type="VBoxContainer" parent="HBox"]
+margin_right = 664.0
+margin_bottom = 800.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="StarshipDoll" type="Panel" parent="HBox/Ship"]
+margin_right = 664.0
+margin_bottom = 365.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.85
+
+[node name="TextureRect" type="TextureRect" parent="HBox/Ship/StarshipDoll"]
+margin_left = 50.8421
+margin_top = 61.4211
+margin_right = 114.842
+margin_bottom = 125.421
+rect_scale = Vector2( 9, 4 )
+texture = ExtResource( 2 )
+
+[node name="StarshipName" type="Label" parent="HBox/Ship/StarshipDoll"]
+margin_left = 256.789
+margin_top = 7.55261
+margin_right = 402.789
+margin_bottom = 38.5526
+text = "USS FUCKING BADASS"
+
+[node name="StatsContainer" type="PanelContainer" parent="HBox/Ship"]
+margin_top = 369.0
+margin_right = 664.0
+margin_bottom = 800.0
+size_flags_vertical = 3
+
+[node name="Stats" type="VBoxContainer" parent="HBox/Ship/StatsContainer"]
+margin_right = 664.0
+margin_bottom = 431.0
+
+[node name="Left" type="HBoxContainer" parent="HBox/Ship/StatsContainer/Stats"]
+margin_right = 664.0
+margin_bottom = 213.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CommandCard" type="VBoxContainer" parent="HBox/Ship/StatsContainer/Stats/Left"]
+editor/display_folded = true
+margin_right = 330.0
+margin_bottom = 213.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBox/Ship/StatsContainer/Stats/Left/CommandCard"]
+margin_right = 330.0
+margin_bottom = 31.0
+text = "Command"
+align = 1
+
+[node name="PanelContainer" type="Panel" parent="HBox/Ship/StatsContainer/Stats/Left/CommandCard"]
+margin_top = 35.0
+margin_right = 330.0
+margin_bottom = 213.0
+size_flags_vertical = 3
+
+[node name="EngineeringCard" type="VBoxContainer" parent="HBox/Ship/StatsContainer/Stats/Left"]
+editor/display_folded = true
+margin_left = 334.0
+margin_right = 664.0
+margin_bottom = 213.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBox/Ship/StatsContainer/Stats/Left/EngineeringCard"]
+margin_right = 330.0
+margin_bottom = 31.0
+text = "Engineering"
+align = 1
+
+[node name="PanelContainer" type="Panel" parent="HBox/Ship/StatsContainer/Stats/Left/EngineeringCard"]
+margin_top = 35.0
+margin_right = 330.0
+margin_bottom = 213.0
+size_flags_vertical = 3
+
+[node name="Right" type="HBoxContainer" parent="HBox/Ship/StatsContainer/Stats"]
+margin_top = 217.0
+margin_right = 664.0
+margin_bottom = 431.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Science" type="VBoxContainer" parent="HBox/Ship/StatsContainer/Stats/Right"]
+margin_right = 330.0
+margin_bottom = 214.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBox/Ship/StatsContainer/Stats/Right/Science"]
+margin_right = 330.0
+margin_bottom = 31.0
+text = "Science & Sensors"
+align = 1
+
+[node name="PanelContainer" type="Panel" parent="HBox/Ship/StatsContainer/Stats/Right/Science"]
+margin_top = 35.0
+margin_right = 330.0
+margin_bottom = 214.0
+size_flags_vertical = 3
+
+[node name="A2" type="VBoxContainer" parent="HBox/Ship/StatsContainer/Stats/Right"]
+margin_left = 334.0
+margin_right = 664.0
+margin_bottom = 214.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBox/Ship/StatsContainer/Stats/Right/A2"]
+margin_right = 330.0
+margin_bottom = 31.0
+text = "Life Support"
+align = 1
+
+[node name="PanelContainer" type="Panel" parent="HBox/Ship/StatsContainer/Stats/Right/A2"]
+margin_top = 35.0
+margin_right = 330.0
+margin_bottom = 214.0
+size_flags_vertical = 3
+
+[node name="Modules" type="VBoxContainer" parent="HBox"]
+margin_left = 668.0
+margin_right = 1000.0
+margin_bottom = 800.0
+size_flags_horizontal = 3
+
+[node name="Weapons" type="Button" parent="HBox/Modules"]
+margin_right = 332.0
+margin_bottom = 31.0
+text = "Weaponry"
+
+[node name="GridContainer" type="GridContainer" parent="HBox/Modules"]
+margin_top = 35.0
+margin_right = 332.0
+margin_bottom = 264.0
+size_flags_vertical = 3
+
+[node name="Modules" type="Button" parent="HBox/Modules"]
+margin_top = 268.0
+margin_right = 332.0
+margin_bottom = 299.0
+text = "Modules"
+
+[node name="GridContainer3" type="GridContainer" parent="HBox/Modules"]
+margin_top = 303.0
+margin_right = 332.0
+margin_bottom = 532.0
+size_flags_vertical = 3
+
+[node name="ConsolesButton" type="Button" parent="HBox/Modules"]
+margin_top = 536.0
+margin_right = 332.0
+margin_bottom = 567.0
+text = "Consoles"
+
+[node name="GridContainer2" type="GridContainer" parent="HBox/Modules"]
+margin_top = 571.0
+margin_right = 332.0
+margin_bottom = 800.0
+size_flags_vertical = 3

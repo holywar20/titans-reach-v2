@@ -33,13 +33,19 @@ _global_script_classes=[ {
 "class": "Star",
 "language": "GDScript",
 "path": "res://ReusableGameObjects/Star/Star.gd"
+}, {
+"base": "Node",
+"class": "Starship",
+"language": "GDScript",
+"path": "res://Classes/Starship.gd"
 } ]
 _global_script_class_icons={
 "Anomoly": "",
 "Crew": "",
 "EventBus": "",
 "Planet": "",
-"Star": ""
+"Star": "",
+"Starship": ""
 }
 
 [application]

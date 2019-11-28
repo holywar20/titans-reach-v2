@@ -1,0 +1,99 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Themes/DataText.tres" type="Theme" id=1]
+[ext_resource path="res://ReusableUI/CrewCard/CrewCard.gd" type="Script" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+
+[node name="Crew" type="HBoxContainer"]
+margin_right = 280.0
+margin_bottom = 78.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Avatar" type="PanelContainer" parent="."]
+self_modulate = Color( 0.623529, 0.0901961, 0.0901961, 1 )
+margin_right = 80.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 80, 64 )
+
+[node name="Center" type="CenterContainer" parent="Avatar"]
+margin_right = 80.0
+margin_bottom = 78.0
+
+[node name="Face" type="TextureRect" parent="Avatar/Center"]
+margin_left = 8.0
+margin_top = 7.0
+margin_right = 72.0
+margin_bottom = 71.0
+texture = ExtResource( 3 )
+stretch_mode = 4
+
+[node name="Data" type="VBoxContainer" parent="."]
+editor/display_folded = true
+margin_left = 84.0
+margin_right = 280.0
+margin_bottom = 78.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_constants/separation = 0
+
+[node name="CrewmanName" type="Label" parent="Data"]
+margin_right = 196.0
+margin_bottom = 26.0
+text = "{NAME}"
+align = 1
+
+[node name="HP" type="HBoxContainer" parent="Data"]
+margin_top = 26.0
+margin_right = 196.0
+margin_bottom = 52.0
+
+[node name="Label2" type="Label" parent="Data/HP"]
+margin_right = 60.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 60, 0 )
+text = "HP"
+
+[node name="Bar" type="ProgressBar" parent="Data/HP"]
+self_modulate = Color( 0.305882, 1, 0.360784, 1 )
+margin_left = 64.0
+margin_right = 196.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+value = 20.0
+percent_visible = false
+
+[node name="Val" type="Label" parent="Data/HP/Bar"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "X / X"
+align = 1
+
+[node name="Morale" type="HBoxContainer" parent="Data"]
+margin_top = 52.0
+margin_right = 196.0
+margin_bottom = 78.0
+
+[node name="Label2" type="Label" parent="Data/Morale"]
+margin_right = 60.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 60, 0 )
+text = "Morale"
+
+[node name="Bar" type="ProgressBar" parent="Data/Morale"]
+self_modulate = Color( 0.694118, 0.662745, 0.113725, 1 )
+margin_left = 64.0
+margin_right = 196.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+value = 20.0
+percent_visible = false
+
+[node name="Val" type="Label" parent="Data/Morale/Bar"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "X / X"
+align = 1
+[connection signal="gui_input" from="." to="." method="_onGuiInput"]

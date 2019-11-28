@@ -86,6 +86,7 @@ text = "Starmap"
 icon = ExtResource( 3 )
 
 [node name="Dynamic" type="HBoxContainer" parent="."]
+editor/display_folded = true
 margin_top = 76.0
 margin_right = 1920.0
 margin_bottom = 1016.0
@@ -124,6 +125,7 @@ margin_top = 540.0
 margin_bottom = 940.0
 
 [node name="Footer" type="Panel" parent="."]
+editor/display_folded = true
 margin_top = 1020.0
 margin_right = 1920.0
 margin_bottom = 1080.0

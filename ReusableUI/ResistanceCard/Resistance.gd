@@ -2,12 +2,7 @@ extends VBoxContainer
 
 var character
 
-onready var dataRowScene = load("res://ReusableUI/General/DoubleDataRow.tscn")
-onready var expandedDataScene = load("res://ReusableUI/General/ExpandedDataRow.tscn")
-
 onready var expandedHeader = get_node("Header")
-
-const DATA_ROW_GROUP = "ResistanceDataRow"
 
 func _ready():
 	pass
@@ -28,19 +23,8 @@ func loadCharacterData( character : Crew ):
 	var resistStatBlocks = self.character.getAllResistStatBlocks()
 
 	for key in resistStatBlocks:
-		var dataRow = dataRowScene.instance()
-		dataRow.add_to_group( self.DATA_ROW_GROUP )
-
-		var traitStatBlocks = resistStatBlocks[key]
-		
-		var data = []
-
-		for iKey in traitStatBlocks:
-			data.append(traitStatBlocks[iKey])
-		
-		dataRow.loadData( data[0].name , data[0].total , data[1].name, data[1].total )
-		
-		self.add_child(dataRow)
+		# Build up some data object & find and replace into a bbcode string
+		pass 
 
 func loadCharacterDataExpanded( character : Crew ):
 	self.character = character
@@ -55,9 +39,6 @@ func loadCharacterDataExpanded( character : Crew ):
 		var traitStatBlocks = resistStatBlocks[key]
 
 		for iKey in traitStatBlocks:
-			var dataRow = expandedDataScene.instance()
-			dataRow.add_to_group( self.DATA_ROW_GROUP )
-
 			var statBlock = traitStatBlocks[iKey]
 
 			var statBlockArray = [
@@ -67,9 +48,6 @@ func loadCharacterDataExpanded( character : Crew ):
 				statBlock.talent, 
 				statBlock.total
 			]
-
-			dataRow.loadData ( statBlockArray )
-			self.add_child( dataRow )
 
 
 

@@ -19,14 +19,17 @@ var speed = 0
 onready var myCamera = get_node("Camera")
 onready var area2D = get_node("ShipArea") # I need this for collision detection of areas for some reason. Rigid2D Bodies can't poll for areas, only for bodies, and i'm using mostly areas.
 
-var shipObject = GameWorld.getPlayerShip()
 var eventBus = null
+var starship = null
 
 func _ready():
 	self.set_position( Vector2( 0 ,100 ) )
 
 func setEvents( eventBus : EventBus ):
 	self.eventBus = eventBus
+
+func setStarship( starship : Starship ):
+	self.starship = starship
 
 func _onAreaEntered( area : Area2D ):
 	var objects = self.area2D.get_overlapping_areas()
@@ -37,7 +40,6 @@ func _onAreaExited( area : Area2D ):
 
 	for x in range( 0, objects.size() ) :
 		if( objects[x].get_name() == area.get_name() ):
-			print(objects[x] , objects[x].get_name() , area , area.get_name() )
 			objects.erase( area )
 			break
 	

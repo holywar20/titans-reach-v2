@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://Views/Explore/UI/SubUI/Assignments.gd" type="Script" id=1]
-[ext_resource path="res://ReusableUI/CrewmanDetail/CrewmanDetail.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Views/Explore/UI/SubUI/AssignmentsSubUI/Command.tscn" type="PackedScene" id=3]
 
 [node name="Assignments" type="PanelContainer" groups=[
 "SubUI",
@@ -16,7 +14,6 @@ margin_right = 1000.0
 margin_bottom = 800.0
 
 [node name="Left" type="VBoxContainer" parent="Main"]
-editor/display_folded = true
 margin_right = 332.0
 margin_bottom = 800.0
 size_flags_horizontal = 3
@@ -28,31 +25,23 @@ text = "Crew"
 align = 1
 valign = 1
 
-[node name="List" type="VBoxContainer" parent="Main/Left"]
+[node name="Unassigned" type="VBoxContainer" parent="Main/Left"]
 margin_top = 35.0
 margin_right = 332.0
-margin_bottom = 517.0
-custom_constants/separation = 10
-alignment = 1
+margin_bottom = 542.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
 
-[node name="Crew" parent="Main/Left/List" instance=ExtResource( 2 )]
+[node name="CrewDetail" type="VBoxContainer" parent="Main/Left"]
+margin_top = 546.0
 margin_right = 332.0
-margin_bottom = 113.0
+margin_bottom = 800.0
+size_flags_vertical = 3
 
-[node name="Crew2" parent="Main/Left/List" instance=ExtResource( 2 )]
-margin_top = 123.0
+[node name="Label" type="Label" parent="Main/Left/CrewDetail"]
 margin_right = 332.0
-margin_bottom = 236.0
-
-[node name="Crew3" parent="Main/Left/List" instance=ExtResource( 2 )]
-margin_top = 246.0
-margin_right = 332.0
-margin_bottom = 359.0
-
-[node name="Crew4" parent="Main/Left/List" instance=ExtResource( 2 )]
-margin_top = 369.0
-margin_right = 332.0
-margin_bottom = 482.0
+margin_bottom = 31.0
+text = "{ CREWMAN DETAIL }"
 
 [node name="Right" type="VBoxContainer" parent="Main"]
 margin_left = 336.0
@@ -67,23 +56,3 @@ margin_bottom = 31.0
 text = "Stations"
 align = 1
 valign = 1
-
-[node name="Command" parent="Main/Right" instance=ExtResource( 3 )]
-margin_top = 35.0
-margin_right = 664.0
-margin_bottom = 160.0
-
-[node name="Command2" parent="Main/Right" instance=ExtResource( 3 )]
-margin_top = 164.0
-margin_right = 664.0
-margin_bottom = 289.0
-
-[node name="Command3" parent="Main/Right" instance=ExtResource( 3 )]
-margin_top = 293.0
-margin_right = 664.0
-margin_bottom = 418.0
-
-[node name="Command4" parent="Main/Right" instance=ExtResource( 3 )]
-margin_top = 422.0
-margin_right = 664.0
-margin_bottom = 547.0

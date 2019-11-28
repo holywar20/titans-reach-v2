@@ -8,7 +8,7 @@ const BASE_MORALE = 8
 const TRAIT_RESIST_BONUS = 5
 
 var key  = null
-var fullname = []
+var fullname = ["First" , "nickname" , "Last"]
 var sex  = null
 var station = null
 var stationType = null
@@ -106,11 +106,6 @@ func setTrees( primary = null , secondary = null ):
 	
 	if( secondary ):
 		self.secondaryTree = secondary
-
-func finalizeNewCharacter():
-	self.hp.current = self.hp.total
-	self.morale.current = self.morale.total
-
 
 func _buildBasicActions():
 	pass

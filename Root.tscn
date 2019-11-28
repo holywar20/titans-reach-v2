@@ -19,3 +19,5 @@ visible = false
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 layer = 2
+
+[node name="Draggable" type="CanvasLayer" parent="."]
