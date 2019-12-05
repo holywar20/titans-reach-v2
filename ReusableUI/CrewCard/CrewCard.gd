@@ -37,18 +37,16 @@ func _ready():
 	self.nodes.MoBar.set_value( morale.current )
 	self.nodes.MoVal.set_text( self.crewman.getMoraleString() )
 
-func _onGuiInput( guiEvent : InputEvent ):
-	print( guiEvent )
-	print( guiEvent.is_action_pressed( "GUI_SELECT"  ) )
-
+func _gui_input ( guiEvent : InputEvent ):
 	if( guiEvent.is_action_pressed( "GUI_SELECT" ) ):
-		self._createDraggable( guiEvent.position )
-		print("Creating a draggable")
+		self._createDraggable( guiEvent )
+		self.eventBus.emit("CrewmanSelected" , [ self.crewman ] )
 
 func _createDraggable( guiEvent : InputEvent ):
 	var draggableScene = load( self.DRAGGABLE_SCENE_PATH )
 	var draggable = draggableScene.instance()
 	draggable.setScene( self.eventBus , self.crewman )
+	draggable.set_global_position( guiEvent.position )
 
 	var draggableLayer = get_node( Common.DRAGGABLE_LAYER )
 	draggableLayer.add_child( draggable )

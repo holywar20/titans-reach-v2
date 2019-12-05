@@ -83,6 +83,27 @@ var planetClassData = {
 	}
 }
 
+const DESCRIPTION = {
+	"L" : """Lava
+	""" , 
+	"M" : """Mesoplanet
+	""" , 
+	"G" : """Gas Giant
+	""" , 
+	"IG" : """Ice Giant
+		""" , 
+	"T" : """Terran
+		""" , 
+	"B" : """Barren
+		""" , 
+	"I" : """Ice
+		""" , 
+	"S" : """Storm
+		""" , 
+	"H" : """Hydrocarbon
+	""" , 
+}
+
 func _ready():
 	pass
 
@@ -120,6 +141,8 @@ func _rollPlanetDetails( orbit, planetClass , star ):
 	planet.classification = p.classification
 	planet.className = p.className
 	planet.color = p.color
+	
+	planet.description = self.DESCRIPTION[p.classification]
 
 	planet.atmopshere = p.atmosphere
 	

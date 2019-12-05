@@ -3,7 +3,7 @@ extends Node
 func _ready():
 	pass
 
-onready var starScene = load("res://ReusableGameObjects/Star/star.tscn")
+onready var starScene = load("res://ReusableGameObjects/Star/Star.tscn")
 
 var starSystemFirstNames = [
 	"Abbadon" , "Alpophis", "Margeddon" , "Callistamere" , "Gypsy" , "Orlus" , "Cylus" , "Verune" , "Callus" , "Infidel" , "Wayward" , "Titans"
@@ -99,7 +99,7 @@ var starPrototypes = {
 }
 
 const starDescriptions = {
-	"M" : "Also known as Red Dwarfs",
+	"M" : "Also known as Red Dwarfs, M-Class stars are small stars that burn very slowly as a result of their relatively low pressure within their cores. This low rate of fusion also means the star could theoretically burn for Trillions of years. Habitable planets around Red Dwarfs are rare, as the stars are prone to wild swings in stellar output, dimming or flaring up as much as 40% in minutes. Also any planet that could have liquid water would need to be very close to the star and end up tidally locked.",
 	"K" : "Also known as Orange Dwarfs, K Class stars are 5 times as common as G Class Stars, and most habitable planets in the galaxy orbit such a star. They have stable output over billions of years, and the stars are so long lived, that not a single K-Class star has expanded into a red giant. They have extremely stable but somewhat low tempatures over their life times and so the most useful will be those that orbit extremely close to their home star.",
 	"G" : "Also known as Yellow-White Dwarfs, The G-Class star is prototyped by a very well known star, The Sun. G-Class stars have a relatively long life time but are relativey energetic over most of their lives. After between 8 and 12 Billion Years, a G-Class star will normally expand into a massive red giant, increasing their lumonisity thousand fold and swallowing most of their inner planets.",
 	"F" : "F-Class stars are highly energetic stars that are stable for a relatively short billion to 2 billion years. Life is possible in a system like this but is very rare. Life from  F-Class star especially must be hardy, as the baleful light of the star can easily strip atmospheres. Life bearing worlds will tend to be extremely high mass with strong magnetic fields and active volcanism.",

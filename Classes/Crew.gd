@@ -11,7 +11,6 @@ var key  = null
 var fullname = ["First" , "nickname" , "Last"]
 var sex  = null
 var station = null
-var stationType = null
 
 var cp = 0
 var cpSpent = 0
@@ -88,6 +87,13 @@ var resists = {
 func _init():
 	pass
 
+# Overrides
+func get_class(): 
+	return "Crew"
+
+func is_class( name : String ): 
+	return name == "Crew"
+
 func setCosmetic( sex : String , fname : String, mname : String ,  lname : String ):
 	self.sex = sex
 	self.fullname = [ fname, mname, lname ]
@@ -106,6 +112,15 @@ func setTrees( primary = null , secondary = null ):
 	
 	if( secondary ):
 		self.secondaryTree = secondary
+
+func assign( console = null ):
+	self.station = console
+
+func isAssigned():
+	if( self.station ):
+		return true
+	else:
+		return false
 
 func _buildBasicActions():
 	pass

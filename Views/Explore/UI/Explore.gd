@@ -2,8 +2,6 @@ extends VBoxContainer
 
 onready var tabBase		= get_node("Dynamic/Tab-Bind")
 
-var draggableScene = load("")
-
 # Passed in by the parent
 var eventBus = null
 var playerCrew = []
@@ -12,12 +10,12 @@ var playerShip = []
 var subUIOpen = "None"
 
 const MENU = { 
-	'ASSIGNMENTS'	: "res://Views/Explore/UI/SubUI/Assignments.tscn" , 
-	'CREW' 			: "res://Views/Explore/UI/SubUI/Crew.tscn" , 
-	'EQUIPMENT'		: "res://Views/Explore/UI/SubUI/Equipment.tscn" ,  
-	'SHIP'			: "res://Views/Explore/UI/SubUI/Ship.tscn" , 
-	'CARGO'			: "res://Views/Explore/UI/SubUI/Cargo.tscn" , 
-	'STARMAP'		: "res://Views/Explore/UI/SubUI/Starmap.tscn" ,  
+	'ASSIGNMENTS'	: "res://Views/Explore/UI/SubUI/Assignments.tscn",
+	'CREW' 			: "res://Views/Explore/UI/SubUI/Crew.tscn",
+	'EQUIPMENT'		: "res://Views/Explore/UI/SubUI/Equipment.tscn",
+	'SHIP'			: "res://Views/Explore/UI/SubUI/Ship.tscn",
+	'CARGO'			: "res://Views/Explore/UI/SubUI/Cargo.tscn",
+	'STARMAP'		: "res://Views/Explore/UI/SubUI/Starmap.tscn",
 }
 
 const EXPLORE_EVENTS = [
@@ -29,20 +27,30 @@ const EXPLORE_EVENTS = [
 	# Called on the _ready function of the Explore Page
 	"CelestialsLoadingOnMap" 	, "CelestialsLoadedOnMap",
 
-	# Draggable events
-	"DraggableClicked"			, "DraggableReleased",
+	# Draggable events, fired by a draggable object 
+	"DraggableCreated", "DraggableReleased",
+	# Events fired by drag lock
+	"DraggableAccepted", "DraggableRejected",
+	
+	# Change events, where some data has been modified by the UI that other objects may care about. 
+	"CrewAssignmentChanged",
+
 
 	# Interactable Collision Events , emitted by the players ship
-	"AnomolyEntered"				, "AnomolyExited",
-	"PlanetEntered" 				, "PlanetExited" ,
-	"ConnectionEntered"			, "ConnectionExited",
-	"StarEntered"					, "StarExited",
+	"AnomolyEntered"		, "AnomolyExited",
+	"PlanetEntered" 		, "PlanetExited" ,
+	"ConnectionEntered"	, "ConnectionExited",
+	"StarEntered"			, "StarExited",
 
-	"SubUIOpenBegin"				, "SubUIOpenEnd",
-	"SubUICloseBegin"				, "SubUIOCloseEnd",
+	# Events fired by Card Nodes
+	"CrewmanSelected",
 
 	# Issued by player ship whenever it notices a change in the Areas it's interacting with.
 	"PlayerContactingAreasUpdated",
+
+	"SubUIAnyOpenBegin"	, "SubUIAnyOpenEnd",
+	"SubUIAnyCloseBegin"	, "SubUIAnyCloseEnd",
+
 
 	# Cancel current action that is only partially complete, or exit a context menu
 	"GeneralCancel"
@@ -60,7 +68,6 @@ func setupScene( eventBus: EventBus, playerShip : Starship , playerCrew ):
 	self.eventBus.addEvents( self.EXPLORE_EVENTS )
 
 	self.eventBus.register( "PlayerContactingAreasUpdated" , self , "_onPlayerContactingAreasUpdated" )
-	self.eventBus.register( "DraggableClicked" , self , "_onDraggableClicked" ) 
 
 	self.playerShip = playerShip
 	self.playerCrew = playerCrew
@@ -88,7 +95,7 @@ func menuButtonPressed( menuTarget : String ):
 func setupSubUI( menuTarget : String , subUI ):
 	match menuTarget:
 		"ASSIGNMENTS":
-			subUI.setupScene( eventBus , playerCrew )
+			subUI.setupScene( eventBus , playerCrew , playerShip )
 		"CREW":
 			subUI.setupScene( eventBus , playerCrew )
 		"EQUIPMENT":

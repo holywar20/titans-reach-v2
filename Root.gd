@@ -3,11 +3,11 @@ extends Node
 # TODO - Add in factory refs, and pass all objects we care about through chains of connected views
 # TODO - Then remove factories from the global namespace
 
-onready var UILayer = get_node( "UILayer" )
-onready var pauseLayer = get_node( "PauseLayer" )
-onready var popupLayer = get_node( "PopupLayer" )
-onready var gameLayer = get_node( "GameLayer" )
-onready var debugLayer = get_node( "DebugLayer" )
+onready var UILayer 		= get_node( "UILayer" )
+onready var pauseLayer	= get_node( "PauseLayer" )
+onready var popupLayer	= get_node( "PopupLayer" )
+onready var gameLayer	= get_node( "GameLayer" )
+onready var debugLayer	= get_node( "DebugLayer" )
 
 const VIEWS = {
 	"EXPLORE" : {
@@ -31,7 +31,7 @@ const POPUPS = {
 var globalBus = null
 
 var playerGear = null
-var playerShip = null
+var playerShip = Starship.new()
 var playerCrew = CrewFactory.generateManyCrew( 30 , 5 )
 
 func _ready():

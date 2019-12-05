@@ -22,7 +22,9 @@ var radius = null
 var mass = null
 var temp = null
 var color = null
+var description = null
 var radial = null
+
 
 # Various Flags
 var isBiopshere = false 
@@ -52,3 +54,8 @@ func getIconTexturePath():
 func getColor():
 	return self.color
 
+func getDetailText():
+	var bbcodeText = """[table][/table]
+"""
+
+	return bbcodeText

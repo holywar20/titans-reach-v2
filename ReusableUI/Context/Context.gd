@@ -35,8 +35,8 @@ func fillPlanetInfo( planet : Planet ):
 	self.set_visible( true )
 
 	self.nodes.ObjectName.set_text( planet.fullName )
-	self.nodes.DetailText.set_bbcode("Planet!")
-	self.nodes.MainText.set_bbcode("Planet!")
+	self.nodes.DetailText.set_bbcode( planet.getDetailText() )
+	self.nodes.MainText.set_bbcode( planet.description )
 	
 	self.nodes.Texture.set_self_modulate( planet.color )
 
