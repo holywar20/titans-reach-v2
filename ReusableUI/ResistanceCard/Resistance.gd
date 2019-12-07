@@ -1,53 +1,61 @@
 extends VBoxContainer
 
-var character
+var crewman = null
+var eventBus = null 
 
-onready var expandedHeader = get_node("Header")
+onready var dataRowScene = load("res://ReusableUI/DataRow/DataRow.tscn")
+onready var resistBase = get_node("Panel/Resists")
+
+const HEADERS = [ "" , "Trait", "Base" , "Equip" , "Talent" , "Total"]
+
+func setupScene( eventBus: EventBus, crewman: Crew ):
+	self.eventBus = eventBus
+	self.crewman = crewman
 
 func _ready():
-	pass
+	if( self.crewman ):
+		self.loadData( crewman )
+	if( self.eventBus ):
+		self.setEvents
 
 # Clears all Data Rows
 func _clear():
-	var currentDataRows = get_tree().get_nodes_in_group( self.DATA_ROW_GROUP )
-	for row in currentDataRows:
+	for row in self.resistBase.get_children():
 		row.queue_free()
 
-func loadCharacterData( character : Crew ):
+func setEvents( eventBus : EventBus ):
+	self.eventBus = eventBus
+
+func loadData( crewman : Crew ):
 	self._clear()
-	self.character = character
+	self.crewman = crewman
 
-	self.expandedHeader.set_visible( false )
+	var headerRow = self.dataRowScene.instance()
+	headerRow.setupScene( self.HEADERS )
+	var allRows = [ headerRow ]
 
-	#instance new datarows on the basis of character data
-	var resistStatBlocks = self.character.getAllResistStatBlocks()
+	# Resists are indexed by Trait
+	var resistStatBlocks = self.crewman.getAllResistStatBlocks()
+	for traitKey in resistStatBlocks:
 
-	for key in resistStatBlocks:
-		# Build up some data object & find and replace into a bbcode string
-		pass 
-
-func loadCharacterDataExpanded( character : Crew ):
-	self.character = character
-	self._clear()
-
-	self.expandedHeader.set_visible( true )
-
-	var resistStatBlocks = self.character.getAllResistStatBlocks()
-
-	for key in resistStatBlocks:
-
-		var traitStatBlocks = resistStatBlocks[key]
-
-		for iKey in traitStatBlocks:
-			var statBlock = traitStatBlocks[iKey]
-
+		var traitStatBlocks = resistStatBlocks[traitKey]
+		for innerKey in traitStatBlocks:
+			var statBlock = traitStatBlocks[innerKey]
 			var statBlockArray = [
-				statBlock.name , 
+				statBlock.name ,
+				traitKey,
 				statBlock.value , 
 				statBlock.equip, 
 				statBlock.talent, 
 				statBlock.total
 			]
+
+			var statRow = self.dataRowScene.instance()
+			statRow.setupScene( statBlockArray )
+			allRows.append( statRow )
+
+	for row in allRows:
+		self.resistBase.add_child( row )
 
 
 

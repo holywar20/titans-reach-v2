@@ -1,27 +1,41 @@
 extends VBoxContainer
 
-var character
+var crewman = null
+var eventBus = null
 
-onready var expandedHeader = get_node("Header")
+onready var dataRowScene = load("res://ReusableUI/DataRow/DataRow.tscn")
+onready var traitBase = get_node("Panel/VBox")
 
-const DATA_ROW_GROUP = "TraitDataRow"
+const HEADERS = [ "" , "Base" , "Equip" , "Talent" , "Total"]
+
+func setupScene( eventBus : EventBus , crewman : Crew ):
+	self.eventBus = eventBus
+	self.crewman = crewman
+
+func _ready():
+	if( self.crewman ):
+		self.loadData( self.crewman )
+	if( self.eventBus ):
+		self.setEventBus( self.eventBus )
+	
+func setEventBus( eventBus : EventBus ):
+	self.eventBus = eventBus
 
 func _clear():
-	var currentDataRows = get_tree().get_nodes_in_group( self.DATA_ROW_GROUP )
-	for row in currentDataRows:
-		row.queue_free()
+	for child in self.traitBase.get_children():
+		child.queue_free()
 
-func loadCharacterDataExpanded( character : Crew ):
+func loadData( crewman : Crew ):
 	self._clear()
-	self.character = character
-	self.expandedHeader.set_visible( true )
+	self.crewman = crewman
 
-	var traitStatBlocks = self.character.getAllTraitStatBlocks()
+	var headerRow = self.dataRowScene.instance()
+	headerRow.setupScene( self.HEADERS )
+	var allRows = [ headerRow ]
 
+	var traitStatBlocks = self.crewman.getAllTraitStatBlocks()
 	for key in traitStatBlocks:
-
 		var statBlock = traitStatBlocks[key]
-
 		var statBlockArray = [
 			statBlock.fullName , 
 			statBlock.value , 
@@ -29,19 +43,9 @@ func loadCharacterDataExpanded( character : Crew ):
 			statBlock.talent, 
 			statBlock.total
 		]
-
-
-func loadCharacterDataDense( character : Crew ):
-	self._clear()
-	self.character = character
-	self.expandedHeader.set_visible( false )
-
-	var traitStatBlocks = self.character.getAllTraitStatBlocks()
-
-	for key in traitStatBlocks:
-		var statBlock = traitStatBlocks[key]
-
-		var statBlockArray = [
-			statBlock.name , 
-			statBlock.total
-		]
+		var statRow = self.dataRowScene.instance()
+		statRow.setupScene( statBlockArray )
+		allRows.append( statRow )
+	
+	for row in allRows:
+		self.traitBase.add_child( row )

@@ -7,9 +7,16 @@ const BASE_HP = 12
 const BASE_MORALE = 8
 const TRAIT_RESIST_BONUS = 5
 
-var key  = null
+# Cosmetics
 var fullname = ["First" , "nickname" , "Last"]
 var sex  = null
+var height = 2.1
+var mass = 95
+var race = "Terran" # TODO add ability for crewman to be many races
+var homeWorld = "Earth" # TODO Link homeworld to in game worlds which can potentially be discovered.
+var age = 100
+var bio = "four score and seven years ago. Yeah. I'm abraham Lincoln Bitch."
+
 var station = null
 
 var cp = 0
@@ -36,11 +43,19 @@ var primaryTree = null
 var secondaryTree = null
 
 # TODO - slot this equipment instead of just listing it.
+var equimentSlots = 3
 var equipment = []
 
+var weaponSlots = 2
+var weapons = []
+
+var armorSlots = 1
+var armor = []
+
+
 const TRAITS = {
-		"CHA" : "Charisma" , "INT" : "Intelligence" , "DEX" : "Dexerity" ,  "STR" : "Strength" , "PER" : "Perception"
-	}
+	"CHA" : "Charisma" , "INT" : "Intelligence" , "DEX" : "Dexerity" ,  "STR" : "Strength" , "PER" : "Perception"
+}
 
 var traits = {
 	'STR' : { "name" : "STR", "fullName": "Strength" 	, "value": 0, "total" : 0 , "equip" : 0 , "talent": 0 ,"mod" : 0 },
@@ -94,24 +109,9 @@ func get_class():
 func is_class( name : String ): 
 	return name == "Crew"
 
-func setCosmetic( sex : String , fname : String, mname : String ,  lname : String ):
-	self.sex = sex
-	self.fullname = [ fname, mname, lname ]
-
-func setCP( cp : int , spent : int ):
-	self.cp = cp
-	self.cpSpent = spent
-
 func setTextures( sPath : String , lPath : String ):
 	self.texturePath = lPath
 	self.smallTexturePath = sPath
-
-func setTrees( primary = null , secondary = null ):
-	if( primary ):
-		self.primaryTree = primary
-	
-	if( secondary ):
-		self.secondaryTree = secondary
 
 func assign( console = null ):
 	self.station = console
@@ -217,6 +217,24 @@ func getCPointString():
 		return str(self.cpSpent) + " / " + str(self.cp)
 	else:
 		return "0 / 0"
+
+func getMassString():
+	return str(self.mass) + " Kg"
+
+func getHeightString():
+	return str(self.height) + " cm"
+
+func getWorldString():
+	return self.homeWorld
+
+func getAgeString():
+	return str( self.age ) + " yrs"
+
+func getRaceString():
+	return self.race
+
+func getSexString():
+	return self.sex
 
 func getHPStatBlock():
 	return self.hp.duplicate()

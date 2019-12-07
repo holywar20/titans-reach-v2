@@ -6,8 +6,8 @@
 [ext_resource path="res://TextureBank/Interface/paperdoll.jpg" type="Texture" id=4]
 [ext_resource path="res://ReusableUI/ActionCard/ActionCard.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ReusableUI/VitalsCard/VitalsCard.tscn" type="PackedScene" id=6]
-[ext_resource path="res://ReusableUI/BioCard/BioCard.tscn" type="PackedScene" id=7]
-[ext_resource path="res://ReusableUI/ResistanceCard/Resistance.tscn" type="PackedScene" id=8]
+[ext_resource path="res://ReusableUI/ResistanceCard/Resistance.tscn" type="PackedScene" id=7]
+[ext_resource path="res://ReusableUI/BioCard/BioCard.tscn" type="PackedScene" id=8]
 
 [node name="Crew" type="PanelContainer" groups=[
 "SubUI",
@@ -26,6 +26,7 @@ margin_bottom = 800.0
 size_flags_horizontal = 3
 
 [node name="CharacterPoints" type="HBoxContainer" parent="HBox/Left"]
+editor/display_folded = true
 margin_right = 330.0
 margin_bottom = 31.0
 
@@ -66,7 +67,6 @@ margin_bottom = 800.0
 size_flags_horizontal = 3
 
 [node name="Crewman" type="HBoxContainer" parent="HBox/Center"]
-editor/display_folded = true
 margin_right = 330.0
 margin_bottom = 31.0
 
@@ -116,6 +116,7 @@ margin_bottom = 800.0
 size_flags_vertical = 3
 
 [node name="Right" type="VBoxContainer" parent="HBox"]
+editor/display_folded = true
 margin_left = 668.0
 margin_right = 1000.0
 margin_bottom = 800.0
@@ -126,13 +127,15 @@ margin_top = 0.0
 margin_right = 332.0
 margin_bottom = 136.0
 
-[node name="BioCard" parent="HBox/Right" instance=ExtResource( 7 )]
+[node name="ResistanceCard" parent="HBox/Right" instance=ExtResource( 7 )]
 margin_top = 140.0
 margin_right = 332.0
-margin_bottom = 495.0
+margin_bottom = 441.0
+size_flags_vertical = 3
 
-[node name="ResistanceCard" parent="HBox/Right" instance=ExtResource( 8 )]
-margin_top = 499.0
+[node name="BioCard" parent="HBox/Right" instance=ExtResource( 8 )]
+margin_top = 445.0
 margin_right = 332.0
 margin_bottom = 800.0
-size_flags_vertical = 3
+[connection signal="pressed" from="HBox/Center/Crewman/Prev" to="." method="_onPrevPressed"]
+[connection signal="pressed" from="HBox/Center/Crewman/Next" to="." method="_onNextPressed"]

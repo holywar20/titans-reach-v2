@@ -8,11 +8,6 @@ onready var nodes = {
 const DRAGGABLE_SCENE_PATH = "res://ReusableUI/Draggable/Draggable.tscn"
 const DEFAULT_TEXTURE = "res://icon.png"
 
-# TODO - impliment some kind of map
-const TYPES = {
-	"CREWMAN_TO_CONSOLE" : "crewmanToConsole"
-}
-
 var eventBus : EventBus
 var displayName : String = "set name in setupScene!"
 

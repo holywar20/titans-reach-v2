@@ -7,6 +7,11 @@ var eventBus = null
 var playerCrew = []
 var playerShip = []
 
+var playerGear = {}
+
+# Utilized by elements that list all crew sequentially
+var currentCrewmanIdx = null
+
 var subUIOpen = "None"
 
 const MENU = { 
@@ -35,7 +40,6 @@ const EXPLORE_EVENTS = [
 	# Change events, where some data has been modified by the UI that other objects may care about. 
 	"CrewAssignmentChanged",
 
-
 	# Interactable Collision Events , emitted by the players ship
 	"AnomolyEntered"		, "AnomolyExited",
 	"PlanetEntered" 		, "PlanetExited" ,
@@ -43,14 +47,13 @@ const EXPLORE_EVENTS = [
 	"StarEntered"			, "StarExited",
 
 	# Events fired by Card Nodes
-	"CrewmanSelected",
+	"CrewmanSelected", "ItemSelected",
 
 	# Issued by player ship whenever it notices a change in the Areas it's interacting with.
 	"PlayerContactingAreasUpdated",
 
 	"SubUIAnyOpenBegin"	, "SubUIAnyOpenEnd",
 	"SubUIAnyCloseBegin"	, "SubUIAnyCloseEnd",
-
 
 	# Cancel current action that is only partially complete, or exit a context menu
 	"GeneralCancel"
@@ -63,7 +66,7 @@ onready var nodes = {
 	"Minimap"				: get_node("Dynamic/Right/Minimap")
 }
 
-func setupScene( eventBus: EventBus, playerShip : Starship , playerCrew ):
+func setupScene( eventBus: EventBus, playerShip : Starship , playerCrew , playerGear ):
 	self.eventBus = eventBus
 	self.eventBus.addEvents( self.EXPLORE_EVENTS )
 
@@ -71,12 +74,61 @@ func setupScene( eventBus: EventBus, playerShip : Starship , playerCrew ):
 
 	self.playerShip = playerShip
 	self.playerCrew = playerCrew
+	self.playerGear = playerGear
+
+	self.currentCrewmanIdx = 0
 
 func _ready():
 	# Nodes need to exist before we can set the eventBus on them.
 	self.nodes.Context.setEvents( self.eventBus )
 	self.nodes.Minimap.setEvents( self.eventBus )
 
+func _setupSubUI( menuTarget : String , subUI ):
+	match menuTarget:
+		"ASSIGNMENTS":
+			subUI.setupScene( self.eventBus , self.playerCrew , self.playerShip )
+		"CREW":
+			subUI.setupScene( self.eventBus , self )
+		"EQUIPMENT":
+			subUI.setupScene( self.eventBus , self )
+		"SHIP":
+			subUI.setupScene( self.eventBus )
+		"CARGO":
+			subUI.setupScene( self.eventBus )
+		"STARMAP":
+			subUI.setupScene( self.eventBus )
+
+func getEquipableGear():
+	return self.playerGear
+
+func getCurrentCrewman():
+	return self.playerCrew[self.currentCrewmanIdx]
+
+func getNextCrewman():
+	self.currentCrewmanIdx = self.currentCrewmanIdx + 1
+	if( self.currentCrewmanIdx >= self.playerCrew.size() - 1 ):
+		self.currentCrewmanIdx = 0
+
+	return self.playerCrew[self.currentCrewmanIdx]
+
+func getPrevCrewman():
+	self.currentCrewmanIdx = self.currentCrewmanIdx - 1
+	if( self.currentCrewmanIdx < 0 ):
+		self.currentCrewmanIdx = playerCrew.size() - 1
+	
+	return self.playerCrew[self.currentCrewmanIdx]
+
+func _onPlayerContactingAreasUpdated( bodies ):
+	if( bodies.size() == 0 ):
+		self.nodes.NearObjectModal.hide()
+	elif( bodies.size() == 1 ):
+		self.nodes.NearObjectModal.show()
+		self.nodes.NearObjectButton.set_text( bodies[0].showText )
+	elif( bodies.size() >= 2):
+		self.nodes.NearObjectModal.show()
+		self.nodes.NearObjectButton.set_text( "Investigate Anomoly" )
+
+# TODO - Add an underscore here.
 func menuButtonPressed( menuTarget : String ):
 	for tab in self.tabBase.get_children():
 		tab.queue_free()
@@ -88,31 +140,6 @@ func menuButtonPressed( menuTarget : String ):
 		var subUIScene = load( self.MENU[menuTarget] )
 		var subUI = subUIScene.instance()
 
-		self.setupSubUI( menuTarget , subUI )
+		self._setupSubUI( menuTarget , subUI )
 
 		self.tabBase.add_child( subUI )
-
-func setupSubUI( menuTarget : String , subUI ):
-	match menuTarget:
-		"ASSIGNMENTS":
-			subUI.setupScene( eventBus , playerCrew , playerShip )
-		"CREW":
-			subUI.setupScene( eventBus , playerCrew )
-		"EQUIPMENT":
-			subUI.setupScene( eventBus , playerCrew )
-		"SHIP":
-			subUI.setupScene( eventBus )
-		"CARGO":
-			subUI.setupScene( eventBus )
-		"STARMAP":
-			subUI.setupScene( eventBus )
-
-func _onPlayerContactingAreasUpdated( bodies ):
-	if( bodies.size() == 0 ):
-		self.nodes.NearObjectModal.hide()
-	elif( bodies.size() == 1 ):
-		self.nodes.NearObjectModal.show()
-		self.nodes.NearObjectButton.set_text( bodies[0].showText )
-	elif( bodies.size() >= 2):
-		self.nodes.NearObjectModal.show()
-		self.nodes.NearObjectButton.set_text( "Investigate Anomoly" )

@@ -13,7 +13,7 @@ var randSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345689"
 func _ready():
 	pass
 
-func randDiffValues( hi, low ):
+func randDiffValues( low, hi ):
 	hi 	= int( round( hi  * self.ROUND_PRECISION ) ) # To deal with fractions and modulo  Also this caps precision at 4 decimals
 	low 	= int( round( low * self.ROUND_PRECISION ) )
 

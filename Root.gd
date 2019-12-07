@@ -30,9 +30,9 @@ const POPUPS = {
 
 var globalBus = null
 
-var playerGear = null
-var playerShip = Starship.new()
-var playerCrew = CrewFactory.generateManyCrew( 30 , 5 )
+onready var playerGear = FrameFactory.generateDebugFrames()
+onready var playerShip = Starship.new()
+onready var playerCrew = CrewFactory.generateManyCrew( 30 , 5 )
 
 func _ready():
 	self.globalBus = EventBusStore.getGlobalEventBus()
@@ -105,7 +105,7 @@ func _loadExploreScreen():
 	var uiInstance = ui.instance()
 	
 	var eventBus = EventBus.new()
-	uiInstance.setupScene( eventBus , self.playerShip, self.playerCrew )
+	uiInstance.setupScene( eventBus , self.playerShip, self.playerCrew , self.playerGear )
 
 	self.UILayer.add_child( uiInstance )
 

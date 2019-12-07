@@ -22,7 +22,6 @@ var consoleSecTrait = null
 var consoleAssignedCrewman = null
 
 func _init( name , desc, category, priTrait, secTrait , consoleEffects ):
-	self.itemType = Item.ITEM_TYPE.CONSOLE
 	self.consoleName = name 
 	self.consoleCategory = category
 	self.consoleDescription = desc

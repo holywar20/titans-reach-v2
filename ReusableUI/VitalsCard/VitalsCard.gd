@@ -1,5 +1,8 @@
 extends VBoxContainer
 
+var crewman = null
+var eventBus = null
+
 onready var  nodes = {
 	'hpBar' : get_node('HealthRow/Bar'),
 	'hpVal' : get_node('HealthRow/Bar/Value'),
@@ -11,10 +14,22 @@ onready var  nodes = {
 	'weightRow' : get_node('WeightRow')
 }
 
-func _ready():
-	pass # Replace with function body.
+func setupScene( eventBus : EventBus, crewman : Crew ):
+	self.eventBus = eventBus
+	self.crewman = crewman
 
-func loadData( crewman ):
+func _ready():
+	if( self.crewman ):
+		self.loadData( crewman )
+	if( self.eventBus ):
+		self.setEvents
+
+func loadEvents( eventBus : EventBus ):
+	self.eventBus = eventBus
+
+func loadData( crewman : Crew ):
+	self.crewman = crewman
+
 	var hpBlock = crewman.getHPStatBlock()
 	self.nodes.hpBar.max_value =  hpBlock.total
 	self.nodes.hpBar.value =  hpBlock.current
@@ -30,5 +45,5 @@ func loadData( crewman ):
 	self.nodes.weightBar.value = weightBlock.current
 	self.nodes.weightVal.set_text( crewman.getWeightString() )
 
-func hideWeight():
-	self.nodes.weightRow.set_visible( false )
+func setWeightVisible( isVisible : bool ):
+	self.nodes.weightRow.set_visible( isVisible )
