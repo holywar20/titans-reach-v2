@@ -34,7 +34,6 @@ margin_right = 332.0
 margin_bottom = 800.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
-scroll_vertical = 12
 
 [node name="Unassigned" type="VBoxContainer" parent="Main/Left/Scroll"]
 margin_left = 2.0

@@ -25,7 +25,6 @@ onready var nodes = {
 	'description'		: get_node("Scroll/Text")
 }
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	pass 
 
@@ -90,7 +89,7 @@ func _displayAsWeapon( item  ):
 	self.nodes.subHeader.set_visible( true )
 
 	self.nodes.subHeaderWeight.set_visible( true )
-	self.nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemWeight ) )
+	self.nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemCarryWeight ) )
 
 	#Log.log(   item.getAllActionDisplay() )
 	#self._displayLines( item.getAllActionDisplay() )
@@ -103,18 +102,18 @@ func _displayAsEquipment( item  ):
 	self.nodes.subHeaderType.set_text( "Consumable" ) # TODO : add passive, once passive items are implimented
 
 	self.nodes.subHeaderWeight.set_visible( true )
-	self.nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemWeight ) )
+	self.nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemCarryWeight ) )
 
-	self._displayLines( item.getAllActionDisplay() )
+	#self._displayLines( item.getAllActionDisplay() )
 
 func _displayAsFrame( item ):
 	self.nodes.subHeader.set_visible( true )
 
 	self.nodes.subHeaderType.set_visible( true )
-	self.nodes.subHeaderType.set_text( item.frameArmorClass + " Frame" )
+	self.nodes.subHeaderType.set_text( item.frameClassString )
 
 	self.nodes.subHeaderWeight.set_visible( true )
-	self.nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemWeight ) )
+	self.nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemCarryWeight ) )
 
 	var lines = [ 
 		"Damage Reduction : [color=green]" + str( item.frameArmorValue ) + "[/color]",

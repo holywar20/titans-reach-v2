@@ -7,8 +7,13 @@ func setScene( eventBus : EventBus , payloadObject ):
 	self.payloadObject = payloadObject
 	self.eventBus = eventBus
 
-	self.set_texture( load( payloadObject.smallTexturePath ) )
-	# TODO add a switch for pulling in various textures based on type
+	var objClass = payloadObject.get_class()
+	if( objClass == "Console" ):
+		self.set_texture( load( payloadObject.smallTexturePath ) )
+
+	if( objClass == "Weapon" || objClass == "Frame" || objClass == "Equipment" ):
+		self.set_texture( load( payloadObject.itemTexturePath ) )
+
 	# TODO add a default texture for when dragging an item icon doesn't make sense.
 
 func _ready():
@@ -22,6 +27,7 @@ func _input( ev : InputEvent ):
 	self.show()
 
 	if( ev.is_action_released( "GUI_SELECT" ) ):
+		print( self.payloadObject.get_class() )
 		self.eventBus.emit( "DraggableReleased" , [ self.payloadObject , ev.position ] )
 		self.queue_free()
 

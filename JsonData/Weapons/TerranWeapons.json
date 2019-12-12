@@ -1,0 +1,74 @@
+{
+	"TerranPistol" : {
+		"itemKey" : "TerranPistol",
+		"itemMass" : 10,
+		"itemVolume" : 0.25 ,
+		"itemValue" : 100,
+		"itemDisplayName" : "Terran Pistol" , 
+		"itemDisplayNameShort" : "Pistol", 
+		"itemTexturePath" : "res://TextureBank/Items/Weapons/TerranPistol.jpg",
+		"itemTextureType" : 1,
+
+		"weaponActionKeys" : [ "TerranPistolDefault" ]
+	} , 
+	"TerranAssaultRifle" : {
+		"itemKey" : "TerranAssaultRifle",
+		"itemMass" : 20,
+		"itemVolume" : 0.5 ,
+		"itemValue" : 100,
+		"itemDisplayName" : "Terran Assault Rifle" , 
+		"itemDisplayNameShort" : "Rifle", 
+		"itemTexturePath" : "res://TextureBank/Items/Weapons/TerranAssaultRifle.jpg",
+		"itemTextureType" : 1,
+
+		"weaponActionKeys" : [ "TerranAssaultRifleDefault" ]
+	} ,
+	"TerranGravityHammer" : {
+		"itemKey" : "TerranGravityHammer",
+		"itemMass" : 30,
+		"itemVolume" : 1 ,
+		"itemValue" : 100,
+		"itemDisplayName" : "Terran Gravity Hammer" , 
+		"itemDisplayNameShort" : "Hammer", 
+		"itemTexturePath" : "res://TextureBank/Items/Weapons/TerranHammer.jpg",
+		"itemTextureType" : 1,
+
+		"weaponActionKeys" : [ "TerranGravityHammerDefault" ]
+	} ,
+	"TerranMinigun" : {
+		"itemKey" : "TerranMinigun",
+		"itemMass" : 50,
+		"itemVolume" : 1 ,
+		"itemValue" : 100,
+		"itemDisplayName" : "Minigun" , 
+		"itemDisplayNameShort" : "Terran Minigun", 
+		"itemTexturePath" : "res://TextureBank/Items/Weapons/TerranMinigun.jpg",
+		"itemTextureType" : 1,
+
+		"weaponActionKeys" : [ "TerranMinigunDefault" ]
+	} ,
+	"TerranShotgun" : {
+		"itemKey" : "TerranShotgun",
+		"itemMass" : 10,
+		"itemVolume" : 0.25 ,
+		"itemValue" : 100,
+		"itemDisplayName" : "Terran Shotgun Default" , 
+		"itemDisplayNameShort" : "Shotgun", 
+		"itemTexturePath" : "res://TextureBank/Items/Weapons/TerranShotgun.jpg",
+		"itemTextureType" : 1,
+
+		"weaponActionKeys" : [ "TerranShotgunDefault" ]
+	} ,
+	"TerranSword" : {
+		"itemKey" : "TerranSword",
+		"itemMass" : 10,
+		"itemVolume" : 0.25 ,
+		"itemValue" : 100,
+		"itemDisplayName" : "Terran Sword" , 
+		"itemDisplayNameShort" : "Sword", 
+		"itemTexturePath" : "res://TextureBank/Items/Weapons/TerranSword.jpg",
+		"itemTextureType" : 1,
+
+		"weaponActionKeys" : [ "TerranSwordDefault" ]
+	}
+}

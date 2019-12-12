@@ -43,7 +43,7 @@ func generateManyCrew( cp : int  , numOfCrew : int  ):
 func generateNewCrew( cp = 30 ):
 	var crewman = Crew.new()
 
-	crewman = self._rollTraits( crewman )
+	crewman = self._rollTraits( crewman , 30 )
 	crewman = self._rollCosmetics( crewman )
 	
 	crewman.calculateTraits()
@@ -53,10 +53,11 @@ func generateNewCrew( cp = 30 ):
 
 func _rollTalents():
 	pass
-	# TODO - once talents are implimented
 
-func _rollTraits( myCrewman : Crew ):
+func _rollTraits( myCrewman : Crew , cp = 30):
 	var statTotal = 0
+
+	myCrewman.cp = cp
 
 	while statTotal <= myCrewman.cp:
 		var rand = randi() % myCrewman.traits.size()
@@ -66,8 +67,10 @@ func _rollTraits( myCrewman : Crew ):
 		myCrewman.traits[stat].value = myCrewman.traits[stat].value + 1
 		statTotal += myCrewman.traits[stat].value
 	
+	# Crewman can potentially roll higher than their aviailable CP randomly. If that is true, that sets the value here.
 	myCrewman.cpSpent = statTotal
-	myCrewman.cp = statTotal
+	if( statTotal >= statTotal ):
+		myCrewman.cp = statTotal
 
 	return myCrewman
 

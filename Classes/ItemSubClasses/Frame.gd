@@ -2,35 +2,26 @@ extends Item
 
 class_name Frame
 
-var framePriTrait = null
-var frameSecTrait = null
-
+# Populated by Json
 var frameArmorValue = 1
-var frameArmorClass = "Light"
-var frameRarity = "COMMON"
+var frameClass = self.FRAME_CLASS.LIGHT
 
-# Assigned and owned only apply to the starship. Though this object could be used by enemy crew.
-var frameAssigned = 0
-var frameOwned = 0
+# FRAME_CLASS data
+var frameClassString = "Light Frame"
+var frameInitCost = 0
+var frameWeight = 1
 
-enum RARITY { COMMON , UNCOMMON , RARE , LEGENDARY , UNIQUE }
-const RARITY_DATA = {
-	"COMMON" 	: { "String" : "Common" 	,"Color" : Color(0 ,0 ,0 ,0) },
-	"UNCOMMON"	: { "String" : "Uncommon" 	,"Color" : Color(0 ,0 ,0 ,0) },
-	"RARE" 		: { "String" : "Rare" 		,"Color" : Color(0 ,0 ,0 ,0) },
-	"LEGENDARY" : { "String" : "Legendary" ,"Color" : Color(0 ,0 ,0 ,0) },
-	"UNIQUE" 	: { "String" : "Unique"		,"Color" : Color(0 ,0 ,0 ,0) }
-}
-
-const FRAME_CLASS = {
-	"LIGHT" : "Light" , 
-	"HEAVY" : "Heavy" , 
-	"MEDIUM" : "Medium" , 
-	"ASSAULT" : "Assault"
-}
+enum FRAME_CLASS { LIGHT, MEDIUM, HEAVY, ASSAULT }
+const FRAME_CLASS_DATA = [
+	{ "frameClassString" : "Light" , "frameInitCost" : 0 , "frameWeight" : 1}, 
+	{ "frameClassString" : "Heavy" , "frameInitCost"  : 2 , "frameWeight" : 2}, 
+	{ "frameClassString" : "Medium" , "frameInitCost" : 4 , "frameWeight" : 3},
+	{ "frameClassString" : "Assault"  , "frameInitCost" : 6 , "frameWeight" : 4}
+]
 
 func _init( key : String ):
 	self.itemKey = key
+	self.itemTextureType = self.TEXTURE_GRID_TYPE.COL
 
 # Overrides
 func get_class(): 
@@ -39,5 +30,10 @@ func get_class():
 func is_class( name : String ): 
 	return name == "Frame"
 
-func getRemaining():
-	return self.frameOwned - self.frameAssigned
+# TODO add sanity checks?
+func equip():
+	self.itemAssigned = self.itemAssigned + 1
+
+# TODO add sanity checks?
+func unequip():
+	self.itemAssigned = self.itemAssigned - 1

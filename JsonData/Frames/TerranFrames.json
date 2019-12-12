@@ -2,61 +2,53 @@
 	"TerranLightFrame" : {
 		"itemKey" : "TerranLightFrame",
 		"itemMass" : 25,
-		"itemWeight" : 1,
 		"itemVolume" : 1,
 		"itemValue" : 100,
 		"itemDisplayName" : "Terran Light Frame",
 		"itemDisplayNameShort" : "Light",
 		"itemTexturePath" : "res://TextureBank/Items/Frames/TerranLightFrame.jpg",
-		"framePriTrait" : "DEX",
-		"frameSecTrait" : "PER",
+		"itemRarity" : 0,
+
 		"frameArmorValue" : 1,
-		"frameArmorClass" : "LIGHT",
-		"frameRarity" : "COMMON"
+		"frameClass" : 0,
 	} , 
 	"TerranMediumFrame" : {
 		"itemKey" : "TerranMediumFrame",
 		"itemMass" : 50,
-		"itemWeight" : 2,
 		"itemVolume" : 1.25,
 		"itemValue" : 100,
 		"itemDisplayName" : "Terran Medium Frame",
 		"itemDisplayNameShort" : "Medium",
 		"itemTexturePath" : "res://TextureBank/Items/Frames/TerranMediumFrame.jpg",
-		"framePriTrait" : "DEX",
-		"frameSecTrait" : "PER",
+		"itemRarity" : 0,
+
 		"frameArmorValue" : 2,
-		"frameArmorClass" : "MEDIUM",
-		"frameRarity" : "COMMON"
+		"frameClass" : 1
 	} ,
 	"TerranHeavyFrame" : {
 		"itemKey" : "TerranHeavyFrame",
 		"itemMass" : 75,
-		"itemWeight" : 3,
 		"itemVolume" : 1.5,
 		"itemValue" : 100,
 		"itemDisplayName" : "Terran Heavy Frame",
 		"itemDisplayNameShort" : "Heavy",
 		"itemTexturePath" : "res://TextureBank/Items/Frames/TerranHeavyFrame.jpg",
-		"framePriTrait" : "STR",
-		"frameSecTrait" : "PER",
+		"itemRarity" : 0,
+
 		"frameArmorValue" : 3,
-		"frameArmorClass" : "HEAVY",
-		"frameRarity" : "COMMON"
+		"frameClass" : 2 ,
 	},
 	"TerranAssaultFrame" : {
 		"itemKey" : "TerranAssaultFrame",
 		"itemMass" : 100,
-		"itemWeight" : 4,
 		"itemVolume" : 2,
 		"itemValue" : 100,
 		"itemDisplayName" : "Terran Assault Frame",
 		"itemDisplayNameShort" : "Assault",
 		"itemTexturePath" : "res://TextureBank/Items/Frames/TerranAssaultFrame.jpg",
-		"framePriTrait" : "STR",
-		"frameSecTrait" : "PER",
+		"itemRarity" : 0,
+
 		"frameArmorValue" : 4,
-		"frameArmorClass" : "ASSAULT",
-		"frameRarity" : "COMMON"
+		"frameClass" : 3
 	}
 }

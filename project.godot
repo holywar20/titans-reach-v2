@@ -29,6 +29,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Classes/Crew.gd"
 }, {
+"base": "Panel",
+"class": "DragLock",
+"language": "GDScript",
+"path": "res://ReusableUI/DragLock/DragLock.gd"
+}, {
+"base": "Node",
+"class": "Equipment",
+"language": "GDScript",
+"path": "res://Classes/ItemSubClasses/Equipment.gd"
+}, {
 "base": "Node",
 "class": "EventBus",
 "language": "GDScript",
@@ -44,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Classes/Item.gd"
 }, {
+"base": "Node",
+"class": "ItemFactory",
+"language": "GDScript",
+"path": "res://Factories/ItemFactory.gd"
+}, {
 "base": "Node2D",
 "class": "Planet",
 "language": "GDScript",
@@ -58,18 +73,27 @@ _global_script_classes=[ {
 "class": "Starship",
 "language": "GDScript",
 "path": "res://Classes/Starship.gd"
+}, {
+"base": "Item",
+"class": "Weapon",
+"language": "GDScript",
+"path": "res://Classes/ItemSubClasses/Weapon.gd"
 } ]
 _global_script_class_icons={
 "Action": "",
 "Anomoly": "",
 "Console": "",
 "Crew": "",
+"DragLock": "",
+"Equipment": "",
 "EventBus": "",
 "Frame": "",
 "Item": "",
+"ItemFactory": "",
 "Planet": "",
 "Star": "",
-"Starship": ""
+"Starship": "",
+"Weapon": ""
 }
 
 [application]
@@ -82,12 +106,14 @@ config/icon="res://icon.png"
 
 Common="*res://Helpers/Common.gd"
 GameWorld="*res://GameState/GameWorld.gd"
-StarFactory="*res://Factories/StarFactory.gd"
 PlanetFactory="*res://Factories/PlanetFactory.gd"
+StarFactory="*res://Factories/StarFactory.gd"
 EventBusStore="*res://GameState/EventBusStore.gd"
 AnomolyFactory="*res://Factories/AnomolyFactory.gd"
 CrewFactory="*res://Factories/CrewFactory.gd"
-FrameFactory="*res://Factories/FrameFactory.gd"
+EquipmentFactory="*res://Factories/ItemFactories/EquipmentFactory.gd"
+FrameFactory="*res://Factories/ItemFactories/FrameFactory.gd"
+WeaponFactory="*res://Factories/ItemFactories/WeaponFactory.gd"
 
 [display]
 

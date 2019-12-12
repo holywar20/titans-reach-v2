@@ -1,8 +1,5 @@
 extends Node
 
-# TODO - Add in factory refs, and pass all objects we care about through chains of connected views
-# TODO - Then remove factories from the global namespace
-
 onready var UILayer 		= get_node( "UILayer" )
 onready var pauseLayer	= get_node( "PauseLayer" )
 onready var popupLayer	= get_node( "PopupLayer" )
@@ -30,7 +27,7 @@ const POPUPS = {
 
 var globalBus = null
 
-onready var playerGear = FrameFactory.generateDebugFrames()
+onready var playerGear = null
 onready var playerShip = Starship.new()
 onready var playerCrew = CrewFactory.generateManyCrew( 30 , 5 )
 
@@ -38,7 +35,21 @@ func _ready():
 	self.globalBus = EventBusStore.getGlobalEventBus()
 	self.loadScreen( "TITLE" )
 
+	self._generateDebugGear()
+
 	self.globalBus.register( "NewGame_Start_Begin" , self, 'startNewGame' )
+
+func _generateDebugGear():
+
+	self.playerGear = FrameFactory.generateDebugFrames()
+
+	var weapons = WeaponFactory.generateDebugWeapons()
+	for key in weapons:
+		self.playerGear[key] = weapons[key]
+
+	var equipment = EquipmentFactory.generateDebugEquipment()
+	for key in equipment:
+		self.playerGear[key] = equipment[key]
 
 func _clearSelf():
 	for child in self.gameLayer.get_children():

@@ -1,0 +1,55 @@
+{
+	"TerranShieldGenerator" : {
+		"itemKey" : "TerranShieldGenerator",
+		"itemMass" : 5,
+		"itemVolume" : 0.25 ,
+		"itemValue" : 100,
+		"itemDisplayName" : "Terran Shield Generator" , 
+		"itemDisplayNameShort" : "Shield", 
+		"itemTexturePath" : "res://TextureBank/Items/Equipment/TerranShieldGen.jpg",
+		"itemTextureType" : 1,
+		"itemCarryWeight" : 1,
+
+		"equipmentActionKeys" : [ "TerranShieldGeneratorDefault"]
+	} ,
+	"TerranMedKit" : {
+		"itemKey" : "TerranMedKit",
+		"itemMass" : 5,
+		"itemVolume" : 0.25 ,
+		"itemValue" : 100,
+		"itemDisplayName" : "Terran Medical Kit" , 
+		"itemDisplayNameShort" : "Medkit", 
+		"itemTexturePath" : "res://TextureBank/Items/Equipment/TerranHealthKit.jpg",
+		"itemTextureType" : 1,
+		"itemCarryWeight" : 1,
+
+		"equipmentActionKeys" : [ "TerranMedKitDefault" ]
+	}, 
+	"TerranFragGrenade" : {
+		"itemKey" : "TerranFragGrenade",
+		"itemMass" : 2,
+		"itemVolume" : 0.10 ,
+		"itemValue" : 100,
+		"itemDisplayName" : "Terran Pistol" , 
+		"itemDisplayNameShort" : "Frag", 
+		"itemTexturePath" : "res://TextureBank/Items/Equipment/TerranFragGrenade.jpg",
+		"itemTextureType" : 1 ,
+		"itemCarryWeight" : 1,
+	
+		"equipmentActionKeys" : [ "TerranFragGrenade" ]
+	},
+	"TerranEmpGrenade" :{
+		"itemKey" : "TerranEmpGrenade",
+		"itemMass" : 2,
+		"itemVolume" : 0.10 ,
+		"itemValue" : 100,
+		"itemDisplayName" : "Terran EMP Grenade" , 
+		"itemDisplayNameShort" : "EMP", 
+		"itemTexturePath" : "res://TextureBank/Items/Equipment/TerranEmpGrenade.jpg",
+		"itemTextureType" : 1,
+		"itemCarryWeight" : 1,
+
+		"equipmentActionKeys" : [ "TerranEmpGrenade" ]
+	}
+}
+

@@ -1,14 +1,13 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Views/Explore/UI/SubUI/Equipment.gd" type="Script" id=1]
 [ext_resource path="res://ReusableUI/VitalsCard/VitalsCard.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ReusableUI/TraitCard/TraitCard.tscn" type="PackedScene" id=3]
 [ext_resource path="res://ReusableUI/ResistanceCard/Resistance.tscn" type="PackedScene" id=4]
-[ext_resource path="res://ReusableUI/ItemCard/ItemCard.gd" type="Script" id=5]
-[ext_resource path="res://TextureBank/Interface/paperdoll.jpg" type="Texture" id=6]
-[ext_resource path="res://ReusableUI/DragLock/DragLock.tscn" type="PackedScene" id=7]
-[ext_resource path="res://ReusableUI/ItemCard/ItemCard.tscn" type="PackedScene" id=8]
-[ext_resource path="res://ReusableUI/ActionCard/ActionCard.tscn" type="PackedScene" id=9]
+[ext_resource path="res://TextureBank/Interface/paperdoll.jpg" type="Texture" id=5]
+[ext_resource path="res://ReusableUI/DragLock/DragLock.tscn" type="PackedScene" id=6]
+[ext_resource path="res://ReusableUI/ItemCard/ItemCard.tscn" type="PackedScene" id=7]
+[ext_resource path="res://ReusableUI/ActionCard/ActionCard.tscn" type="PackedScene" id=8]
 
 [node name="Equipment" type="PanelContainer" groups=[
 "SubUI",
@@ -51,7 +50,6 @@ margin_left = 334.0
 margin_right = 664.0
 margin_bottom = 800.0
 size_flags_horizontal = 3
-script = ExtResource( 5 )
 
 [node name="Crewman" type="HBoxContainer" parent="HBox/Center"]
 margin_right = 330.0
@@ -77,7 +75,6 @@ margin_bottom = 31.0
 text = "Next"
 
 [node name="Panel" type="Panel" parent="HBox/Center"]
-editor/display_folded = true
 margin_top = 35.0
 margin_right = 330.0
 margin_bottom = 535.0
@@ -85,57 +82,58 @@ rect_min_size = Vector2( 0, 500 )
 size_flags_stretch_ratio = 2.0
 
 [node name="TextureRect" type="TextureRect" parent="HBox/Center/Panel"]
-editor/display_folded = true
-margin_left = 33.1616
-margin_top = 13.5661
-margin_right = 380.162
-margin_bottom = 649.566
+margin_left = 38.1733
+margin_top = 93.1067
+margin_right = 383.173
+margin_bottom = 615.107
 rect_scale = Vector2( 0.75, 0.75 )
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
+expand = true
 stretch_mode = 1
 
-[node name="Wep1" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 7 )]
-margin_left = -36.2252
-margin_top = -10.1455
-margin_right = 63.7748
-margin_bottom = 89.8545
+[node name="LWeapon" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 6 )]
+margin_left = -42.3466
+margin_top = -111.854
+margin_right = 157.653
+margin_bottom = -11.854
 
-[node name="Wep2" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 7 )]
-margin_left = 288.685
-margin_top = -8.11607
-margin_right = 388.685
-margin_bottom = 91.8839
+[node name="RWeapon" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 6 )]
+margin_left = 180.605
+margin_top = -111.663
+margin_right = 380.605
+margin_bottom = -11.6629
 
-[node name="Lock4" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 7 )]
-margin_left = -8.08813
-margin_top = 462.155
-margin_right = 91.9119
-margin_bottom = 562.155
+[node name="Frame" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 6 )]
+margin_left = 129.422
+margin_top = 95.6533
+margin_right = 229.422
+margin_bottom = 299.653
 
-[node name="Lock5" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 7 )]
-margin_left = 132.597
-margin_top = 285.294
-margin_right = 232.597
-margin_bottom = 385.294
+[node name="REquip" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 6 )]
+margin_left = 285.602
+margin_top = 351.185
+margin_right = 385.602
+margin_bottom = 451.185
 
-[node name="Lock6" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 7 )]
-margin_left = 138.627
-margin_top = 548.576
-margin_right = 238.627
-margin_bottom = 648.576
+[node name="CEquip" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 6 )]
+margin_left = 135.396
+margin_top = 425.229
+margin_right = 235.396
+margin_bottom = 525.229
 
-[node name="Lock7" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 7 )]
-margin_left = 271.273
-margin_top = 458.136
-margin_right = 371.273
-margin_bottom = 558.136
+[node name="LEquip" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 6 )]
+margin_left = -32.2846
+margin_top = 363.878
+margin_right = 67.7154
+margin_bottom = 463.878
 
-[node name="ItemCard" parent="HBox/Center" instance=ExtResource( 8 )]
+[node name="ItemCard" parent="HBox/Center" instance=ExtResource( 7 )]
+visible = false
 margin_top = 539.0
 margin_right = 330.0
 margin_bottom = 799.0
 
-[node name="ActionCard" parent="HBox/Center" instance=ExtResource( 9 )]
+[node name="ActionCard" parent="HBox/Center" instance=ExtResource( 8 )]
 visible = false
 margin_top = 803.0
 margin_right = 330.0
@@ -167,8 +165,12 @@ margin_top = 70.0
 margin_right = 332.0
 margin_bottom = 287.0
 size_flags_vertical = 3
-max_columns = 3
+allow_reselect = true
+max_columns = 2
 same_column_width = true
+fixed_column_width = 140
+icon_mode = 0
+fixed_icon_size = Vector2( 128, 64 )
 
 [node name="Frames" type="Button" parent="HBox/Right"]
 margin_top = 291.0
@@ -182,11 +184,11 @@ margin_right = 332.0
 margin_bottom = 543.0
 size_flags_vertical = 3
 allow_reselect = true
-max_text_lines = 2
 max_columns = 4
 same_column_width = true
-fixed_column_width = 75
+fixed_column_width = 70
 icon_mode = 0
+fixed_icon_size = Vector2( 64, 128 )
 
 [node name="Equipment" type="Button" parent="HBox/Right"]
 margin_top = 547.0
@@ -199,6 +201,14 @@ margin_top = 582.0
 margin_right = 332.0
 margin_bottom = 800.0
 size_flags_vertical = 3
-max_columns = 6
-[connection signal="item_activated" from="HBox/Right/FrameGrid" to="." method="_onFrameGridItemActivate"]
-[connection signal="item_selected" from="HBox/Right/FrameGrid" to="." method="_onFrameGridItemActivate"]
+allow_reselect = true
+max_columns = 4
+same_column_width = true
+fixed_column_width = 70
+icon_mode = 0
+fixed_icon_size = Vector2( 64, 64 )
+[connection signal="pressed" from="HBox/Center/Crewman/Prev" to="." method="_onPrevPressed"]
+[connection signal="pressed" from="HBox/Center/Crewman/Next" to="." method="_onNextPressed"]
+[connection signal="gui_input" from="HBox/Right/WeaponGrid" to="." method="_onWeaponGridGuiInput"]
+[connection signal="gui_input" from="HBox/Right/FrameGrid" to="." method="_onFrameGridGuiInput"]
+[connection signal="gui_input" from="HBox/Right/EquipmentGrid" to="." method="_onEquipmentGridGuiInput"]

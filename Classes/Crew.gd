@@ -26,9 +26,8 @@ var dead = false
 var texturePath = null
 var smallTexturePath = null
 
-# TODO - Old way of doing shit. 
-var weightCapacity = 3
-var weight = 0
+var carryWeightCapacity = 3
+var carryWeight = 0
 
 # store off all this users abilities
 var basicActions = []
@@ -42,17 +41,14 @@ var temporaryPassives = {}
 var primaryTree = null
 var secondaryTree = null
 
-# TODO - slot this equipment instead of just listing it.
-var equimentSlots = 3
-var equipment = []
+var gear = {
+	"Frame" : null,
+	"Wep1" : null,  "Wep2" : null , 
+	"Equip1" : null , "Equip2" : null , "Equip3" : null
+}
 
-var weaponSlots = 2
-var weapons = []
-
-var armorSlots = 1
-var armor = []
-
-
+# TODO make this an enum index
+# enum TRAITS { NONE , STR , DEX , PER, INT, CHA }
 const TRAITS = {
 	"CHA" : "Charisma" , "INT" : "Intelligence" , "DEX" : "Dexerity" ,  "STR" : "Strength" , "PER" : "Perception"
 }
@@ -144,7 +140,7 @@ func calculateDerivedStats( newCharacter = false ):
 	for key in self.traits:
 		self.traits[key].total = self.traits[key].mod + self.traits[key].value
 	
-	self.weightCapacity = BASE_WEIGHT + self.traits.STR.total
+	self.carryWeightCapacity = BASE_WEIGHT + self.traits.STR.total
 	
 	self.hp.total = BASE_HP + self.hp.mod + self.traits.STR.total
 	self.morale.total = BASE_MORALE + self.morale.mod + self.traits.CHA.total
@@ -182,17 +178,47 @@ func _calculateResists():
 	self.resists.CHA.Lock.total 		= self.resists.CHA.Lock.value 	+ self.resists.CHA.Lock.mod
 	self.resists.CHA.Slow.total 		= self.resists.CHA.Slow.value 	+ self.resists.CHA.Slow.mod
 
-func canEquipItem( item ):
-	# TODO - impliment
-	pass 
+func getFrame():
+	return self.gear.Frame
 
-func equipEquipment( item ):
-	# TODO - impliment
+func isFrameEquipable( frame: Frame ):
+	var potentialNewWeight = 0
+	if( self.gear.Frame ): # If a frame is equiped
+		potentialNewWeight = ( frame.itemCarryWeight + self.carryWeight ) - frame.itemCarryWeight
+	else:
+		potentialNewWeight = ( frame.itemCarryWeight + self.carryWeight )
+	
+	if( potentialNewWeight >= self.carryWeightCapacity ):
+		return false
+	else:
+		return true
+
+func equipFrame( frame: Frame ):
+	var equipable = isFrameEquipable( frame )
+
+	if( equipable ): # This is like a transaction. It must all happen here or not at all. TODO - make more robust.
+		var oldFrame = self.gear.Frame
+		self.gear.Frame = frame
+
+		if( oldFrame ):
+			oldFrame.unequip()
+
+		return true
+	
+	return false
+
+func isWeaponEquipable( weapon : Weapon ):
 	pass
 
-func removeEquipment( item ):
-	# TODO - impliment
+func equipWeapon():
 	pass
+
+func equipEquipment():
+	pass
+
+func isEquipmentEquipable( equipment : Equipment ):
+	pass
+
 
 func getPrimaryTreeString():
 	if ( self.primaryTree ) :
@@ -252,7 +278,7 @@ func getWeightStatBlock():
 	return self.charWeight.duplicate()
 
 func getWeightString():
-	return str(self.weight) + " / " + str(self.weightCapacity)
+	return str( self.carryWeight ) + " / " + str(self.carryWeightCapacity)
 
 func getBonus( primaryTrait, secondaryTrait ):
 	return self.traits[primaryTrait].total + ( self.traits[secondaryTrait].total / 2 )
