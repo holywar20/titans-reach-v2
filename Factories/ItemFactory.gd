@@ -28,7 +28,6 @@ func _loadData():
 		# loop though array, open each Json, and apply that dictionary
 		# Note - this dictionary is only raw data, and doens't turn into objects until
 		# other factory methods are called.
-		print( "Files" , files )
 		for fileName in files:
 			var path = self.itemFolder + fileName
 			var file = File.new()
@@ -39,7 +38,6 @@ func _loadData():
 			var dict = json.get_result()
 
 			for key in dict:
-				print("Keys" , key )
 				self.dataDictionary[key] = dict[key]
 	else:
 		print("Files for FrameFactory didn't load. Something went wrong.")

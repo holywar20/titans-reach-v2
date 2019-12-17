@@ -16,7 +16,7 @@ func setupScene( eventBus : EventBus , consoleName : String ):
 
 func addConsole( console : Console ):
 	var lock = dragLockScene.instance()
-	lock.setupScene( self.eventBus  , console , lock.RELATIONSHIPS.CREW_CONSOLE , console.consoleName )
+	lock.setupScene( self.eventBus  , console , lock.RELATIONSHIPS.CREW_CONSOLE , console.consoleName , console.consoleName )
 	
 	self.nodes.Consoles.add_child( lock )
 

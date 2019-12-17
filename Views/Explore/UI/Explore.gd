@@ -32,13 +32,11 @@ const EXPLORE_EVENTS = [
 	# Called on the _ready function of the Explore Page
 	"CelestialsLoadingOnMap" 	, "CelestialsLoadedOnMap",
 
-	# Draggable events, fired by a draggable object 
-	"DraggableCreated", "DraggableReleased",
-	# Events fired by drag lock
-	"DraggableAccepted", "DraggableRejected",
+	# Draggable events, fired by a draggable object or Draglock
+	"DraggableCreated", "DraggableReleased", "DraggableMatched",
 	
-	# Change events, where some data has been modified by the UI that other objects may care about. 
-	"CrewAssignmentChanged",
+	# Events fired by UI elements that indicate succesful data changes, that other UI elements might care about.
+	"CrewmanAssigned",
 
 	# Interactable Collision Events , emitted by the players ship
 	"AnomolyEntered"		, "AnomolyExited",

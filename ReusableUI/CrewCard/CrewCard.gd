@@ -40,7 +40,7 @@ func _ready():
 func _gui_input ( guiEvent : InputEvent ):
 	if( guiEvent.is_action_pressed( "GUI_SELECT" ) ):
 		self._createDraggable( guiEvent )
-		self.eventBus.emit("CrewmanSelected" , [ self.crewman ] )
+		self.eventBus.emit( "CrewmanSelected" , [ self.crewman ] )
 
 func _createDraggable( guiEvent : InputEvent ):
 	var draggableScene = load( self.DRAGGABLE_SCENE_PATH )
@@ -50,4 +50,5 @@ func _createDraggable( guiEvent : InputEvent ):
 
 	var draggableLayer = get_node( Common.DRAGGABLE_LAYER )
 	draggableLayer.add_child( draggable )
+	self.eventBus.emit( "DraggableCreated" , [ self.crewman , null ] )
 

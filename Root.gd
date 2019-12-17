@@ -88,7 +88,7 @@ func loadScreen( screenName ):
 	
 	if( !self.VIEWS.has( screenName ) ):
 		# fire an error
-		print("error: ", screenName )
+		print("Loading Error , VIEW doesn't exist in root: ", screenName )
 		return null
 	else:
 		match screenName:

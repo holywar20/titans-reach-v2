@@ -58,3 +58,9 @@ func getItemValueDisplay():
 
 func getRemaining():
 	return self.itemOwned - self.itemAssigned
+
+func addToAssigned():
+	self.itemAssigned = self.itemAssigned + 1
+
+func subFromAssigned():
+	self.itemAssigned = self.itemAssigned - 1

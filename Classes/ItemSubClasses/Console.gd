@@ -34,16 +34,35 @@ func get_class():
 func is_class( name : String ): 
 	return name == "Console"
 
-func assignCrewman( crewman = null ):
-	var oldCrewman = self.consoleAssignedCrewman
-	self.consoleAssignedCrewman = crewman
+func crewTransaction( newCrewman = null , sourceConsole = null ):
+	var isValid = self.validateCrewmanAssignment( newCrewman )
 	
-	if( oldCrewman ):
-		oldCrewman.assign()
+	if( isValid ):
+		var currentCrewman = self.consoleAssignedCrewman
+		self._assignCrewman( newCrewman )
 
-	if( crewman ):
-		crewman.assign( self )
+		if( sourceConsole ):
+			sourceConsole._assignCrewman( currentCrewman )
+
+		if( currentCrewman ):
+			currentCrewman.assign( sourceConsole )
+		
+		if( newCrewman ):
+			newCrewman.assign( self )
+	
+	return isValid
+
+# TODO - validate that assignment is acceptable
+func validateCrewmanAssignment( crewman ):
+	return true 
+
+func _assignCrewman( crewman = null ):
+	self.consoleAssignedCrewman = crewman
+	return true 
 
 func isAssignable( crewman : Crew ) -> String :
 	# TODO add any testing we might need to do
 	return self.ASSIGNABLE
+
+func getAssignedCrewman():
+	return self.consoleAssignedCrewman

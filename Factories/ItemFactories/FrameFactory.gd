@@ -4,7 +4,7 @@ func _ready():
 	self.itemFolder = "res://JsonData/Frames/"
 	self._loadData()
 
-func generateFrameObject( key : String,  numberToGenerate : int = 0 ):
+func generateFrameObject( key : String,  numberToGenerate : int = 0 , rarity = null ):
 	
 	if( !self.dataDictionary.has( key ) ):
 		print("Frame key of " + key + " is missing")
@@ -19,15 +19,17 @@ func generateFrameObject( key : String,  numberToGenerate : int = 0 ):
 
 	newFrame.itemOwned = numberToGenerate
 
-	# set any metadata specific to frames & Equipment
+	# set any metadata specific to Frames that isn't loaded via dictionary
 	newFrame.itemIsCrewEquipable = true
 
-	# Now index into the dictionary constant and populate those values
+	# Now index into the frame dictionary and populate those values
 	var constVals = newFrame.FRAME_CLASS_DATA[newFrame.frameClass]
 	for key in constVals:
 		newFrame[key] = constVals[key] 
 
-	# TODO - if not common, roll any random attributes. OR potentially set them manually in code.
+	if( rarity ):
+		pass
+		# TODO - if not common, roll any random attributes. OR potentially set them manually in code.
 	
 	return newFrame
 

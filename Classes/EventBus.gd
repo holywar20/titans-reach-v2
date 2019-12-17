@@ -36,7 +36,7 @@ func emit( eventName : String , p = [] ):
 # TODO - Godot permits the connection to functions that don't exist. We could add some sanity checking here. 
 # I should impliment logging first, so we have a place to dump non-fatal errors rather than just a print statment.
 func register( eventName: String , ref : Node , functionName : String ):
-	print("Registering for event , " , eventName )
+	# print("Registering for event , " , eventName )
 	self.events[eventName] = events[eventName] + 1
 	self.connect( eventName , ref , functionName )
 

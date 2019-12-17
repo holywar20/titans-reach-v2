@@ -26,9 +26,6 @@ var dead = false
 var texturePath = null
 var smallTexturePath = null
 
-var carryWeightCapacity = 3
-var carryWeight = 0
-
 # store off all this users abilities
 var basicActions = []
 var actions = []
@@ -42,9 +39,7 @@ var primaryTree = null
 var secondaryTree = null
 
 var gear = {
-	"Frame" : null,
-	"Wep1" : null,  "Wep2" : null , 
-	"Equip1" : null , "Equip2" : null , "Equip3" : null
+	"Frame" : null, "LWeapon" : null,  "RWeapon" : null , "CEquip" : null , "LEquip" : null , "REquip" : null
 }
 
 # TODO make this an enum index
@@ -61,7 +56,7 @@ var traits = {
 	'INT' : { "name" : "INT", "fullName": "Intelligence", "value": 0, "total" : 0 , "equip" : 0 , "talent": 0 ,"mod" : 0 }
 }
 
-var charWeight = { "value": 4, "total" : 4 , "mod" : 0 , 'current' : 4 }
+var carryWeight = { "value": 0, "total" : 0 , "mod" : 0 , 'current' : 0 }
 var hp = { "value": 18, "total" : 18 , "mod" : 0 , 'current' : 0 }
 var morale = { "value": 18, "total" : 18 , "mod" : 0  , 'current': 0}
 
@@ -128,26 +123,73 @@ func _buildBasicActions():
 func _ready():
 	pass
 
+func _validateItemTransaction( item , itemSlot ):
+	
+	# TODO - Maybe post an error message on the crewman object which we can query later?
+	var isValid = true
+
+	if( ( item.itemCarryWeight + self.carryWeight.current ) > self.carryWeight.total  ):
+		isValid = false 
+	
+	if( item.getRemaining() <= 0 ): # not enough of the item
+		isValid = false
+	# TODO - maybe restrictions for various kinds of status effects?
+	
+	return isValid
+
+func itemTransaction( item , itemSlot , sourceItemSlot ):
+	var isValid = true
+	if( item ):
+		isValid = self._validateItemTransaction( item , itemSlot )
+
+	if( isValid ):
+		# First figure out the old item.
+		var oldItem = self.assignItem( item, itemSlot )
+		
+		if( sourceItemSlot ):
+			self.assignItem( oldItem , itemSlot )
+
+		if( oldItem && !sourceItemSlot ):
+			oldItem.subFromAssigned()
+
+		if( item ):
+			item.addToAssigned()
+		
+		self.calculateDerivedStats()
+		
+	return isValid
+
+func assignItem( item, itemSlot ):
+	var oldItem = self.gear[itemSlot]
+	self.gear[itemSlot] = item
+
+	return oldItem
+
 func calculateTraits():
 	for key in self.traits:
 		self.traits[key].total = self.traits[key].value + self.traits[key].mod
 
+func calculateCarryWeight():
+	self.carryWeight.total = BASE_WEIGHT + self.carryWeight.mod + self.traits.STR.total
+	
+	var current = 0
+	for key in self.gear:
+		if( self.gear[key] ):
+			current = current + gear[key].itemCarryWeight
+		
+	self.carryWeight.current = current
+
 func calculateDerivedStats( newCharacter = false ):
 	
+	# Process passives
 	for p in passives:
 		pass # TODO : add ability to go through items and modify MODS.
 	
-	for key in self.traits:
-		self.traits[key].total = self.traits[key].mod + self.traits[key].value
-	
-	self.carryWeightCapacity = BASE_WEIGHT + self.traits.STR.total
-	
+	self.calculateTraits()
+	self.calculateCarryWeight()
+
 	self.hp.total = BASE_HP + self.hp.mod + self.traits.STR.total
 	self.morale.total = BASE_MORALE + self.morale.mod + self.traits.CHA.total
-	
-	if( newCharacter ):
-		self.hp.current = self.hp.total
-		self.morale.current = self.morale.total
 
 	self._calculateResists()
 
@@ -178,59 +220,8 @@ func _calculateResists():
 	self.resists.CHA.Lock.total 		= self.resists.CHA.Lock.value 	+ self.resists.CHA.Lock.mod
 	self.resists.CHA.Slow.total 		= self.resists.CHA.Slow.value 	+ self.resists.CHA.Slow.mod
 
-func getFrame():
-	return self.gear.Frame
-
-func isFrameEquipable( frame: Frame ):
-	var potentialNewWeight = 0
-	if( self.gear.Frame ): # If a frame is equiped
-		potentialNewWeight = ( frame.itemCarryWeight + self.carryWeight ) - frame.itemCarryWeight
-	else:
-		potentialNewWeight = ( frame.itemCarryWeight + self.carryWeight )
-	
-	if( potentialNewWeight >= self.carryWeightCapacity ):
-		return false
-	else:
-		return true
-
-func equipFrame( frame: Frame ):
-	var equipable = isFrameEquipable( frame )
-
-	if( equipable ): # This is like a transaction. It must all happen here or not at all. TODO - make more robust.
-		var oldFrame = self.gear.Frame
-		self.gear.Frame = frame
-
-		if( oldFrame ):
-			oldFrame.unequip()
-
-		return true
-	
-	return false
-
-func isWeaponEquipable( weapon : Weapon ):
-	pass
-
-func equipWeapon():
-	pass
-
-func equipEquipment():
-	pass
-
-func isEquipmentEquipable( equipment : Equipment ):
-	pass
-
-
-func getPrimaryTreeString():
-	if ( self.primaryTree ) :
-		return self.primaryTree.treeName
-	else:
-		return "No tree assigned."; 
-
-func getSecondaryTreeString():
-	if( self.secondaryTree ):
-		return self.secondaryTree.treeName
-	else:
-		return "No tree Assigned.";
+func getGearAt( key : String ):
+	return self.gear[key]
 
 func getNickName():
 	return self.fullname[1]
@@ -263,22 +254,22 @@ func getSexString():
 	return self.sex
 
 func getHPStatBlock():
-	return self.hp.duplicate()
+	return self.hp
 
 func getHitPointString():
 	return str(self.hp.current) + " / " + str(self.hp.total)
 
 func getMoraleStatBlock():
-	return self.morale.duplicate()
+	return self.morale
 
 func getMoraleString():
 	return str(self.morale.current) + " / " + str(self.morale.total)
 
 func getWeightStatBlock():
-	return self.charWeight.duplicate()
+	return self.carryWeight
 
 func getWeightString():
-	return str( self.carryWeight ) + " / " + str(self.carryWeightCapacity)
+	return str( self.carryWeight.current ) + " / " + str(self.carryWeight.total )
 
 func getBonus( primaryTrait, secondaryTrait ):
 	return self.traits[primaryTrait].total + ( self.traits[secondaryTrait].total / 2 )

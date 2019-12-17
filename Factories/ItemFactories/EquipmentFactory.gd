@@ -6,7 +6,7 @@ func _ready():
 
 func generateEquipmentObject( key: String , numberToGenerate: int = 0 ):
 	if( !self.dataDictionary.has( key ) ):
-		print("Frame key of " + key + " is missing")
+		print("Equipment key of " + key + " is missing")
 		return null
 	
 	var itemDict = self.dataDictionary[key]

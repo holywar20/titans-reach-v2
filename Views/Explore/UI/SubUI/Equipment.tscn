@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Views/Explore/UI/SubUI/Equipment.gd" type="Script" id=1]
 [ext_resource path="res://ReusableUI/VitalsCard/VitalsCard.tscn" type="PackedScene" id=2]
@@ -6,8 +6,11 @@
 [ext_resource path="res://ReusableUI/ResistanceCard/Resistance.tscn" type="PackedScene" id=4]
 [ext_resource path="res://TextureBank/Interface/paperdoll.jpg" type="Texture" id=5]
 [ext_resource path="res://ReusableUI/DragLock/DragLock.tscn" type="PackedScene" id=6]
-[ext_resource path="res://ReusableUI/ItemCard/ItemCard.tscn" type="PackedScene" id=7]
-[ext_resource path="res://ReusableUI/ActionCard/ActionCard.tscn" type="PackedScene" id=8]
+[ext_resource path="res://TextureBank/Items/Weapons/TerranPistol.jpg" type="Texture" id=7]
+[ext_resource path="res://TextureBank/Items/Equipment/TerranFragGrenade.jpg" type="Texture" id=8]
+[ext_resource path="res://TextureBank/Items/Frames/TerranLightFrame.jpg" type="Texture" id=9]
+[ext_resource path="res://ReusableUI/ItemCard/ItemCard.tscn" type="PackedScene" id=10]
+[ext_resource path="res://ReusableUI/ActionCard/ActionCard.tscn" type="PackedScene" id=11]
 
 [node name="Equipment" type="PanelContainer" groups=[
 "SubUI",
@@ -25,7 +28,6 @@ margin_bottom = 800.0
 size_flags_vertical = 3
 
 [node name="Left" type="VBoxContainer" parent="HBox"]
-editor/display_folded = true
 margin_right = 330.0
 margin_bottom = 800.0
 size_flags_horizontal = 3
@@ -44,6 +46,12 @@ margin_bottom = 293.0
 margin_top = 297.0
 margin_right = 330.0
 margin_bottom = 582.0
+
+[node name="Button" type="Button" parent="HBox/Left"]
+margin_top = 586.0
+margin_right = 330.0
+margin_bottom = 617.0
+text = "Remove All Equipment"
 
 [node name="Center" type="VBoxContainer" parent="HBox"]
 margin_left = 334.0
@@ -82,58 +90,116 @@ rect_min_size = Vector2( 0, 500 )
 size_flags_stretch_ratio = 2.0
 
 [node name="TextureRect" type="TextureRect" parent="HBox/Center/Panel"]
-margin_left = 38.1733
-margin_top = 93.1067
-margin_right = 383.173
-margin_bottom = 615.107
-rect_scale = Vector2( 0.75, 0.75 )
+margin_left = 13.0
+margin_top = 18.0
+margin_right = 318.0
+margin_bottom = 484.0
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 1
 
-[node name="LWeapon" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 6 )]
-margin_left = -42.3466
-margin_top = -111.854
-margin_right = 157.653
-margin_bottom = -11.854
+[node name="LWeapon" parent="HBox/Center/Panel" groups=[
+"WeaponDragLock",
+] instance=ExtResource( 6 )]
+margin_left = 2.0
+margin_top = 5.0
+margin_right = 142.0
+margin_bottom = 105.0
+holdsClass = "Weapon"
+isClass = "Crew"
+textureSize = Vector2( 128, 64 )
+lockSize = Vector2( 140, 85 )
+displayName = "Weapon"
+firesEvent = "WeaponAssigned"
+lockName = "LWeapon"
+defaultTexture = ExtResource( 7 )
 
-[node name="RWeapon" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 6 )]
-margin_left = 180.605
-margin_top = -111.663
-margin_right = 380.605
-margin_bottom = -11.6629
+[node name="RWeapon" parent="HBox/Center/Panel" groups=[
+"WeaponDragLock",
+] instance=ExtResource( 6 )]
+margin_left = 200.0
+margin_top = 5.0
+margin_right = 328.0
+margin_bottom = 105.0
+holdsClass = "Weapon"
+isClass = "Crew"
+textureSize = Vector2( 64, 64 )
+lockSize = Vector2( 128, 64 )
+displayName = "Weapon"
+firesEvent = "WeaponAssigned"
+lockName = "RWeapon"
+defaultTexture = ExtResource( 7 )
 
-[node name="Frame" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 6 )]
-margin_left = 129.422
-margin_top = 95.6533
-margin_right = 229.422
-margin_bottom = 299.653
+[node name="REquip" parent="HBox/Center/Panel" groups=[
+"EquipDragLock",
+] instance=ExtResource( 6 )]
+margin_left = 206.0
+margin_top = 315.0
+margin_right = 281.0
+margin_bottom = 415.0
+rect_rotation = -27.6744
+holdsClass = "Equipment"
+isClass = "Crew"
+textureSize = Vector2( 64, 64 )
+displayName = "Equip."
+firesEvent = "EquipmentAssigned"
+lockName = "REquip"
+defaultTexture = ExtResource( 8 )
 
-[node name="REquip" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 6 )]
-margin_left = 285.602
-margin_top = 351.185
-margin_right = 385.602
-margin_bottom = 451.185
+[node name="CEquip" parent="HBox/Center/Panel" groups=[
+"EquipDragLock",
+] instance=ExtResource( 6 )]
+margin_left = 126.0
+margin_top = 345.0
+margin_right = 201.0
+margin_bottom = 445.0
+holdsClass = "Equipment"
+isClass = "Crew"
+textureSize = Vector2( 64, 64 )
+displayName = "Equip."
+firesEvent = "EquipmentAssigned"
+lockName = "CEquip"
+defaultTexture = ExtResource( 8 )
 
-[node name="CEquip" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 6 )]
-margin_left = 135.396
-margin_top = 425.229
-margin_right = 235.396
-margin_bottom = 525.229
+[node name="LEquip" parent="HBox/Center/Panel" groups=[
+"EquipDragLock",
+] instance=ExtResource( 6 )]
+margin_left = 46.0
+margin_top = 285.0
+margin_right = 121.0
+margin_bottom = 385.0
+rect_rotation = 20.4507
+holdsClass = "Equipment"
+isClass = "Crew"
+textureSize = Vector2( 64, 64 )
+displayName = "Equip."
+firesEvent = "EquipmentAssigned"
+lockName = "LEquip"
+defaultTexture = ExtResource( 8 )
 
-[node name="LEquip" parent="HBox/Center/Panel/TextureRect" instance=ExtResource( 6 )]
-margin_left = -32.2846
-margin_top = 363.878
-margin_right = 67.7154
-margin_bottom = 463.878
+[node name="Frame" parent="HBox/Center/Panel" groups=[
+"FrameDragLock",
+] instance=ExtResource( 6 )]
+margin_left = 126.0
+margin_top = 165.0
+margin_right = 201.0
+margin_bottom = 325.0
+holdsClass = "Frame"
+isClass = "Crew"
+textureSize = Vector2( 128, 64 )
+lockSize = Vector2( 75, 160 )
+displayName = "Frame"
+firesEvent = "FrameAssigned"
+lockName = "Frame"
+defaultTexture = ExtResource( 9 )
 
-[node name="ItemCard" parent="HBox/Center" instance=ExtResource( 7 )]
+[node name="ItemCard" parent="HBox/Center" instance=ExtResource( 10 )]
 visible = false
 margin_top = 539.0
 margin_right = 330.0
 margin_bottom = 799.0
 
-[node name="ActionCard" parent="HBox/Center" instance=ExtResource( 8 )]
+[node name="ActionCard" parent="HBox/Center" instance=ExtResource( 11 )]
 visible = false
 margin_top = 803.0
 margin_right = 330.0

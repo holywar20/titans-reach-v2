@@ -31,7 +31,7 @@ valign = 1
 [node name="Scroll" type="ScrollContainer" parent="Main/Left"]
 margin_top = 35.0
 margin_right = 332.0
-margin_bottom = 800.0
+margin_bottom = 596.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
@@ -44,7 +44,6 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="CrewTraitDetail" parent="Main/Left" instance=ExtResource( 2 )]
-visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 600.0
