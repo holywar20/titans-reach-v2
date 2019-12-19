@@ -19,12 +19,16 @@ func setupScene( eventBus : EventBus, crewman : Crew ):
 	self.crewman = crewman
 
 func _ready():
+	if( self.crewman ):
+		self.loadData()
+
+func loadData():
 	self.nodes.Name.set_text( self.crewman.getFullName() )
 	
 	var texture = load( self.crewman.smallTexturePath )
 	if( texture ):
 		self.nodes.Character.set_texture( texture )
-
+	
 	var hp = crewman.getHPStatBlock()
 
 	self.nodes.HpBar.set_max( hp.total )

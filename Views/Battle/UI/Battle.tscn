@@ -1,0 +1,334 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Views/Battle/UI/Battle.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://ReusableUI/CrewCard/CrewCard.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ReusableUI/TraitCard/TraitCard.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ReusableUI/ResistanceCard/Resistance.tscn" type="PackedScene" id=5]
+
+[node name="Control" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="Footer" type="PanelContainer" parent="."]
+margin_right = 1920.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
+
+[node name="TrackerContainer" type="HBoxContainer" parent="."]
+editor/display_folded = true
+margin_top = 54.0
+margin_right = 1920.0
+margin_bottom = 118.0
+
+[node name="Control" type="Control" parent="TrackerContainer"]
+margin_right = 686.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Tracker" type="HBoxContainer" parent="TrackerContainer"]
+editor/display_folded = true
+margin_left = 690.0
+margin_right = 1230.0
+margin_bottom = 64.0
+
+[node name="TextureRect" type="TextureRect" parent="TrackerContainer/Tracker"]
+margin_right = 64.0
+margin_bottom = 64.0
+texture = ExtResource( 2 )
+
+[node name="TextureRect2" type="TextureRect" parent="TrackerContainer/Tracker"]
+margin_left = 68.0
+margin_right = 132.0
+margin_bottom = 64.0
+texture = ExtResource( 2 )
+
+[node name="TextureRect3" type="TextureRect" parent="TrackerContainer/Tracker"]
+margin_left = 136.0
+margin_right = 200.0
+margin_bottom = 64.0
+texture = ExtResource( 2 )
+
+[node name="TextureRect4" type="TextureRect" parent="TrackerContainer/Tracker"]
+margin_left = 204.0
+margin_right = 268.0
+margin_bottom = 64.0
+texture = ExtResource( 2 )
+
+[node name="TextureRect5" type="TextureRect" parent="TrackerContainer/Tracker"]
+margin_left = 272.0
+margin_right = 336.0
+margin_bottom = 64.0
+texture = ExtResource( 2 )
+
+[node name="TextureRect6" type="TextureRect" parent="TrackerContainer/Tracker"]
+margin_left = 340.0
+margin_right = 404.0
+margin_bottom = 64.0
+texture = ExtResource( 2 )
+
+[node name="TextureRect7" type="TextureRect" parent="TrackerContainer/Tracker"]
+margin_left = 408.0
+margin_right = 472.0
+margin_bottom = 64.0
+texture = ExtResource( 2 )
+
+[node name="TextureRect8" type="TextureRect" parent="TrackerContainer/Tracker"]
+margin_left = 476.0
+margin_right = 540.0
+margin_bottom = 64.0
+texture = ExtResource( 2 )
+
+[node name="Control2" type="Control" parent="TrackerContainer"]
+margin_left = 1234.0
+margin_right = 1920.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+editor/display_folded = true
+margin_top = 122.0
+margin_right = 1920.0
+margin_bottom = 722.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 300.0
+margin_bottom = 600.0
+
+[node name="TopSpacer" type="Control" parent="HBoxContainer/VBoxContainer"]
+margin_right = 300.0
+margin_bottom = 210.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Instants Container" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 214.0
+margin_right = 300.0
+margin_bottom = 385.0
+rect_min_size = Vector2( 300, 0 )
+
+[node name="VBox" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container"]
+margin_right = 300.0
+margin_bottom = 171.0
+size_flags_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container/VBox"]
+editor/display_folded = true
+margin_right = 300.0
+margin_bottom = 31.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/HBoxContainer"]
+margin_right = 268.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "Instants"
+align = 1
+
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/HBoxContainer"]
+margin_left = 272.0
+margin_right = 300.0
+margin_bottom = 31.0
+text = " X "
+
+[node name="InstantBase" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container/VBox"]
+margin_top = 35.0
+margin_right = 300.0
+margin_bottom = 171.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase"]
+editor/display_folded = true
+margin_right = 300.0
+margin_bottom = 31.0
+
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer"]
+margin_right = 259.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "In Defiance of Destiny"
+align = 0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer"]
+self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
+margin_left = 263.0
+margin_right = 279.0
+margin_bottom = 31.0
+text = "6"
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer"]
+margin_left = 283.0
+margin_right = 300.0
+margin_bottom = 31.0
+text = "O"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase"]
+editor/display_folded = true
+margin_top = 35.0
+margin_right = 300.0
+margin_bottom = 66.0
+
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer2"]
+margin_right = 259.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "Malignent Metabolism"
+align = 0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer2"]
+self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
+margin_left = 263.0
+margin_right = 279.0
+margin_bottom = 31.0
+text = "6"
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer2"]
+margin_left = 283.0
+margin_right = 300.0
+margin_bottom = 31.0
+text = "O"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase"]
+editor/display_folded = true
+margin_top = 70.0
+margin_right = 300.0
+margin_bottom = 101.0
+
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer3"]
+margin_right = 259.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "Iron Right"
+align = 0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer3"]
+self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
+margin_left = 263.0
+margin_right = 279.0
+margin_bottom = 31.0
+text = "6"
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer3"]
+margin_left = 283.0
+margin_right = 300.0
+margin_bottom = 31.0
+text = "O"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase"]
+editor/display_folded = true
+margin_top = 105.0
+margin_right = 300.0
+margin_bottom = 136.0
+
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer4"]
+margin_right = 259.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "Realm of the Distant Chronometer"
+align = 0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer4"]
+self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
+margin_left = 263.0
+margin_right = 279.0
+margin_bottom = 31.0
+text = "6"
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer4"]
+margin_left = 283.0
+margin_right = 300.0
+margin_bottom = 31.0
+text = "O"
+
+[node name="BottomSpacer" type="Control" parent="HBoxContainer/VBoxContainer"]
+margin_top = 389.0
+margin_right = 300.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Spacer" type="Control" parent="HBoxContainer"]
+margin_left = 304.0
+margin_right = 1920.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BottomControls" type="HBoxContainer" parent="."]
+margin_top = 726.0
+margin_right = 1920.0
+margin_bottom = 1026.0
+rect_min_size = Vector2( 0, 300 )
+
+[node name="Spacer" type="Control" parent="BottomControls"]
+margin_right = 200.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="MeData" type="PanelContainer" parent="BottomControls"]
+margin_left = 204.0
+margin_right = 705.0
+margin_bottom = 300.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Container" type="HBoxContainer" parent="BottomControls/MeData"]
+margin_right = 501.0
+margin_bottom = 300.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BottomControls/MeData/Container"]
+margin_right = 300.0
+margin_bottom = 300.0
+
+[node name="Crew" parent="BottomControls/MeData/Container/VBoxContainer" instance=ExtResource( 3 )]
+margin_right = 300.0
+
+[node name="TraitCard" parent="BottomControls/MeData/Container/VBoxContainer" instance=ExtResource( 4 )]
+margin_top = 82.0
+margin_bottom = 267.0
+
+[node name="ResistanceCard" parent="BottomControls/MeData/Container" instance=ExtResource( 5 )]
+margin_left = 304.0
+margin_right = 501.0
+margin_bottom = 300.0
+
+[node name="TurnData" type="PanelContainer" parent="BottomControls"]
+margin_left = 709.0
+margin_right = 1210.0
+margin_bottom = 300.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BottomControls/TurnData"]
+margin_right = 501.0
+margin_bottom = 300.0
+
+[node name="Label" type="Label" parent="BottomControls/TurnData/VBoxContainer"]
+margin_right = 501.0
+margin_bottom = 31.0
+text = "Turn : Crewman \"Badass\" Badasser"
+align = 1
+valign = 1
+
+[node name="TargetData" type="PanelContainer" parent="BottomControls"]
+margin_left = 1214.0
+margin_right = 1715.0
+margin_bottom = 300.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Spacer2" type="Control" parent="BottomControls"]
+margin_left = 1719.0
+margin_right = 1919.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="Header" type="PanelContainer" parent="."]
+margin_top = 1030.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+rect_min_size = Vector2( 0, 50 )

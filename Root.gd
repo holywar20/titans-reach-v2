@@ -12,13 +12,13 @@ const VIEWS = {
 		"GAME" : "res://Views/Explore/Game/Explore.tscn",
 	} , 
 	"BATTLE" : {
-		"UI" : "" ,
-		"Game" : "",
+		"UI" : "res://Views/Battle/UI/Battle.tscn" ,
+		"GAME" : "res://Views/Battle/Game/Battle.tscn",
 	} ,
 	"TITLE" : {
 		"UI" : "res://Views/Title/UI/Title.tscn" ,
-		"Game" : "",
-	}
+		"GAME" : "",
+	} , 
 }
 
 const POPUPS = {
@@ -94,10 +94,10 @@ func loadScreen( screenName ):
 		match screenName:
 			"EXPLORE" :
 				self._loadExploreScreen()
-			"BATTLE" :
-				self._loadBattleScreen()
 			"TITLE":
 				self._loadTitleScreen()
+			"BATTLE":
+				self._loadBattleScreen()
 
 func _loadTitleScreen():
 	self._clearSelf()
@@ -108,6 +108,18 @@ func _loadTitleScreen():
 
 func _loadBattleScreen():
 	self._clearSelf()
+
+	var ui = load( self.VIEWS.BATTLE.UI )
+	var uiInstance = ui.instance()
+
+	var eventBus = EventBus.new()
+	# Scene set up
+	self.UILayer.add_child( uiInstance )
+
+	var battleMap = load( self.VIEWS.BATTLE.GAME )
+	var battleMapInstance = battleMap.instance()
+
+	self.gameLayer.add_child( battleMapInstance )
 
 func _loadExploreScreen():
 	self._clearSelf()

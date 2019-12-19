@@ -38,7 +38,7 @@ onready var nodes = {
 const DRAGGABLE_SCENE_PATH = "res://ReusableUI/Draggable/Draggable.tscn"
 
 const EQUIPPED_COLOR = Color( 1, 1, 1, 1 )
-const UNEQUIPPED_COLOR = Color( .5 , .5 , .5 , 1 )
+const UNEQUIPPED_COLOR = Color( .2 , .2 , .2 , 1 )
 const DROPPABLE_COLOR = Color( .6 , 1 , .6 , 1 )
 const UNDROPPABLE_COLOR = Color( 1 , .6, .6 , 1)
 
