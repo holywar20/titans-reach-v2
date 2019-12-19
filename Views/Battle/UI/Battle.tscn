@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Views/Battle/UI/Battle.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://ReusableUI/CrewCard/CrewCard.tscn" type="PackedScene" id=3]
-[ext_resource path="res://ReusableUI/TraitCard/TraitCard.tscn" type="PackedScene" id=4]
-[ext_resource path="res://ReusableUI/ResistanceCard/Resistance.tscn" type="PackedScene" id=5]
+[ext_resource path="res://ReusableUI/CrewCard/CrewCard.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ReusableUI/TraitCard/TraitCard.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ReusableUI/ResistanceCard/Resistance.tscn" type="PackedScene" id=4]
 
 [node name="Control" type="VBoxContainer"]
 anchor_right = 1.0
@@ -17,244 +16,201 @@ margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 
 [node name="TrackerContainer" type="HBoxContainer" parent="."]
-editor/display_folded = true
 margin_top = 54.0
 margin_right = 1920.0
-margin_bottom = 118.0
+margin_bottom = 139.0
 
 [node name="Control" type="Control" parent="TrackerContainer"]
-margin_right = 686.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 200, 0 )
+margin_right = 954.0
+margin_bottom = 85.0
+rect_min_size = Vector2( 200, 85 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Tracker" type="HBoxContainer" parent="TrackerContainer"]
-editor/display_folded = true
-margin_left = 690.0
-margin_right = 1230.0
-margin_bottom = 64.0
+[node name="AfterTurn" type="HBoxContainer" parent="TrackerContainer"]
+margin_left = 958.0
+margin_right = 958.0
+margin_bottom = 85.0
+rect_min_size = Vector2( 0, 85 )
 
-[node name="TextureRect" type="TextureRect" parent="TrackerContainer/Tracker"]
-margin_right = 64.0
-margin_bottom = 64.0
-texture = ExtResource( 2 )
-
-[node name="TextureRect2" type="TextureRect" parent="TrackerContainer/Tracker"]
-margin_left = 68.0
-margin_right = 132.0
-margin_bottom = 64.0
-texture = ExtResource( 2 )
-
-[node name="TextureRect3" type="TextureRect" parent="TrackerContainer/Tracker"]
-margin_left = 136.0
-margin_right = 200.0
-margin_bottom = 64.0
-texture = ExtResource( 2 )
-
-[node name="TextureRect4" type="TextureRect" parent="TrackerContainer/Tracker"]
-margin_left = 204.0
-margin_right = 268.0
-margin_bottom = 64.0
-texture = ExtResource( 2 )
-
-[node name="TextureRect5" type="TextureRect" parent="TrackerContainer/Tracker"]
-margin_left = 272.0
-margin_right = 336.0
-margin_bottom = 64.0
-texture = ExtResource( 2 )
-
-[node name="TextureRect6" type="TextureRect" parent="TrackerContainer/Tracker"]
-margin_left = 340.0
-margin_right = 404.0
-margin_bottom = 64.0
-texture = ExtResource( 2 )
-
-[node name="TextureRect7" type="TextureRect" parent="TrackerContainer/Tracker"]
-margin_left = 408.0
-margin_right = 472.0
-margin_bottom = 64.0
-texture = ExtResource( 2 )
-
-[node name="TextureRect8" type="TextureRect" parent="TrackerContainer/Tracker"]
-margin_left = 476.0
-margin_right = 540.0
-margin_bottom = 64.0
-texture = ExtResource( 2 )
+[node name="BeforeTurn" type="HBoxContainer" parent="TrackerContainer"]
+margin_left = 962.0
+margin_right = 962.0
+margin_bottom = 85.0
+rect_min_size = Vector2( 0, 85 )
 
 [node name="Control2" type="Control" parent="TrackerContainer"]
-margin_left = 1234.0
+margin_left = 966.0
 margin_right = 1920.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 200, 0 )
+margin_bottom = 85.0
+rect_min_size = Vector2( 200, 85 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-editor/display_folded = true
-margin_top = 122.0
+[node name="Middle" type="HBoxContainer" parent="."]
+margin_top = 143.0
 margin_right = 1920.0
 margin_bottom = 722.0
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBox" type="VBoxContainer" parent="Middle"]
 margin_right = 300.0
-margin_bottom = 600.0
+margin_bottom = 579.0
 
-[node name="TopSpacer" type="Control" parent="HBoxContainer/VBoxContainer"]
+[node name="TopSpacer" type="Control" parent="Middle/VBox"]
 margin_right = 300.0
-margin_bottom = 210.0
+margin_bottom = 200.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Instants Container" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
-margin_top = 214.0
+[node name="BottomSpacer" type="Control" parent="Middle/VBox"]
+margin_top = 204.0
 margin_right = 300.0
-margin_bottom = 385.0
+margin_bottom = 404.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Instants Container" type="PanelContainer" parent="Middle/VBox"]
+margin_top = 408.0
+margin_right = 300.0
+margin_bottom = 579.0
 rect_min_size = Vector2( 300, 0 )
 
-[node name="VBox" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container"]
+[node name="VBox" type="VBoxContainer" parent="Middle/VBox/Instants Container"]
 margin_right = 300.0
 margin_bottom = 171.0
 size_flags_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container/VBox"]
+[node name="Header" type="HBoxContainer" parent="Middle/VBox/Instants Container/VBox"]
 editor/display_folded = true
 margin_right = 300.0
 margin_bottom = 31.0
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/HBoxContainer"]
+[node name="Label" type="Label" parent="Middle/VBox/Instants Container/VBox/Header"]
 margin_right = 268.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 text = "Instants"
 align = 1
 
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/HBoxContainer"]
+[node name="Button" type="Button" parent="Middle/VBox/Instants Container/VBox/Header"]
 margin_left = 272.0
 margin_right = 300.0
 margin_bottom = 31.0
 text = " X "
 
-[node name="InstantBase" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container/VBox"]
+[node name="InstantBase" type="VBoxContainer" parent="Middle/VBox/Instants Container/VBox"]
 margin_top = 35.0
 margin_right = 300.0
 margin_bottom = 171.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Middle/VBox/Instants Container/VBox/InstantBase"]
 editor/display_folded = true
 margin_right = 300.0
 margin_bottom = 31.0
 
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer"]
+[node name="Button" type="Button" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer"]
 margin_right = 259.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 text = "In Defiance of Destiny"
 align = 0
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer"]
+[node name="Label" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer"]
 self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
 margin_left = 263.0
 margin_right = 279.0
 margin_bottom = 31.0
 text = "6"
 
-[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer"]
+[node name="Label2" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer"]
 margin_left = 283.0
 margin_right = 300.0
 margin_bottom = 31.0
 text = "O"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Middle/VBox/Instants Container/VBox/InstantBase"]
 editor/display_folded = true
 margin_top = 35.0
 margin_right = 300.0
 margin_bottom = 66.0
 
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer2"]
+[node name="Button" type="Button" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer2"]
 margin_right = 259.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 text = "Malignent Metabolism"
 align = 0
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer2"]
+[node name="Label" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer2"]
 self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
 margin_left = 263.0
 margin_right = 279.0
 margin_bottom = 31.0
 text = "6"
 
-[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer2"]
+[node name="Label2" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer2"]
 margin_left = 283.0
 margin_right = 300.0
 margin_bottom = 31.0
 text = "O"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="Middle/VBox/Instants Container/VBox/InstantBase"]
 editor/display_folded = true
 margin_top = 70.0
 margin_right = 300.0
 margin_bottom = 101.0
 
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer3"]
+[node name="Button" type="Button" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer3"]
 margin_right = 259.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 text = "Iron Right"
 align = 0
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer3"]
+[node name="Label" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer3"]
 self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
 margin_left = 263.0
 margin_right = 279.0
 margin_bottom = 31.0
 text = "6"
 
-[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer3"]
+[node name="Label2" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer3"]
 margin_left = 283.0
 margin_right = 300.0
 margin_bottom = 31.0
 text = "O"
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="Middle/VBox/Instants Container/VBox/InstantBase"]
 editor/display_folded = true
 margin_top = 105.0
 margin_right = 300.0
 margin_bottom = 136.0
 
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer4"]
+[node name="Button" type="Button" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer4"]
 margin_right = 259.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 text = "Realm of the Distant Chronometer"
 align = 0
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer4"]
+[node name="Label" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer4"]
 self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
 margin_left = 263.0
 margin_right = 279.0
 margin_bottom = 31.0
 text = "6"
 
-[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/Instants Container/VBox/InstantBase/HBoxContainer4"]
+[node name="Label2" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer4"]
 margin_left = 283.0
 margin_right = 300.0
 margin_bottom = 31.0
 text = "O"
 
-[node name="BottomSpacer" type="Control" parent="HBoxContainer/VBoxContainer"]
-margin_top = 389.0
-margin_right = 300.0
-margin_bottom = 600.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Spacer" type="Control" parent="HBoxContainer"]
+[node name="Spacer" type="Control" parent="Middle"]
 margin_left = 304.0
 margin_right = 1920.0
-margin_bottom = 600.0
+margin_bottom = 579.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -284,14 +240,14 @@ margin_bottom = 300.0
 margin_right = 300.0
 margin_bottom = 300.0
 
-[node name="Crew" parent="BottomControls/MeData/Container/VBoxContainer" instance=ExtResource( 3 )]
+[node name="Crew" parent="BottomControls/MeData/Container/VBoxContainer" instance=ExtResource( 2 )]
 margin_right = 300.0
 
-[node name="TraitCard" parent="BottomControls/MeData/Container/VBoxContainer" instance=ExtResource( 4 )]
+[node name="TraitCard" parent="BottomControls/MeData/Container/VBoxContainer" instance=ExtResource( 3 )]
 margin_top = 82.0
 margin_bottom = 267.0
 
-[node name="ResistanceCard" parent="BottomControls/MeData/Container" instance=ExtResource( 5 )]
+[node name="ResistanceCard" parent="BottomControls/MeData/Container" instance=ExtResource( 4 )]
 margin_left = 304.0
 margin_right = 501.0
 margin_bottom = 300.0

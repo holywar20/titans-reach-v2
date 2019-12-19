@@ -124,12 +124,12 @@ var actionLearned = false
 var dmgHiTotal = 0
 var dmgLoTotal = 0
 var toHitTotal = 0
-var actor : CrewClass = null
+var actor : Crew = null
 
 func _init():
 	pass
 
-func setActor( actor : CrewClass ):
+func setActor( actor : Crew ):
 	self.actor = actor
 
 func appendEffect( effect , effectType ):
@@ -201,7 +201,8 @@ func calculateSelf( actor = null ):
 	if( actor ):
 		self.setActor( actor )
 	else:
-		self.setActor( ShipManager.getDummy() )
+		# TODO - Build a dummy character so actions can exist in their 'naked, unmodified form'
+		pass
 
 	for effect in damageEffects:
 		effect = self._calculateDamageEffect( effect )

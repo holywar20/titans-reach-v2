@@ -29,13 +29,13 @@ func loadData():
 	if( texture ):
 		self.nodes.Character.set_texture( texture )
 	
-	var hp = crewman.getHPStatBlock()
+	var hp = self.crewman.getHPStatBlock()
 
 	self.nodes.HpBar.set_max( hp.total )
 	self.nodes.HpBar.set_value( hp.current )
 	self.nodes.HpVal.set_text( self.crewman.getHitPointString() )
 
-	var morale = crewman.getMoraleStatBlock()
+	var morale = self.crewman.getMoraleStatBlock()
 
 	self.nodes.MoBar.set_max( morale.total )
 	self.nodes.MoBar.set_value( morale.current )

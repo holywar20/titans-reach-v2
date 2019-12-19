@@ -1,9 +1,131 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://TextureBank/Backgrounds/battletest.png" type="Texture" id=1]
+[ext_resource path="res://Views/Battle/Game/Battle.gd" type="Script" id=1]
+[ext_resource path="res://TextureBank/Backgrounds/3x3GridPerspective.png" type="Texture" id=2]
+[ext_resource path="res://Views/Battle/Game/Battler.tscn" type="PackedScene" id=3]
+[ext_resource path="res://TextureBank/Bodys/placeholder.png" type="Texture" id=4]
 
 [node name="Battle" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="BG" type="Sprite" parent="."]
-position = Vector2( 950, 530 )
-texture = ExtResource( 1 )
+position = Vector2( 438.721, 150 )
+scale = Vector2( 1.15377, 1.0025 )
+texture = ExtResource( 2 )
+offset = Vector2( 49.0856, 162.001 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="0_0" parent="BG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 23.1068, 100.613 )
+scale = Vector2( 0.75, 0.75 )
+
+[node name="0_1" parent="BG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 191.788, 99.7506 )
+scale = Vector2( 0.75, 0.75 )
+
+[node name="0_2" parent="BG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 373.8, 93.6323 )
+scale = Vector2( 0.75, 0.75 )
+
+[node name="1_0" parent="BG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( -59.5621, 195.91 )
+scale = Vector2( 1, 1 )
+
+[node name="1_1" parent="BG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 144.291, 198.688 )
+scale = Vector2( 1, 1 )
+
+[node name="1_2" parent="BG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 339.131, 208.204 )
+scale = Vector2( 1, 1 )
+
+[node name="2_0" parent="BG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( -163.569, 359.102 )
+scale = Vector2( 1.2, 1.2 )
+
+[node name="2_1" parent="BG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 70.4464, 359.102 )
+scale = Vector2( 1.2, 1.2 )
+
+[node name="2_2" parent="BG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 287.127, 349.127 )
+scale = Vector2( 1.2, 1.2 )
+
+[node name="EBG" type="Sprite" parent="."]
+editor/display_folded = true
+position = Vector2( 1340, 150 )
+scale = Vector2( 1.15377, 1.0025 )
+texture = ExtResource( 2 )
+offset = Vector2( 49.0856, 162.001 )
+flip_h = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="0_0" type="Sprite" parent="EBG"]
+position = Vector2( 86.6726, 79.8003 )
+scale = Vector2( 0.606708, 0.698253 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="0_1" type="Sprite" parent="EBG"]
+position = Vector2( -86.6726, 71.8203 )
+scale = Vector2( 0.606708, 0.698253 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="0_2" type="Sprite" parent="EBG"]
+position = Vector2( -267.992, 79.8003 )
+scale = Vector2( 0.606708, 0.698253 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="1_0" type="Sprite" parent="EBG"]
+position = Vector2( 156.011, 185.935 )
+scale = Vector2( 0.866726, 0.997504 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="1_1" type="Sprite" parent="EBG"]
+position = Vector2( -34.669, 185.935 )
+scale = Vector2( 0.866726, 0.997504 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="1_2" type="Sprite" parent="EBG"]
+position = Vector2( -229.162, 199.501 )
+scale = Vector2( 0.866726, 0.997504 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="2_0" type="Sprite" parent="EBG"]
+position = Vector2( -182.012, 339.151 )
+scale = Vector2( 1.04007, 1.197 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="2_1" type="Sprite" parent="EBG"]
+position = Vector2( 26.0018, 349.126 )
+scale = Vector2( 1.04007, 1.197 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="2_2" type="Sprite" parent="EBG"]
+position = Vector2( 278.461, 339.151 )
+scale = Vector2( 1.04007, 1.197 )
+texture = ExtResource( 4 )
+flip_h = true

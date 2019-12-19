@@ -19,9 +19,10 @@ var bio = "four score and seven years ago. Yeah. I'm abraham Lincoln Bitch."
 
 var station = null
 
+var id = null
 var cp = 0
 var cpSpent = 0
-var dead = false
+var isDead = false
 
 var texturePath = null
 var smallTexturePath = null
@@ -230,7 +231,7 @@ func getFullName():
 	return self.fullname[0] + ' "' + self.fullname[1] + '" ' + self.fullname[2]
 
 func getCPointString():
-	if( !self.dead ):
+	if( !self.isDead ):
 		return str(self.cpSpent) + " / " + str(self.cp)
 	else:
 		return "0 / 0"
@@ -298,8 +299,20 @@ func getResistStatBlock( resist ):
 func getAllResistStatBlocks():
 	return self.resists.duplicate()
 
+func getFightableStatus():
+	var isFightable = true
+
+	if( self.isDead() ):
+		isFightable = false
+
+	return isFightable
+
 func getStation():
 		return self.station
+
+func isDead():
+	return self.isDead
+
 # Update all the passive abilities from equipment
 func _updatePassives():
 	self.passives = []
@@ -385,6 +398,7 @@ func getCrewmanActions():
 	# TODO - Impliment
 	pass
 
+
 func applyDamage( damage , damageType ):
 	# TODO impliment damage reduction
 	self.hp.current = self.hp.current - damage;
@@ -399,5 +413,5 @@ func applyStatusEffect( percentileRoll , effect):
 	pass
 
 func rollInit():
-	var init = randi()%20 + self.PER.total
+	var init = randi()%20 + self.traits.PER.total
 	return init

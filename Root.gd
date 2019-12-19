@@ -108,18 +108,23 @@ func _loadTitleScreen():
 
 func _loadBattleScreen():
 	self._clearSelf()
+	var eventBus = EventBus.new()
 
 	var ui = load( self.VIEWS.BATTLE.UI )
 	var uiInstance = ui.instance()
-
-	var eventBus = EventBus.new()
 	# Scene set up
+	uiInstance.setupScene( eventBus )
 	self.UILayer.add_child( uiInstance )
+	
 
 	var battleMap = load( self.VIEWS.BATTLE.GAME )
 	var battleMapInstance = battleMap.instance()
-
+	# TODO - add a hook to some kind of 'battle factory' to make the dictionary
+	battleMapInstance.setupScene( eventBus , playerCrew , {} )
 	self.gameLayer.add_child( battleMapInstance )
+	
+
+	
 
 func _loadExploreScreen():
 	self._clearSelf()
