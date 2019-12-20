@@ -12,6 +12,11 @@ func setupScene( eventBus : EventBus , crewman : Crew ):
 	self.eventBus = eventBus
 	self.crewman = crewman
 
+	if( self.crewman ):
+		self.show()
+	else:
+		self.hide()
+
 func _ready():
 	if( self.crewman ):
 		self.loadData( self.crewman )
@@ -25,7 +30,15 @@ func _clear():
 	for child in self.traitBase.get_children():
 		child.queue_free()
 
-func loadData( crewman : Crew ):
+func loadData( crewman = null ):
+	self._clear()
+	self.crewman = crewman
+	
+	if ( crewman ):
+		self.show()
+	else:
+		self.hide()
+	
 	self._clear()
 	self.crewman = crewman
 

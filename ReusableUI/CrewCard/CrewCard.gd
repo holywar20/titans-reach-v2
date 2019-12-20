@@ -14,15 +14,30 @@ const DRAGGABLE_SCENE_PATH = "res://ReusableUI/Draggable/Draggable.tscn"
 var eventBus = null
 var crewman = null 
 
-func setupScene( eventBus : EventBus, crewman : Crew ):
+func setupScene( eventBus : EventBus, crewman = null ):
 	self.eventBus = eventBus
 	self.crewman = crewman
+
+	if( self.crewman ):
+		self.show()
+	else:
+		self.hide()
 
 func _ready():
 	if( self.crewman ):
 		self.loadData()
 
-func loadData():
+func loadData( crewman = null ):
+	# TODO - don't think we need a clear method here.
+	#self._clear()
+	self.crewman = crewman
+	
+	if ( crewman ):
+		self.show()
+	else:
+		self.hide()
+		return null
+	
 	self.nodes.Name.set_text( self.crewman.getFullName() )
 	
 	var texture = load( self.crewman.smallTexturePath )

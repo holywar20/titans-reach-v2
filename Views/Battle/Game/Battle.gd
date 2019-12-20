@@ -19,16 +19,25 @@ var battleConfig # No need not to keep as a ref, though we should load config as
 
 # Battle configuration variables
 
+
+# STATE
+var initiativeArray = []
+
 func setupScene( eventBus : EventBus , playerCrew , battleConfigDictionary ):
 	self.eventBus = eventBus
 	self.playerCrew = playerCrew
 	self.battleConfig = battleConfig 
+
+	self.eventBus.register( "NoMoreBattlers" , self , "_onNoMoreBattlers" )
 
 func _ready():
 	pass
 	# self.bases.instantBase.setupScene( self.eventBus , self.playerCrew )
 	# Build instants for enemy ( will need AI code for this . )
 	self._setupBattleOrder()
+	self._nextPass()
+
+func _onNoMoreBattlers():
 	self._nextPass()
 
 func _setupBattleOrder():
@@ -63,20 +72,30 @@ func _rollInitiative():
 				"Actor" : actor
 			})
 	
-	packedArray = Common.bubbleSortArrayByDictKey( packedArray , "Init" )
+	self.initiativeArray = Common.bubbleSortArrayByDictKey( packedArray , "Init" )
 
-	self.eventBus.emit("InitiativeRolled" , [ packedArray ] )
+	self.eventBus.emit("InitiativeRolled" , [ initiativeArray ] )
 
 func _nextTurn():
 	if( self._validateAlive( playerCrew ) ):
 		self._loadEndGame()
-		return null
+		#return null
 
 	if( self._validateAlive( enemyCrew) ):
 		self._loadEndBattle()
-		return null
-
+		#return null
 	
+	if( self.initiativeArray.size() == 0 ):
+		self.eventBus.emit( "NextPass" , [] )
+
+	var tuple = self.initiativeArray.pop_back()
+	var nextActor = tuple.Actor
+
+	if( nextActor.isPlayer ):
+		self.eventBus.emit( "CrewmanTurn" , [ nextActor ] )
+	else:
+		self.eventBus.emit( "EnemyTurn" , [ nextActor ])
+
 func _validateAlive( someCrew ):
 	var deadCount = 0
 	for crewman in someCrew:

@@ -10,6 +10,8 @@ var events = [
 
 	"CrewmanDeath",
 
+	"NoMoreBattlers",
+
 	"EndOfGame" , "EndOfBattle"
 ]
 
@@ -19,25 +21,46 @@ onready var bases = {
 	"InstantBase"	: get_node("Middle/VBox/InstantsContainer/VBox/InstantBase")
 }
 
+onready var cards = {
+	"AllActionCard" : get_node(""),
+	"CrewCard"		: get_node("BottomControls/Selection/HBox/VBox/Crew"),
+	"TraitCard"		: get_node("BottomControls/Selection/HBox/VBox/TraitCard"),
+	"ResistCard"	: get_node("BottomControls/Selection/HBox/ResistanceCard"),
+}
+
+onready var nodes = {
+	"TurnLabel" : get_node("BottomControls/TurnData/VBox/Label")
+}
+
 var eventBus = null
+var currentTurnCrewman = null
 
 func setupScene( eventBus : EventBus ):
 	self.eventBus = eventBus
-
-func loadCrewman( crewman : Crew ):
-	pass 
 
 func _ready():
 	if( self.eventBus ):
 		self.loadEvents()
 
+	self.cards.CrewCard.setupScene( self.eventBus , null )
+	self.cards.TraitCard.setupScene( self.eventBus , null )
+	self.cards.ResistCard.setupScene( self.eventBus , null )
+
 func loadEvents():
-	print( "loading events ")
 	self.eventBus.addEvents( self.events )
 	
-	self.eventBus.register("CrewmanTurn" , self, "_onCrewmanTurn" )
 	self.eventBus.register("InitiativeRolled" , self, "_onInitiativeRolled")
+
+	self.eventBus.register("CrewmanTurn" , self, "_onCrewmanTurn" )
 	self.eventBus.register("CrewmanDeath" , self, "_onCrewmanDeath" )
+
+func loadData( crewman = null ):
+	if( crewman ):
+		self.currentTurnCrewman = crewman
+		self.cards.CrewCard.loadData( self.currentTurnCrewman )
+		self.cards.TraitCard.loadData( self.currentTurnCrewman )
+		self.cards.ResistCard.loadData( self.currentTurnCrewman )
+	# Build ALL actions card
 
 func _onBattleOrderChange( battleOrder ):
 	pass
@@ -53,11 +76,12 @@ func _onInitiativeRolled( initiativeArray ):
 
 		self.bases.PreTurnTrackerBase.add_child( newTrackerIcon )
 
-func _onCrewmanDeath( crewman ):
-	pass
+func _onCrewmanDeath( crewman : Crew ):
+	self.loadData( crewman )
+
+func _onCrewmanHover( crewman : Crew ):
+	self.loadData( crewman )
 
 func _onCrewmanTurn( crewman : Crew ):
-	
-	# var action = self._pickAction()
-
-	pass
+	# Find creman in tracker and highlight
+	self.loadData( crewman )

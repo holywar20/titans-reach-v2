@@ -23,6 +23,7 @@ var id = null
 var cp = 0
 var cpSpent = 0
 var isDead = false
+var isPlayer = true
 
 var texturePath = null
 var smallTexturePath = null

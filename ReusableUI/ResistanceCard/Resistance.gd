@@ -12,6 +12,11 @@ func setupScene( eventBus: EventBus, crewman: Crew ):
 	self.eventBus = eventBus
 	self.crewman = crewman
 
+	if( self.crewman ):
+		self.show()
+	else:
+		self.hide()
+
 func _ready():
 	if( self.crewman ):
 		self.loadData( crewman )
@@ -26,10 +31,16 @@ func _clear():
 func setEvents( eventBus : EventBus ):
 	self.eventBus = eventBus
 
-func loadData( crewman : Crew ):
+func loadData( crewman = null ):
 	self._clear()
 	self.crewman = crewman
-
+	
+	if ( crewman ):
+		self.show()
+	else:
+		self.hide()
+		return null
+	
 	var headerRow = self.dataRowScene.instance()
 	headerRow.setupScene( self.HEADERS )
 	var allRows = [ headerRow ]

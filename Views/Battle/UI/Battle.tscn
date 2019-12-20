@@ -225,29 +225,29 @@ margin_right = 200.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 200, 0 )
 
-[node name="MeData" type="PanelContainer" parent="BottomControls"]
+[node name="Selection" type="PanelContainer" parent="BottomControls"]
 margin_left = 204.0
 margin_right = 705.0
 margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Container" type="HBoxContainer" parent="BottomControls/MeData"]
+[node name="HBox" type="HBoxContainer" parent="BottomControls/Selection"]
 margin_right = 501.0
 margin_bottom = 300.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="BottomControls/MeData/Container"]
+[node name="VBox" type="VBoxContainer" parent="BottomControls/Selection/HBox"]
 margin_right = 300.0
 margin_bottom = 300.0
 
-[node name="Crew" parent="BottomControls/MeData/Container/VBoxContainer" instance=ExtResource( 2 )]
+[node name="Crew" parent="BottomControls/Selection/HBox/VBox" instance=ExtResource( 2 )]
 margin_right = 300.0
 
-[node name="TraitCard" parent="BottomControls/MeData/Container/VBoxContainer" instance=ExtResource( 3 )]
+[node name="TraitCard" parent="BottomControls/Selection/HBox/VBox" instance=ExtResource( 3 )]
 margin_top = 82.0
 margin_bottom = 267.0
 
-[node name="ResistanceCard" parent="BottomControls/MeData/Container" instance=ExtResource( 4 )]
+[node name="ResistanceCard" parent="BottomControls/Selection/HBox" instance=ExtResource( 4 )]
 margin_left = 304.0
 margin_right = 501.0
 margin_bottom = 300.0
@@ -259,11 +259,11 @@ margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="BottomControls/TurnData"]
+[node name="VBox" type="VBoxContainer" parent="BottomControls/TurnData"]
 margin_right = 501.0
 margin_bottom = 300.0
 
-[node name="Label" type="Label" parent="BottomControls/TurnData/VBoxContainer"]
+[node name="Label" type="Label" parent="BottomControls/TurnData/VBox"]
 margin_right = 501.0
 margin_bottom = 31.0
 text = "Turn : Crewman \"Badass\" Badasser"
