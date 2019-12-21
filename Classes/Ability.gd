@@ -6,12 +6,13 @@ const USE_TRAIT = true
 const NO_USE_TRAIT = false 
 
 const ABILITY_TYPES = { 
-	"STANCE" : "Stance", 
-	"INSTANT": "Instant", 
-	"ACTION" : "Action",  
-	"TRIGGERED" : "Triggered", 
-	"PASSIVE" : "Passive" 
-} 
+	"STANCE" : "STANCE", 
+	"INSTANT": "INSTANT", 
+	"ACTION" : "ACTION",  
+	"TRIGGERED" : "TRIGGERED", 
+	"PASSIVE" : "PASSIVE" 
+}
+
 const DMG_TYPES = { 
 	'KINETIC'	: "Kinetic Dmg", 
 	'THERMAL'	: "Thermal Dmg",
@@ -39,9 +40,9 @@ const TARGET_AREA = {
 }
 
 const TARGET_TYPES  = {
-	'PLAYER' 		: 'PlayerUnitNode'  ,'ENEMY' 			:'EnemyUnitNode',
-	'PLAYER_FLOOR' : 'PlayerUnitFloor' ,'ENEMY_FLOOR'	: 'EnemyUnitFloor',
-	'SELF' : 'Self'
+	'ALLY_UNITS' : 'ALLY_UNITS' ,'ENEMY_UNIT' :'ENEMY_UNIT',
+	'ALLY_FLOOR' : 'ALLY_FLOOR' ,'ENEMY_FLOOR': 'ENEMY_FLOOR',
+	'SELF' : 'SELF'
 }
 
 const DMG_TRAITS = { 
@@ -146,6 +147,9 @@ func appendEffect( effect , effectType ):
 
 func getTargetType():
 	return self.targetType
+
+func getIconPath():
+	return self.iconPath
 
 func getTargetTypeString( targetType = null ):
 	var targetTypeString = null 

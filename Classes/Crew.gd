@@ -39,12 +39,15 @@ var allAbilityKeys = {
 var actions = []
 var passives = []
 var stances = []
+var triggered = []
 var instants = []
 
 var temporaryPassives = {}
 
 var primaryTree = null
 var secondaryTree = null
+
+var currentStanceKey = null
 
 var gear = {
 	"Frame" : null, "LWeapon" : null,  "RWeapon" : null , "CEquip" : null , "LEquip" : null , "REquip" : null
@@ -106,9 +109,37 @@ func get_class():
 func is_class( name : String ): 
 	return name == "Crew"
 
-func setTextures( sPath : String , lPath : String ):
-	self.texturePath = lPath
-	self.smallTexturePath = sPath
+func loadAbilities():
+	for category in allAbilityKeys:
+		for key in allAbilityKeys[category]:
+			var ability = AbilityFactory.getAbilityByKey( key )
+
+			if( ability.abilityType == ability.ABILITY_TYPES.ACTION ):
+				self.actions.append( ability )
+			
+			if( ability.abilityType == ability.ABILITY_TYPES.STANCE ):
+				self.stances.append( ability )
+
+			if( ability.abilityType == ability.ABILITY_TYPES.TRIGGERED ):
+				self.triggered.append( ability )
+
+			if( ability.abilityType == ability.ABILITY_TYPES.PASSIVE ):
+				self.triggered.append( ability )
+
+			if( ability.abilityType == ability.ABILITY_TYPES.INSTANT ):
+				self.instants.append( ability )
+			# Parse key, put it in category that cares about it.
+
+func updateAbilities( inBattle = false ):
+	self._updatePassives()
+
+	if( inBattle ):
+		self._updateTempPassives()
+
+	self.calculateTraits()
+	self.calculateDerivedStats()
+	
+	# Roll through each ability, finalizing values
 
 func assign( console = null ):
 	self.station = console
@@ -307,6 +338,9 @@ func getStation():
 func getAllActions():
 	return self.actions
 
+func getAllStances():
+	return self.stances
+
 func isDead():
 	return self.isDead
 
@@ -371,24 +405,6 @@ func _updateEquipmentActions():
 
 func _updateTalentActions():
 	pass
-
-func updateAbilities( inBattle = false ):
-	
-	self._updatePassives()
-
-	if( inBattle ):
-		self._updateTempPassives()
-
-	self.calculateTraits()
-	self.calculateDerivedStats()
-		# TODO - add any bonus's based on trait to action.
-	
-	self.actions = []
-	self.stances = []
-	self.instants = []
-
-	self._updateTalentActions()
-	self._updateEquipmentActions()
 
 # Return a dictionary of 'modified' crewman actions that include any status effects
 func getCrewmanActions():

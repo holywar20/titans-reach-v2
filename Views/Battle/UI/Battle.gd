@@ -10,6 +10,15 @@ var events = [
 
 	"CrewmanDeath",
 
+	# Events dealing with action processing
+	"ActionStarted" , 
+	"SelectAlly" , "SelectEnemy" , "SelectAllyFloor" , "SelectEnemyFloor",
+	"ActionEnded" ,
+
+	"StanceChanged",
+
+	"GeneralCancel",
+
 	"NoMoreBattlers",
 
 	"EndOfGame" , "EndOfBattle"
@@ -22,7 +31,8 @@ onready var bases = {
 }
 
 onready var cards = {
-	"AllActionCard": get_node("BottomControls/TurnData/VBox/AllActionCard"),
+	"AllActionCard": get_node("BottomControls/TurnData/VBox/HBox/AllActionCard"),
+	"StanceCard"	: get_node("BottomControls/TurnData/VBox/HBox/StanceCard"),
 	"CrewCard"		: get_node("BottomControls/Selection/HBox/VBox/Crew"),
 	"TraitCard"		: get_node("BottomControls/Selection/HBox/VBox/TraitCard"),
 	"ResistCard"	: get_node("BottomControls/Selection/HBox/ResistanceCard"),
@@ -39,9 +49,9 @@ func setupScene( eventBus : EventBus ):
 	self.eventBus = eventBus
 
 func _ready():
-	if( self.eventBus ):
-		self.loadEvents()
+	self.loadEvents()
 
+	self.cards.StanceCard.setupScene( self.eventBus , null )
 	self.cards.CrewCard.setupScene( self.eventBus , null )
 	self.cards.TraitCard.setupScene( self.eventBus , null )
 	self.cards.ResistCard.setupScene( self.eventBus , null )
@@ -61,7 +71,10 @@ func loadData( crewman = null ):
 		self.cards.CrewCard.loadData( self.currentTurnCrewman )
 		self.cards.TraitCard.loadData( self.currentTurnCrewman )
 		self.cards.ResistCard.loadData( self.currentTurnCrewman )
+
+		self.cards.StanceCard.loadData( self.currentTurnCrewman )
 		self.cards.AllActionCard.loadData( self.currentTurnCrewman )
+		
 
 func _onBattleOrderChange( battleOrder ):
 	pass

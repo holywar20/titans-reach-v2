@@ -30,12 +30,18 @@ func setupScene( eventBus : EventBus , playerCrew , battleConfigDictionary ):
 
 	self.eventBus.register( "NoMoreBattlers" , self , "_onNoMoreBattlers" )
 
+	# Handing user input events
+	self.eventBus.register("ActionStarted" , self , "_onACtionStarted" )
+
 func _ready():
 	pass
 	# self.bases.instantBase.setupScene( self.eventBus , self.playerCrew )
 	# Build instants for enemy ( will need AI code for this . )
 	self._setupBattleOrder()
 	self._nextPass()
+
+func _onActionStarted():
+	print( "action starting!")
 
 func _onNoMoreBattlers():
 	self._nextPass()

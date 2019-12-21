@@ -47,6 +47,7 @@ func generateNewCrew( cp = 30 ):
 	crewman = self._rollCosmetics( crewman )
 	crewman = self._rollTalents( crewman )
 	
+	crewman.loadAbilities()
 	crewman.calculateTraits()
 	crewman.calculateDerivedStats( true )
 

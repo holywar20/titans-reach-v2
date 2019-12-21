@@ -1,7 +1,7 @@
 extends Node
 # TODO - Actually get this bitch workin
 
-const ABILITY_DATA_DIRECTORY = "res://Resources/Ability/"
+const ABILITY_DATA_DIRECTORY = "res://JsonData/Abilities/"
 
 var MANDATORY_DMG_EFFECT_VARS = [ 'dmgTrait' , 'dmgType' , 'dmgMod' , 'toHitTrait', 'toHitMod' ]
 
@@ -38,7 +38,7 @@ func _ready():
 		print( "There was an error loading ability files.")
 		#Log.log("Files didnt load. Something is wrong")
 
-func getActionByAbilityKey( key ):
+func getAbilityByKey( key ):
 
 	if( self.abilityDictionary.has( key ) ):
 		var abilityData = self.abilityDictionary[key]
@@ -50,7 +50,7 @@ func getActionByAbilityKey( key ):
 		#Log.add( Log.ALERT , "ActionGenerator : There was an issue finding ability:" + key )
 
 func buildAbilityFromDict( dict ):
-	var ability = self._fillAndValidateBaseAbility( dict )
+	var ability = self._fillAndValidateAbility( dict )
 	if( !ability ):
 		print( "ability failed to build")
 		return false
@@ -87,50 +87,11 @@ func _fillAndValidateHealingEffect( ability, effectData ):
 func _fillAndValidatePassiveEffect( ability, effectData ):
 	return ability
 
-func _fillAndValidateBaseAbility( dict ):
+func _fillAndValidateAbility( dict ):
 	var ability = Ability.new()
 	
-	ability.key = dict.key
-	ability.shortName = dict.shortName
-	ability.fullName = dict.fullName
-	ability.iconPath = dict.iconPath
-
-	ability.damageHiBase =  dict.damageHiBase 
-	ability.dmgHiTotal = dict.damageHiBase
-	ability.damageLoBase = dict.damageLoBase
-	ability.dmgLoTotal  = dict.damageLoBase
-	ability.toHitBase = dict.toHitBase
-	ability.toHitTotal =  dict.toHitBase
-
-	if( typeof( dict.validTargets ) == TYPE_ARRAY ):
-		ability.validTargets = dict.validTargets
-	else:
-		pass
-		#Log.add( Log.ALERT , "ability is missing a valid validTargets: " + dict.key )
-	
-	if( typeof( dict.validFrom ) == TYPE_ARRAY ):
-		ability.validFrom = dict.validFrom
-	else:
-		pass
-		#Log.add( Log.ALERT , "ability is missing a valid validFrom: " + dict.key )
-
-	if( ability.ABILITY_TYPES.has( dict.abilityType ) ):
-		ability.abilityType = ability.ABILITY_TYPES[dict.abilityType]
-	else:
-		pass
-		#Log.add( Log.ALERT , "ability is missing a valid actionType: " + dict.key )
-
-	if( ability.TARGET_TYPES.has( dict.targetType ) ):
-		ability.targetType = ability.TARGET_TYPES[dict.targetType]
-	else:
-		pass
-		#Log.add( Log.ALERT , "ability is missing a valid targetType: " + dict.key )
-
-	if( ability.TARGET_AREA.has( dict.targetArea ) ):
-		ability.targetArea = dict.targetArea
-	else:
-		pass
-		#Log.add( Log.ALERT , "ability is missing a valid targetArea: " + dict.key )
+	for key in dict:
+		ability[key] = dict[key]
 
 	return ability
 
