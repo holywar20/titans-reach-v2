@@ -28,11 +28,10 @@ func _ready():
 		self.loadData()
 
 func loadData( crewman = null ):
-	# TODO - don't think we need a clear method here.
-	#self._clear()
-	self.crewman = crewman
+	if( crewman ):
+		self.crewman = crewman
 	
-	if ( crewman ):
+	if ( self.crewman ):
 		self.show()
 	else:
 		self.hide()

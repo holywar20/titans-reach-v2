@@ -45,14 +45,16 @@ func generateNewCrew( cp = 30 ):
 
 	crewman = self._rollTraits( crewman , 30 )
 	crewman = self._rollCosmetics( crewman )
+	crewman = self._rollTalents( crewman )
 	
 	crewman.calculateTraits()
 	crewman.calculateDerivedStats( true )
 
 	return crewman
 
-func _rollTalents():
-	pass
+func _rollTalents( crewman : Crew ):
+	return crewman
+
 
 func _rollTraits( myCrewman : Crew , cp = 30):
 	var statTotal = 0

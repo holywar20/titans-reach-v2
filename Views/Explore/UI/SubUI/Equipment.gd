@@ -106,8 +106,6 @@ func loadCrewmanData( crewman = null ):
 		self.locks[key].updateLockIs( self.crewman )
 
 func _onDraggableReleased( item, sourceLock : DragLock , droppedLoc : Vector2 ):
-	print( "Firing!" )
-	
 	var nodeGroup = null
 	if( item.is_class("Frame") ):
 		nodeGroup = self.FRAME_DRAG_LOCK
@@ -124,7 +122,6 @@ func _onDraggableReleased( item, sourceLock : DragLock , droppedLoc : Vector2 ):
 
 	var success = false
 	if( targetLock && sourceLock ):
-		print( targetLock , sourceLock )
 		var oldItem = targetLock.lockHolds
 		success = targetLock.lockIs.itemTransaction( item , targetLock.lockName, sourceLock.lockName )
 		if( success ):
@@ -132,13 +129,11 @@ func _onDraggableReleased( item, sourceLock : DragLock , droppedLoc : Vector2 ):
 			sourceLock.updateLock( oldItem )
 
 	elif( targetLock ):
-		print( targetLock , sourceLock )
 		success = targetLock.lockIs.itemTransaction( item , targetLock.lockName, null )
 		if( success ):
 			targetLock.updateLock( item )
 			
 	elif( sourceLock ):
-		print( targetLock , sourceLock )
 		success = sourceLock.lockIs.itemTransaction( null , sourceLock.lockName, null )
 		if( success ):
 			sourceLock.updateLock()

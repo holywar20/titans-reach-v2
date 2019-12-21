@@ -41,8 +41,7 @@ func loadData( crewman : Crew ):
 	self.nodes.morVal.set_text( crewman.getMoraleString() )
 	
 	var weightBlock = crewman.getWeightStatBlock()
-
-	print( weightBlock )
+	
 	self.nodes.weightBar.max_value = weightBlock.total
 	self.nodes.weightBar.value = weightBlock.current
 	self.nodes.weightVal.set_text( crewman.getWeightString() )

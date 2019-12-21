@@ -28,8 +28,14 @@ var isPlayer = true
 var texturePath = null
 var smallTexturePath = null
 
+# A dictionary of keys, keyed by a 'source'. When it is not needed, actions are stored as simple keys and built as needed.
+var allAbilityKeys = {
+	"Basic"  : [ "Brawl" , "Defend" ],
+	"Talent" : [] ,
+	"Weapon" : []
+}
+
 # store off all this users abilities
-var basicActions = []
 var actions = []
 var passives = []
 var stances = []
@@ -92,8 +98,6 @@ var resists = {
 	}
 }
 
-func _init():
-	pass
 
 # Overrides
 func get_class(): 
@@ -115,18 +119,7 @@ func isAssigned():
 	else:
 		return false
 
-func _buildBasicActions():
-	pass
-	# TODO - impliment actions
-	#var myAction = ActionGenerator.getActionByActionKey( "Brawl" )
-	#self.actions.append( myAction )
-	#Log.log( myAction )
-
-func _ready():
-	pass
-
-func _validateItemTransaction( item , itemSlot ):
-	
+func _validateItemTransaction( item , itemSlot ):	
 	# TODO - Maybe post an error message on the crewman object which we can query later?
 	var isValid = true
 
@@ -309,7 +302,10 @@ func getFightableStatus():
 	return isFightable
 
 func getStation():
-		return self.station
+	return self.station
+
+func getAllActions():
+	return self.actions
 
 func isDead():
 	return self.isDead
@@ -398,6 +394,11 @@ func updateAbilities( inBattle = false ):
 func getCrewmanActions():
 	# TODO - Impliment
 	pass
+
+func addPowers( arrayOfPowers ):
+	pass
+	# Figure out kind of action it is ( or maybe change to 'power' )
+
 
 
 func applyDamage( damage , damageType ):

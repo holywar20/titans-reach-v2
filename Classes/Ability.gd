@@ -1,11 +1,11 @@
 extends Node
 
-class_name Action
+class_name Ability
 
 const USE_TRAIT = true 
 const NO_USE_TRAIT = false 
 
-const ACTION_TYPES = { 
+const ABILITY_TYPES = { 
 	"STANCE" : "Stance", 
 	"INSTANT": "Instant", 
 	"ACTION" : "Action",  
@@ -104,7 +104,7 @@ const LO_DMG_TRAIT_MOD = .5
 var key = null
 var shortName = null
 var fullName = null
-var actionType = null
+var abilityType = null
 var damageHiBase = null
 var damageLoBase = null
 var toHitBase = null
@@ -120,11 +120,11 @@ var passiveEffects = []
 var healingEffects = []
 
 # Data that will mutate and change. 
-var actionLearned = false
+var abilityLearned = false
 var dmgHiTotal = 0
 var dmgLoTotal = 0
 var toHitTotal = 0
-var actor : Crew = null
+var actor = null
 
 func _init():
 	pass
@@ -194,7 +194,7 @@ func getValidTargets( unitX , unitY ):
 	return permittedTargetingArray
 
 func isLearned():
-	return self.actionLearned
+	return self.abilityLearned
 
 # This method takes a CrewClass object ( maybe other types later ), and does all the math on it
 func calculateSelf( actor = null ):

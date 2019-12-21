@@ -1,0 +1,31 @@
+{
+	"Brawl" : {
+		"key" : "Brawl" ,
+		"shortName" : "Brawl" ,
+		"fullName" : "Brawl" ,
+		"actionType" : "ACTION" ,
+		"damageHiBase" : 1 ,
+		"damageLoBase" : 3 ,
+		"toHitBase" : 80 ,
+		"validTargets" : [ 1 ] ,
+		"validFrom" : [ 3 ] ,
+		"targetType" : "FLOOR" ,
+		"targetArea" : "SINGLE" ,
+		"iconPath" : "res://TextureBank/ActionIcons/brawl.png"
+	} , 
+	"Defend" : {
+		"key" : "Brawl" ,
+		"shortName" : "Brawl" ,
+		"fullName" : "Brawl" ,
+		"actionType" : "STANCE" ,
+		"damageHiBase" : 1 ,
+		"damageLoBase" : 3 ,
+		"toHitBase" : 80 ,
+		"validTargets" : [ 1 ] ,
+		"validFrom" : [ 3 ] ,
+		"targetType" : "FLOOR" ,
+		"targetArea" : "SINGLE" ,
+		"iconPath" : "res://TextureBank/ActionIcons/defend.png"
+	}
+}
+

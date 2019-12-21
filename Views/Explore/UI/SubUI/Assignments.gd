@@ -77,6 +77,7 @@ func _layoutCrew():
 		var crewCardInstance = self.crewCardScene.instance()
 		crewCardInstance.setupScene( self.eventBus, crew )
 		self.bases.Unassigned.add_child( crewCardInstance )
+		crewCardInstance.loadData()
 	
 func _layoutConsoles():
 	var consoles = self.playerShip.getConsoles()

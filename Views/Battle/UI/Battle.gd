@@ -22,7 +22,7 @@ onready var bases = {
 }
 
 onready var cards = {
-	"AllActionCard" : get_node(""),
+	"AllActionCard": get_node("BottomControls/TurnData/VBox/AllActionCard"),
 	"CrewCard"		: get_node("BottomControls/Selection/HBox/VBox/Crew"),
 	"TraitCard"		: get_node("BottomControls/Selection/HBox/VBox/TraitCard"),
 	"ResistCard"	: get_node("BottomControls/Selection/HBox/ResistanceCard"),
@@ -45,6 +45,7 @@ func _ready():
 	self.cards.CrewCard.setupScene( self.eventBus , null )
 	self.cards.TraitCard.setupScene( self.eventBus , null )
 	self.cards.ResistCard.setupScene( self.eventBus , null )
+	self.cards.AllActionCard.setupScene( self.eventBus , null )
 
 func loadEvents():
 	self.eventBus.addEvents( self.events )
@@ -60,7 +61,7 @@ func loadData( crewman = null ):
 		self.cards.CrewCard.loadData( self.currentTurnCrewman )
 		self.cards.TraitCard.loadData( self.currentTurnCrewman )
 		self.cards.ResistCard.loadData( self.currentTurnCrewman )
-	# Build ALL actions card
+		self.cards.AllActionCard.loadData( self.currentTurnCrewman )
 
 func _onBattleOrderChange( battleOrder ):
 	pass

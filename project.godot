@@ -10,9 +10,9 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node",
-"class": "Action",
+"class": "Ability",
 "language": "GDScript",
-"path": "res://Classes/Action.gd"
+"path": "res://Classes/Ability.gd"
 }, {
 "base": "Area2D",
 "class": "Anomoly",
@@ -80,7 +80,7 @@ _global_script_classes=[ {
 "path": "res://Classes/ItemSubClasses/Weapon.gd"
 } ]
 _global_script_class_icons={
-"Action": "",
+"Ability": "",
 "Anomoly": "",
 "Console": "",
 "Crew": "",
@@ -114,6 +114,7 @@ CrewFactory="*res://Factories/CrewFactory.gd"
 EquipmentFactory="*res://Factories/ItemFactories/EquipmentFactory.gd"
 FrameFactory="*res://Factories/ItemFactories/FrameFactory.gd"
 WeaponFactory="*res://Factories/ItemFactories/WeaponFactory.gd"
+AbilityFactory="*res://Factories/AbilityFactory.gd"
 
 [display]
 

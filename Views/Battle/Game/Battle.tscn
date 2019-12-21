@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Views/Battle/Game/Battle.gd" type="Script" id=1]
 [ext_resource path="res://TextureBank/Backgrounds/3x3GridPerspective.png" type="Texture" id=2]
 [ext_resource path="res://Views/Battle/Game/Battler.tscn" type="PackedScene" id=3]
-[ext_resource path="res://TextureBank/Bodys/placeholder.png" type="Texture" id=4]
 
 [node name="Battle" type="Node2D"]
 script = ExtResource( 1 )
@@ -12,6 +11,7 @@ __meta__ = {
 }
 
 [node name="BG" type="Sprite" parent="."]
+editor/display_folded = true
 position = Vector2( 438.721, 150 )
 scale = Vector2( 1.15377, 1.0025 )
 texture = ExtResource( 2 )
@@ -19,11 +19,6 @@ offset = Vector2( 49.0856, 162.001 )
 __meta__ = {
 "_edit_lock_": true
 }
-
-[node name="0_0" parent="BG" instance=ExtResource( 3 )]
-visible = false
-position = Vector2( 23.1068, 100.613 )
-scale = Vector2( 0.75, 0.75 )
 
 [node name="0_1" parent="BG" instance=ExtResource( 3 )]
 visible = false
@@ -44,6 +39,11 @@ scale = Vector2( 1, 1 )
 visible = false
 position = Vector2( 144.291, 198.688 )
 scale = Vector2( 1, 1 )
+
+[node name="0_0" parent="BG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 23.1068, 100.613 )
+scale = Vector2( 0.75, 0.75 )
 
 [node name="1_2" parent="BG" instance=ExtResource( 3 )]
 visible = false
@@ -67,65 +67,62 @@ scale = Vector2( 1.2, 1.2 )
 
 [node name="EBG" type="Sprite" parent="."]
 editor/display_folded = true
-position = Vector2( 1340, 150 )
+position = Vector2( 1350, 150 )
 scale = Vector2( 1.15377, 1.0025 )
 texture = ExtResource( 2 )
 offset = Vector2( 49.0856, 162.001 )
 flip_h = true
-__meta__ = {
-"_edit_lock_": true
-}
 
-[node name="0_0" type="Sprite" parent="EBG"]
-position = Vector2( 86.6726, 79.8003 )
-scale = Vector2( 0.606708, 0.698253 )
-texture = ExtResource( 4 )
+[node name="0_0" parent="EBG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( -272.506, 91.9569 )
+scale = Vector2( 0.75, 0.75 )
 flip_h = true
 
-[node name="0_1" type="Sprite" parent="EBG"]
-position = Vector2( -86.6726, 71.8203 )
-scale = Vector2( 0.606708, 0.698253 )
-texture = ExtResource( 4 )
+[node name="0_1" parent="EBG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( -107.829, 91.9569 )
+scale = Vector2( 0.75, 0.75 )
 flip_h = true
 
-[node name="0_2" type="Sprite" parent="EBG"]
-position = Vector2( -267.992, 79.8003 )
-scale = Vector2( 0.606708, 0.698253 )
-texture = ExtResource( 4 )
+[node name="0_2" parent="EBG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 82.8503, 94.187 )
+scale = Vector2( 0.75, 0.75 )
 flip_h = true
 
-[node name="1_0" type="Sprite" parent="EBG"]
-position = Vector2( 156.011, 185.935 )
-scale = Vector2( 0.866726, 0.997504 )
-texture = ExtResource( 4 )
+[node name="1_0" parent="EBG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( -226.757, 211.539 )
+scale = Vector2( 0.907163, 0.996444 )
 flip_h = true
 
-[node name="1_1" type="Sprite" parent="EBG"]
-position = Vector2( -34.669, 185.935 )
-scale = Vector2( 0.866726, 0.997504 )
-texture = ExtResource( 4 )
+[node name="1_1" parent="EBG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( -50.8, 198.688 )
+scale = Vector2( 1, 1 )
 flip_h = true
 
-[node name="1_2" type="Sprite" parent="EBG"]
-position = Vector2( -229.162, 199.501 )
-scale = Vector2( 0.866726, 0.997504 )
-texture = ExtResource( 4 )
+[node name="1_2" parent="EBG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 139.879, 211.835 )
+scale = Vector2( 1, 1 )
 flip_h = true
 
-[node name="2_0" type="Sprite" parent="EBG"]
-position = Vector2( -182.012, 339.151 )
-scale = Vector2( 1.04007, 1.197 )
-texture = ExtResource( 4 )
+[node name="2_0" parent="EBG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( -181.58, 349.127 )
+scale = Vector2( 1.2, 1.2 )
 flip_h = true
 
-[node name="2_1" type="Sprite" parent="EBG"]
-position = Vector2( 26.0018, 349.126 )
-scale = Vector2( 1.04007, 1.197 )
-texture = ExtResource( 4 )
+[node name="2_1" parent="EBG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 26.4338, 349.127 )
+scale = Vector2( 1.2, 1.2 )
 flip_h = true
 
-[node name="2_2" type="Sprite" parent="EBG"]
-position = Vector2( 278.461, 339.151 )
-scale = Vector2( 1.04007, 1.197 )
-texture = ExtResource( 4 )
+[node name="2_2" parent="EBG" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 251.782, 336.204 )
+scale = Vector2( 1.2, 1.2 )
 flip_h = true
