@@ -40,6 +40,11 @@ func generateManyCrew( cp : int  , numOfCrew : int  ):
 
 	return crewArray
 
+func generateNewCrewWithEquipment( cp , itemPoints):
+	var crewman = generateNewCrew( cp )
+
+	return crewman
+
 func generateNewCrew( cp = 30 ):
 	var crewman = Crew.new()
 

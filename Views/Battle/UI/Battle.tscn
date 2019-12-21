@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Views/Battle/UI/Battle.gd" type="Script" id=1]
-[ext_resource path="res://ReusableUI/CrewCard/CrewCard.tscn" type="PackedScene" id=2]
-[ext_resource path="res://ReusableUI/TraitCard/TraitCard.tscn" type="PackedScene" id=3]
-[ext_resource path="res://ReusableUI/ResistanceCard/Resistance.tscn" type="PackedScene" id=4]
-[ext_resource path="res://ReusableUI/StanceCard.tscn" type="PackedScene" id=5]
-[ext_resource path="res://ReusableUI/AllActionCard/AllActionCard.tscn" type="PackedScene" id=6]
+[ext_resource path="res://ReusableUI/BattleInstants/BattleInstants.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ReusableUI/CrewCard/CrewCard.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ReusableUI/TraitCard/TraitCard.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ReusableUI/ResistanceCard/Resistance.tscn" type="PackedScene" id=5]
+[ext_resource path="res://ReusableUI/StanceCard/StanceCard.tscn" type="PackedScene" id=6]
+[ext_resource path="res://ReusableUI/AllActionCard/AllActionCard.tscn" type="PackedScene" id=7]
 
 [node name="Control" type="VBoxContainer"]
 anchor_right = 1.0
@@ -72,143 +73,7 @@ margin_bottom = 404.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Instants Container" type="PanelContainer" parent="Middle/VBox"]
-margin_top = 408.0
-margin_right = 300.0
-margin_bottom = 579.0
-rect_min_size = Vector2( 300, 0 )
-
-[node name="VBox" type="VBoxContainer" parent="Middle/VBox/Instants Container"]
-margin_right = 300.0
-margin_bottom = 171.0
-size_flags_vertical = 0
-
-[node name="Header" type="HBoxContainer" parent="Middle/VBox/Instants Container/VBox"]
-editor/display_folded = true
-margin_right = 300.0
-margin_bottom = 31.0
-
-[node name="Label" type="Label" parent="Middle/VBox/Instants Container/VBox/Header"]
-margin_right = 268.0
-margin_bottom = 31.0
-size_flags_horizontal = 3
-text = "Instants"
-align = 1
-
-[node name="Button" type="Button" parent="Middle/VBox/Instants Container/VBox/Header"]
-margin_left = 272.0
-margin_right = 300.0
-margin_bottom = 31.0
-text = " X "
-
-[node name="InstantBase" type="VBoxContainer" parent="Middle/VBox/Instants Container/VBox"]
-editor/display_folded = true
-margin_top = 35.0
-margin_right = 300.0
-margin_bottom = 171.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Middle/VBox/Instants Container/VBox/InstantBase"]
-editor/display_folded = true
-margin_right = 300.0
-margin_bottom = 31.0
-
-[node name="Button" type="Button" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer"]
-margin_right = 259.0
-margin_bottom = 31.0
-size_flags_horizontal = 3
-text = "In Defiance of Destiny"
-align = 0
-
-[node name="Label" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer"]
-self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
-margin_left = 263.0
-margin_right = 279.0
-margin_bottom = 31.0
-text = "6"
-
-[node name="Label2" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer"]
-margin_left = 283.0
-margin_right = 300.0
-margin_bottom = 31.0
-text = "O"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="Middle/VBox/Instants Container/VBox/InstantBase"]
-editor/display_folded = true
-margin_top = 35.0
-margin_right = 300.0
-margin_bottom = 66.0
-
-[node name="Button" type="Button" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer2"]
-margin_right = 259.0
-margin_bottom = 31.0
-size_flags_horizontal = 3
-text = "Malignent Metabolism"
-align = 0
-
-[node name="Label" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer2"]
-self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
-margin_left = 263.0
-margin_right = 279.0
-margin_bottom = 31.0
-text = "6"
-
-[node name="Label2" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer2"]
-margin_left = 283.0
-margin_right = 300.0
-margin_bottom = 31.0
-text = "O"
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="Middle/VBox/Instants Container/VBox/InstantBase"]
-editor/display_folded = true
-margin_top = 70.0
-margin_right = 300.0
-margin_bottom = 101.0
-
-[node name="Button" type="Button" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer3"]
-margin_right = 259.0
-margin_bottom = 31.0
-size_flags_horizontal = 3
-text = "Iron Right"
-align = 0
-
-[node name="Label" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer3"]
-self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
-margin_left = 263.0
-margin_right = 279.0
-margin_bottom = 31.0
-text = "6"
-
-[node name="Label2" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer3"]
-margin_left = 283.0
-margin_right = 300.0
-margin_bottom = 31.0
-text = "O"
-
-[node name="HBoxContainer4" type="HBoxContainer" parent="Middle/VBox/Instants Container/VBox/InstantBase"]
-editor/display_folded = true
-margin_top = 105.0
-margin_right = 300.0
-margin_bottom = 136.0
-
-[node name="Button" type="Button" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer4"]
-margin_right = 259.0
-margin_bottom = 31.0
-size_flags_horizontal = 3
-text = "Realm of the Distant Chronometer"
-align = 0
-
-[node name="Label" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer4"]
-self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
-margin_left = 263.0
-margin_right = 279.0
-margin_bottom = 31.0
-text = "6"
-
-[node name="Label2" type="Label" parent="Middle/VBox/Instants Container/VBox/InstantBase/HBoxContainer4"]
-margin_left = 283.0
-margin_right = 300.0
-margin_bottom = 31.0
-text = "O"
+[node name="BattleInstants" parent="Middle/VBox" instance=ExtResource( 2 )]
 
 [node name="Spacer" type="Control" parent="Middle"]
 margin_left = 304.0
@@ -243,14 +108,14 @@ margin_bottom = 300.0
 margin_right = 300.0
 margin_bottom = 300.0
 
-[node name="Crew" parent="BottomControls/Selection/HBox/VBox" instance=ExtResource( 2 )]
+[node name="Crew" parent="BottomControls/Selection/HBox/VBox" instance=ExtResource( 3 )]
 margin_right = 300.0
 
-[node name="TraitCard" parent="BottomControls/Selection/HBox/VBox" instance=ExtResource( 3 )]
+[node name="TraitCard" parent="BottomControls/Selection/HBox/VBox" instance=ExtResource( 4 )]
 margin_top = 82.0
 margin_bottom = 267.0
 
-[node name="ResistanceCard" parent="BottomControls/Selection/HBox" instance=ExtResource( 4 )]
+[node name="ResistanceCard" parent="BottomControls/Selection/HBox" instance=ExtResource( 5 )]
 margin_left = 304.0
 margin_right = 501.0
 margin_bottom = 300.0
@@ -278,9 +143,9 @@ margin_top = 35.0
 margin_right = 501.0
 margin_bottom = 218.0
 
-[node name="StanceCard" parent="BottomControls/TurnData/VBox/HBox" instance=ExtResource( 5 )]
+[node name="StanceCard" parent="BottomControls/TurnData/VBox/HBox" instance=ExtResource( 6 )]
 
-[node name="AllActionCard" parent="BottomControls/TurnData/VBox/HBox" instance=ExtResource( 6 )]
+[node name="AllActionCard" parent="BottomControls/TurnData/VBox/HBox" instance=ExtResource( 7 )]
 margin_left = 169.0
 margin_right = 501.0
 margin_bottom = 183.0

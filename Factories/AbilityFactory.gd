@@ -78,7 +78,6 @@ func _fillAndValidateDamageEffect( ability, effectData ):
 	return ability
 
 func _fillAndValidateStatusEffect( ability, effectData ):
-
 	return ability
 
 func _fillAndValidateHealingEffect( ability, effectData ):

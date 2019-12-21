@@ -341,6 +341,9 @@ func getAllActions():
 func getAllStances():
 	return self.stances
 
+func getAllInstants():
+	return self.instants
+
 func isDead():
 	return self.isDead
 

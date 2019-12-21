@@ -1,0 +1,25 @@
+[gd_scene format=2]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+margin_right = 300.0
+margin_bottom = 31.0
+
+[node name="Button" type="Button" parent="."]
+margin_right = 259.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "In Defiance of Destiny"
+align = 0
+
+[node name="Label" type="Label" parent="."]
+self_modulate = Color( 0.898039, 0.890196, 0.156863, 1 )
+margin_left = 263.0
+margin_right = 279.0
+margin_bottom = 31.0
+text = "6"
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 283.0
+margin_right = 300.0
+margin_bottom = 31.0
+text = "O"

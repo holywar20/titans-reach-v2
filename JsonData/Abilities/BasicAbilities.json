@@ -7,22 +7,38 @@
 		"damageHiBase" : 1 ,
 		"damageLoBase" : 3 ,
 		"toHitBase" : 80 ,
-		"validTargets" : [ 1 ] ,
-		"validFrom" : [ 3 ] ,
+		"validTargets" : [ 0 ] ,
+		"validFrom" : [ 2 ] ,
 		"targetType" : "FLOOR" ,
 		"targetArea" : "SINGLE" ,
-		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png"
+		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"damageEffects" : [
+			{
+				"dmgTrait"			: "STR",
+				"dmgTraitMod"		: 0.2 , 
+				"dmgType"			: "KINETIC",
+				"dmgMod"				: 1,
+				"dmgTotal"			: null,
+				"toHitTrait"		: "STR" ,
+				"toHitTraitMod" 	: 0.2,
+				"toHitMod"			: 1,
+				"toHitModTotal"	: 0,
+				"targetArea"		: null,
+				"targetType"		: null,
+				"duration"			: null
+			}
+		]
 	} , 
 	"Defend" : {
 		"key" : "Brawl" ,
 		"shortName" : "Brawl" ,
 		"fullName" : "Brawl" ,
 		"abilityType" : "STANCE" ,
-		"damageHiBase" : 1 ,
-		"damageLoBase" : 3 ,
-		"toHitBase" : 80 ,
-		"validTargets" : [ 1 ] ,
-		"validFrom" : [ 3 ] ,
+		"damageHiBase" : 0 ,
+		"damageLoBase" : 0 ,
+		"toHitBase" : 100 ,
+		"validTargets" : [] ,
+		"validFrom" : [ 0 , 1, 2 ] ,
 		"targetType" : "FLOOR" ,
 		"targetArea" : "SINGLE" ,
 		"iconPath" : "res://TextureBank/AbilityIcons/defend.png"

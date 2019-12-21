@@ -14,11 +14,11 @@ const ABILITY_TYPES = {
 }
 
 const DMG_TYPES = { 
-	'KINETIC'	: "Kinetic Dmg", 
-	'THERMAL'	: "Thermal Dmg",
-	'TOXIC'		: "Toxic Dmg", 
-	'EM'			: "EM Dmg", 
-	'HEALING'	: "Healing"	,
+	'KINETIC'	: "KINETIC", 
+	'THERMAL'	: "THERMA",
+	'TOXIC'		: "TOXIC", 
+	'EM'			: "EM", 
+	'HEALING'	: "HEALING"	,
 	'NONE' 		: "NONE"
 }
 
@@ -52,18 +52,9 @@ const HIT_TRAITS = {
 	'STR' : 'STR', 'DEX' : 'DEX', 'CHA' : 'CHA', 'PER' : 'PER', 'INT' : 'INT' , 'ALWAYS' : 'ALWAYS'
 }
 
-const HEAL_EFFECT_PROTOTYPE = {
-	'healTrait'		: null,
-	'healMod'		: null,
-	'toHitTrait'	: null,
-	'toHitMod'		: null,
-	'targetArea'	: null,
-	'targetType'	: null,
-	'duration'		: null
-}
-
 const DMG_EFFECT_PROTOTYPE = {
 	'dmgTrait'		: null,
+	'dmgTraitMod'	: null,
 	'dmgType'		: null,
 	'dmgMod'			: 0,
 	'dmgTotal'		: null,

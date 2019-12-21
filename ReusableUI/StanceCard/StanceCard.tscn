@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://ReusableUI/StanceCard.gd" type="Script" id=1]
+[ext_resource path="res://ReusableUI/StanceCard/StanceCard.gd" type="Script" id=1]
 
 [node name="StanceCard" type="VBoxContainer"]
 margin_right = 165.0

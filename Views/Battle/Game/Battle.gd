@@ -53,7 +53,13 @@ func _setupBattleOrder():
 	self.playerField[1][1].loadData( self.playerCrew[1] )
 	self.playerField[1][2].loadData( self.playerCrew[2] )
 	self.playerField[2][1].loadData( self.playerCrew[3] )
-	self.playerField[0][1].loadData( self.playerCrew[4])
+	self.playerField[0][1].loadData( self.playerCrew[4] )
+
+	self.enemyField[1][0].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 ) )
+	self.enemyField[1][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 ) )
+	self.enemyField[1][2].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 ) )
+	self.enemyField[2][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 ) )
+	self.enemyField[0][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 ) )
 
 func _nextPass():
 	# Do any special end of pass checks ( Special conditions, etc )
