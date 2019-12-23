@@ -42,6 +42,5 @@ func loadData( crewman = null ):
 		
 		for action in actions:
 			var actionInstance = self.abilityButtonScene.instance()
-			# TODO - add tests for clickability potentially
 			actionInstance.setupScene( self.eventBus , action , false )
 			self.grid.add_child( actionInstance )

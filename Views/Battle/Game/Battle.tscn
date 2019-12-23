@@ -11,7 +11,6 @@ __meta__ = {
 }
 
 [node name="BG" type="Sprite" parent="."]
-editor/display_folded = true
 position = Vector2( 438.721, 150 )
 scale = Vector2( 1.15377, 1.0025 )
 texture = ExtResource( 2 )
@@ -20,109 +19,168 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="0_1" parent="BG" instance=ExtResource( 3 )]
-visible = false
-position = Vector2( 191.788, 99.7506 )
-scale = Vector2( 0.75, 0.75 )
-
-[node name="0_2" parent="BG" instance=ExtResource( 3 )]
-visible = false
-position = Vector2( 373.8, 93.6323 )
-scale = Vector2( 0.75, 0.75 )
-
-[node name="1_0" parent="BG" instance=ExtResource( 3 )]
-visible = false
-position = Vector2( -59.5621, 195.91 )
-scale = Vector2( 1, 1 )
-
-[node name="1_1" parent="BG" instance=ExtResource( 3 )]
-visible = false
-position = Vector2( 144.291, 198.688 )
-scale = Vector2( 1, 1 )
-
-[node name="0_0" parent="BG" instance=ExtResource( 3 )]
+[node name="0_0" parent="BG" groups=[
+"PlayerBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 23.1068, 100.613 )
 scale = Vector2( 0.75, 0.75 )
 
-[node name="1_2" parent="BG" instance=ExtResource( 3 )]
+[node name="0_1" parent="BG" groups=[
+"PlayerBattlers",
+] instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 191.788, 99.7506 )
+scale = Vector2( 0.75, 0.75 )
+myY = 1
+
+[node name="0_2" parent="BG" groups=[
+"PlayerBattlers",
+] instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 373.8, 93.6323 )
+scale = Vector2( 0.75, 0.75 )
+myY = 2
+
+[node name="1_0" parent="BG" groups=[
+"PlayerBattlers",
+] instance=ExtResource( 3 )]
+visible = false
+position = Vector2( -59.5621, 195.91 )
+scale = Vector2( 1, 1 )
+myX = 1
+
+[node name="1_1" parent="BG" groups=[
+"PlayerBattlers",
+] instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 144.291, 198.688 )
+scale = Vector2( 1, 1 )
+myX = 1
+myY = 1
+
+[node name="1_2" parent="BG" groups=[
+"PlayerBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 339.131, 208.204 )
 scale = Vector2( 1, 1 )
+myX = 1
+myY = 2
 
-[node name="2_0" parent="BG" instance=ExtResource( 3 )]
+[node name="2_0" parent="BG" groups=[
+"PlayerBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( -163.569, 359.102 )
 scale = Vector2( 1.2, 1.2 )
+myX = 2
 
-[node name="2_1" parent="BG" instance=ExtResource( 3 )]
+[node name="2_1" parent="BG" groups=[
+"PlayerBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 70.4464, 359.102 )
 scale = Vector2( 1.2, 1.2 )
+myX = 2
+myY = 1
 
-[node name="2_2" parent="BG" instance=ExtResource( 3 )]
+[node name="2_2" parent="BG" groups=[
+"PlayerBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 287.127, 349.127 )
 scale = Vector2( 1.2, 1.2 )
+myX = 2
+myY = 2
 
 [node name="EBG" type="Sprite" parent="."]
-editor/display_folded = true
 position = Vector2( 1350, 150 )
 scale = Vector2( 1.15377, 1.0025 )
 texture = ExtResource( 2 )
 offset = Vector2( 49.0856, 162.001 )
 flip_h = true
 
-[node name="0_0" parent="EBG" instance=ExtResource( 3 )]
+[node name="0_0" parent="EBG" groups=[
+"EnemyBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( -272.506, 91.9569 )
 scale = Vector2( 0.75, 0.75 )
 flip_h = true
 
-[node name="0_1" parent="EBG" instance=ExtResource( 3 )]
+[node name="0_1" parent="EBG" groups=[
+"EnemyBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( -107.829, 91.9569 )
 scale = Vector2( 0.75, 0.75 )
 flip_h = true
+myY = 1
 
-[node name="0_2" parent="EBG" instance=ExtResource( 3 )]
+[node name="0_2" parent="EBG" groups=[
+"EnemyBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 82.8503, 94.187 )
 scale = Vector2( 0.75, 0.75 )
 flip_h = true
+myY = 2
 
-[node name="1_0" parent="EBG" instance=ExtResource( 3 )]
+[node name="1_0" parent="EBG" groups=[
+"EnemyBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( -226.757, 211.539 )
 scale = Vector2( 0.907163, 0.996444 )
 flip_h = true
+myX = 1
 
-[node name="1_1" parent="EBG" instance=ExtResource( 3 )]
+[node name="1_1" parent="EBG" groups=[
+"EnemyBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( -50.8, 198.688 )
 scale = Vector2( 1, 1 )
 flip_h = true
+myX = 1
+myY = 1
 
-[node name="1_2" parent="EBG" instance=ExtResource( 3 )]
+[node name="1_2" parent="EBG" groups=[
+"EnemyBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 139.879, 211.835 )
 scale = Vector2( 1, 1 )
 flip_h = true
+myX = 1
+myY = 2
 
-[node name="2_0" parent="EBG" instance=ExtResource( 3 )]
+[node name="2_0" parent="EBG" groups=[
+"EnemyBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( -181.58, 349.127 )
 scale = Vector2( 1.2, 1.2 )
 flip_h = true
+myX = 2
 
-[node name="2_1" parent="EBG" instance=ExtResource( 3 )]
+[node name="2_1" parent="EBG" groups=[
+"EnemyBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 26.4338, 349.127 )
 scale = Vector2( 1.2, 1.2 )
 flip_h = true
+myX = 2
+myY = 1
 
-[node name="2_2" parent="EBG" instance=ExtResource( 3 )]
+[node name="2_2" parent="EBG" groups=[
+"EnemyBattlers",
+] instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 251.782, 336.204 )
 scale = Vector2( 1.2, 1.2 )
 flip_h = true
+myX = 2
+myY = 2

@@ -1,5 +1,8 @@
 extends Node
 
+const MAKE_ENEMY = false
+const MAKE_PLAYER = true
+
 # TODO - Write script that populates this data from a folder.
 const MALE_PORTRAITS_FOLDER = "res://TextureBank/Faces/BorrowedMen/"
 const MALE_PORTRAITS = [
@@ -40,8 +43,10 @@ func generateManyCrew( cp : int  , numOfCrew : int  ):
 
 	return crewArray
 
-func generateNewCrewWithEquipment( cp , itemPoints):
+func generateNewCrewWithEquipment( cp , itemPoints , isPlayer : bool ):
 	var crewman = generateNewCrew( cp )
+
+	crewman.isPlayer = isPlayer
 
 	return crewman
 

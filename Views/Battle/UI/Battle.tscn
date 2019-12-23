@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Views/Battle/UI/Battle.gd" type="Script" id=1]
 [ext_resource path="res://ReusableUI/BattleInstants/BattleInstants.tscn" type="PackedScene" id=2]
@@ -7,16 +7,37 @@
 [ext_resource path="res://ReusableUI/ResistanceCard/Resistance.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ReusableUI/StanceCard/StanceCard.tscn" type="PackedScene" id=6]
 [ext_resource path="res://ReusableUI/AllActionCard/AllActionCard.tscn" type="PackedScene" id=7]
+[ext_resource path="res://ReusableUI/ActionCard/ActionCard.tscn" type="PackedScene" id=8]
 
 [node name="Control" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 
-[node name="Footer" type="PanelContainer" parent="."]
+[node name="Header" type="PanelContainer" parent="."]
 margin_right = 1920.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
+
+[node name="UncontainedUI" type="Control" parent="Header"]
+margin_right = 1920.0
+margin_bottom = 50.0
+
+[node name="ActionStatus" type="Panel" parent="Header/UncontainedUI"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -190.0
+margin_top = 189.0
+margin_right = 190.0
+margin_bottom = 229.0
+
+[node name="Label" type="Label" parent="Header/UncontainedUI/ActionStatus"]
+margin_right = 383.0
+margin_bottom = 36.0
+text = "{ ACTION NAME } | { TARGET STRING }"
+align = 1
+valign = 1
 
 [node name="TrackerContainer" type="HBoxContainer" parent="."]
 margin_top = 54.0
@@ -55,34 +76,47 @@ margin_top = 143.0
 margin_right = 1920.0
 margin_bottom = 722.0
 size_flags_vertical = 3
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="VBox" type="VBoxContainer" parent="Middle"]
-margin_right = 300.0
 margin_bottom = 579.0
 
 [node name="TopSpacer" type="Control" parent="Middle/VBox"]
-margin_right = 300.0
-margin_bottom = 200.0
+margin_bottom = 287.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="BottomSpacer" type="Control" parent="Middle/VBox"]
-margin_top = 204.0
-margin_right = 300.0
-margin_bottom = 404.0
+margin_top = 291.0
+margin_bottom = 579.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="BattleInstants" parent="Middle/VBox" instance=ExtResource( 2 )]
+visible = false
+margin_top = 544.0
+margin_bottom = 579.0
 
 [node name="Spacer" type="Control" parent="Middle"]
-margin_left = 304.0
+margin_left = 4.0
 margin_right = 1920.0
 margin_bottom = 579.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="BottomControls" type="HBoxContainer" parent="."]
+editor/display_folded = true
 margin_top = 726.0
 margin_right = 1920.0
 margin_bottom = 1026.0
@@ -160,13 +194,17 @@ margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="ActionCard" parent="BottomControls/TargetData" instance=ExtResource( 8 )]
+margin_right = 501.0
+margin_bottom = 300.0
+
 [node name="Spacer2" type="Control" parent="BottomControls"]
 margin_left = 1719.0
 margin_right = 1919.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 200, 0 )
 
-[node name="Header" type="PanelContainer" parent="."]
+[node name="Footer" type="PanelContainer" parent="."]
 margin_top = 1030.0
 margin_right = 1920.0
 margin_bottom = 1080.0

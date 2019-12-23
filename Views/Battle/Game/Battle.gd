@@ -12,6 +12,9 @@ onready var enemyField = [
 	[ get_node("EBG/2_0"), get_node("EBG/2_1"), get_node("EBG/2_2") ], 
 ]
 
+const ENEMYBATTLERS = "EnemyBattlers"
+const PLAYERBATTLERS = "PlayerBattlers"
+
 var eventBus
 var playerCrew = []
 var enemyCrew = []
@@ -19,61 +22,70 @@ var battleConfig # No need not to keep as a ref, though we should load config as
 
 # Battle configuration variables
 
-
 # STATE
 var initiativeArray = []
+var currentTurnActor = null
 
-func setupScene( eventBus : EventBus , playerCrew , battleConfigDictionary ):
-	self.eventBus = eventBus
-	self.playerCrew = playerCrew
-	self.battleConfig = battleConfig 
+func setupScene( eBus : EventBus , crew , battleConfigDictionary ):
+	eventBus = eBus
+	playerCrew = crew
+	battleConfig = battleConfigDictionary 
 
-	self.eventBus.register( "NoMoreBattlers" , self , "_onNoMoreBattlers" )
+	eventBus.register( "TargetingBegin" , self , "_onTargetingBegin" )
 
-	# Handing user input events
-	self.eventBus.register("ActionStarted" , self , "_onACtionStarted" )
+func loadData():
+	for row in playerField:
+		for player in row:
+			playerField[row][player].setupScene( eventBus )
+
+	for row in enemyField:
+		for enemy in row:
+			enemyField[row][enemy].setupScene( eventBus )
 
 func _ready():
-	pass
-	# self.bases.instantBase.setupScene( self.eventBus , self.playerCrew )
-	# Build instants for enemy ( will need AI code for this . )
-	self._setupBattleOrder()
-	self._nextPass()
+	_setupBattleOrder()
+	_nextPass()
 
-func _onActionStarted():
-	print( "action starting!")
+func _onTargetingBegin( ability : Ability , crewman : Crew):
+	print( ability.fullName )
+	print( crewman.getFullName() )
+	# TODO find a way to do this for multiple effects that might require multiple targets
 
-func _onNoMoreBattlers():
-	self._nextPass()
+	var doesTargetEnemy = ability.doesTargetEnemyUnits()
+	var validTargets = ability.getValidTargets()
+
+	print( doesTargetEnemy )
+	print( validTargets )
+	# crew.isPlayer
+	# ability.targetType
 
 func _setupBattleOrder():
-	
 	# TODO - Create a pop up to allow this to be changed and saved before battle. For now , hardcode!
-	self.playerField[1][0].loadData( self.playerCrew[0] )
-	self.playerField[1][1].loadData( self.playerCrew[1] )
-	self.playerField[1][2].loadData( self.playerCrew[2] )
-	self.playerField[2][1].loadData( self.playerCrew[3] )
-	self.playerField[0][1].loadData( self.playerCrew[4] )
+	playerField[1][0].loadData( playerCrew[0] )
+	playerField[1][1].loadData( playerCrew[1] )
+	playerField[1][2].loadData( playerCrew[2] )
+	playerField[2][1].loadData( playerCrew[3] )
+	playerField[0][1].loadData( playerCrew[4] )
 
-	self.enemyField[1][0].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 ) )
-	self.enemyField[1][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 ) )
-	self.enemyField[1][2].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 ) )
-	self.enemyField[2][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 ) )
-	self.enemyField[0][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 ) )
+	enemyField[1][0].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
+	enemyField[1][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
+	enemyField[1][2].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
+	enemyField[2][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
+	enemyField[0][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
 
 func _nextPass():
 	# Do any special end of pass checks ( Special conditions, etc )
-	self._rollInitiative()
-	self._nextTurn()
+	_rollInitiative()
+	_nextTurn()
 
 func _rollInitiative():
 	var allActors = []
 	
-	for crew in self.enemyCrew:
+	for crew in enemyCrew:
 		if( crew.getFightableStatus() ):
 			allActors.append( crew )
 	
-	for crew in self.playerCrew:
+	for crew in playerCrew:
 		if( crew.getFightableStatus() ):
 			allActors.append( crew )
 	
@@ -84,29 +96,29 @@ func _rollInitiative():
 				"Actor" : actor
 			})
 	
-	self.initiativeArray = Common.bubbleSortArrayByDictKey( packedArray , "Init" )
+	initiativeArray = Common.bubbleSortArrayByDictKey( packedArray , "Init" )
 
-	self.eventBus.emit("InitiativeRolled" , [ initiativeArray ] )
+	eventBus.emit("InitiativeRolled" , [ initiativeArray ] )
 
 func _nextTurn():
-	if( self._validateAlive( playerCrew ) ):
-		self._loadEndGame()
+	if( _validateAlive( playerCrew ) ):
+		_loadEndGame()
 		#return null
 
-	if( self._validateAlive( enemyCrew) ):
-		self._loadEndBattle()
+	if( _validateAlive( enemyCrew) ):
+		_loadEndBattle()
 		#return null
 	
-	if( self.initiativeArray.size() == 0 ):
-		self.eventBus.emit( "NextPass" , [] )
+	if( initiativeArray.size() == 0 ):
+		eventBus.emit( "NextPass" , [] )
 
-	var tuple = self.initiativeArray.pop_back()
-	var nextActor = tuple.Actor
+	var tuple = initiativeArray.pop_back()
+	currentTurnActor = tuple.Actor
 
-	if( nextActor.isPlayer ):
-		self.eventBus.emit( "CrewmanTurn" , [ nextActor ] )
+	if( currentTurnActor.isPlayer ):
+		eventBus.emit( "CrewmanTurnStart" , [ currentTurnActor ] )
 	else:
-		self.eventBus.emit( "EnemyTurn" , [ nextActor ])
+		eventBus.emit( "EnemyTurnStart" , [ currentTurnActor ])
 
 func _validateAlive( someCrew ):
 	var deadCount = 0
@@ -115,9 +127,6 @@ func _validateAlive( someCrew ):
 			deadCount = deadCount + 1
 	
 	return deadCount >= someCrew.size()
-
-func _pickAction():
-	pass
 
 func _loadEndGame():
 	# Fire local event

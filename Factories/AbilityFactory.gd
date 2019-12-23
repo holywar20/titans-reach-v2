@@ -92,5 +92,8 @@ func _fillAndValidateAbility( dict ):
 	for key in dict:
 		ability[key] = dict[key]
 
+	# Next we type force all our integer values that should be integers into integers because Godot turns everything into real numbers from Json imports
+	
+
 	return ability
 

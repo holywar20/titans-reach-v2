@@ -9,15 +9,17 @@ onready var barNodes = {
 
 var eventBus = null
 var crewman = null
+export(int) var myX = 0
+export(int) var myY = 0
 
-func setupScene( eventBus : EventBus , crewman : Crew ):
-	self.eventBus = eventBus
-	self.crewman = crewman
+func setupScene( eBus : EventBus , battler : Crew ):
+	eventBus = eBus
+	crewman = battler
 
-	self.loadEvents()
+	loadEvents()
 
-	if( self.is_inside_tree() ):
-		self.loadData()
+	if( is_inside_tree() ):
+		loadData()
 
 func _ready():
 	pass
@@ -25,21 +27,24 @@ func _ready():
 func loadEvents():
 	pass
 
-func loadData( crewman = null ):
+func highlight():
+	print( "Highlighting!")
+
+func loadData( newCrewman = null ):
+	if( newCrewman ):
+		crewman = newCrewman
+
 	if( crewman ):
-		self.crewman = crewman
-
-	if( self.crewman ):
-		var hp = self.crewman.getHPStatBlock()
-		self.barNodes.HealthBar.set_max( hp.total )
-		self.barNodes.HealthBar.set_value( hp.current )
-		self.barNodes.HealthValue.set_text( self.crewman.getHitPointString() )
+		var hp = crewman.getHPStatBlock()
+		barNodes.HealthBar.set_max( hp.total )
+		barNodes.HealthBar.set_value( hp.current )
+		barNodes.HealthValue.set_text( crewman.getHitPointString() )
 		
-		var morale = self.crewman.getMoraleStatBlock()
-		self.barNodes.MoraleBar.set_max( morale.total )
-		self.barNodes.MoraleBar.set_value( morale.current )
-		self.barNodes.MoraleValue.set_text( self.crewman.getMoraleString() )
+		var morale = crewman.getMoraleStatBlock()
+		barNodes.MoraleBar.set_max( morale.total )
+		barNodes.MoraleBar.set_value( morale.current )
+		barNodes.MoraleValue.set_text( crewman.getMoraleString() )
 
-		self.show()
+		show()
 	else:
-		self.hide()
+		hide()

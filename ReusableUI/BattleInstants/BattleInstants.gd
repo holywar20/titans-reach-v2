@@ -3,7 +3,6 @@ extends PanelContainer
 onready var instantRowScene = load("res://ReusableUI/BattleInstants/InstantRow.tscn")
 onready var instantBase = get_node("VBox/InstantBase")
 
-
 func setupScene( eventBus : EventBus , crewman : Crew ):
 	self.eventBus = eventBus
 

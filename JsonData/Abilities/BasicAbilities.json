@@ -9,7 +9,7 @@
 		"toHitBase" : 80 ,
 		"validTargets" : [ 0 ] ,
 		"validFrom" : [ 2 ] ,
-		"targetType" : "FLOOR" ,
+		"targetType" : "ENEMY_UNIT" ,
 		"targetArea" : "SINGLE" ,
 		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
 		"damageEffects" : [
@@ -30,18 +30,32 @@
 		]
 	} , 
 	"Defend" : {
-		"key" : "Brawl" ,
-		"shortName" : "Brawl" ,
-		"fullName" : "Brawl" ,
+		"key" : "Defend" ,
+		"shortName" : "Defend" ,
+		"fullName" : "Defend" ,
 		"abilityType" : "STANCE" ,
 		"damageHiBase" : 0 ,
 		"damageLoBase" : 0 ,
 		"toHitBase" : 100 ,
-		"validTargets" : [] ,
+		"validTargets" : [ 0 , 1 , 2 ] ,
 		"validFrom" : [ 0 , 1, 2 ] ,
-		"targetType" : "FLOOR" ,
+		"targetType" : "SELF" ,
 		"targetArea" : "SINGLE" ,
 		"iconPath" : "res://TextureBank/AbilityIcons/defend.png"
+	} , 
+	"Move" : {
+		"key" : "Move" ,
+		"shortName" : "Move" ,
+		"fullName" : "Move" ,
+		"abilityType" : "ACTION" ,
+		"damageHiBase" : 0 ,
+		"damageLoBase" : 0 ,
+		"toHitBase" : 100 ,
+		"validTargets" : [ 0 , 1 , 2 ] ,
+		"validFrom" : [ 0 , 1, 2 ] ,
+		"targetType" : "ALLY_FLOOR" ,
+		"targetArea" : "SINGLE" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/move.png"
 	}
 }
 

@@ -16,21 +16,28 @@ var race = "Terran" # TODO add ability for crewman to be many races
 var homeWorld = "Earth" # TODO Link homeworld to in game worlds which can potentially be discovered.
 var age = 100
 var bio = "four score and seven years ago. Yeah. I'm abraham Lincoln Bitch."
-
-var station = null
+var texturePath = null
+var smallTexturePath = null
 
 var id = null
 var cp = 0
 var cpSpent = 0
+
+# Status flags
 var isDead = false
 var isPlayer = true
 
-var texturePath = null
-var smallTexturePath = null
+# Other State
+var station = null
+var currentStanceKey = null
+var gear = {
+	"Frame" : null, "LWeapon" : null,  "RWeapon" : null , "CEquip" : null , "LEquip" : null , "REquip" : null
+}
+
 
 # A dictionary of keys, keyed by a 'source'. When it is not needed, actions are stored as simple keys and built as needed.
 var allAbilityKeys = {
-	"Basic"  : [ "Brawl" , "Defend" ],
+	"Basic"  : [ "Move" , "Brawl" , "Defend" ],
 	"Talent" : [] ,
 	"Weapon" : []
 }
@@ -44,14 +51,6 @@ var instants = []
 
 var temporaryPassives = {}
 
-var primaryTree = null
-var secondaryTree = null
-
-var currentStanceKey = null
-
-var gear = {
-	"Frame" : null, "LWeapon" : null,  "RWeapon" : null , "CEquip" : null , "LEquip" : null , "REquip" : null
-}
 
 # TODO make this an enum index
 # enum TRAITS { NONE , STR , DEX , PER, INT, CHA }
@@ -113,6 +112,7 @@ func loadAbilities():
 	for category in allAbilityKeys:
 		for key in allAbilityKeys[category]:
 			var ability = AbilityFactory.getAbilityByKey( key )
+			ability.setActor( self )
 
 			if( ability.abilityType == ability.ABILITY_TYPES.ACTION ):
 				self.actions.append( ability )

@@ -6,16 +6,13 @@ var events = [
 	"NextTurn",
 	"InitiativeRolled",
 	# 
-	"CrewmanTurn" , "EnemyTurn",
+	"CrewmanTurnStart" , "EnemyTurnStart",
 
 	"CrewmanDeath",
 
+	"ActionButtonClicked" , "StanceButtonClicked",
 	# Events dealing with action processing
-	"ActionStarted" , 
-	"SelectAlly" , "SelectEnemy" , "SelectAllyFloor" , "SelectEnemyFloor",
-	"ActionEnded" ,
-
-	"StanceChanged",
+	"ActionStarted" ,  "TargetingBegin", "TargetingEnd" , "ActionEnded" ,
 
 	"GeneralCancel",
 
@@ -27,23 +24,26 @@ var events = [
 onready var bases = {
 	"PreTurnTrackerBase" : get_node("TrackerContainer/BeforeTurn") ,
 	"PostTurnTrackerBase" : get_node("TrackerContainer/AfterTurn") ,
-	"InstantBase"	: get_node("Middle/VBox/InstantsContainer/VBox/InstantBase")
+	"InstantBase"		: get_node("Middle/VBox/InstantsContainer/VBox/BattleInstants")
 }
 
 onready var cards = {
-	"AllActionCard": get_node("BottomControls/TurnData/VBox/HBox/AllActionCard"),
-	"StanceCard"	: get_node("BottomControls/TurnData/VBox/HBox/StanceCard"),
-	"CrewCard"		: get_node("BottomControls/Selection/HBox/VBox/Crew"),
-	"TraitCard"		: get_node("BottomControls/Selection/HBox/VBox/TraitCard"),
-	"ResistCard"	: get_node("BottomControls/Selection/HBox/ResistanceCard"),
+	"AllActionCard"	: get_node("BottomControls/TurnData/VBox/HBox/AllActionCard"),
+	"StanceCard"		: get_node("BottomControls/TurnData/VBox/HBox/StanceCard"),
+	"CrewCard"			: get_node("BottomControls/Selection/HBox/VBox/Crew"),
+	"TraitCard"			: get_node("BottomControls/Selection/HBox/VBox/TraitCard"),
+	"ResistCard"		: get_node("BottomControls/Selection/HBox/ResistanceCard"),
 }
 
 onready var nodes = {
-	"TurnLabel" : get_node("BottomControls/TurnData/VBox/Label")
+	"TurnLabel" 		: get_node("BottomControls/TurnData/VBox/Label"),
+	"ActionStatus"		: get_node("Header/UncontainedUI/ActionStatus"),
+	"ActionLabel"		: get_node("Header/UncontainedUI/ActionStatus/Label")
 }
 
 var eventBus = null
 var currentTurnCrewman = null
+var selectedAbility = null
 
 func setupScene( eventBus : EventBus ):
 	self.eventBus = eventBus
@@ -61,13 +61,48 @@ func loadEvents():
 	self.eventBus.addEvents( self.events )
 	
 	self.eventBus.register("InitiativeRolled" , self, "_onInitiativeRolled")
+	self.eventBus.register("CrewmanTurnStart" , self, "_onCrewmanTurnStart" )
 
-	self.eventBus.register("CrewmanTurn" , self, "_onCrewmanTurn" )
-	self.eventBus.register("CrewmanDeath" , self, "_onCrewmanDeath" )
+	# Action Resolution
+	self.eventBus.register( "ActionButtonClicked", self , '_onActionButtonClicked' )
+	self.eventBus.register( "TargetingBegin" 		, self , "_onTargetingBegin" )
+	self.eventBus.register( "TargetingEnd"			, self , "_onTargetingEnd" )
+	self.eventBus.register( "ActionEnded"			, self , "_onActionEnded" )
+
+	self.eventBus.register( "GeneralCancel" , self, "_onGeneralCancel" )
+
+	self.eventBus.register( "StanceButtonClicked" , self , '_onStanceButtonClicked' )
+
+	self.eventBus.register( "CrewmanDeath" , self, "_onCrewmanDeath" )
+
+func _resolveAction( action : Ability ):
+	self.eventBus.emit( "ActionStarted" )
+	self.selectedAbility = action
+	self.nodes.ActionLabel.set_text( action.fullName )
+	self.nodes.ActionStatus.show()
+
+	self.eventBus.emit( "TargetingBegin" , [ self.selectedAbility , self.currentTurnCrewman ] )
+
+# This is generic and should apply to stances as well.
+func _onTargetingBegin( ability : Ability , crewman : Crew ):
+	pass
+
+func _onTargetingEnd():
+	pass
+
+func _onActionEnd():
+	pass
+
+func _onGeneralCancel():
+	if( self.selectedAbility ):
+		self.selectedAbility = null
+		self.nodes.ActionStatus.hide()
 
 func loadData( crewman = null ):
 	if( crewman ):
 		self.currentTurnCrewman = crewman
+		self.nodes.TurnLabel.set_text( "Turn : " + crewman.getFullName() )
+
 		self.cards.CrewCard.loadData( self.currentTurnCrewman )
 		self.cards.TraitCard.loadData( self.currentTurnCrewman )
 		self.cards.ResistCard.loadData( self.currentTurnCrewman )
@@ -96,6 +131,16 @@ func _onCrewmanDeath( crewman : Crew ):
 func _onCrewmanHover( crewman : Crew ):
 	self.loadData( crewman )
 
-func _onCrewmanTurn( crewman : Crew ):
+func _onActionButtonClicked( action : Ability ):
+	self._resolveAction( action )
+
+func _onStanceButtonClicked( stance : Ability ):
+	print( stance.shortName )
+
+func _onCrewmanTurnStart( crewman : Crew ):
 	# Find creman in tracker and highlight
 	self.loadData( crewman )
+
+func _input( event ):
+	if( event.is_action_pressed("GUI_UNSELECT") ):
+		self.eventBus.emit("GeneralCancel") 

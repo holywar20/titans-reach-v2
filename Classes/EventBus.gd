@@ -18,8 +18,7 @@ func addEvents( eventStrings ):
 # Currently only supports up to 5 arguments. Godot signals don't use variable numbers of arguments.
 # So yes - this ugly code exists, but it gets the job done, and it's contained here and can't spread.
 func emit( eventName : String , p = [] ):
-	# print("Emitting Event : " , eventName ,  " with Payload " , p )
-
+	print("Emitting Event : " , eventName ,  " with Payload " , p )
 	if( p.size() >= 5 ):
 		self.emit_signal( eventName , p[0], p[1] , p[2] , p[3] , p[4] )
 	elif( p.size() == 4):
@@ -36,7 +35,10 @@ func emit( eventName : String , p = [] ):
 # TODO - Godot permits the connection to functions that don't exist. We could add some sanity checking here. 
 # I should impliment logging first, so we have a place to dump non-fatal errors rather than just a print statment.
 func register( eventName: String , ref : Node , functionName : String ):
-	# print("Registering for event , " , eventName )
+	
+	if( !ref.has_method( functionName ) ):
+		print("Dev Warning::EventBus.register :  Method doesn't exist on the target node. : " , functionName  )
+
 	self.events[eventName] = events[eventName] + 1
 	self.connect( eventName , ref , functionName )
 
