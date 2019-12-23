@@ -4,7 +4,7 @@ class_name Frame
 
 # Populated by Json
 var frameArmorValue = 1
-var frameClass = self.FRAME_CLASS.LIGHT
+var frameClass = FRAME_CLASS.LIGHT
 
 # FRAME_CLASS data
 var frameClassString = "Light Frame"
@@ -20,8 +20,8 @@ const FRAME_CLASS_DATA = [
 ]
 
 func _init( key : String ):
-	self.itemKey = key
-	self.itemTextureType = self.TEXTURE_GRID_TYPE.COL
+	itemKey = key
+	itemTextureType = TEXTURE_GRID_TYPE.COL
 
 # Overrides
 func get_class(): 
@@ -32,8 +32,8 @@ func is_class( name : String ):
 
 # TODO add sanity checks?
 func equip():
-	self.itemAssigned = self.itemAssigned + 1
+	itemAssigned = itemAssigned + 1
 
 # TODO add sanity checks?
 func unequip():
-	self.itemAssigned = self.itemAssigned - 1
+	itemAssigned = itemAssigned - 1

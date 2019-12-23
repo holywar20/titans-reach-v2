@@ -9,12 +9,12 @@ func _ready():
 
 func _onMenuButtonToggled( toggle ):
 	if( toggle ):
-		self.menu.hide()
+		menu.hide()
 	else:
-		self.menu.show()
+		menu.show()
 
 func _onStartBattlePressed():
-	self.root.loadScreen( "BATTLE" )
+	root.loadScreen( "BATTLE" )
 
 func _onExploreSystemPressed():
-	self.root.loadScreen( "EXPLORE" )
+	root.loadScreen( "EXPLORE" )

@@ -14,8 +14,8 @@ func _ready():
 	pass
 
 func randDiffValues( low, hi ):
-	hi 	= int( round( hi  * self.ROUND_PRECISION ) ) # To deal with fractions and modulo  Also this caps precision at 4 decimals
-	low 	= int( round( low * self.ROUND_PRECISION ) )
+	hi 	= int( round( hi  * ROUND_PRECISION ) ) # To deal with fractions and modulo  Also this caps precision at 4 decimals
+	low 	= int( round( low * ROUND_PRECISION ) )
 
 	var diff = hi - low
 	var random = null
@@ -23,7 +23,7 @@ func randDiffValues( low, hi ):
 	if( diff == 0 ):
 		random = hi
 	else:
-		random = ( randi() % diff + low ) / self.ROUND_PRECISION
+		random = ( randi() % diff + low ) / ROUND_PRECISION
 	
 	return random
 
@@ -90,7 +90,7 @@ func genRandomKey():
 	return myKey
 
 func genRandomSeed():
-	return randi() % self.SEED_SIZE + 1
+	return randi() % SEED_SIZE + 1
 
 func findNodeInGroup( groupName , nodeName ):
 	

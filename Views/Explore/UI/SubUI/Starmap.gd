@@ -2,8 +2,8 @@ extends PanelContainer
 
 var eventBus = null 
 
-func setupScene( eventBus : EventBus ):
-	self.eventBus = eventBus
+func setupScene( eBus : EventBus ):
+	eventBus = eBus
 
 func _ready():
 	pass

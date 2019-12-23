@@ -18,55 +18,55 @@ onready var nodes = {
 	"Station"	: get_node("Header/VBox/Station")
 }
 
-func setupScene( eventBus: EventBus ):
-	self.eventBus = eventBus
+func setupScene( eBus : EventBus ):
+	eventBus = eBus
 
-	self.eventBus.register("CrewmanSelected" , self, "_onCrewmanSelected")
-	self.eventBus.register("GeneralCancel" , self , "_onGeneralCancel")
+	eventBus.register("CrewmanSelected" , self, "_onCrewmanSelected")
+	eventBus.register("GeneralCancel" , self , "_onGeneralCancel")
 
 func _ready():
-	self.hide()
+	hide()
 
 func _clearSelf():
-	for child in self.traitBase.get_children():
+	for child in traitBase.get_children():
 		child.queue_free()
 
-func _onCrewmanSelected( crewman : Crew ):
-	self._clearSelf()
-	self.crewman = crewman
+func _onCrewmanSelected( newCrewman : Crew ):
+	_clearSelf()
+	crewman = newCrewman
 
-	self.nodes.Name.set_text( crewman.getFullName() )
-	self.nodes.Image.set_texture( load( crewman.smallTexturePath ) )
+	nodes.Name.set_text( crewman.getFullName() )
+	nodes.Image.set_texture( load( crewman.smallTexturePath ) )
 	
-	var station = self.crewman.getStation()
+	var station = crewman.getStation()
 	if( station ):
-		self.nodes.Station.set_text( station.consoleName )
+		nodes.Station.set_text( station.consoleName )
 	else:
-		self.nodes.Station.set_text( self.UNASSIGNED_DISPLAY_TEXT )
+		nodes.Station.set_text( UNASSIGNED_DISPLAY_TEXT )
 
-	self._buildTraitsTable()
-	self.show()
+	_buildTraitsTable()
+	show()
 
 func _onGeneralCancel():
-	self.hide()
+	hide()
 
 func _buildTraitsTable():
-	var headerRow = self.dataRowScene.instance()
-	headerRow.setupScene( self.HEADERS )
+	var headerRow = dataRowScene.instance()
+	headerRow.setupScene( HEADERS )
 
 	var allRows = [ headerRow ]
 
-	var traitStatBlocks = self.crewman.getAllTraitStatBlocks()
+	var traitStatBlocks = crewman.getAllTraitStatBlocks()
 	for key in traitStatBlocks:
 		var statBlock = traitStatBlocks[key]
 		var statBlockArray = [
 			statBlock.fullName, statBlock.total
 		]
-		var statRow = self.dataRowScene.instance()
+		var statRow = dataRowScene.instance()
 		statRow.setupScene( statBlockArray )
 		allRows.append( statRow )
 
 	for row in allRows:
-		self.traitBase.add_child( row )
+		traitBase.add_child( row )
 
 

@@ -12,7 +12,7 @@ func _loadData():
 	var files = []
 	var dir = Directory.new()
 	
-	if( dir.open( self.itemFolder ) == OK ):
+	if( dir.open( itemFolder ) == OK ):
 		dir.list_dir_begin( true, true) # Flags to skip hidden and navigational files
 
 		# Loop through files and make an array.
@@ -29,7 +29,7 @@ func _loadData():
 		# Note - this dictionary is only raw data, and doens't turn into objects until
 		# other factory methods are called.
 		for fileName in files:
-			var path = self.itemFolder + fileName
+			var path = itemFolder + fileName
 			var file = File.new()
 			file.open( path , file.READ )
 
@@ -38,7 +38,7 @@ func _loadData():
 			var dict = json.get_result()
 
 			for key in dict:
-				self.dataDictionary[key] = dict[key]
+				dataDictionary[key] = dict[key]
 	else:
 		print("Files for FrameFactory didn't load. Something went wrong.")
 

@@ -115,11 +115,11 @@ func generateRandomStar( textureSize : int , thisSeed = 100000 ):
 	seed( thisSeed )
 	randi()
 
-	var pro = self._getRandomPrototypeStar( thisSeed )
+	var pro = _getRandomPrototypeStar( thisSeed )
 
 	var myStar = starScene.instance()
 	myStar['starSeed']			= thisSeed
-	myStar['description']		= self.starDescriptions[pro['classification']]
+	myStar['description']		= starDescriptions[pro['classification']]
 	myStar['classification'] 	= pro['classification']
 	myStar['className']  		= pro['className']
 	myStar['radius'] 				= pro['radius']
@@ -134,9 +134,9 @@ func generateRandomStar( textureSize : int , thisSeed = 100000 ):
 
 	myStar['color'] = pro['color']
 
-	var firstNameIdx = randi() % self.starSystemFirstNames.size()
-	var lastNameIdx = randi() % self.starSystemFirstNames.size()
-	myStar.setName( self.starSystemFirstNames[firstNameIdx] , self.starSystemLastNames[lastNameIdx] )
+	var firstNameIdx = randi() % starSystemFirstNames.size()
+	var lastNameIdx = randi() % starSystemFirstNames.size()
+	myStar.setName( starSystemFirstNames[firstNameIdx] , starSystemLastNames[lastNameIdx] )
 
 	myStar['mass'] = Common.randDiffPercents( pro['massHi'], pro['massLo'] )
 	myStar['mass'] = Common.randDiffPercents( pro['tempHi'], pro['tempLo'] )
@@ -151,11 +151,11 @@ func _getRandomPrototypeStar( thisSeed : int ):
 	var myStarClass = "M"
 	var weightCount = 0
 	
-	for star in self.randomStarTable:
+	for star in randomStarTable:
 		
-		weightCount += self.randomStarTable[star]
+		weightCount += randomStarTable[star]
 		if( weightCount >= random ):
 			myStarClass = star
 			break
 	
-	return self.starPrototypes[myStarClass]
+	return starPrototypes[myStarClass]

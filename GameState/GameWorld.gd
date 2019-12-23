@@ -7,4 +7,4 @@ func _ready():
 	pass
 
 func getSystemSeed():
-	return self.systemSeed
+	return systemSeed

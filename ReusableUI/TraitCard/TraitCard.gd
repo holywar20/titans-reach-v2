@@ -8,40 +8,40 @@ onready var traitBase = get_node("Panel/VBox")
 
 const HEADERS = [ "" , "Base" , "Equip" , "Talent" , "Total"]
 
-func setupScene( eventBus : EventBus , crewman : Crew ):
-	self.eventBus = eventBus
-	self.crewman = crewman
+func setupScene( eBus : EventBus , newCrewman : Crew ):
+	eventBus = eBus
+	crewman = newCrewman
 
-	if( self.crewman ):
-		self.show()
+	if( crewman ):
+		show()
 	else:
-		self.hide()
+		hide()
 
 func _ready():
-	if( self.crewman ):
-		self.loadData( self.crewman )
+	if( crewman ):
+		loadData( crewman )
 	
-func setEventBus( eventBus : EventBus ):
-	self.eventBus = eventBus
+func setEventBus( eBus : EventBus ):
+	eventBus = eBus
 
 func _clear():
-	for child in self.traitBase.get_children():
+	for child in traitBase.get_children():
 		child.queue_free()
 
 func loadData( crewman = null ):
-	self._clear()
-	self.crewman = crewman
+	_clear()
+	crewman = crewman
 	
 	if ( crewman ):
-		self.show()
+		show()
 	else:
-		self.hide()
+		hide()
 
-	var headerRow = self.dataRowScene.instance()
-	headerRow.setupScene( self.HEADERS )
+	var headerRow = dataRowScene.instance()
+	headerRow.setupScene( HEADERS )
 	var allRows = [ headerRow ]
 
-	var traitStatBlocks = self.crewman.getAllTraitStatBlocks()
+	var traitStatBlocks = crewman.getAllTraitStatBlocks()
 	for key in traitStatBlocks:
 		var statBlock = traitStatBlocks[key]
 		var statBlockArray = [
@@ -51,9 +51,9 @@ func loadData( crewman = null ):
 			statBlock.talent, 
 			statBlock.total
 		]
-		var statRow = self.dataRowScene.instance()
+		var statRow = dataRowScene.instance()
 		statRow.setupScene( statBlockArray )
 		allRows.append( statRow )
 	
 	for row in allRows:
-		self.traitBase.add_child( row )
+		traitBase.add_child( row )

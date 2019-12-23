@@ -8,14 +8,14 @@ var eventBus = null
 func _ready():
 	pass
 
-func setEvents( eventBus : EventBus ):
-	self.eventBus = eventBus
+func setEvents( eBus : EventBus ):
+	eventBus = eBus
 
-	self.minimapActual.setEvents( eventBus )
+	minimapActual.setEvents( eventBus )
 
 # Responses to events
 func _toggleShowHideMinimap():
-	if( self.minimapBody.is_visible() ):
-		self.minimapBody.set_visible( false )
+	if( minimapBody.is_visible() ):
+		minimapBody.set_visible( false )
 	else:
-		self.minimapBody.set_visible( true )
+		minimapBody.set_visible( true )

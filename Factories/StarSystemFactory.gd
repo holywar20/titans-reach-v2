@@ -7,11 +7,11 @@ var currentSeed = 10000
 func _ready():
 	pass
 
-func generateRandomSystem( thisSeed = self.currentSeed ):
+func generateRandomSystem( thisSeed = currentSeed ):
 
-	var connections = self._generateNewConnections( thisSeed )
-	var decorators = self._generateDecorators( thisSeed )
-	var myPlanets = self._generateAllRandomPlanets( thisSeed , myStar , decorators )	
+	var connections = _generateNewConnections( thisSeed )
+	var decorators = _generateDecorators( thisSeed )
+	var myPlanets = _generateAllRandomPlanets( thisSeed , myStar , decorators )	
 
 	var myStar = StarFactory.generateRandomStar( thisSeed )
 	

@@ -115,37 +115,37 @@ func loadAbilities():
 			ability.setActor( self )
 
 			if( ability.abilityType == ability.ABILITY_TYPES.ACTION ):
-				self.actions.append( ability )
+				actions.append( ability )
 			
 			if( ability.abilityType == ability.ABILITY_TYPES.STANCE ):
-				self.stances.append( ability )
+				stances.append( ability )
 
 			if( ability.abilityType == ability.ABILITY_TYPES.TRIGGERED ):
-				self.triggered.append( ability )
+				triggered.append( ability )
 
 			if( ability.abilityType == ability.ABILITY_TYPES.PASSIVE ):
-				self.triggered.append( ability )
+				triggered.append( ability )
 
 			if( ability.abilityType == ability.ABILITY_TYPES.INSTANT ):
-				self.instants.append( ability )
+				instants.append( ability )
 			# Parse key, put it in category that cares about it.
 
 func updateAbilities( inBattle = false ):
-	self._updatePassives()
+	_updatePassives()
 
 	if( inBattle ):
-		self._updateTempPassives()
+		_updateTempPassives()
 
-	self.calculateTraits()
-	self.calculateDerivedStats()
+	calculateTraits()
+	calculateDerivedStats()
 	
 	# Roll through each ability, finalizing values
 
 func assign( console = null ):
-	self.station = console
+	station = console
 
 func isAssigned():
-	if( self.station ):
+	if( station ):
 		return true
 	else:
 		return false
@@ -154,7 +154,7 @@ func _validateItemTransaction( item , itemSlot ):
 	# TODO - Maybe post an error message on the crewman object which we can query later?
 	var isValid = true
 
-	if( ( item.itemCarryWeight + self.carryWeight.current ) > self.carryWeight.total  ):
+	if( ( item.itemCarryWeight + carryWeight.current ) > carryWeight.total  ):
 		isValid = false 
 	
 	if( item.getRemaining() <= 0 ): # not enough of the item
@@ -166,14 +166,14 @@ func _validateItemTransaction( item , itemSlot ):
 func itemTransaction( item , itemSlot , sourceItemSlot ):
 	var isValid = true
 	if( item ):
-		isValid = self._validateItemTransaction( item , itemSlot )
+		isValid = _validateItemTransaction( item , itemSlot )
 
 	if( isValid ):
 		# First figure out the old item.
-		var oldItem = self.assignItem( item, itemSlot )
+		var oldItem = assignItem( item, itemSlot )
 		
 		if( sourceItemSlot ):
-			self.assignItem( oldItem , itemSlot )
+			assignItem( oldItem , itemSlot )
 
 		if( oldItem && !sourceItemSlot ):
 			oldItem.subFromAssigned()
@@ -181,29 +181,29 @@ func itemTransaction( item , itemSlot , sourceItemSlot ):
 		if( item ):
 			item.addToAssigned()
 		
-		self.calculateDerivedStats()
+		calculateDerivedStats()
 		
 	return isValid
 
 func assignItem( item, itemSlot ):
-	var oldItem = self.gear[itemSlot]
-	self.gear[itemSlot] = item
+	var oldItem = gear[itemSlot]
+	gear[itemSlot] = item
 
 	return oldItem
 
 func calculateTraits():
-	for key in self.traits:
-		self.traits[key].total = self.traits[key].value + self.traits[key].mod
+	for key in traits:
+		traits[key].total = traits[key].value + traits[key].mod
 
 func calculateCarryWeight():
-	self.carryWeight.total = BASE_WEIGHT + self.carryWeight.mod + self.traits.STR.total
+	carryWeight.total = BASE_WEIGHT + carryWeight.mod + traits.STR.total
 	
 	var current = 0
-	for key in self.gear:
-		if( self.gear[key] ):
+	for key in gear:
+		if( gear[key] ):
 			current = current + gear[key].itemCarryWeight
 		
-	self.carryWeight.current = current
+	carryWeight.current = current
 
 func calculateDerivedStats( newCharacter = false ):
 	
@@ -211,157 +211,157 @@ func calculateDerivedStats( newCharacter = false ):
 	for p in passives:
 		pass # TODO : add ability to go through items and modify MODS.
 	
-	self.calculateTraits()
-	self.calculateCarryWeight()
+	calculateTraits()
+	calculateCarryWeight()
 
-	self.hp.total = BASE_HP + self.hp.mod + self.traits.STR.total
-	self.morale.total = BASE_MORALE + self.morale.mod + self.traits.CHA.total
+	hp.total = BASE_HP + hp.mod + traits.STR.total
+	morale.total = BASE_MORALE + morale.mod + traits.CHA.total
 
-	self._calculateResists()
+	_calculateResists()
 
 	if( newCharacter ):
-		self.hp.current = self.hp.total
-		self.morale.current = self.morale.total
+		hp.current = hp.total
+		morale.current = morale.total
 
 func _calculateResists():
-	self.resists.STR.Weaken.value 	= self.traits.STR.total * TRAIT_RESIST_BONUS
-	self.resists.STR.Move.value 		= self.traits.STR.total * TRAIT_RESIST_BONUS
-	self.resists.PER.Surprise.value 	= self.traits.PER.total * TRAIT_RESIST_BONUS
-	self.resists.PER.Blind.value 		= self.traits.PER.total * TRAIT_RESIST_BONUS
-	self.resists.INT.Confuse.value 	= self.traits.INT.total * TRAIT_RESIST_BONUS
-	self.resists.INT.Charm.value 		= self.traits.INT.total * TRAIT_RESIST_BONUS
-	self.resists.DEX.Balance.value 	= self.traits.DEX.total * TRAIT_RESIST_BONUS
-	self.resists.DEX.Disarm.value 	= self.traits.DEX.total * TRAIT_RESIST_BONUS
-	self.resists.CHA.Lock.value 		= self.traits.CHA.total * TRAIT_RESIST_BONUS
-	self.resists.CHA.Slow.value 		= self.traits.CHA.total * TRAIT_RESIST_BONUS
+	resists.STR.Weaken.value 	= traits.STR.total * TRAIT_RESIST_BONUS
+	resists.STR.Move.value 		= traits.STR.total * TRAIT_RESIST_BONUS
+	resists.PER.Surprise.value 	= traits.PER.total * TRAIT_RESIST_BONUS
+	resists.PER.Blind.value 		= traits.PER.total * TRAIT_RESIST_BONUS
+	resists.INT.Confuse.value 	= traits.INT.total * TRAIT_RESIST_BONUS
+	resists.INT.Charm.value 		= traits.INT.total * TRAIT_RESIST_BONUS
+	resists.DEX.Balance.value 	= traits.DEX.total * TRAIT_RESIST_BONUS
+	resists.DEX.Disarm.value 	= traits.DEX.total * TRAIT_RESIST_BONUS
+	resists.CHA.Lock.value 		= traits.CHA.total * TRAIT_RESIST_BONUS
+	resists.CHA.Slow.value 		= traits.CHA.total * TRAIT_RESIST_BONUS
 
-	self.resists.STR.Weaken.total 	= self.resists.STR.Weaken.value 	+ self.resists.STR.Weaken.mod
-	self.resists.STR.Move.total 		= self.resists.STR.Move.value 	+ self.resists.STR.Move.mod
-	self.resists.PER.Surprise.total 	= self.resists.PER.Surprise.value + self.resists.PER.Surprise.mod
-	self.resists.PER.Blind.total 		= self.resists.PER.Blind.value 	+ self.resists.PER.Blind.mod
-	self.resists.INT.Confuse.total 	= self.resists.INT.Confuse.value + self.resists.INT.Confuse.mod
-	self.resists.INT.Charm.total 		= self.resists.INT.Charm.value	+ self.resists.INT.Charm.mod
-	self.resists.DEX.Balance.total 	= self.resists.DEX.Balance.value + self.resists.DEX.Balance.mod
-	self.resists.DEX.Disarm.total 	= self.resists.DEX.Disarm.value 	+ self.resists.DEX.Disarm.mod
-	self.resists.CHA.Lock.total 		= self.resists.CHA.Lock.value 	+ self.resists.CHA.Lock.mod
-	self.resists.CHA.Slow.total 		= self.resists.CHA.Slow.value 	+ self.resists.CHA.Slow.mod
+	resists.STR.Weaken.total 	= resists.STR.Weaken.value 	+ resists.STR.Weaken.mod
+	resists.STR.Move.total 		= resists.STR.Move.value 	+ resists.STR.Move.mod
+	resists.PER.Surprise.total 	= resists.PER.Surprise.value + resists.PER.Surprise.mod
+	resists.PER.Blind.total 		= resists.PER.Blind.value 	+ resists.PER.Blind.mod
+	resists.INT.Confuse.total 	= resists.INT.Confuse.value + resists.INT.Confuse.mod
+	resists.INT.Charm.total 		= resists.INT.Charm.value	+ resists.INT.Charm.mod
+	resists.DEX.Balance.total 	= resists.DEX.Balance.value + resists.DEX.Balance.mod
+	resists.DEX.Disarm.total 	= resists.DEX.Disarm.value 	+ resists.DEX.Disarm.mod
+	resists.CHA.Lock.total 		= resists.CHA.Lock.value 	+ resists.CHA.Lock.mod
+	resists.CHA.Slow.total 		= resists.CHA.Slow.value 	+ resists.CHA.Slow.mod
 
 func getGearAt( key : String ):
-	return self.gear[key]
+	return gear[key]
 
 func getNickName():
-	return self.fullname[1]
+	return fullname[1]
 
 func getFullName():
-	return self.fullname[0] + ' "' + self.fullname[1] + '" ' + self.fullname[2]
+	return fullname[0] + ' "' + fullname[1] + '" ' + fullname[2]
 
 func getCPointString():
-	if( !self.isDead ):
-		return str(self.cpSpent) + " / " + str(self.cp)
+	if( !isDead ):
+		return str(cpSpent) + " / " + str(cp)
 	else:
 		return "0 / 0"
 
 func getMassString():
-	return str(self.mass) + " Kg"
+	return str(mass) + " Kg"
 
 func getHeightString():
-	return str(self.height) + " cm"
+	return str(height) + " cm"
 
 func getWorldString():
-	return self.homeWorld
+	return homeWorld
 
 func getAgeString():
-	return str( self.age ) + " yrs"
+	return str( age ) + " yrs"
 
 func getRaceString():
-	return self.race
+	return race
 
 func getSexString():
-	return self.sex
+	return sex
 
 func getHPStatBlock():
-	return self.hp
+	return hp
 
 func getHitPointString():
-	return str(self.hp.current) + " / " + str(self.hp.total)
+	return str(hp.current) + " / " + str(hp.total)
 
 func getMoraleStatBlock():
-	return self.morale
+	return morale
 
 func getMoraleString():
-	return str(self.morale.current) + " / " + str(self.morale.total)
+	return str(morale.current) + " / " + str(morale.total)
 
 func getWeightStatBlock():
-	return self.carryWeight
+	return carryWeight
 
 func getWeightString():
-	return str( self.carryWeight.current ) + " / " + str(self.carryWeight.total )
+	return str( carryWeight.current ) + " / " + str(carryWeight.total )
 
 func getBonus( primaryTrait, secondaryTrait ):
-	return self.traits[primaryTrait].total + ( self.traits[secondaryTrait].total / 2 )
+	return traits[primaryTrait].total + ( traits[secondaryTrait].total / 2 )
 
 func getTraitTotal( trait ):
-	if( self.traits.has( trait ) ):
-		return self.traits[trait].total
+	if( traits.has( trait ) ):
+		return traits[trait].total
 	else:
 		return null
 
 func getTraitStatBlock( trait ):
-	if( self.traits.has( trait ) ):
-		return self.traits[trait].duplicate()
+	if( traits.has( trait ) ):
+		return traits[trait].duplicate()
 	else: 
 		return null
 
 func getAllTraitStatBlocks():
-	return self.traits.duplicate()
+	return traits.duplicate()
 
 func getResistStatBlock( resist ):
-	if( self.resists.has( resist ) ):
-		return self.resists[resist].duplicate()
+	if( resists.has( resist ) ):
+		return resists[resist].duplicate()
 	else:
 		return null
 
 func getAllResistStatBlocks():
-	return self.resists.duplicate()
+	return resists.duplicate()
 
 func getFightableStatus():
 	var isFightable = true
 
-	if( self.isDead() ):
+	if( isDead() ):
 		isFightable = false
 
 	return isFightable
 
 func getStation():
-	return self.station
+	return station
 
 func getAllActions():
-	return self.actions
+	return actions
 
 func getAllStances():
-	return self.stances
+	return stances
 
 func getAllInstants():
-	return self.instants
+	return instants
 
 func isDead():
-	return self.isDead
+	return isDead
 
 # Update all the passive abilities from equipment
 func _updatePassives():
-	self.passives = []
+	passives = []
 
-	#for itemKey in self.equipment:
+	#for itemKey in equipment:
 	#	var myItem = ItemManager.getCrewEquipableItem( itemKey )
 
 	#	for passive in myItem.passives:
-	#		self.passives.append( passives )
+	#		passives.append( passives )
 	#		
 	#		if( passive.PASSIVE_TYPE.TRAIT_MOD ):
 	#			pass
 	#		elif( passive.PASSIVE_TYPE.DERIVED_MOD ):
 	#			pass
-	#			#self.traits[passive.effect].mod += passive.value
+	#			#traits[passive.effect].mod += passive.value
 	#		elif( passive.PASSIVE_TYPE.STATUS_EFFECT_BONUS ):
 	#			pass
 	#		elif( passive.PASSIVE_TYPE.STATUS_EFFECT ):
@@ -369,9 +369,9 @@ func _updatePassives():
 
 # Update all temporary passives from status effects / equipment, etc. Essentially passives on a timer. 
 func _updateTempPassives():
-	self.passives = []
+	passives = []
 	
-	#for passive in self.temporaryPassives:
+	#for passive in temporaryPassives:
 	#	if( passive.passRound() ):
 	#		
 	#		if( passive.PASSIVE_TYPE.TRAIT ):
@@ -388,7 +388,7 @@ func _updateTempPassives():
 func _updateEquipmentActions():
 	# TODO - impliment
 	pass
-	#for itemKey in self.equipment:
+	#for itemKey in equipment:
 	#	var myItem = ItemManager.getCrewEquipableItem( itemKey )
 
 	#	for action in myItem.actions:
@@ -396,15 +396,15 @@ func _updateEquipmentActions():
 
 	#		if( action.actionType == action.ACTION_TYPES.ACTION ):
 	#			crewAction.calculateSelf( self )
-	#			self.actions.append( crewAction )
+	#			actions.append( crewAction )
 
 	#		if( action.actionType == action.ACTION_TYPES.STANCE ):
 	#			crewAction.calculateSelf( self )
-	#			self.stances.append( crewAction )
+	#			stances.append( crewAction )
 
 	#		if( action.actionType == action.ACTION_TYPES.INSTANT ):
 	#			crewAction.calculateSelf( self )
-	#			self.instants.append( crewAction )
+	#			instants.append( crewAction )
 
 func _updateTalentActions():
 	pass
@@ -422,17 +422,17 @@ func addPowers( arrayOfPowers ):
 
 func applyDamage( damage , damageType ):
 	# TODO impliment damage reduction
-	self.hp.current = self.hp.current - damage;
+	hp.current = hp.current - damage;
 	
-	if( self.hp.current <= 0 ):
-		self.hp.current = 0;
-		self.dead = true
+	if( hp.current <= 0 ):
+		hp.current = 0;
+		isDead = true
 	
-	return self.hp.current
+	return hp.current
 
 func applyStatusEffect( percentileRoll , effect):
 	pass
 
 func rollInit():
-	var init = randi()%20 + self.traits.PER.total
+	var init = randi()%20 + traits.PER.total
 	return init

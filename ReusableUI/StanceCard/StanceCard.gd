@@ -6,42 +6,42 @@ onready var grid = get_node("Grid")
 var eventBus = null
 var crewman = null
 
-func setupScene( eventBus : EventBus , crewman ):
-	self.eventBus = eventBus
-	self.crewman = crewman
+func setupScene( eBus : EventBus , newCrewman ):
+	eventBus = eBus
+	crewman = newCrewman
 
-	if( self.crewman ):
-		self.show()
+	if( crewman ):
+		show()
 	else:
-		self.hide()
+		hide()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if( self.crewman ):
-		self.loadData( self.crewman )
+	if( crewman ):
+		loadData( crewman )
 
 func _clear():
-	for child in self.grid.get_children():
+	for child in grid.get_children():
 		child.queue_free()
 	
 func toggleAllButtons( status ):
-	for actionButton in self.grid.get_children():
+	for actionButton in grid.get_children():
 		actionButton.toggleDisabled( status )
 
-func loadData( crewman = null ):
-	self._clear()
-	self.crewman = crewman
+func loadData( newCrewman = null ):
+	_clear()
+	crewman = newCrewman
 	
 	if ( crewman ):
-		self.show()
+		show()
 	else:
-		self.hide()
+		hide()
 
 	if( crewman ):
-		var stances = self.crewman.getAllStances()
+		var stances = crewman.getAllStances()
 		
 		for stance in stances:
 			var stanceInstance = abilityButtonScene.instance()
 			# TODO - add tests for clickability potentially
-			stanceInstance.setupScene( self.eventBus , stance , false )
-			self.grid.add_child( stanceInstance )
+			stanceInstance.setupScene( eventBus , stance , false )
+			grid.add_child( stanceInstance )

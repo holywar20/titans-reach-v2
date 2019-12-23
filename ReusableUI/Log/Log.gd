@@ -3,14 +3,14 @@ extends Node
 onready var logNode = get_node("Text")
 
 func _ready():
-	self._clear()
+	_clear()
 
 func add( data ):
 	# TODO - add crap like line numbers, and maybe a switch for a call stack, etc
-	self.logNode.set_text( self.logNode.get_text() + "\n" + str(data) )
+	logNode.set_text( logNode.get_text() + "\n" + str(data) )
 
 func _clear():
-	self.logNode.set_text( "" );
+	logNode.set_text( "" );
 
 func showType( displayItem ):
 	var itemType = null
@@ -73,4 +73,4 @@ func showType( displayItem ):
 		_:
 			itemType = "Unknown!"
 			
-	self.add( itemType )
+	add( itemType )

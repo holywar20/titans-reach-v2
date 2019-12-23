@@ -187,17 +187,17 @@ func getTargetTypeString( targetType = null ):
 	if(targetType):
 		myTargetType = targetType
 	else:
-		myTargetType = self.targetType
+		myTargetType = targetType
 
-	if( myTargetType == self.TARGET_TYPES.PLAYER ):
+	if( myTargetType == TARGET_TYPES.PLAYER ):
 		targetTypeString = "Ally"
-	elif( myTargetType == self.TARGET_TYPES.ENEMY ):
+	elif( myTargetType == TARGET_TYPES.ENEMY ):
 		targetTypeString = "Enemy"
-	elif( myTargetType== self.TARGET_TYPES.PLAYER_FLOOR ):
+	elif( myTargetType== TARGET_TYPES.PLAYER_FLOOR ):
 		targetTypeString = "Enemy Floor"
-	elif( myTargetType == self.TARGET_TYPES.ENEMY_FLOOR ):
+	elif( myTargetType == TARGET_TYPES.ENEMY_FLOOR ):
 		targetTypeString = "Ally Floor"
-	elif( myTargetType == self.TARGET_TYPES.SELF ):
+	elif( myTargetType == TARGET_TYPES.SELF ):
 		targetTypeString = "Self"
 	
 	return targetTypeString
@@ -208,9 +208,9 @@ func getTargetAreaString( targetArea = null ):
 	if( targetArea ):
 		myAreaType = targetArea
 	else:
-		myAreaType = self.targetArea
+		myAreaType = targetArea
 
-	return self.AREA_STRINGS[myAreaType]
+	return ""
 
 # Note should is also used for an action validity test. 
 func getValidTargets():
@@ -224,7 +224,7 @@ func getValidTargets():
 	return targetingArray
 
 func isLearned():
-	return self.abilityLearned
+	return abilityLearned
 
 # This method takes a Crew object ( maybe other types later ), and does all the math on it
 func calculateSelf( newActor = null ):
@@ -334,9 +334,9 @@ func getEffectDisplayArray():
 			targetString = "to " + targetArea.string
 
 		#if( effect.targetType ):
-		#	targetString = targetString + " ( [color=blue]"  + self.TARGET_AREA[effect.targetArea].string )+ "[/color] )"
+		#	targetString = targetString + " ( [color=blue]"  + TARGET_AREA[effect.targetArea].string )+ "[/color] )"
 		#else:
-		#	targetString = targetString + " ( [color=blue]"  + self.getTargetTypeString() + " [/color] )"
+		#	targetString = targetString + " ( [color=blue]"  + getTargetTypeString() + " [/color] )"
 
 		displayArray.append(toHitString + " " + effectString + " " + targetString )
 

@@ -6,7 +6,7 @@ func _ready():
 	pass
 
 func newGameButtonClick():
-	self.globalBus.emit( "NewGame_Start_Begin" , [] )
+	globalBus.emit( "NewGame_Start_Begin" , [] )
 
 func exit_tree():
 	pass

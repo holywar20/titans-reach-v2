@@ -7,40 +7,40 @@ onready var grid = get_node("Panel/Center/HBox/Grid")
 var eventBus = null
 var crewman = null
 
-func setupScene( eventBus : EventBus, crewman ):
-	self.eventBus = eventBus
-	self.crewman = crewman
+func setupScene( eBus : EventBus, newCrewman ):
+	eventBus = eBus
+	crewman = newCrewman
 
-	if( self.crewman ):
-		self.show()
+	if( crewman ):
+		show()
 	else:
-		self.hide()
+		hide()
 
 func _ready():
-	if( self.crewman ):
-		self.loadData( self.crewman )
+	if( crewman ):
+		loadData( crewman )
 
 func _clear():
-	for child in self.grid.get_children():
+	for child in grid.get_children():
 		child.queue_free()
 
 func toggleAllButtons( status ):
-	for abilityButton in self.grid.get_children():
+	for abilityButton in grid.get_children():
 		abilityButton.toggleDisabled( status )
 
-func loadData( crewman = null ):
-	self._clear()
-	self.crewman = crewman
+func loadData( newCrewman = null ):
+	_clear()
+	crewman = newCrewman
 	
 	if ( crewman ):
-		self.show()
+		show()
 	else:
-		self.hide()
+		hide()
 
 	if( crewman ):
-		var actions = self.crewman.getAllActions()
+		var actions = crewman.getAllActions()
 		
 		for action in actions:
-			var actionInstance = self.abilityButtonScene.instance()
-			actionInstance.setupScene( self.eventBus , action , false )
-			self.grid.add_child( actionInstance )
+			var actionInstance = abilityButtonScene.instance()
+			actionInstance.setupScene( eventBus , action , false )
+			grid.add_child( actionInstance )

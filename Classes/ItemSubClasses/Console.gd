@@ -22,11 +22,11 @@ var consoleSecTrait = null
 var consoleAssignedCrewman = null
 
 func _init( name , desc, category, priTrait, secTrait , consoleEffects ):
-	self.consoleName = name 
-	self.consoleCategory = category
-	self.consoleDescription = desc
-	self.consolePriTrait = priTrait
-	self.consoleSecTrait = secTrait
+	consoleName = name 
+	consoleCategory = category
+	consoleDescription = desc
+	consolePriTrait = priTrait
+	consoleSecTrait = secTrait
 
 func get_class(): 
 	return "Console"
@@ -35,11 +35,11 @@ func is_class( name : String ):
 	return name == "Console"
 
 func crewTransaction( newCrewman = null , sourceConsole = null ):
-	var isValid = self.validateCrewmanAssignment( newCrewman )
+	var isValid = validateCrewmanAssignment( newCrewman )
 	
 	if( isValid ):
-		var currentCrewman = self.consoleAssignedCrewman
-		self._assignCrewman( newCrewman )
+		var currentCrewman = consoleAssignedCrewman
+		_assignCrewman( newCrewman )
 
 		if( sourceConsole ):
 			sourceConsole._assignCrewman( currentCrewman )
@@ -57,12 +57,12 @@ func validateCrewmanAssignment( crewman ):
 	return true 
 
 func _assignCrewman( crewman = null ):
-	self.consoleAssignedCrewman = crewman
+	consoleAssignedCrewman = crewman
 	return true 
 
 func isAssignable( crewman : Crew ) -> String :
 	# TODO add any testing we might need to do
-	return self.ASSIGNABLE
+	return ASSIGNABLE
 
 func getAssignedCrewman():
-	return self.consoleAssignedCrewman
+	return consoleAssignedCrewman

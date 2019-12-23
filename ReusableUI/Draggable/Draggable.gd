@@ -6,26 +6,26 @@ var sourceLock = null
 
 var defaultTexture = "res://icon.png"
 
-func setScene( eventBus : EventBus , payloadObject , sourceLock = null ):
-	self.payloadObject = payloadObject
-	self.eventBus = eventBus
-	self.sourceLock = sourceLock
+func setScene( eBus : EventBus , pObject , sLock = null ):
+	payloadObject = pObject
+	eventBus = eBus
+	sourceLock = sLock
 
 	var objClass = payloadObject.get_class()
 	if( objClass == "Crew" ):
-		self.set_texture( load( payloadObject.smallTexturePath ) )
+		set_texture( load( payloadObject.smallTexturePath ) )
 
 	if( objClass == "Weapon" || objClass == "Frame" || objClass == "Equipment" ):
-		self.set_texture( load( payloadObject.itemTexturePath ) )
+		set_texture( load( payloadObject.itemTexturePath ) )
 
 func _ready():
-	self.hide() # To prevent the draggable from being seen until some event with mouse position is fired.
+	hide() # To prevent the draggable from being seen until some event with mouse position is fired.
 
 func _input( ev : InputEvent ):
-	self.set_global_position( ev.get_global_position() )
-	self.show()
+	set_global_position( ev.get_global_position() )
+	show()
 
 	if( ev.is_action_released( "GUI_SELECT" ) ):
-		self.eventBus.emit( "DraggableReleased" , [ self.payloadObject , self.sourceLock, ev.position ] )
-		self.queue_free()
+		eventBus.emit( "DraggableReleased" , [ payloadObject , sourceLock, ev.position ] )
+		queue_free()
 

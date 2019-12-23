@@ -7,18 +7,18 @@ var hoverText = null
 var eventBus = null
 
 func _ready():
-	self.hoverText = "Anomoly Detected!"
-	# self.set_texture( load("res://icon.png") )
+	hoverText = "Anomoly Detected!"
+	# set_texture( load("res://icon.png") )
 
-func setEvents( eventBus : EventBus ):
-	self.eventBus = eventBus
+func setEvents( eBus : EventBus ):
+	eventBus = eBus
 
 func initAnomoly( location : Vector2 , visible : bool ):
 	pass
 
 func _onAreaClicked():
-	if( self.eventBus ):
-		self.eventBus.emit( "AnomolyClicked" , [ self ])
+	if( eventBus ):
+		eventBus.emit( "AnomolyClicked" , [ self ])
 
 func _startAnomoly():
 	pass

@@ -16,30 +16,30 @@ onready var nodes = {
 	"Description" : get_node( "TextEdit")
 }
 
-func setupScene( eventBus : EventBus , crewman : Crew ):
-	self.eventBus = eventBus
-	self.crewman = crewman
+func setupScene( eBus : EventBus , newCrewman : Crew ):
+	eventBus = eBus
+	crewman = newCrewman
 
 func _ready():
-	if( self.crewman ):
-		self.loadData( self.crewman )
-	if( self.eventBus ):
-		self.loadEvents( self.eventBus )
+	if( crewman ):
+		loadData( crewman )
+	if( eventBus ):
+		loadEvents( eventBus )
 
-func loadEvents( eventBus : EventBus ):
-	self.eventBus = eventBus
+func loadEvents( eBus : EventBus ):
+	eventBus = eBus
 
 func loadData( crewman : Crew ):
-	self.crewman = crewman
+	crewman = crewman
 
-	self.nodes.Height.set_text( ": " + crewman.getHeightString() )
-	self.nodes.Mass.set_text( ": " + crewman.getMassString() )
-	self.nodes.Sex.set_text( ": " + crewman.getSexString() )
-	self.nodes.Age.set_text( ": " + crewman.getAgeString() )
-	self.nodes.Homeworld.set_text( ": " + crewman.getWorldString() )
-	self.nodes.Race.set_text( ": " + crewman.getRaceString() )
+	nodes.Height.set_text( ": " + crewman.getHeightString() )
+	nodes.Mass.set_text( ": " + crewman.getMassString() )
+	nodes.Sex.set_text( ": " + crewman.getSexString() )
+	nodes.Age.set_text( ": " + crewman.getAgeString() )
+	nodes.Homeworld.set_text( ": " + crewman.getWorldString() )
+	nodes.Race.set_text( ": " + crewman.getRaceString() )
 
-	self.nodes.Description.set_text( crewman.bio )
+	nodes.Description.set_text( crewman.bio )
 
 
 

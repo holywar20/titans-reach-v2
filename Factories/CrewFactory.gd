@@ -53,9 +53,9 @@ func generateNewCrewWithEquipment( cp , itemPoints , isPlayer : bool ):
 func generateNewCrew( cp = 30 ):
 	var crewman = Crew.new()
 
-	crewman = self._rollTraits( crewman , 30 )
-	crewman = self._rollCosmetics( crewman )
-	crewman = self._rollTalents( crewman )
+	crewman = _rollTraits( crewman , 30 )
+	crewman = _rollCosmetics( crewman )
+	crewman = _rollTalents( crewman )
 	
 	crewman.loadAbilities()
 	crewman.calculateTraits()
@@ -89,23 +89,23 @@ func _rollTraits( myCrewman : Crew , cp = 30):
 
 
 func _rollCosmetics( myCrewman : Crew  ):
-	var sex = self.SEX[ randi() % self.SEX.size() ]
+	var sex = SEX[ randi() % SEX.size() ]
 	var texture = ""
 	var fname = ""
 	var height = 0
 	var mass = 0
 
 	if( sex == "M"):
-		fname = self.FIRST_NAME_MALES[ randi() % self.FIRST_NAME_MALES.size() ]
-		texture = self.MALE_PORTRAITS_FOLDER + self.MALE_PORTRAITS[ randi() % self.MALE_PORTRAITS.size() ]
-		height = Common.randDiffValues( self.MALE_HEIGHT_RANGE[0] , self.MALE_HEIGHT_RANGE[1] )
-		mass = Common.randDiffValues( self.MALE_MASS_RANGE[0] , self.MALE_MASS_RANGE[1] )
+		fname = FIRST_NAME_MALES[ randi() % FIRST_NAME_MALES.size() ]
+		texture = MALE_PORTRAITS_FOLDER + MALE_PORTRAITS[ randi() % MALE_PORTRAITS.size() ]
+		height = Common.randDiffValues( MALE_HEIGHT_RANGE[0] , MALE_HEIGHT_RANGE[1] )
+		mass = Common.randDiffValues( MALE_MASS_RANGE[0] , MALE_MASS_RANGE[1] )
 		
 	if( sex == "F"):
-		fname = self.FIRST_NAME_FEMALES[ randi() % self.FIRST_NAME_FEMALES.size() ]
-		texture = self.FEMALE_PORTRAITS_FOLDER + self.FEMALE_PORTRAITS[ randi() % self.FEMALE_PORTRAITS.size() ]
-		height = Common.randDiffValues( self.FEMALE_HEIGHT_RANGE[0] , self.FEMALE_HEIGHT_RANGE[1] )
-		mass = Common.randDiffValues( self.FEMALE_MASS_RANGE[0] , self.FEMALE_MASS_RANGE[1] )
+		fname = FIRST_NAME_FEMALES[ randi() % FIRST_NAME_FEMALES.size() ]
+		texture = FEMALE_PORTRAITS_FOLDER + FEMALE_PORTRAITS[ randi() % FEMALE_PORTRAITS.size() ]
+		height = Common.randDiffValues( FEMALE_HEIGHT_RANGE[0] , FEMALE_HEIGHT_RANGE[1] )
+		mass = Common.randDiffValues( FEMALE_MASS_RANGE[0] , FEMALE_MASS_RANGE[1] )
 	
 	myCrewman.texturePath = texture + ".jpg"
 	myCrewman.smallTexturePath = texture + "-small.jpg"
@@ -113,11 +113,11 @@ func _rollCosmetics( myCrewman : Crew  ):
 	myCrewman.height = height
 	myCrewman.mass = mass
 	
-	var lname = self.LAST_NAMES[ randi() % self.LAST_NAMES.size() ]
-	var mname = self.MIDDLE_NAMES[ randi() % self.MIDDLE_NAMES.size() ]
+	var lname = LAST_NAMES[ randi() % LAST_NAMES.size() ]
+	var mname = MIDDLE_NAMES[ randi() % MIDDLE_NAMES.size() ]
 	myCrewman.fullname = [ fname, mname, lname ]
 
-	myCrewman.age = Common.randDiffValues( self.AGE_RANGE[0] , self.AGE_RANGE[1] )
+	myCrewman.age = Common.randDiffValues( AGE_RANGE[0] , AGE_RANGE[1] )
 	myCrewman.bio = "Not Yet Implimented. Also, I'm a fucking badass murder-hobo hero."
 
 	return myCrewman

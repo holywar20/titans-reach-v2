@@ -64,80 +64,80 @@ onready var nodes = {
 	"Minimap"				: get_node("Dynamic/Right/Minimap")
 }
 
-func setupScene( eventBus: EventBus, playerShip : Starship , playerCrew , playerGear ):
-	self.eventBus = eventBus
-	self.eventBus.addEvents( self.EXPLORE_EVENTS )
+func setupScene( eBus : EventBus, pShip : Starship , pCrew , pGear ):
+	eventBus = eBus
+	eventBus.addEvents( EXPLORE_EVENTS )
 
-	self.eventBus.register( "PlayerContactingAreasUpdated" , self , "_onPlayerContactingAreasUpdated" )
+	eventBus.register( "PlayerContactingAreasUpdated" , self , "_onPlayerContactingAreasUpdated" )
 
-	self.playerShip = playerShip
-	self.playerCrew = playerCrew
-	self.playerGear = playerGear
+	playerShip = pShip
+	playerCrew = pCrew
+	playerGear = pGear
 
-	self.currentCrewmanIdx = 0
+	currentCrewmanIdx = 0
 
 func _ready():
 	# Nodes need to exist before we can set the eventBus on them.
-	self.nodes.Context.setEvents( self.eventBus )
-	self.nodes.Minimap.setEvents( self.eventBus )
+	nodes.Context.setEvents( eventBus )
+	nodes.Minimap.setEvents( eventBus )
 
 func _setupSubUI( menuTarget : String , subUI ):
 	match menuTarget:
 		"ASSIGNMENTS":
-			subUI.setupScene( self.eventBus , self.playerCrew , self.playerShip )
+			subUI.setupScene( eventBus , playerCrew , playerShip )
 		"CREW":
-			subUI.setupScene( self.eventBus , self )
+			subUI.setupScene( eventBus , self )
 		"EQUIPMENT":
-			subUI.setupScene( self.eventBus , self )
+			subUI.setupScene( eventBus , self )
 		"SHIP":
-			subUI.setupScene( self.eventBus )
+			subUI.setupScene( eventBus )
 		"CARGO":
-			subUI.setupScene( self.eventBus )
+			subUI.setupScene( eventBus )
 		"STARMAP":
-			subUI.setupScene( self.eventBus )
+			subUI.setupScene( eventBus )
 
 func getEquipableGear():
-	return self.playerGear
+	return playerGear
 
 func getCurrentCrewman():
-	return self.playerCrew[self.currentCrewmanIdx]
+	return playerCrew[currentCrewmanIdx]
 
 func getNextCrewman():
-	self.currentCrewmanIdx = self.currentCrewmanIdx + 1
-	if( self.currentCrewmanIdx >= self.playerCrew.size() - 1 ):
-		self.currentCrewmanIdx = 0
+	currentCrewmanIdx = currentCrewmanIdx + 1
+	if( currentCrewmanIdx >= playerCrew.size() - 1 ):
+		currentCrewmanIdx = 0
 
-	return self.playerCrew[self.currentCrewmanIdx]
+	return playerCrew[currentCrewmanIdx]
 
 func getPrevCrewman():
-	self.currentCrewmanIdx = self.currentCrewmanIdx - 1
-	if( self.currentCrewmanIdx < 0 ):
-		self.currentCrewmanIdx = playerCrew.size() - 1
+	currentCrewmanIdx = currentCrewmanIdx - 1
+	if( currentCrewmanIdx < 0 ):
+		currentCrewmanIdx = playerCrew.size() - 1
 	
-	return self.playerCrew[self.currentCrewmanIdx]
+	return playerCrew[currentCrewmanIdx]
 
 func _onPlayerContactingAreasUpdated( bodies ):
 	if( bodies.size() == 0 ):
-		self.nodes.NearObjectModal.hide()
+		nodes.NearObjectModal.hide()
 	elif( bodies.size() == 1 ):
-		self.nodes.NearObjectModal.show()
-		self.nodes.NearObjectButton.set_text( bodies[0].showText )
+		nodes.NearObjectModal.show()
+		nodes.NearObjectButton.set_text( bodies[0].showText )
 	elif( bodies.size() >= 2):
-		self.nodes.NearObjectModal.show()
-		self.nodes.NearObjectButton.set_text( "Investigate Anomoly" )
+		nodes.NearObjectModal.show()
+		nodes.NearObjectButton.set_text( "Investigate Anomoly" )
 
 # TODO - Add an underscore here.
 func menuButtonPressed( menuTarget : String ):
-	for tab in self.tabBase.get_children():
+	for tab in tabBase.get_children():
 		tab.queue_free()
 
-	if( self.subUIOpen == menuTarget ):
-		self.subUIOpen = "None"
+	if( subUIOpen == menuTarget ):
+		subUIOpen = "None"
 	else:
-		self.subUIOpen = menuTarget
-		var subUIScene = load( self.MENU[menuTarget] )
+		subUIOpen = menuTarget
+		var subUIScene = load( MENU[menuTarget] )
 		var subUI = subUIScene.instance()
 
-		self._setupSubUI( menuTarget , subUI )
+		_setupSubUI( menuTarget , subUI )
 
-		self.tabBase.add_child( subUI )
+		tabBase.add_child( subUI )

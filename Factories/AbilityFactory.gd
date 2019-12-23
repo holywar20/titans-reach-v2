@@ -11,7 +11,7 @@ func _ready():
 	var files = []
 	var dir = Directory.new()
 	
-	if( dir.open( self.ABILITY_DATA_DIRECTORY ) == OK ):
+	if( dir.open( ABILITY_DATA_DIRECTORY ) == OK ):
 		dir.list_dir_begin( true, true) # Skips hidden and navigational files
 
 		while true: 
@@ -24,7 +24,7 @@ func _ready():
 		dir.list_dir_end()
 		
 		for fileName in files:
-			var path = self.ABILITY_DATA_DIRECTORY + fileName
+			var path = ABILITY_DATA_DIRECTORY + fileName
 			var file = File.new()
 			file.open( path , file.READ )
 
@@ -40,9 +40,9 @@ func _ready():
 
 func getAbilityByKey( key ):
 
-	if( self.abilityDictionary.has( key ) ):
-		var abilityData = self.abilityDictionary[key]
-		var ability = self.buildAbilityFromDict( abilityData )
+	if( abilityDictionary.has( key ) ):
+		var abilityData = abilityDictionary[key]
+		var ability = buildAbilityFromDict( abilityData )
 
 		return ability
 	else:
@@ -50,7 +50,7 @@ func getAbilityByKey( key ):
 		#Log.add( Log.ALERT , "ActionGenerator : There was an issue finding ability:" + key )
 
 func buildAbilityFromDict( dict ):
-	var ability = self._fillAndValidateAbility( dict )
+	var ability = _fillAndValidateAbility( dict )
 	if( !ability ):
 		print( "ability failed to build")
 		return false
@@ -62,7 +62,7 @@ func buildAbilityFromDict( dict ):
 
 func _fillAndValidateDamageEffect( ability, effectData ):
 	var isValid = true
-	for keyName in self.MANDATORY_DMG_EFFECT_VARS:
+	for keyName in MANDATORY_DMG_EFFECT_VARS:
 		if( !effectData.has( keyName ) ):
 			isValid = false
 			#Log.add( Log.ALERT , "ActionGenerator : Invalid Effect for ( " + ability.key + " , " + keyName + " )" )

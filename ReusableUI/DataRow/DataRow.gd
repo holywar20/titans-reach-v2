@@ -12,11 +12,11 @@ func setupScene( elements ):
 		else:
 			label.set_align( label.ALIGN_CENTER )
 			
-		self.add_child( label )
+		add_child( label )
 
 func _ready():
 	pass
 
 func clear():
-	for child in self.get_children():
-		self.queue_free()
+	for child in get_children():
+		queue_free()

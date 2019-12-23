@@ -16,7 +16,7 @@ var itemDisplayName = "Unassigned"
 var itemDisplayNameShort = null
 var itemKey = "Unassigned"
 var itemTexturePath = "res://icon.png"
-var itemTextureType = self.TEXTURE_GRID_TYPE.SINGLE
+var itemTextureType = TEXTURE_GRID_TYPE.SINGLE
 
 var itemOwned = 0
 var itemAssigned = 0
@@ -24,7 +24,7 @@ var itemAssigned = 0
 # Metathat applies to crew equipable items
 var itemIsCrewEquipable = false
 var itemCarryWeight = 0
-var itemRarity = self.RARITY.COMMON
+var itemRarity = RARITY.COMMON
 
 # Meta
 
@@ -48,19 +48,19 @@ func is_class( name : String ):
 	return name == "Item"
 
 func getMassDisplay():
-	return str( self.itemMass ) + " Kg"
+	return str( itemMass ) + " Kg"
 
 func getVolumeDisplay():
-	return str( self.itemVolume ) + " m3"
+	return str( itemVolume ) + " m3"
 
 func getItemValueDisplay():
-	return str( self.itemValue ) + " Ink"
+	return str( itemValue ) + " Ink"
 
 func getRemaining():
-	return self.itemOwned - self.itemAssigned
+	return itemOwned - itemAssigned
 
 func addToAssigned():
-	self.itemAssigned = self.itemAssigned + 1
+	itemAssigned = itemAssigned + 1
 
 func subFromAssigned():
-	self.itemAssigned = self.itemAssigned - 1
+	itemAssigned = itemAssigned - 1

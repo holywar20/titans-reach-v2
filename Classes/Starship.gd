@@ -33,7 +33,7 @@ var command = [
 # Hoist all this into another class, potentially a factory or just a plain data file.
 func _init():
 	for c in command:
-		self.consoles.append( Console.new( c.Name, c.Description, c.Category, c.PriTrait, c.SecTrait, c.Effects ) )
+		consoles.append( Console.new( c.Name, c.Description, c.Category, c.PriTrait, c.SecTrait, c.Effects ) )
 
 func get_class(): 
 	return "Starship"
@@ -42,4 +42,4 @@ func is_class( name : String ):
 	return name == "Starship"
 
 func getConsoles():
-	return self.consoles
+	return consoles

@@ -1,15 +1,15 @@
 extends ItemFactory
 
 func _ready():
-	self.itemFolder = "res://JsonData/Equipment/"
-	self._loadData()
+	itemFolder = "res://JsonData/Equipment/"
+	_loadData()
 
 func generateEquipmentObject( key: String , numberToGenerate: int = 0 ):
-	if( !self.dataDictionary.has( key ) ):
+	if( !dataDictionary.has( key ) ):
 		print("Equipment key of " + key + " is missing")
 		return null
 	
-	var itemDict = self.dataDictionary[key]
+	var itemDict = dataDictionary[key]
 	var newEquipment = Equipment.new( key )
 
 	for key in itemDict:
@@ -23,11 +23,11 @@ func generateEquipmentObject( key: String , numberToGenerate: int = 0 ):
 func generateDebugEquipment():
 	var equipment = {}
 
-	equipment["TerranShieldGenerator"] = self.generateEquipmentObject( "TerranShieldGenerator", 6 )
-	equipment["TerranMedKit"] = self.generateEquipmentObject( "TerranMedKit", 6 )
-	equipment["TerranFragGrenade"] = self.generateEquipmentObject( "TerranFragGrenade", 6 )
-	equipment["TerranEmpGrenade"] = self.generateEquipmentObject( "TerranEmpGrenade", 6 )
+	equipment["TerranShieldGenerator"] = generateEquipmentObject( "TerranShieldGenerator", 6 )
+	equipment["TerranMedKit"] = generateEquipmentObject( "TerranMedKit", 6 )
+	equipment["TerranFragGrenade"] = generateEquipmentObject( "TerranFragGrenade", 6 )
+	equipment["TerranEmpGrenade"] = generateEquipmentObject( "TerranEmpGrenade", 6 )
 
-	equipment = self._cleanDictionary(equipment)
+	equipment = _cleanDictionary(equipment)
 
 	return equipment

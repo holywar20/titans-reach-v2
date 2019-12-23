@@ -3,25 +3,25 @@ extends Button
 var ability = null
 var eventBus = null
 
-func setupScene( eventBus : EventBus, ability : Ability , disabled ):
-	self.eventBus = eventBus
-	self.ability = ability
+func setupScene( eBus : EventBus, newAbility : Ability , disabled ):
+	eventBus = eBus
+	ability = newAbility
 
-	self.set_disabled( disabled )
-	self.set_button_icon( load( ability.getIconPath() ) )
+	set_disabled( disabled )
+	set_button_icon( load( ability.getIconPath() ) )
 
 func _onButtonClicked():
 	print("button clicked!")
-	print(self.ability.abilityType )
-	print( self.ability.ABILITY_TYPES.ACTION )
+	print(ability.abilityType )
+	print( ability.ABILITY_TYPES.ACTION )
 
-	if( self.ability.abilityType == self.ability.ABILITY_TYPES.ACTION ):
-		self.eventBus.emit("ActionButtonClicked" , [ self.ability ] )
-	if( self.ability.abilityType == self.ability.ABILITY_TYPES.STANCE ):
-		self.eventBus.emit("StanceButtonClicked" , [ self.ability ])
+	if( ability.abilityType == ability.ABILITY_TYPES.ACTION ):
+		eventBus.emit("ActionButtonClicked" , [ ability ] )
+	if( ability.abilityType == ability.ABILITY_TYPES.STANCE ):
+		eventBus.emit("StanceButtonClicked" , [ ability ])
 
 func toggleDisabled( true ):
-	self.set_disabled( true )
+	set_disabled( true )
 
 func _ready():
 	pass

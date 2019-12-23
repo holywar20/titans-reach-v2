@@ -12,8 +12,8 @@ func _ready():
 	pass
 
 func _init( key : String ):
-	self.itemKey = key
-	self.itemTextureType = self.TEXTURE_GRID_TYPE.ROW
+	itemKey = key
+	itemTextureType = TEXTURE_GRID_TYPE.ROW
 # Overrides
 func get_class(): 
 	return "Weapon"

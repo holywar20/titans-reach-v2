@@ -10,15 +10,15 @@ onready var nodes = {
 	"Consoles" 	: get_node("Consoles")
 }
 
-func setupScene( eventBus : EventBus , consoleName : String ):
-	self.eventBus = eventBus
-	self.consoleCategoryName = consoleName
+func setupScene( eBus : EventBus , consoleName : String ):
+	eventBus = eBus
+	consoleCategoryName = consoleName
 
 func addConsole( console : Console ):
 	var lock = dragLockScene.instance()
-	lock.setupScene( self.eventBus  , console , lock.RELATIONSHIPS.CREW_CONSOLE , console.consoleName , console.consoleName )
+	lock.setupScene( eventBus  , console , lock.RELATIONSHIPS.CREW_CONSOLE , console.consoleName , console.consoleName )
 	
-	self.nodes.Consoles.add_child( lock )
+	nodes.Consoles.add_child( lock )
 
 func _ready():
-	self.nodes.Name.set_text( self.consoleCategoryName )
+	nodes.Name.set_text( consoleCategoryName )

@@ -13,8 +13,8 @@ func _ready():
 	pass # Replace with function body.
 
 func _init( key: String):
-	self.itemKey = key
-	self.itemTextureType = self.TEXTURE_GRID_TYPE.SINGLE
+	itemKey = key
+	itemTextureType = TEXTURE_GRID_TYPE.SINGLE
 
 func get_class():
 	return "Equipment"

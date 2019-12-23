@@ -1,16 +1,16 @@
 extends ItemFactory
 
 func _ready():
-	self.itemFolder = "res://JsonData/Frames/"
-	self._loadData()
+	itemFolder = "res://JsonData/Frames/"
+	_loadData()
 
 func generateFrameObject( key : String,  numberToGenerate : int = 0 , rarity = null ):
 	
-	if( !self.dataDictionary.has( key ) ):
+	if( !dataDictionary.has( key ) ):
 		print("Frame key of " + key + " is missing")
 		return null
 	
-	var itemDict = self.dataDictionary[key]
+	var itemDict = dataDictionary[key]
 	var newFrame = Frame.new( key )
 	
 	# Index through dictionary, and apply any values onto the pboject.
@@ -36,11 +36,11 @@ func generateFrameObject( key : String,  numberToGenerate : int = 0 , rarity = n
 func generateDebugFrames():
 	var frames = {}
 
-	frames["TerranLightFrame"] = self.generateFrameObject( "TerranLightFrame" , 10 )
-	frames["TerranMediumFrame"] = self.generateFrameObject( "TerranMediumFrame" , 6 )
-	frames["TerranHeavyFrame"] = self.generateFrameObject( "TerranHeavyFrame"  , 3 )
-	frames["TerranAssaultFrame"] = self.generateFrameObject( "TerranAssaultFrame" , 1 )
+	frames["TerranLightFrame"] = generateFrameObject( "TerranLightFrame" , 10 )
+	frames["TerranMediumFrame"] = generateFrameObject( "TerranMediumFrame" , 6 )
+	frames["TerranHeavyFrame"] = generateFrameObject( "TerranHeavyFrame"  , 3 )
+	frames["TerranAssaultFrame"] = generateFrameObject( "TerranAssaultFrame" , 1 )
 	
-	frames = self._cleanDictionary( frames )
+	frames = _cleanDictionary( frames )
 
 	return frames

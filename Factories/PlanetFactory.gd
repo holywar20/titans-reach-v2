@@ -115,7 +115,7 @@ func generateAllPlanetsFromStar( myStar ):
 
 	for orbit in range( 0 , myStar.ORBIT_COUNT ):
 		if( randi() % 100 < myStar.chanceOfPlanetPerOrbit ):
-			planetArray.append( self.generateOnePlanet( orbit, myStar ) )
+			planetArray.append( generateOnePlanet( orbit, myStar ) )
 			myStar.setOrbitState( orbit, true )
 		else:
 			planetArray.append( null )
@@ -125,15 +125,15 @@ func generateAllPlanetsFromStar( myStar ):
 	return planetArray
 
 func generateOnePlanet( orbit,  myStar ):
-	var planetClass = self._rollPlanetType( orbit, myStar)
-	var myPlanet = self._rollPlanetDetails( orbit, planetClass , myStar )
+	var planetClass = _rollPlanetType( orbit, myStar)
+	var myPlanet = _rollPlanetDetails( orbit, planetClass , myStar )
 	return myPlanet
 
 
 func _rollPlanetDetails( orbit, planetClass , star ):
-	var p = self.planetClassData[planetClass]
+	var p = planetClassData[planetClass]
 
-	var planet = self.planetScene.instance()
+	var planet = planetScene.instance()
 	
 	planet.fullName = star.getName() + " " + str(orbit + 1) # TODO - Make roman Numerals. Also should add ability for 'uniquely' named planets.
 	planet.planetSeed = null
@@ -142,7 +142,7 @@ func _rollPlanetDetails( orbit, planetClass , star ):
 	planet.className = p.className
 	planet.color = p.color
 	
-	planet.description = self.DESCRIPTION[p.classification]
+	planet.description = DESCRIPTION[p.classification]
 
 	planet.atmopshere = p.atmosphere
 	

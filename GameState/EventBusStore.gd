@@ -16,7 +16,7 @@ const GLOBAL_LIFECYCLE_EVENTS = [
 ]
 
 func _ready():
-	self._globalEventBus.addEvents( self.GLOBAL_LIFECYCLE_EVENTS )
+	_globalEventBus.addEvents( GLOBAL_LIFECYCLE_EVENTS )
 
 func getGlobalEventBus():
-	return self._globalEventBus
+	return _globalEventBus

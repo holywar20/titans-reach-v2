@@ -36,23 +36,23 @@ var iconTexturePath = ""
 var fullTexturePath = ""
 
 func _ready():
-	self.nodes.nameLabel.set_text( self.fullName )
-	self.nodes.sprite.set_texture( load( fullTexturePath ) ) # DO we need an override for this?
-	self.nodes.sprite.set_self_modulate( self.color )
+	nodes.nameLabel.set_text( fullName )
+	nodes.sprite.set_texture( load( fullTexturePath ) ) # DO we need an override for this?
+	nodes.sprite.set_self_modulate( color )
 
-func setEvents( eventBus : EventBus ):
-	self.eventBus = eventBus
+func setEvents( eBus : EventBus ):
+	eventBus = eBus
 
 func _onAreaInputEvent( viewport, event, shape_idx ):
 	if( event.is_action_pressed( "GUI_SELECT" ) ):
-		self.eventBus.emit( "PlanetClickedStart" , [self] )
+		eventBus.emit( "PlanetClickedStart" , [self] )
 
 # Getters & Setters
 func getIconTexturePath():
-	return self.iconTexturePath
+	return iconTexturePath
 
 func getColor():
-	return self.color
+	return color
 
 func getDetailText():
 	var bbcodeText = """[table][/table]

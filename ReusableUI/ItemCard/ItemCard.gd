@@ -29,25 +29,25 @@ func _ready():
 	pass 
 
 func loadItemData( item ):
-	self.nodes.name.set_text( item.itemDisplayName )
-	self.nodes.icon.set_texture( load(item.itemTexturePath) )
+	nodes.name.set_text( item.itemDisplayName )
+	nodes.icon.set_texture( load(item.itemTexturePath) )
 
-	self._clearDisplay()
+	_clearDisplay()
 
 	if ( item.is_class("Weapon") ):
-		self._displayAsWeapon( item )
+		_displayAsWeapon( item )
 	if ( item.is_class("Frame") ):
-		self._displayAsFrame( item )
+		_displayAsFrame( item )
 	if ( item.is_class("Equipment") ):
-		self._displayAsEquipment( item )
+		_displayAsEquipment( item )
 
 func _setTargeting( action ):
-	self.nodes.targeting.set_visible( true )
-	self.nodes.targetType.set_text( action.getTargetTypeString() )
+	nodes.targeting.set_visible( true )
+	nodes.targetType.set_text( action.getTargetTypeString() )
 
 	var validFrom = action.validFrom
 	for x in range(3):
-		var fromNode = self.nodes.targetFrom.get_node( "P_" + str( x ) )
+		var fromNode = nodes.targetFrom.get_node( "P_" + str( x ) )
 
 		if( validFrom.has(x) ):
 			fromNode.set_self_modulate( INVALID_TARGET )
@@ -56,7 +56,7 @@ func _setTargeting( action ):
 		
 	var validTargets = action.validTargets
 	for x in range( 3 ): 
-		var targetNode = self.nodes.targetTo.get_node( "T_" + str( x ) )
+		var targetNode = nodes.targetTo.get_node( "T_" + str( x ) )
 
 		if( validTargets.has(x) ):
 			targetNode.set_self_modulate( VALID_TARGET )
@@ -65,68 +65,68 @@ func _setTargeting( action ):
 
 func showCountLine( item = null ):
 	if( item ):
-		self.nodes.countLine.set_visible( true )
-		self.nodes.countValue.set_text( str( item.getRemaining() ) )
-		self.nodes.massValue.set_text( item.getMassDisplay() )
-		self.nodes.volumeValue.set_text( item.getVolumeDisplay() )
+		nodes.countLine.set_visible( true )
+		nodes.countValue.set_text( str( item.getRemaining() ) )
+		nodes.massValue.set_text( item.getMassDisplay() )
+		nodes.volumeValue.set_text( item.getVolumeDisplay() )
 	else:
-		self.nodes.countLine.set_visible( false )
+		nodes.countLine.set_visible( false )
 
 func _clearDisplay():
 	
-	self.nodes.description.set_visible( false )
-	self.nodes.targeting.set_visible( false )
+	nodes.description.set_visible( false )
+	nodes.targeting.set_visible( false )
 
-	self.nodes.subHeader.set_visible( false )
-	self.nodes.subHeaderType.set_visible( false )
-	self.nodes.subHeaderWeight.set_visible( false )
+	nodes.subHeader.set_visible( false )
+	nodes.subHeaderType.set_visible( false )
+	nodes.subHeaderWeight.set_visible( false )
 
-	self.nodes.countLine.set_visible( false )
+	nodes.countLine.set_visible( false )
 
 func _displayAsWeapon( item  ):
 
-	self.nodes.targeting.set_visible( true )
-	self.nodes.subHeader.set_visible( true )
+	nodes.targeting.set_visible( true )
+	nodes.subHeader.set_visible( true )
 
-	self.nodes.subHeaderWeight.set_visible( true )
-	self.nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemCarryWeight ) )
+	nodes.subHeaderWeight.set_visible( true )
+	nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemCarryWeight ) )
 
 	#Log.log(   item.getAllActionDisplay() )
-	#self._displayLines( item.getAllActionDisplay() )
+	#_displayLines( item.getAllActionDisplay() )
 
 func _displayAsEquipment( item  ):
-	self.nodes.targeting.set_visible( true )
-	self.nodes.subHeader.set_visible( true )
+	nodes.targeting.set_visible( true )
+	nodes.subHeader.set_visible( true )
 
-	self.nodes.subHeaderType.set_visible( true )
-	self.nodes.subHeaderType.set_text( "Consumable" ) # TODO : add passive, once passive items are implimented
+	nodes.subHeaderType.set_visible( true )
+	nodes.subHeaderType.set_text( "Consumable" ) # TODO : add passive, once passive items are implimented
 
-	self.nodes.subHeaderWeight.set_visible( true )
-	self.nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemCarryWeight ) )
+	nodes.subHeaderWeight.set_visible( true )
+	nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemCarryWeight ) )
 
-	#self._displayLines( item.getAllActionDisplay() )
+	#_displayLines( item.getAllActionDisplay() )
 
 func _displayAsFrame( item ):
-	self.nodes.subHeader.set_visible( true )
+	nodes.subHeader.set_visible( true )
 
-	self.nodes.subHeaderType.set_visible( true )
-	self.nodes.subHeaderType.set_text( item.frameClassString )
+	nodes.subHeaderType.set_visible( true )
+	nodes.subHeaderType.set_text( item.frameClassString )
 
-	self.nodes.subHeaderWeight.set_visible( true )
-	self.nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemCarryWeight ) )
+	nodes.subHeaderWeight.set_visible( true )
+	nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemCarryWeight ) )
 
 	var lines = [ 
 		"Damage Reduction : [color=green]" + str( item.frameArmorValue ) + "[/color]",
 		"Inititive Penalty : [color=red]" + str( item.frameArmorValue ) + "[/color]"
 	]
 
-	self._displayLines( lines )
+	_displayLines( lines )
 	# TODO add iterator over item actions, if they exist
-	self.nodes.description.set_visible( true )
+	nodes.description.set_visible( true )
 
 func _displayLines( lines , append = false ):
 	if( !append ):
-		self.nodes.description.set_bbcode("")
+		nodes.description.set_bbcode("")
 
 	for line in lines:
-		self.nodes.description.append_bbcode( line + "\n")
+		nodes.description.append_bbcode( line + "\n")

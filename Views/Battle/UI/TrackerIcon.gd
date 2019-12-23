@@ -9,21 +9,21 @@ var eventBus = null
 var crewman = null
 var init = 0
 
-func setupScene( eventBus : EventBus , crewman : Crew  , init : int ):
-	self.crewman = crewman
-	self.eventBus = eventBus
-	self.init = init
+func setupScene( eBus : EventBus , newCrewman : Crew  , newInit : int ):
+	crewman = newCrewman
+	eventBus = eBus
+	init = newInit
 
 func _ready():
-	if( self.eventBus ):
-		self.loadEvents()
+	if( eventBus ):
+		loadEvents()
 
-	if( self.crewman ):
-		self.loadData()
+	if( crewman ):
+		loadData()
 
 func loadEvents():
 	pass 
 
 func loadData():
-	self.nodes.Crewman.set_texture( load(self.crewman.smallTexturePath) )
-	self.nodes.Init.set_text( str(self.init) )
+	nodes.Crewman.set_texture( load(crewman.smallTexturePath) )
+	nodes.Init.set_text( str(init) )

@@ -48,133 +48,133 @@ var lockHolds = null
 var lockIs = null
 
 # should only need to call this method if dynamically creating the lock.
-func setupScene( eventBus : EventBus , lockIs , relationship : int , lockName : String, displayName = "" ):
-	self.eventBus = eventBus
-	self.lockIs = lockIs
-	self.displayName = displayName
-	self.lockName = lockName
+func setupScene( eBus : EventBus , lock , rel : int , lName : String, dName = "" ):
+	eventBus = eBus
+	lockIs = lock
+	displayName = dName
+	lockName = lName
 
-	var myRelationship = self.RELATIONSHIP_DATA[relationship]
+	var myRelationship = RELATIONSHIP_DATA[rel]
 	for key in myRelationship:
-		self.set( key , myRelationship[key] )
+		set( key , myRelationship[key] )
 
 	# Stupid I know, but I want to be able to preload textures inside the interface, but store them as strings in the list
-	self.defaultTexture = load( self.defaultTexture )
+	defaultTexture = load( defaultTexture )
 
-	if( self.is_inside_tree() ):
-		self.setEvents()
+	if( is_inside_tree() ):
+		setEvents()
 
 func _ready():
-	if( self.isClass ):
-		self._loadData()
-		self.setEvents()
+	if( isClass ):
+		_loadData()
+		setEvents()
 
 func setEvents( newEventBus = null ):
 	if( newEventBus ):
-		self.eventBus = newEventBus
+		eventBus = newEventBus
 
-	if( self.eventBus ):
-		self.eventBus.register( "DraggableCreated" , self , "_onDraggableCreated" )
-		self.eventBus.register( "DraggableReleased" , self , "_onDraggableReleased" )
+	if( eventBus ):
+		eventBus.register( "DraggableCreated" , self , "_onDraggableCreated" )
+		eventBus.register( "DraggableReleased" , self , "_onDraggableReleased" )
 
 # Loads data from setupScene OR the export view, and calculates it all.
 func _loadData():
-	self.set_size( self.lockSize )
+	set_size( lockSize )
 	
-	self.nodes.Image.set_size( self.textureSize )
-	self.nodes.Image.set_texture( self.defaultTexture )
-	self.nodes.Name.set_text( self.displayName )
+	nodes.Image.set_size( textureSize )
+	nodes.Image.set_texture( defaultTexture )
+	nodes.Name.set_text( displayName )
 
-	if( self.showsDescription ):
-		self.nodes.Name.set_text( self.displayName )
+	if( showsDescription ):
+		nodes.Name.set_text( displayName )
 	else:
-		self.nodes.Name.hide()
+		nodes.Name.hide()
 
-	if( self.nodeGroup ):
-		self.add_to_group( self.nodeGroup )
+	if( nodeGroup ):
+		add_to_group( nodeGroup )
 
-	self.set_size( self.lockSize )
+	set_size( lockSize )
 
-	if( self.lockIs ):
-		if( self.isClass == "Console" ):
-			self.lockHolds = self.lockIs.getAssignedCrewman()
-		if( self.isClass == "Crew" ):
-			self.lockHolds = self.lockIs.getGearAt( self.lockName )
+	if( lockIs ):
+		if( isClass == "Console" ):
+			lockHolds = lockIs.getAssignedCrewman()
+		if( isClass == "Crew" ):
+			lockHolds = lockIs.getGearAt( lockName )
 	
-	self.updateDisplay()
+	updateDisplay()
 
 func _onDraggableCreated( itemObject , sourceLock ):
 
-	if( self.myDraggableBeingDragged ):
-		self.myDraggableBeingDragged = false
+	if( myDraggableBeingDragged ):
+		myDraggableBeingDragged = false
 		return null # We do not want dragLocks change if they are the source of a drag event
 
-	if( itemObject.is_class( self.holdsClass ) ):
-		self.nodes.Image.set_self_modulate( self.DROPPABLE_COLOR )
-		self.set_self_modulate( self.DROPPABLE_COLOR )
+	if( itemObject.is_class( holdsClass ) ):
+		nodes.Image.set_self_modulate( DROPPABLE_COLOR )
+		set_self_modulate( DROPPABLE_COLOR )
 	else:
-		self.nodes.Image.set_self_modulate( self.UNDROPPABLE_COLOR )
-		self.set_self_modulate( self.UNDROPPABLE_COLOR )
+		nodes.Image.set_self_modulate( UNDROPPABLE_COLOR )
+		set_self_modulate( UNDROPPABLE_COLOR )
 
 func _onDraggableReleased( payload , sourceLock , droppedLocation : Vector2 ):
-	if( self.lockHolds ):
-		self.nodes.Image.set_self_modulate( self.EQUIPPED_COLOR )
-		self.set_self_modulate( self.EQUIPPED_COLOR )
+	if( lockHolds ):
+		nodes.Image.set_self_modulate( EQUIPPED_COLOR )
+		set_self_modulate( EQUIPPED_COLOR )
 	else:
-		self.nodes.Image.set_self_modulate( self.UNEQUIPPED_COLOR )
-		self.set_self_modulate( self.UNEQUIPPED_COLOR )
+		nodes.Image.set_self_modulate( UNEQUIPPED_COLOR )
+		set_self_modulate( UNEQUIPPED_COLOR )
 
-	if( self.isInArea( droppedLocation ) ):
-		self.eventBus.emit( "DraggableMatched" , [ payload, self , sourceLock ] )
+	if( isInArea( droppedLocation ) ):
+		eventBus.emit( "DraggableMatched" , [ payload, self , sourceLock ] )
 
 func updateLock( newLockHolds = null ):
-	self.lockHolds = newLockHolds
-	self.updateDisplay()
+	lockHolds = newLockHolds
+	updateDisplay()
 
-	self.eventBus.emit( self.firesEvent , [ newLockHolds ] )
+	eventBus.emit( firesEvent , [ newLockHolds ] )
 
 func updateDisplay():
-	if( self.lockHolds ):
-		if( self.holdsClass == "Crew" ):
-			self.nodes.Image.set_texture( load( self.lockHolds.smallTexturePath ) )
+	if( lockHolds ):
+		if( holdsClass == "Crew" ):
+			nodes.Image.set_texture( load( lockHolds.smallTexturePath ) )
 		
-		if( self.holdsClass == "Weapon" || self.holdsClass == "Frame" || self.holdsClass == "Equipment" ):
-			self.nodes.Image.set_texture( load( self.lockHolds.itemTexturePath ) )
+		if( holdsClass == "Weapon" || holdsClass == "Frame" || holdsClass == "Equipment" ):
+			nodes.Image.set_texture( load( lockHolds.itemTexturePath ) )
 
-		self.set_self_modulate( self.EQUIPPED_COLOR )
-		self.nodes.Image.set_self_modulate( self.EQUIPPED_COLOR )
+		set_self_modulate( EQUIPPED_COLOR )
+		nodes.Image.set_self_modulate( EQUIPPED_COLOR )
 	else:
-		self.nodes.Image.set_texture( self.defaultTexture )
-		self.nodes.Image.set_self_modulate( self.UNEQUIPPED_COLOR )
+		nodes.Image.set_texture( defaultTexture )
+		nodes.Image.set_self_modulate( UNEQUIPPED_COLOR )
 
 func isInArea( pos: Vector2 ):
-	var rect = self.get_global_rect()
+	var rect = get_global_rect()
 	
 	if rect.has_point(pos):
 		return true
 	
 	return false
 
-func updateLockIs( lockIs ):
-	self.lockIs = lockIs
+func updateLockIs( newLockIs ):
+	lockIs = newLockIs
 	
-	if( self.lockIs.has_method("getGearAt") ):
-		self.lockHolds = self.lockIs.getGearAt( self.lockName )
+	if( lockIs.has_method("getGearAt") ):
+		lockHolds = lockIs.getGearAt( lockName )
 
-	self.updateDisplay()
+	updateDisplay()
 
 func _gui_input ( guiEvent : InputEvent ):
-	if( guiEvent.is_action_pressed( "GUI_SELECT" ) && self.lockHolds ):
-		self._createDraggable( guiEvent , self.lockHolds )
+	if( guiEvent.is_action_pressed( "GUI_SELECT" ) && lockHolds ):
+		_createDraggable( guiEvent , lockHolds )
 
 func _createDraggable( guiEvent : InputEvent , payloadObject ):
-	var draggableScene = load( self.DRAGGABLE_SCENE_PATH )
+	var draggableScene = load( DRAGGABLE_SCENE_PATH )
 	var draggable = draggableScene.instance()
-	draggable.setScene( self.eventBus , payloadObject , self )
+	draggable.setScene( eventBus , payloadObject , self )
 	draggable.set_global_position( guiEvent.position )
 
 	var draggableLayer = get_node( Common.DRAGGABLE_LAYER )
 	draggableLayer.add_child( draggable )
-	self.myDraggableBeingDragged = true
+	myDraggableBeingDragged = true
 
-	self.eventBus.emit( "DraggableCreated" , [ self.lockHolds , self.lockIs ] )
+	eventBus.emit( "DraggableCreated" , [ lockHolds , lockIs ] )

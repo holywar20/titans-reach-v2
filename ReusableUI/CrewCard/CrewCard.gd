@@ -14,59 +14,59 @@ const DRAGGABLE_SCENE_PATH = "res://ReusableUI/Draggable/Draggable.tscn"
 var eventBus = null
 var crewman = null 
 
-func setupScene( eventBus : EventBus, crewman = null ):
-	self.eventBus = eventBus
-	self.crewman = crewman
+func setupScene( eBus : EventBus, newCrewman = null ):
+	eventBus = eBus
+	crewman = newCrewman
 
-	if( self.crewman ):
-		self.show()
+	if( crewman ):
+		show()
 	else:
-		self.hide()
+		hide()
 
 func _ready():
-	if( self.crewman ):
-		self.loadData()
-
-func loadData( crewman = null ):
 	if( crewman ):
-		self.crewman = crewman
+		loadData()
+
+func loadData( newCrewman = null ):
+	if( newCrewman ):
+		crewman = newCrewman
 	
-	if ( self.crewman ):
-		self.show()
+	if ( crewman ):
+		show()
 	else:
-		self.hide()
+		hide()
 		return null
 	
-	self.nodes.Name.set_text( self.crewman.getFullName() )
+	nodes.Name.set_text( crewman.getFullName() )
 	
-	var texture = load( self.crewman.smallTexturePath )
+	var texture = load( crewman.smallTexturePath )
 	if( texture ):
-		self.nodes.Character.set_texture( texture )
+		nodes.Character.set_texture( texture )
 	
-	var hp = self.crewman.getHPStatBlock()
+	var hp = crewman.getHPStatBlock()
 
-	self.nodes.HpBar.set_max( hp.total )
-	self.nodes.HpBar.set_value( hp.current )
-	self.nodes.HpVal.set_text( self.crewman.getHitPointString() )
+	nodes.HpBar.set_max( hp.total )
+	nodes.HpBar.set_value( hp.current )
+	nodes.HpVal.set_text( crewman.getHitPointString() )
 
-	var morale = self.crewman.getMoraleStatBlock()
+	var morale = crewman.getMoraleStatBlock()
 
-	self.nodes.MoBar.set_max( morale.total )
-	self.nodes.MoBar.set_value( morale.current )
-	self.nodes.MoVal.set_text( self.crewman.getMoraleString() )
+	nodes.MoBar.set_max( morale.total )
+	nodes.MoBar.set_value( morale.current )
+	nodes.MoVal.set_text( crewman.getMoraleString() )
 
 func _gui_input ( guiEvent : InputEvent ):
 	if( guiEvent.is_action_pressed( "GUI_SELECT" ) ):
-		self._createDraggable( guiEvent )
-		self.eventBus.emit( "CrewmanSelected" , [ self.crewman ] )
+		_createDraggable( guiEvent )
+		eventBus.emit( "CrewmanSelected" , [ crewman ] )
 
 func _createDraggable( guiEvent : InputEvent ):
-	var draggableScene = load( self.DRAGGABLE_SCENE_PATH )
+	var draggableScene = load( DRAGGABLE_SCENE_PATH )
 	var draggable = draggableScene.instance()
-	draggable.setScene( self.eventBus , self.crewman )
+	draggable.setScene( eventBus , crewman )
 	draggable.set_global_position( guiEvent.position )
 
 	var draggableLayer = get_node( Common.DRAGGABLE_LAYER )
 	draggableLayer.add_child( draggable )
-	self.eventBus.emit( "DraggableCreated" , [ self.crewman , null ] )
+	eventBus.emit( "DraggableCreated" , [ crewman , null ] )
 

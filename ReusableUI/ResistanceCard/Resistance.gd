@@ -8,45 +8,45 @@ onready var resistBase = get_node("Panel/Resists")
 
 const HEADERS = [ "" , "Trait", "Base" , "Equip" , "Talent" , "Total"]
 
-func setupScene( eventBus: EventBus, crewman: Crew ):
-	self.eventBus = eventBus
-	self.crewman = crewman
+func setupScene( eBus : EventBus, newCrewman : Crew ):
+	eventBus = eBus
+	crewman = newCrewman
 
-	if( self.crewman ):
-		self.show()
+	if( crewman ):
+		show()
 	else:
-		self.hide()
+		hide()
 
 func _ready():
-	if( self.crewman ):
-		self.loadData( crewman )
-	if( self.eventBus ):
-		self.setEvents
+	if( crewman ):
+		loadData( crewman )
+	if( eventBus ):
+		setEvents( eventBus )
 
 # Clears all Data Rows
 func _clear():
-	for row in self.resistBase.get_children():
+	for row in resistBase.get_children():
 		row.queue_free()
 
-func setEvents( eventBus : EventBus ):
-	self.eventBus = eventBus
+func setEvents( eBus : EventBus ):
+	eventBus = eBus
 
 func loadData( crewman = null ):
-	self._clear()
-	self.crewman = crewman
+	_clear()
+	crewman = crewman
 	
 	if ( crewman ):
-		self.show()
+		show()
 	else:
-		self.hide()
+		hide()
 		return null
 	
-	var headerRow = self.dataRowScene.instance()
-	headerRow.setupScene( self.HEADERS )
+	var headerRow = dataRowScene.instance()
+	headerRow.setupScene( HEADERS )
 	var allRows = [ headerRow ]
 
 	# Resists are indexed by Trait
-	var resistStatBlocks = self.crewman.getAllResistStatBlocks()
+	var resistStatBlocks = crewman.getAllResistStatBlocks()
 	for traitKey in resistStatBlocks:
 
 		var traitStatBlocks = resistStatBlocks[traitKey]
@@ -61,12 +61,12 @@ func loadData( crewman = null ):
 				statBlock.total
 			]
 
-			var statRow = self.dataRowScene.instance()
+			var statRow = dataRowScene.instance()
 			statRow.setupScene( statBlockArray )
 			allRows.append( statRow )
 
 	for row in allRows:
-		self.resistBase.add_child( row )
+		resistBase.add_child( row )
 
 
 

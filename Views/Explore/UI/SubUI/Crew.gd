@@ -18,30 +18,30 @@ onready var nodes = {
 	"CrewmanName"		: get_node("HBox/Center/Crewman/Name")
 }
 
-func setupScene( eventBus : EventBus , parentNode ):
-	self.eventBus = eventBus
-	self.parentNode = parentNode
-	self.crewman = self.parentNode.getCurrentCrewman()
+func setupScene( eBus : EventBus , parentNode ):
+	eventBus = eBus
+	parentNode = parentNode
+	crewman = parentNode.getCurrentCrewman()
 
 func _ready():
-	self.eventBus.emit("SubUIAnyOpenEnd")
-	self.loadCrewmanData( self.crewman )
+	eventBus.emit("SubUIAnyOpenEnd")
+	loadCrewmanData( crewman )
 
 func loadCrewmanData( crewman : Crew ):
-	self.nodes.CharacterPoints.set_text( crewman.getCPointString() )
-	self.nodes.CrewmanName.set_text( crewman.getFullName() )
+	nodes.CharacterPoints.set_text( crewman.getCPointString() )
+	nodes.CrewmanName.set_text( crewman.getFullName() )
 
-	self.nodes.TraitsCard.loadData( crewman )
-	self.nodes.ResistanceCard.loadData( crewman )
+	nodes.TraitsCard.loadData( crewman )
+	nodes.ResistanceCard.loadData( crewman )
 
-	self.nodes.VitalsCard.loadData( crewman )
-	self.nodes.BioCard.loadData( crewman )
+	nodes.VitalsCard.loadData( crewman )
+	nodes.BioCard.loadData( crewman )
 
 # Buttons
 func _onNextPressed():
-	self.crewman = self.parentNode.getNextCrewman()
-	self.loadCrewmanData( self.crewman )
+	crewman = parentNode.getNextCrewman()
+	loadCrewmanData( crewman )
 
 func _onPrevPressed():
-	self.crewman = self.parentNode.getPrevCrewman()
-	self.loadCrewmanData( self.crewman )
+	crewman = parentNode.getPrevCrewman()
+	loadCrewmanData( crewman )

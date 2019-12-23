@@ -6,7 +6,7 @@ func _ready():
 	pass
 
 func initCard( action ):
-	self.action = action
+	action = action
 
 	Log.d( action )
 
