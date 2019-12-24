@@ -1,19 +1,28 @@
-extends Node2D
+extends Control
+
+onready var playerUnits = [
+	[get_node("Player/Unit_0_0") , get_node("Player/Unit_0_1") , get_node("Player/Unit_0_2") ] , 
+	[get_node("Player/Unit_1_0") , get_node("Player/Unit_1_1") , get_node("Player/Unit_1_2") ] , 
+	[get_node("Player/Unit_2_0") , get_node("Player/Unit_2_1") , get_node("Player/Unit_2_2") ]
+]
 
 onready var playerField = [
-	[ get_node("BG/0_0"), get_node("BG/0_1"), get_node("BG/0_2") ] ,
-	[ get_node("BG/1_0"), get_node("BG/1_1"), get_node("BG/1_2") ], 
-	[ get_node("BG/2_0"), get_node("BG/2_1"), get_node("BG/2_2") ], 
+	[ get_node("Player/Floor_0_0"), get_node("Player/Floor_0_1"), get_node("Player/Floor_0_2") ] ,
+	[ get_node("Player/Floor_1_0"), get_node("Player/Floor_1_1"), get_node("Player/Floor_1_2") ], 
+	[ get_node("Player/Floor_2_0"), get_node("Player/Floor_2_1"), get_node("Player/Floor_2_2") ], 
+]
+
+onready var enemyUnits = [
+	[get_node("Enemy/Unit_0_0") , get_node("Enemy/Unit_0_1") , get_node("Enemy/Unit_0_2") ] , 
+	[get_node("Enemy/Unit_1_0") , get_node("Enemy/Unit_1_1") , get_node("Enemy/Unit_1_2") ] , 
+	[get_node("Enemy/Unit_2_0") , get_node("Enemy/Unit_2_1") , get_node("Enemy/Unit_2_2") ]
 ]
 
 onready var enemyField = [
-	[ get_node("EBG/0_0"), get_node("EBG/0_1"), get_node("EBG/0_2") ] ,
-	[ get_node("EBG/1_0"), get_node("EBG/1_1"), get_node("EBG/1_2") ], 
-	[ get_node("EBG/2_0"), get_node("EBG/2_1"), get_node("EBG/2_2") ], 
+	[ get_node("Enemy/Floor_0_0"), get_node("Enemy/Floor_0_1"), get_node("Enemy/Floor_0_2") ] ,
+	[ get_node("Enemy/Floor_1_0"), get_node("Enemy/Floor_1_1"), get_node("Enemy/Floor_1_2") ], 
+	[ get_node("Enemy/Floor_2_0"), get_node("Enemy/Floor_2_1"), get_node("Enemy/Floor_2_2") ], 
 ]
-
-const ENEMYBATTLERS = "EnemyBattlers"
-const PLAYERBATTLERS = "PlayerBattlers"
 
 var eventBus
 var playerCrew = []
@@ -32,6 +41,7 @@ func setupScene( eBus : EventBus , crew , battleConfigDictionary ):
 	battleConfig = battleConfigDictionary 
 
 	eventBus.register( "TargetingBegin" , self , "_onTargetingBegin" )
+	eventBus.register( "GeneralCancel"  , self , "_onGeneralCancel")
 
 func loadData():
 	for row in playerField:
@@ -46,32 +56,78 @@ func _ready():
 	_setupBattleOrder()
 	_nextPass()
 
-func _onTargetingBegin( ability : Ability , crewman : Crew):
+func _onGeneralCancel():
+	_clearTargeting()
+
+func _clearTargeting():
+	for x in range( 0 , playerField.size() ):
+		for y in range( 0 , playerField[x].size() ):
+			playerField[x][y].setState( playerField[x][y].STATE.CLEAR )
+
+	for x in range( 0 , enemyField.size() ):
+		for y in range( 0 , enemyField[x].size() ):
+			enemyField[x][y].setState( enemyField[x][y].STATE.CLEAR )
+
+	for x in range( 0 , playerUnits.size() ):
+		for y in range( 0 , playerUnits[x].size() ):
+			playerUnits[x][y].setState( playerUnits[x][y].STATE.CLEAR )
+
+	for x in range( 0 , enemyUnits.size() ):
+		for y in range( 0 , enemyUnits[x].size() ):
+			enemyUnits[x][y].setState( enemyUnits[x][y].STATE.CLEAR )
+
+func _onTargetingBegin( ability : Ability , crewman : Crew ):
 	print( ability.fullName )
 	print( crewman.getFullName() )
-	# TODO find a way to do this for multiple effects that might require multiple targets
 
-	var doesTargetEnemy = ability.doesTargetEnemyUnits()
+	_clearTargeting()
+	# TODO find a way to do this for multiple effects that might require multiple targets
+	var targetMatrix = getTargetMatrix( ability, crewman )
 	var validTargets = ability.getValidTargets()
 
-	print( doesTargetEnemy )
-	print( validTargets )
-	# crew.isPlayer
-	# ability.targetType
+	for x in range(0, targetMatrix.size() ):
+		for y in range( 0 , targetMatrix[x].size() ):
+			if( validTargets[x][y] ):
+				targetMatrix[x][y].setState( targetMatrix[x][y].STATE.TARGETING )
+			else:
+				targetMatrix[x][y].setState( targetMatrix[x][y].STATE.CLEAR )
+
+func getTargetMatrix( ability : Ability , crewman : Crew ):
+	var isPlayer = crewman.isPlayer
+
+	var targetType = ability.getTargetType()
+	var field = null
+
+	print()
+
+	match targetType:
+		"ALLY_UNIT":
+			field = playerUnits if isPlayer else enemyUnits 
+		"ALLY_FLOOR":
+			field = playerField if isPlayer else enemyField
+		"ENEMY_UNIT":
+			field = enemyUnits if isPlayer else playerUnits
+		"ENEMY_FLOOR":
+			field = playerField if isPlayer else enemyField
+		"SELF":
+			field = playerUnits if isPlayer else enemyUnits
+
+	return field
+
 
 func _setupBattleOrder():
 	# TODO - Create a pop up to allow this to be changed and saved before battle. For now , hardcode!
-	playerField[1][0].loadData( playerCrew[0] )
-	playerField[1][1].loadData( playerCrew[1] )
-	playerField[1][2].loadData( playerCrew[2] )
-	playerField[2][1].loadData( playerCrew[3] )
-	playerField[0][1].loadData( playerCrew[4] )
+	playerUnits[1][0].loadData( playerCrew[0] )
+	playerUnits[1][1].loadData( playerCrew[1] )
+	playerUnits[1][2].loadData( playerCrew[2] )
+	playerUnits[2][1].loadData( playerCrew[3] )
+	playerUnits[0][1].loadData( playerCrew[4] )
 
-	enemyField[1][0].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
-	enemyField[1][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
-	enemyField[1][2].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
-	enemyField[2][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
-	enemyField[0][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
+	enemyUnits[1][0].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
+	enemyUnits[1][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
+	enemyUnits[1][2].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
+	enemyUnits[2][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
+	enemyUnits[0][1].loadData( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
 
 func _nextPass():
 	# Do any special end of pass checks ( Special conditions, etc )
@@ -105,7 +161,7 @@ func _nextTurn():
 		_loadEndGame()
 		#return null
 
-	if( _validateAlive( enemyCrew) ):
+	if( _validateAlive( enemyCrew ) ):
 		_loadEndBattle()
 		#return null
 	

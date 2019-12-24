@@ -7,6 +7,14 @@ onready var barNodes = {
 	"MoraleValue" : get_node( "Morale/Bar/Value")
 }
 
+const STATE = { "TARGETING" : "TARGETING" , "TARGETED" : "TARGETED" , "CLEAR" : "CLEAR" }
+const STATE_DATA = {
+	"TARGETING" : { "Color" : Color( .6 , .6  , .3 , 1 ) },
+	"TARGETED"  : { "Color" : Color( .6 , .3 , .3 , 1 ) },
+	"CLEAR" 		: { "Color" : Color( 1 , 1  ,  1 , 1 ) }
+}
+var myState = STATE.CLEAR
+
 var eventBus = null
 var crewman = null
 export(int) var myX = 0
@@ -27,8 +35,10 @@ func _ready():
 func loadEvents():
 	pass
 
-func highlight():
-	print( "Highlighting!")
+func setState( stateName : String ):
+	# print("setting state for battler , " , myX , " ",  myY , " " , stateName)
+	myState = STATE_DATA[stateName]
+	set_self_modulate( myState.Color )
 
 func loadData( newCrewman = null ):
 	if( newCrewman ):

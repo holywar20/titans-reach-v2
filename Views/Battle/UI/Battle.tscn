@@ -12,9 +12,13 @@
 [node name="Control" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = -4.20471
+margin_bottom = -4.20471
+mouse_filter = 2
 script = ExtResource( 1 )
 
 [node name="Header" type="PanelContainer" parent="."]
+editor/display_folded = true
 margin_right = 1920.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
@@ -75,13 +79,13 @@ size_flags_vertical = 3
 margin_top = 143.0
 margin_right = 1920.0
 margin_bottom = 722.0
+mouse_filter = 2
 size_flags_vertical = 3
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="VBox" type="VBoxContainer" parent="Middle"]
+editor/display_folded = true
 margin_bottom = 579.0
+mouse_filter = 2
 
 [node name="TopSpacer" type="Control" parent="Middle/VBox"]
 margin_bottom = 287.0
@@ -109,11 +113,9 @@ margin_bottom = 579.0
 margin_left = 4.0
 margin_right = 1920.0
 margin_bottom = 579.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="BottomControls" type="HBoxContainer" parent="."]
 editor/display_folded = true

@@ -54,7 +54,6 @@ func buildAbilityFromDict( dict ):
 	if( !ability ):
 		print( "ability failed to build")
 		return false
-		#Log.add( Log.ALERT , "ability Generator: ability didn't build successfully.")
 	
 	# ability.calculateSelf()
 	
@@ -92,6 +91,13 @@ func _fillAndValidateAbility( dict ):
 	for key in dict:
 		ability[key] = dict[key]
 
+	for x in range(0 , ability.validTargets.size() ):
+		ability.validTargets[x] = int( ability.validTargets[x] )
+	for x in range(0 , ability.validFrom.size() ):
+		ability.validFrom[x] = int( ability.validFrom[x] )
+
+	ability.damageHiBase = int( ability.damageHiBase )
+	ability.damageLoBase = int( ability.damageLoBase )
 	# Next we type force all our integer values that should be integers into integers because Godot turns everything into real numbers from Json imports
 	
 

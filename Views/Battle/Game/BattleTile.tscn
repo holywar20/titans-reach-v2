@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://TextureBank/Backgrounds/BattleFieldSquares/TopLeft.png" type="Texture" id=1]
+[ext_resource path="res://Views/Battle/Game/BattleTile.gd" type="Script" id=2]
+
+[node name="Sprite" type="TextureRect"]
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+[connection signal="mouse_entered" from="." to="." method="_onMouseEntered"]
+[connection signal="mouse_exited" from="." to="." method="_onMouseExited"]

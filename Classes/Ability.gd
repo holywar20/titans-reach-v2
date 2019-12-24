@@ -218,7 +218,7 @@ func getValidTargets():
 
 	for x in range(0 , targetingArray.size() ):
 		for y in range( 0 , targetingArray[x].size() ):
-			if( validTargets.has( x ) ):
+			if( validTargets.has( y ) ):
 				targetingArray[x][y] = true
 		
 	return targetingArray
