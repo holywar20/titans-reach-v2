@@ -268,6 +268,7 @@ myY = 2
 [node name="Unit_0_2" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
+visible = false
 margin_left = 630.0
 margin_top = 153.0
 margin_right = 758.0
@@ -290,6 +291,7 @@ myY = 1
 [node name="Unit_0_1" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
+visible = false
 margin_left = 450.0
 margin_top = 143.0
 margin_right = 578.0
@@ -310,6 +312,7 @@ rect_scale = Vector2( 0.95, 0.95 )
 [node name="Unit_0_0" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
+visible = false
 margin_left = 280.0
 margin_top = 133.0
 margin_right = 408.0
@@ -332,6 +335,7 @@ myY = 2
 [node name="Unit_1_2" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
+visible = false
 margin_left = 600.0
 margin_top = 294.407
 margin_right = 728.0
@@ -356,6 +360,7 @@ myY = 1
 [node name="Unit_1_1" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
+visible = false
 margin_left = 410.0
 margin_top = 263.0
 margin_right = 538.0
@@ -379,6 +384,7 @@ myX = 1
 [node name="Unit_1_0" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
+visible = false
 margin_left = 200.0
 margin_top = 273.0
 margin_right = 328.0
@@ -402,6 +408,7 @@ myY = 2
 [node name="Unit_2_2" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
+visible = false
 margin_left = 570.0
 margin_top = 473.0
 margin_right = 698.0
@@ -426,6 +433,7 @@ myY = 1
 [node name="Unit_2_1" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
+visible = false
 margin_left = 350.0
 margin_top = 491.003
 margin_right = 478.0
@@ -449,6 +457,7 @@ myX = 2
 [node name="Unit_2_0" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
+visible = false
 margin_left = 120.0
 margin_top = 491.363
 margin_right = 248.0

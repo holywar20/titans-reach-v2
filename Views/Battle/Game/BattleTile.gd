@@ -67,7 +67,7 @@ func _onMouseExited():
 
 func _gui_input( input ):
 	if( myState == STATE.HIGHLIGHT && input.is_action_pressed( "GUI_SELECT" ) ):
-		print("Battler at " , myX , ":" , myY , "is a valid target and clicked")
+		eventBus.emit("TargetingEnd" , [ myX , myY ] )
 
 func _ready():
 	pass # Replace with function body.

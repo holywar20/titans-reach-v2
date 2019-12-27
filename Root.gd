@@ -109,20 +109,24 @@ func _loadTitleScreen():
 func _loadBattleScreen():
 	_clearSelf()
 	var eventBus = EventBus.new()
+	var enemyCrew = []
 
+	# TODO this should be populated from some event
+	for x in range( 0 , 5 ):
+		enemyCrew.append( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
+
+	# TODO - hook for a battleConfig object of some kind
 	var ui = load( VIEWS.BATTLE.UI )
 	var uiInstance = ui.instance()
-	# Scene set up
-	uiInstance.setupScene( eventBus )
+	uiInstance.setupScene( eventBus , playerCrew , enemyCrew, {} )
 	UILayer.add_child( uiInstance )
-	
 
 	var battleMap = load( VIEWS.BATTLE.GAME )
 	var battleMapInstance = battleMap.instance()
-	# TODO - add a hook to some kind of 'battle factory' to make the dictionary
-	battleMapInstance.setupScene( eventBus , playerCrew , {} )
+	battleMapInstance.setupScene( eventBus ,playerCrew , enemyCrew  )
 	gameLayer.add_child( battleMapInstance )
 
+	
 func _loadExploreScreen():
 	_clearSelf()
 
