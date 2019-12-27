@@ -43,77 +43,42 @@ func setupScene( eBus : EventBus , crew , battleConfigDictionary ):
 	eventBus.register( "TargetingBegin" , self , "_onTargetingBegin" )
 	eventBus.register( "GeneralCancel"  , self , "_onGeneralCancel")
 
-func loadData():
-	for row in playerField:
-		for player in row:
-			playerField[row][player].setupScene( eventBus )
-
-	for row in enemyField:
-		for enemy in row:
-			enemyField[row][enemy].setupScene( eventBus )
-
 func _ready():
+	for x in range( 0 , playerField.size() ):
+		for y in range( 0 , playerField[x].size() ):
+			playerField[x][y].setupScene( eventBus )
+
+	for x in range( 0 , enemyField.size() ):
+		for y in range( 0 , enemyField[x].size() ):
+			enemyField[x][y].setupScene( eventBus )
+
+	for x in range( 0 , playerUnits.size() ):
+		for y in range( 0 , playerUnits[x].size() ):
+			playerUnits[x][y].setupScene( eventBus )
+
+	for x in range( 0 , enemyUnits.size() ):
+		for y in range( 0 , enemyUnits[x].size() ):
+			enemyUnits[x][y].setupScene( eventBus )
+
 	_setupBattleOrder()
 	_nextPass()
 
 func _onGeneralCancel():
-	_clearTargeting()
-
-func _clearTargeting():
-	for x in range( 0 , playerField.size() ):
-		for y in range( 0 , playerField[x].size() ):
-			playerField[x][y].setState( playerField[x][y].STATE.CLEAR )
-
-	for x in range( 0 , enemyField.size() ):
-		for y in range( 0 , enemyField[x].size() ):
-			enemyField[x][y].setState( enemyField[x][y].STATE.CLEAR )
-
-	for x in range( 0 , playerUnits.size() ):
-		for y in range( 0 , playerUnits[x].size() ):
-			playerUnits[x][y].setState( playerUnits[x][y].STATE.CLEAR )
-
-	for x in range( 0 , enemyUnits.size() ):
-		for y in range( 0 , enemyUnits[x].size() ):
-			enemyUnits[x][y].setState( enemyUnits[x][y].STATE.CLEAR )
+	pass
 
 func _onTargetingBegin( ability : Ability , crewman : Crew ):
 	print( ability.fullName )
 	print( crewman.getFullName() )
-
-	_clearTargeting()
-	# TODO find a way to do this for multiple effects that might require multiple targets
-	var targetMatrix = getTargetMatrix( ability, crewman )
+	
 	var validTargets = ability.getValidTargets()
-
-	for x in range(0, targetMatrix.size() ):
-		for y in range( 0 , targetMatrix[x].size() ):
-			if( validTargets[x][y] ):
-				targetMatrix[x][y].setState( targetMatrix[x][y].STATE.TARGETING )
-			else:
-				targetMatrix[x][y].setState( targetMatrix[x][y].STATE.CLEAR )
-
-func getTargetMatrix( ability : Ability , crewman : Crew ):
-	var isPlayer = crewman.isPlayer
-
-	var targetType = ability.getTargetType()
-	var field = null
-
-	print()
-
-	match targetType:
-		"ALLY_UNIT":
-			field = playerUnits if isPlayer else enemyUnits 
-		"ALLY_FLOOR":
-			field = playerField if isPlayer else enemyField
-		"ENEMY_UNIT":
-			field = enemyUnits if isPlayer else playerUnits
-		"ENEMY_FLOOR":
-			field = playerField if isPlayer else enemyField
-		"SELF":
-			field = playerUnits if isPlayer else enemyUnits
-
-	return field
-
+	if( ability.targetType == "ALLY_UNIT" || ability.targetType == "SELF" ):
+		eventBus.emit("TargetingBattler" , [ validTargets , crewman.isPlayer ] )
+	elif( ability.targetType == "ALLY_FLOOR" ):
+		eventBus.emit("TargetingTile" , [ validTargets, crewman.isPlayer ] )
+	elif( ability.targetType == "ENEMY_FLOOR" ): # Here we send the opposite of player. So true if it's NOT a player, and false if it is.
+		eventBus.emit("TargetingTile" , [ validTargets , !crewman.isPlayer ])
+	elif( ability.targetType == "ENEMY_UNIT" ):
+		eventBus.emit("TargetingBattler" , [ validTargets , !crewman.isPlayer ])
 
 func _setupBattleOrder():
 	# TODO - Create a pop up to allow this to be changed and saved before battle. For now , hardcode!

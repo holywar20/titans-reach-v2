@@ -122,9 +122,6 @@ func _loadBattleScreen():
 	# TODO - add a hook to some kind of 'battle factory' to make the dictionary
 	battleMapInstance.setupScene( eventBus , playerCrew , {} )
 	gameLayer.add_child( battleMapInstance )
-	
-
-	
 
 func _loadExploreScreen():
 	_clearSelf()

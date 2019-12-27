@@ -3,19 +3,24 @@
 [ext_resource path="res://TextureBank/Bodys/placeholder.png" type="Texture" id=1]
 [ext_resource path="res://Views/Battle/Game/Battler.gd" type="Script" id=2]
 
-[node name="0_0" type="Sprite"]
-position = Vector2( 40, 90 )
-scale = Vector2( 0.606708, 0.698253 )
+[node name="0_0" type="TextureRect"]
+mouse_filter = 2
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 
-[node name="Health" type="Panel" parent="."]
-margin_left = -115.412
-margin_top = -114.572
-margin_right = -18.412
-margin_bottom = -91.5716
+[node name="Reversed" type="Control" parent="."]
+visible = false
+margin_left = 30.0
+margin_right = 94.0
+margin_bottom = 70.0
+rect_scale = Vector2( -1, 1 )
 
-[node name="Bar" type="ProgressBar" parent="Health"]
+[node name="Health" type="Panel" parent="Reversed"]
+editor/display_folded = true
+margin_right = 97.0
+margin_bottom = 23.0004
+
+[node name="Bar" type="ProgressBar" parent="Reversed/Health"]
 self_modulate = Color( 0.196078, 0.901961, 0.0862745, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -25,7 +30,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Value" type="Label" parent="Health/Bar"]
+[node name="Value" type="Label" parent="Reversed/Health/Bar"]
 margin_top = -2.8643
 margin_right = 99.0
 margin_bottom = 28.1357
@@ -35,13 +40,14 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Morale" type="Panel" parent="."]
-margin_left = -131.859
-margin_top = -91.5717
-margin_right = -34.8591
-margin_bottom = -68.5717
+[node name="Morale" type="Panel" parent="Reversed"]
+editor/display_folded = true
+margin_left = -16.447
+margin_top = 23.0003
+margin_right = 80.5529
+margin_bottom = 46.0003
 
-[node name="Bar" type="ProgressBar" parent="Morale"]
+[node name="Bar" type="ProgressBar" parent="Reversed/Morale"]
 self_modulate = Color( 0.878431, 0.878431, 0.180392, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -50,7 +56,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Value" type="Label" parent="Morale/Bar"]
+[node name="Value" type="Label" parent="Reversed/Morale/Bar"]
 margin_top = -2.86427
 margin_right = 99.0
 margin_bottom = 28.1357
@@ -59,3 +65,60 @@ align = 1
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Standard" type="Control" parent="."]
+visible = false
+margin_left = -33.553
+margin_right = 6.447
+margin_bottom = 40.0
+
+[node name="Health" type="Panel" parent="Standard"]
+margin_right = 97.0
+margin_bottom = 23.0004
+
+[node name="Bar" type="ProgressBar" parent="Standard/Health"]
+self_modulate = Color( 0.196078, 0.901961, 0.0862745, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 2.0
+percent_visible = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Value" type="Label" parent="Standard/Health/Bar"]
+margin_top = -2.8643
+margin_right = 99.0
+margin_bottom = 28.1357
+text = "TEST"
+align = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Morale" type="Panel" parent="Standard"]
+margin_left = -16.447
+margin_top = 23.0003
+margin_right = 80.5529
+margin_bottom = 46.0003
+
+[node name="Bar" type="ProgressBar" parent="Standard/Morale"]
+self_modulate = Color( 0.878431, 0.878431, 0.180392, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+percent_visible = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Value" type="Label" parent="Standard/Morale/Bar"]
+margin_top = -2.86427
+margin_right = 99.0
+margin_bottom = 28.1357
+text = "TEST"
+align = 1
+__meta__ = {
+"_edit_lock_": true
+}
+[connection signal="mouse_entered" from="." to="." method="_onMouseEntered"]
+[connection signal="mouse_exited" from="." to="." method="_onMouseExited"]

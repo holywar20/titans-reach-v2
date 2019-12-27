@@ -132,6 +132,7 @@ var damageEffects = []
 var statusEffects = []
 var passiveEffects = []
 var healingEffects = []
+var movementEffects = []
 
 # Data that will mutate and change. 
 var abilityLearned = false

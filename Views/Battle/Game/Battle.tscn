@@ -29,91 +29,107 @@ texture = ExtResource( 2 )
 [node name="Floor_0_0" parent="Player" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.619608, 0.470588, 0.470588, 0.521569 )
+self_modulate = Color( 1, 1, 1, 0 )
 margin_left = 240.884
 margin_top = 330.998
 margin_right = 465.884
 margin_bottom = 434.998
 rect_scale = Vector2( 0.95, 0.95 )
 mouse_default_cursor_shape = 13
+isPlayer = true
 
 [node name="Unit_0_0" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
 visible = false
-position = Vector2( 367.476, 339.774 )
-scale = Vector2( 0.75, 0.75 )
+margin_left = 294.0
+margin_top = 199.109
+margin_right = 422.0
+margin_bottom = 455.109
+rect_scale = Vector2( 0.8, 0.8 )
 
 [node name="Floor_0_1" parent="Player" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.619608, 0.470588, 0.470588, 0.521569 )
+self_modulate = Color( 1, 1, 1, 0 )
 margin_left = 417.811
 margin_top = 330.743
 margin_right = 619.811
 margin_bottom = 433.743
 rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 5 )
+isPlayer = true
 myY = 1
 
 [node name="Unit_0_1" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
 visible = false
-position = Vector2( 536.157, 338.912 )
-scale = Vector2( 0.75, 0.75 )
+margin_left = 494.0
+margin_top = 203.0
+margin_right = 622.0
+margin_bottom = 459.0
+rect_scale = Vector2( 0.8, 0.8 )
 myY = 1
 
 [node name="Floor_0_2" parent="Player" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.619608, 0.470588, 0.470588, 0.521569 )
+self_modulate = Color( 1, 1, 1, 0 )
 margin_left = 597.425
 margin_top = 330.0
 margin_right = 776.425
 margin_bottom = 433.0
 rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 6 )
+isPlayer = true
 myY = 2
 
 [node name="Unit_0_2" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
 visible = false
-position = Vector2( 718.169, 332.793 )
-scale = Vector2( 0.75, 0.75 )
+margin_left = 653.0
+margin_top = 203.0
+margin_right = 781.0
+margin_bottom = 459.0
+rect_scale = Vector2( 0.8, 0.8 )
 myY = 2
 
 [node name="Floor_1_0" parent="Player" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.619608, 0.470588, 0.470588, 0.521569 )
+self_modulate = Color( 1, 1, 1, 0 )
 margin_left = 146.412
 margin_top = 433.951
 margin_right = 420.412
 margin_bottom = 572.951
 rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 7 )
+isPlayer = true
 myX = 1
 
 [node name="Unit_1_0" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
 visible = false
-position = Vector2( 284.807, 435.071 )
-scale = Vector2( 1, 1 )
+margin_left = 194.0
+margin_top = 283.0
+margin_right = 322.0
+margin_bottom = 539.0
 myX = 1
 
 [node name="Floor_1_1" parent="Player" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.619608, 0.470588, 0.470588, 0.521569 )
+self_modulate = Color( 1, 1, 1, 0 )
 margin_left = 355.558
 margin_top = 434.952
 margin_right = 596.558
 margin_bottom = 573.952
 rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 8 )
+isPlayer = true
 myX = 1
 myY = 1
 
@@ -121,21 +137,24 @@ myY = 1
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
 visible = false
-position = Vector2( 488.66, 437.849 )
-scale = Vector2( 1, 1 )
+margin_left = 414.0
+margin_top = 277.136
+margin_right = 542.0
+margin_bottom = 533.136
 myX = 1
 myY = 1
 
 [node name="Floor_1_2" parent="Player" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.619608, 0.470588, 0.470588, 0.521569 )
+self_modulate = Color( 1, 1, 1, 0 )
 margin_left = 564.553
 margin_top = 433.952
 margin_right = 776.553
 margin_bottom = 572.952
 rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 9 )
+isPlayer = true
 myX = 1
 myY = 2
 
@@ -143,41 +162,48 @@ myY = 2
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
 visible = false
-position = Vector2( 683.5, 447.365 )
-scale = Vector2( 1, 1 )
+margin_left = 604.0
+margin_top = 297.272
+margin_right = 732.0
+margin_bottom = 553.272
 myX = 1
 myY = 2
 
 [node name="Floor_2_0" parent="Player" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.619608, 0.470588, 0.470588, 0.521569 )
+self_modulate = Color( 1, 1, 1, 0 )
 margin_left = 7.29779
 margin_top = 577.868
 margin_right = 354.298
 margin_bottom = 778.868
 rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 10 )
+isPlayer = true
 myX = 2
 
 [node name="Unit_2_0" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
 visible = false
-position = Vector2( 180.8, 598.263 )
-scale = Vector2( 1.2, 1.2 )
+margin_left = 74.0
+margin_top = 430.0
+margin_right = 202.0
+margin_bottom = 686.0
+rect_scale = Vector2( 1.2, 1.2 )
 myX = 2
 
 [node name="Floor_2_1" parent="Player" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.619608, 0.470588, 0.470588, 0.521569 )
+self_modulate = Color( 1, 1, 1, 0 )
 margin_left = 265.153
 margin_top = 578.865
 margin_right = 567.153
 margin_bottom = 779.865
 rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 11 )
+isPlayer = true
 myX = 2
 myY = 1
 
@@ -185,21 +211,25 @@ myY = 1
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
 visible = false
-position = Vector2( 414.815, 598.263 )
-scale = Vector2( 1.2, 1.2 )
+margin_left = 344.0
+margin_top = 429.64
+margin_right = 472.0
+margin_bottom = 685.64
+rect_scale = Vector2( 1.2, 1.2 )
 myX = 2
 myY = 1
 
 [node name="Floor_2_2" parent="Player" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.619608, 0.470588, 0.470588, 0.521569 )
+self_modulate = Color( 1, 1, 1, 0 )
 margin_left = 519.795
 margin_top = 577.868
 margin_right = 778.795
 margin_bottom = 778.868
 rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 12 )
+isPlayer = true
 myX = 2
 myY = 2
 
@@ -207,87 +237,94 @@ myY = 2
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
 visible = false
-position = Vector2( 631.496, 588.288 )
-scale = Vector2( 1.2, 1.2 )
+margin_left = 554.0
+margin_top = 423.0
+margin_right = 682.0
+margin_bottom = 679.0
+rect_scale = Vector2( 1.2, 1.2 )
 myX = 2
 myY = 2
 
-[node name="Enemy" type="Sprite" parent="."]
-position = Vector2( 1350, 150 )
-scale = Vector2( 1.15377, 1.0025 )
+[node name="Enemy" type="TextureRect" parent="."]
+margin_left = 1740.0
+margin_top = -73.0
+margin_right = 2512.0
+margin_bottom = 700.0
+rect_scale = Vector2( -1, 1 )
 texture = ExtResource( 2 )
-offset = Vector2( 49.0856, 162.001 )
-flip_h = true
 
 [node name="Floor_0_2" parent="Enemy" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.741176, 0.305882, 0.305882, 0.203922 )
-margin_left = -162.944
-margin_top = 109.726
-margin_right = 16.0562
-margin_bottom = 212.726
-rect_scale = Vector2( -0.95, 0.95 )
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 598.0
+margin_top = 329.272
+margin_right = 777.0
+margin_bottom = 432.272
+rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 6 )
 myY = 2
 
 [node name="Unit_0_2" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-position = Vector2( -272.506, 91.9569 )
-scale = Vector2( 0.75, 0.75 )
-flip_h = true
+margin_left = 630.0
+margin_top = 153.0
+margin_right = 758.0
+margin_bottom = 409.0
+isPlayer = false
+myY = 2
 
 [node name="Floor_0_1" parent="Enemy" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.741176, 0.305882, 0.305882, 0.203922 )
-margin_left = 15.7998
-margin_top = 106.247
-margin_right = 217.8
-margin_bottom = 209.247
-rect_scale = Vector2( -0.95, 0.95 )
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 419.0
+margin_top = 332.0
+margin_right = 621.0
+margin_bottom = 435.0
+rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 5 )
 myY = 1
 
 [node name="Unit_0_1" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-position = Vector2( -107.829, 91.9569 )
-scale = Vector2( 0.75, 0.75 )
-flip_h = true
+margin_left = 450.0
+margin_top = 143.0
+margin_right = 578.0
+margin_bottom = 399.0
+isPlayer = false
 myY = 1
 
 [node name="Floor_0_0" parent="Enemy" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.741176, 0.305882, 0.305882, 0.203922 )
-margin_left = 195.013
-margin_top = 106.733
-margin_right = 420.013
-margin_bottom = 210.733
-rect_scale = Vector2( -0.95, 0.95 )
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 241.0
+margin_top = 330.0
+margin_right = 466.0
+margin_bottom = 434.0
+rect_scale = Vector2( 0.95, 0.95 )
 
 [node name="Unit_0_0" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-position = Vector2( 82.8503, 94.187 )
-scale = Vector2( 0.75, 0.75 )
-flip_h = true
-myY = 2
+margin_left = 280.0
+margin_top = 133.0
+margin_right = 408.0
+margin_bottom = 389.0
+isPlayer = false
 
 [node name="Floor_1_2" parent="Enemy" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.741176, 0.305882, 0.305882, 0.203922 )
-margin_left = -130.064
-margin_top = 211.471
-margin_right = 81.9364
-margin_bottom = 350.471
-rect_scale = Vector2( -0.95, 0.95 )
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 566.0
+margin_top = 435.952
+margin_right = 778.0
+margin_bottom = 574.952
+rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 9 )
 myX = 1
 myY = 2
@@ -295,21 +332,23 @@ myY = 2
 [node name="Unit_1_2" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-position = Vector2( -226.757, 211.539 )
-scale = Vector2( 0.907163, 0.996444 )
-flip_h = true
+margin_left = 600.0
+margin_top = 294.407
+margin_right = 728.0
+margin_bottom = 550.407
+isPlayer = false
 myX = 1
+myY = 2
 
 [node name="Floor_1_1" parent="Enemy" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.741176, 0.305882, 0.305882, 0.203922 )
-margin_left = 78.0054
-margin_top = 211.641
-margin_right = 319.005
-margin_bottom = 350.641
-rect_scale = Vector2( -0.95, 0.95 )
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 358.0
+margin_top = 437.0
+margin_right = 599.0
+margin_bottom = 576.0
+rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 8 )
 myX = 1
 myY = 1
@@ -317,44 +356,45 @@ myY = 1
 [node name="Unit_1_1" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-position = Vector2( -50.8, 198.688 )
-scale = Vector2( 1, 1 )
-flip_h = true
+margin_left = 410.0
+margin_top = 263.0
+margin_right = 538.0
+margin_bottom = 519.0
+isPlayer = false
 myX = 1
 myY = 1
 
 [node name="Floor_1_0" parent="Enemy" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.741176, 0.305882, 0.305882, 0.203922 )
-margin_left = 290.352
-margin_top = 211.196
-margin_right = 564.352
-margin_bottom = 350.196
-rect_scale = Vector2( -0.95, 0.95 )
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 144.0
+margin_top = 437.952
+margin_right = 418.0
+margin_bottom = 576.952
+rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 7 )
 myX = 1
 
 [node name="Unit_1_0" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-position = Vector2( 139.879, 211.835 )
-scale = Vector2( 1, 1 )
-flip_h = true
+margin_left = 200.0
+margin_top = 273.0
+margin_right = 328.0
+margin_bottom = 529.0
+isPlayer = false
 myX = 1
-myY = 2
 
 [node name="Floor_2_2" parent="Enemy" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.741176, 0.305882, 0.305882, 0.203922 )
-margin_left = -84.7925
-margin_top = 352.12
-margin_right = 174.208
-margin_bottom = 553.12
-rect_scale = Vector2( -0.95, 0.95 )
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 521.0
+margin_top = 576.0
+margin_right = 780.0
+margin_bottom = 777.0
+rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 12 )
 myX = 2
 myY = 2
@@ -362,21 +402,23 @@ myY = 2
 [node name="Unit_2_2" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-position = Vector2( -181.58, 349.127 )
-scale = Vector2( 1.2, 1.2 )
-flip_h = true
+margin_left = 570.0
+margin_top = 473.0
+margin_right = 698.0
+margin_bottom = 729.0
+isPlayer = false
 myX = 2
+myY = 2
 
 [node name="Floor_2_1" parent="Enemy" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.741176, 0.305882, 0.305882, 0.203922 )
-margin_left = 170.744
-margin_top = 351.122
-margin_right = 472.744
-margin_bottom = 552.122
-rect_scale = Vector2( -0.95, 0.95 )
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 263.0
+margin_top = 575.868
+margin_right = 565.0
+margin_bottom = 776.868
+rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 11 )
 myX = 2
 myY = 1
@@ -384,31 +426,32 @@ myY = 1
 [node name="Unit_2_1" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-position = Vector2( 26.4338, 349.127 )
-scale = Vector2( 1.2, 1.2 )
-flip_h = true
+margin_left = 350.0
+margin_top = 491.003
+margin_right = 478.0
+margin_bottom = 747.003
+isPlayer = false
 myX = 2
 myY = 1
 
 [node name="Floor_2_0" parent="Enemy" groups=[
 "PlayerFloor",
 ] instance=ExtResource( 3 )]
-self_modulate = Color( 0.741176, 0.305882, 0.305882, 0.203922 )
-margin_left = 424.695
-margin_top = 350.125
-margin_right = 771.695
-margin_bottom = 551.125
-rect_scale = Vector2( -0.95, 0.95 )
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 8.99994
+margin_top = 577.868
+margin_right = 356.0
+margin_bottom = 778.868
+rect_scale = Vector2( 0.95, 0.95 )
 texture = ExtResource( 10 )
 myX = 2
 
 [node name="Unit_2_0" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-position = Vector2( 251.782, 336.204 )
-scale = Vector2( 1.2, 1.2 )
-flip_h = true
+margin_left = 120.0
+margin_top = 491.363
+margin_right = 248.0
+margin_bottom = 747.363
+isPlayer = false
 myX = 2
-myY = 2

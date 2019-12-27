@@ -41,7 +41,10 @@
 		"validFrom" : [ 0 , 1, 2 ] ,
 		"targetType" : "SELF" ,
 		"targetArea" : "SINGLE" ,
-		"iconPath" : "res://TextureBank/AbilityIcons/defend.png"
+		"iconPath" : "res://TextureBank/AbilityIcons/defend.png",
+		"passiveEffects" : {
+
+		}
 	} , 
 	"Move" : {
 		"key" : "Move" ,
@@ -55,7 +58,10 @@
 		"validFrom" : [ 0 , 1, 2 ] ,
 		"targetType" : "ALLY_FLOOR" ,
 		"targetArea" : "SINGLE" ,
-		"iconPath" : "res://TextureBank/AbilityIcons/move.png"
+		"iconPath" : "res://TextureBank/AbilityIcons/move.png",
+		"movementEffects" : {
+
+		}
 	}
 }
 

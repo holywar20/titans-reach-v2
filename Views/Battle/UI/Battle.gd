@@ -6,13 +6,16 @@ var events = [
 	"NextTurn",
 	"InitiativeRolled",
 	# 
-	"CrewmanTurnStart" , "EnemyTurnStart",
-
-	"CrewmanDeath",
+	"CrewmanTurnStart" , "EnemyTurnStart", "CrewmanDeath",
 
 	"ActionButtonClicked" , "StanceButtonClicked",
+	
 	# Events dealing with action processing
-	"ActionStarted" ,  "TargetingBegin", "TargetingEnd" , "ActionEnded" ,
+	"ActionStarted" , 
+	"TargetingBegin", 
+	"TargetingTile" , "TargetingBattler" , "TargetingSelf",
+	"TargetingEnd" , 
+	"ActionEnded" ,
 
 	"GeneralCancel",
 
