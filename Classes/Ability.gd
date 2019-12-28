@@ -14,12 +14,7 @@ const ABILITY_TYPES = {
 }
 
 const DMG_TYPES = { 
-	'KINETIC'	: "KINETIC", 
-	'THERMAL'	: "THERMA",
-	'TOXIC'		: "TOXIC", 
-	'EM'			: "EM", 
-	'HEALING'	: "HEALING"	,
-	'NONE' 		: "NONE"
+	'KINETIC'	: "KINETIC", 'THERMAL'	: "THERMAL", 'TOXIC'	: "TOXIC", 'EM' : "EM", 'HEALING'	: "HEALING"	,'NONE' 		: "NONE"
 }
 
 const EFFECT_TYPE = {
@@ -29,29 +24,28 @@ const EFFECT_TYPE = {
 	"PASSIVE"	: "Passive", 
 }
 
-const MOVE_TYPES = {
-	"ANY_ALLOWED"	: { "String" : "Any" } ,
-	"RANDOM" 		: { "String" : "Random" } ,
-	"UP"				: { "String" : "Up"} ,
-	"BACK"			: { "String" : "Back" } ,
-	"DOWN"			: { "String" : "Down" },
-	"FORWARD" 		: { "String" : "Forward" }
-}
-
 const TARGET_AREA = {
-	"SELF"		: { "areaType" : "SELF" 	, "count" : 1 , "string" : "Self" },
-	"SINGLE" 	: { "areaType" : "SINGLE"	, "count" : 1 , "string" : "Single" },
-	"COLUMN"		: { "areaType" : "COLUMN"	, "count" : 3 , "string" : "Self" },
-	"ROW" 		: { "areaType" : "ROW"		, "count" : 3 , "string" : "Row" },
-	"ROW_DECAY"	: { "areaType" : "ROW_DECAY" , "count" : 2 , "string" : "Row Decay" },
-	"CROSS" 		: { "areaType" : "CROSS"	, "count" : 5 , "string" : "Cross" },
-	"ALL" 		: { "areaType" : "ALL"		, "count" : 9 , "string" : "All" },
+	"SELF" 	: "SELF" , "SINGLE" : "SINGLE" ,"COLUMN" : "COLUMN", "ROW" 	: "ROW" , "ROW_DECAY" : "ROW_DECAY", "CROSS" : "CROSS", "ALL" :  "ALL"
+}
+const TARGET_AREA_DATA = {
+	"SELF"		: { "count" : 1 , "string" : "Self" },
+	"SINGLE" 	: { "count" : 1 , "string" : "Single" },
+	"COLUMN"		: { "count" : 3 , "string" : "Self" },
+	"ROW" 		: { "count" : 3 , "string" : "Row" },
+	"ROW_DECAY"	: { "count" : 2 , "string" : "Row Decay" },
+	"CROSS" 		: { "count" : 5 , "string" : "Cross" },
+	"ALL" 		: { "count" : 9 , "string" : "All" },
 }
 
 const TARGET_TYPES  = {
-	'ALLY_UNITS' : 'ALLY_UNITS' ,'ENEMY_UNIT' :'ENEMY_UNIT',
-	'ALLY_FLOOR' : 'ALLY_FLOOR' ,'ENEMY_FLOOR': 'ENEMY_FLOOR',
-	'SELF' : 'SELF'
+	'ALLY_UNITS' : 'ALLY_UNITS' ,'ENEMY_UNIT' :'ENEMY_UNIT', 'ALLY_FLOOR' : 'ALLY_FLOOR' ,'ENEMY_FLOOR': 'ENEMY_FLOOR', 'SELF' : 'SELF'
+}
+const TARGET_TYPE_DATA = {
+	"ALLY_UNIT" : { "string" : "Ally Units" },
+	"ENEMY_UNIT" : { "string" : "Enemy Units" },
+	"ALLY_FLOOR" : { "string" : "Ally Area"} ,
+	"ENEMY_FLOOR" : { "string" : "Enemy Area"},
+	"SELF" : { "string" :"Self" }
 }
 
 const DMG_TRAITS = { 
@@ -148,7 +142,6 @@ func setActor( newActor : Crew ):
 	actor = newActor
 
 func appendEffect( effect , effectType ):
-	
 	match effectType:
 		"Damage":
 			damageEffects.append( effect )
@@ -159,21 +152,14 @@ func appendEffect( effect , effectType ):
 		"Passive":
 			statusEffects.append( effect )
 
-func doesTargetEnemyUnits():
-	
-	var offensive = null
-	if( targetType == TARGET_TYPES.ENEMY_FLOOR || targetType == TARGET_TYPES.ENEMY_UNIT ):
-		offensive = true
-	else:
-		offensive = false
+func getValidFromArray():
+	return validFrom
 
-	var doesTargetEnemy = null
-	if( offensive && actor.isPlayer || !offensive && !actor.isPlayer ):
-		doesTargetEnemy = true
-	else:
-		doesTargetEnemy = false
+func getValidTargetsArray():
+	return validTargets
 
-	return doesTargetEnemy
+func getFullName():
+	return fullName
 
 func getTargetType():
 	return targetType
@@ -181,37 +167,11 @@ func getTargetType():
 func getIconPath():
 	return iconPath
 
-func getTargetTypeString( targetType = null ):
-	var targetTypeString = null 
-	var myTargetType = null
-
-	if(targetType):
-		myTargetType = targetType
-	else:
-		myTargetType = targetType
-
-	if( myTargetType == TARGET_TYPES.PLAYER ):
-		targetTypeString = "Ally"
-	elif( myTargetType == TARGET_TYPES.ENEMY ):
-		targetTypeString = "Enemy"
-	elif( myTargetType== TARGET_TYPES.PLAYER_FLOOR ):
-		targetTypeString = "Enemy Floor"
-	elif( myTargetType == TARGET_TYPES.ENEMY_FLOOR ):
-		targetTypeString = "Ally Floor"
-	elif( myTargetType == TARGET_TYPES.SELF ):
-		targetTypeString = "Self"
+func getTargetTypeString():
+	var targetTypeString = TARGET_TYPE_DATA[targetType].string
+	var myTargetArea = TARGET_AREA_DATA[targetArea].string
 	
-	return targetTypeString
-
-func getTargetAreaString( targetArea = null ):
-	var myAreaType = null
-	
-	if( targetArea ):
-		myAreaType = targetArea
-	else:
-		myAreaType = targetArea
-
-	return ""
+	return myTargetArea + " | " + targetTypeString
 
 # Note should is also used for an action validity test. 
 func getValidTargets():
@@ -223,9 +183,6 @@ func getValidTargets():
 				targetingArray[x][y] = true
 		
 	return targetingArray
-
-func isLearned():
-	return abilityLearned
 
 # This method takes a Crew object ( maybe other types later ), and does all the math on it
 func calculateSelf( newActor = null ):

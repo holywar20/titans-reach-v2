@@ -3,20 +3,22 @@ extends Control
 onready var trackerScene = load("res://Views/Battle/UI/TrackerIcon.tscn")
 
 var events = [
-	"NextPass" , "NextTurn", "InitiativeRolled", "ThisTurnEnded" ,
-	
-	"CrewmanTurnStart" , "CrewmanTurnEnd" , 
-	"EnemyTurnStart", "EnemyTurnEnd",
+	# Events with turn order
+	"NextPass" , "NextTurn", "InitiativeRolled", "TurnEnd" ,
+
+	# Events
+	"CrewmanTurnStart" , "CrewmanTurnEnd" , "EnemyTurnStart", "EnemyTurnEnd",
 
 	# Events dealing with action processing
 	"ActionStarted" , 
 	"TargetingBegin", 
 	"TargetingTile" , "TargetingBattler" ,
-	"TargetingEnd" , 
+	"TargetingSelected" , 
 	"ActionEnded" ,
 
 	# UI events
 	"ActionButtonClicked" , "StanceButtonClicked", "GeneralCancel",
+	"HoverCrewman" , "UnhoverCrewman",
 	
 	# Triggered events
 	"NoMoreBattlers", "EndOfGame" , "EndOfBattle" , "CrewmanDeath" , "EnemyDeath"
@@ -25,15 +27,19 @@ var events = [
 onready var bases = {
 	"PreTurnTrackerBase" : get_node("TrackerContainer/BeforeTurn") ,
 	"PostTurnTrackerBase" : get_node("TrackerContainer/AfterTurn") ,
-	"InstantBase"		: get_node("Middle/VBox/InstantsContainer/VBox/BattleInstants")
+	"BattleMap"				: get_node("Middle/SpacerControl/Battle")
 }
 
 onready var cards = {
-	"AllActionCard"			: get_node("BottomControls/TurnData/VBox/HBox/AllActionCard"),
-	"StanceCard"				: get_node("BottomControls/TurnData/VBox/HBox/StanceCard"),
 	"LeftCrewDetailCard" 	: get_node("BottomControls/Selection/LeftCrewDetail"),
+
+	"AllActionCard"			: get_node("BottomControls/TurnData/HBox/AllActionCard"),
+	# TODO - add a stance card
+	# TODO - add an instant card
+	"ActionsContainer"		: get_node("BottomControls/TurnData/HBox"),
+	"ActionCard"				: get_node("BottomControls/TurnData/ActionCard"),
+
 	"RightCrewDetailCard" 	: get_node("BottomControls/TargetData/RightCrewDetail"),
-	"ActionCard"				: get_node("BottomControls/TargetData/ActionCard")
 }
 
 onready var nodes = {
@@ -47,9 +53,7 @@ var eventBus = null
 # Battle state
 var playerCrew = []
 var enemyCrew = []
-var initiativeArray = []
 var currentTurnActor = null
-var currentTurnCrewman = null
 var selectedAbility = null
 
 # Potential config options should be declared here.=
@@ -58,16 +62,17 @@ func setupScene( eBus : EventBus , crew , enemy , config ):
 	eventBus = eBus
 	playerCrew = crew
 	enemyCrew = enemy
-	
-	# TODO : handling for config options
 
 	loadEvents()
 
 func _ready():
-	cards.StanceCard.setupScene( eventBus , null )
+	cards.ActionCard.setupScene( eventBus , null )
 	cards.AllActionCard.setupScene( eventBus , null )
+
 	cards.LeftCrewDetailCard.setupScene( eventBus , null )
 	cards.RightCrewDetailCard.setupScene( eventBus , null )
+
+	bases.BattleMap.setupScene( eventBus, playerCrew, enemyCrew )
 
 	_nextPass()
 
@@ -75,13 +80,15 @@ func loadEvents():
 	eventBus.addEvents( events )
 
 	eventBus.register("NextPass" , self ,  "_nextPass")
+	eventBus.register( "TurnEnd" , self , "_onTurnEnd")
 	
 	# Events we would receive from UI elements that are not buttons.
-	eventBus.register( "TargetingEnd"	, self , "_onTargetingEnd" )
+	eventBus.register( "TargetingSelected"	, self , "_onTargetingSelected" )
 
 	# Button events
 	eventBus.register( "StanceButtonClicked" , self , '_onStanceButtonClicked' )
 	eventBus.register( "ActionButtonClicked", self , '_onActionButtonClicked' )
+	
 	eventBus.register( "GeneralCancel" , self, "_onGeneralCancel" )
 
 func _nextPass():
@@ -102,8 +109,8 @@ func _nextPass():
 				"Actor" : actor
 			})
 	
-	initiativeArray = Common.bubbleSortArrayByDictKey( packedArray , "Init" )
-	for tuple in initiativeArray:
+	packedArray = Common.bubbleSortArrayByDictKey( packedArray , "Init" , "Invert" )
+	for tuple in packedArray:
 		var newTrackerIcon = trackerScene.instance()
 		newTrackerIcon.setupScene( eventBus, tuple.Actor, tuple.Init )
 		bases.PreTurnTrackerBase.add_child( newTrackerIcon )
@@ -111,50 +118,72 @@ func _nextPass():
 	_nextTurn()
 
 func _nextTurn():
+	# Do all checks that could invalidate the next turn
 	if( _validateAlive( playerCrew ) ):
 		_loadEndGame()
-		#return null
 
 	if( _validateAlive( enemyCrew ) ):
 		_loadEndBattle()
-		#return null
-	
-	if( initiativeArray.size() == 0 ):
-		eventBus.emit( "NextPass" , [] )
 
-	var tuple = initiativeArray.pop_back()
-	currentTurnActor = tuple.Actor
+	var trackerIcons = bases.PreTurnTrackerBase.get_children()
+	if( trackerIcons.size() == 0 ):
+		eventBus.emit( "NextPass" , [] )
+		return null
+
+	# Default the entire tracker
+	for tracker in trackerIcons:
+		tracker.set_turn_state( tracker.TURN.NOT_ACTIVE )
+
+	var nextTracker = trackerIcons.pop_front()
+
+	bases.PreTurnTrackerBase.remove_child( nextTracker )
+	bases.PostTurnTrackerBase.add_child( nextTracker )
+	nextTracker.set_owner( bases.PostTurnTrackerBase )
+
+	currentTurnActor = nextTracker.getActor()
+	nextTracker.set_turn_state( nextTracker.TURN.ACTIVE )
 
 	if( currentTurnActor.isPlayer ):
-		crewmanStartTurn( currentTurnActor )
+		_crewmanStartTurn( currentTurnActor )
 	else:
-		enemyStartTurn( currentTurnActor )
+		_enemyStartTurn( currentTurnActor )
 
-func crewmanStartTurn( crewman : Crew ):
-	eventBus.emit("CrewmanStartTurn" , [ crewman ] )
+func _crewmanStartTurn( crewman : Crew ):
+	eventBus.emit("CrewmanTurnStart" , [ crewman ] )
 	loadData( crewman )
 
-func crewmanTurnEnd( crewman : Crew ):
-	eventBus.emit("CrewmanTurnEnd" , [crewman] )
-	eventBus.emit( "ThisTurnEnded" )
+	cards.LeftCrewDetailCard.loadData( crewman )
 
-func enemyStartTurn ( crewman : Crew ):
-	eventBus.emit("EnemyStartTurn" , [ crewman ])
+func _crewmanTurnEnd( crewman : Crew ):
+	cards.LeftCrewDetailCard.loadData()
+
+	eventBus.emit( "CrewmanTurnEnd" , [ crewman ] )
+	eventBus.emit( "TurnEnd" , [ crewman ] )
+
+func _enemyStartTurn ( crewman : Crew ):
+	eventBus.emit("EnemyTurnStart" , [ crewman ] )
+	
 	loadData( crewman )
 	
+	cards.RightCrewDetailCard.loadData( crewman )
 	nodes.ActionLabel.set_text( "Enemy" )
 	nodes.ActionStatus.show()
 
-	yield(get_tree().create_timer(3.0), "timeout")
+	yield( get_tree().create_timer(3.0), "timeout" )
 	
 	nodes.ActionStatus.hide()
 	nodes.ActionLabel.set_text("")
 
-	enemyTurnEnded( crewman )
+	_enemyTurnEnd( crewman )
 
-func enemyTurnEnded( crewman ):
-	eventBus.emit( "EnemyTurnEnded" , [crewman] )
-	eventBus.emit( "ThisTurnEnded" )
+func _enemyTurnEnd( crewman ):
+	cards.RightCrewDetailCard.loadData()
+
+	eventBus.emit( "EnemyTurnEnd" , [crewman] )
+	eventBus.emit( "TurnEnd" , [ crewman ] )
+
+func _onTurnEnd( crewman : Crew ):
+	_nextTurn()
 
 # Action resolution & Targeting
 func _resolveAction( action : Ability ):
@@ -163,9 +192,10 @@ func _resolveAction( action : Ability ):
 	nodes.ActionLabel.set_text( action.fullName )
 	nodes.ActionStatus.show()
 
-	targetingBegin( selectedAbility , currentTurnCrewman )
+	# TODO - currently only permits 1 selection, should allow for multiple selections
+	_targetingBegin( selectedAbility , currentTurnActor )
 
-func targetingBegin( ability : Ability , crewman : Crew ):
+func _targetingBegin( ability : Ability , crewman : Crew ):
 	eventBus.emit( "TargetingBegin" , [ ability , crewman ] )
 
 	var validTargets = ability.getValidTargets()
@@ -178,11 +208,12 @@ func targetingBegin( ability : Ability , crewman : Crew ):
 	elif( ability.targetType == "ENEMY_UNIT" ):
 		eventBus.emit("TargetingBattler" , [ validTargets , !crewman.isPlayer ])
 
-func _targetEnd( myX , myY ):
-	print("Targeting something!")
+func _onTargetingSelected( myX , myY ):
+	_completeAction( myX , myY )
 
-func _actionEnded( action : Ability ):
-	eventBus.emit( "ActionEnd" , [ action ] )
+func _completeAction(  targetX , targetY ):
+	#eventBus.emit( "ActionEnd" , [ action ] )
+	print("action Completion Reached!")
 
 	_resolvePassiveEffects()
 	_resolveDamageEffects()
@@ -191,7 +222,7 @@ func _actionEnded( action : Ability ):
 	
 	# TODO : Validate if anyone is alive or not 
 
-	crewmanTurnEnd( currentTurnCrewman )
+	_crewmanTurnEnd( currentTurnActor )
 
 func _resolveMovement():
 	# Fire an event to inform battleOrder to update
@@ -204,6 +235,7 @@ func _resolvePassiveEffects():
 	pass
 
 func _resolveDamageEffects():
+	# TODO - figure out target map for area effects
 	pass
 
 func _onGeneralCancel():
@@ -220,13 +252,9 @@ func _onCrewmanHover( crewman : Crew ):
 
 func loadData( crewman = null ):
 	if( crewman ):
-		currentTurnCrewman = crewman
-		nodes.TurnLabel.set_text( "Turn : " + crewman.getFullName() )
-
+		currentTurnActor = crewman
 		
-
-		cards.StanceCard.loadData( currentTurnCrewman )
-		cards.AllActionCard.loadData( currentTurnCrewman )
+		cards.AllActionCard.loadData( currentTurnActor )
 
 func _loadEndGame():
 	# Fire local event
@@ -240,9 +268,16 @@ func _loadEndBattle():
 # UI Events controlled by this script
 func _input( event ):
 	if( event.is_action_pressed("GUI_UNSELECT") ):
+		cards.ActionCard.hide()
+		cards.ActionsContainer.show()
+
 		eventBus.emit("GeneralCancel") 
 
 func _onActionButtonClicked( action : Ability ):
+	cards.ActionsContainer.hide()
+	cards.ActionCard.loadData( action )
+	cards.ActionCard.show()
+
 	_resolveAction( action )
 
 func _onStanceButtonClicked( stance : Ability ):

@@ -10,6 +10,12 @@ func get_class():
 func is_class( name : String ): 
 	return name == "EventBus"
 
+func hasEvent( eventString ):
+	if( events.has( eventString ) ):
+		return true
+	else:
+		return false
+
 func addEvents( eventStrings ):
 	for eventName in eventStrings:
 		add_user_signal( eventName )
@@ -18,7 +24,12 @@ func addEvents( eventStrings ):
 # Currently only supports up to 5 arguments. Godot signals don't use variable numbers of arguments.
 # So yes - this ugly code exists, but it gets the job done, and it's contained here and can't spread.
 func emit( eventName : String , p = [] ):
-	print("Emitting Event : " , eventName ,  " with Payload " , p )
+	if( !hasEvent( eventName) ) :
+		print("Dev Warning : the event with eventName: " , eventName , " doesn't exist, but something is trying to emit it")
+		return null
+	else:
+		print("Emitting Event : " , eventName ,  " with Payload " , p )
+
 	if( p.size() >= 5 ):
 		emit_signal( eventName , p[0], p[1] , p[2] , p[3] , p[4] )
 	elif( p.size() == 4):

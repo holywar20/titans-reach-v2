@@ -11,10 +11,6 @@ func setupScene( eBus : EventBus, newAbility : Ability , disabled ):
 	set_button_icon( load( ability.getIconPath() ) )
 
 func _onButtonClicked():
-	print("button clicked!")
-	print(ability.abilityType )
-	print( ability.ABILITY_TYPES.ACTION )
-
 	if( ability.abilityType == ability.ABILITY_TYPES.ACTION ):
 		eventBus.emit("ActionButtonClicked" , [ ability ] )
 	if( ability.abilityType == ability.ABILITY_TYPES.STANCE ):

@@ -26,7 +26,7 @@ const STATE_DATA = {
 	"LOCK"		: { "Color" : Color( 1  , 1 , 1 ,  1 ) , "IsInteractable" : false },
 	"CLEAR" 		: { "Color" : Color( 1 , 1  ,  1 , 1 )	, "IsInteractable" : true }
 }
-var myState = STATE.CLEAR
+var myState = null
 var prevState = null
 
 var eventBus = null
@@ -40,6 +40,7 @@ func setupScene( eBus : EventBus ):
 	eventBus = eBus
 
 	loadEvents()
+	setState( STATE.CLEAR )
 
 	if( is_inside_tree() ):
 		loadData()
@@ -104,13 +105,18 @@ func _onGeneralCancel():
 func _gui_input( input ):
 	if( myState == STATE.HIGHLIGHT && input.is_action_pressed( "GUI_SELECT" ) ):
 		print("Battler at " , myX , ":" , myY , " is a valid target and clicked")
+		eventBus.emit( "TargetingSelected" , [ myX , myY ] )
 
 func _onMouseEntered():
 	if( myState == STATE.TARGETING ):
 		prevState = myState
 		setState( STATE.HIGHLIGHT )
+	
+	eventBus.emit("HoverCrewman" , [ crewman ] )
 
 func _onMouseExited():
 	if( prevState ):
 		setState( prevState )
 		prevState = null
+	
+	eventBus.emit("UnhoverCrewman" , [ crewman ])

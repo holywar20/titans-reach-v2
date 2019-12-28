@@ -59,7 +59,7 @@ func drawCircle( center, radius, color, drawNode, lineWidth , segments ):
 		drawNode.draw_line( points_arc[index_point], points_arc[index_point + 1], color , lineWidth )
 
 
-func bubbleSortArrayByDictKey( arrayToSort, dictKey ):
+func bubbleSortArrayByDictKey( arrayToSort, dictKey , invert = null ):
 	
 	var swap = null
 	var performedASwap = false
@@ -77,6 +77,10 @@ func bubbleSortArrayByDictKey( arrayToSort, dictKey ):
 			performedASwap = false
 		else:
 			stayInLoop = false
+		
+	if( invert ):
+		arrayToSort.invert()
+
 	return arrayToSort
 
 func genRandomKey():

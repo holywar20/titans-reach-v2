@@ -13,7 +13,7 @@ const VIEWS = {
 	} , 
 	"BATTLE" : {
 		"UI" : "res://Views/Battle/UI/Battle.tscn" ,
-		"GAME" : "res://Views/Battle/Game/Battle.tscn",
+		"GAME" : "",
 	} ,
 	"TITLE" : {
 		"UI" : "res://Views/Title/UI/Title.tscn" ,
@@ -121,12 +121,6 @@ func _loadBattleScreen():
 	uiInstance.setupScene( eventBus , playerCrew , enemyCrew, {} )
 	UILayer.add_child( uiInstance )
 
-	var battleMap = load( VIEWS.BATTLE.GAME )
-	var battleMapInstance = battleMap.instance()
-	battleMapInstance.setupScene( eventBus ,playerCrew , enemyCrew  )
-	gameLayer.add_child( battleMapInstance )
-
-	
 func _loadExploreScreen():
 	_clearSelf()
 

@@ -28,7 +28,7 @@ margin_top = 35.0
 margin_right = 500.0
 margin_bottom = 99.0
 
-[node name="TextureRect" type="TextureRect" parent="VBox/Vitals"]
+[node name="Icon" type="TextureRect" parent="VBox/Vitals"]
 margin_right = 64.0
 margin_bottom = 64.0
 texture = ExtResource( 2 )
@@ -52,7 +52,7 @@ rect_min_size = Vector2( 150, 25 )
 value = 100.0
 percent_visible = false
 
-[node name="Label" type="Label" parent="VBox/Vitals/Left/Health/Bar"]
+[node name="Value" type="Label" parent="VBox/Vitals/Left/Health/Bar"]
 margin_left = 2.0
 margin_top = -0.568802
 margin_right = 151.0
@@ -74,7 +74,7 @@ rect_min_size = Vector2( 150, 25 )
 value = 100.0
 percent_visible = false
 
-[node name="Label2" type="Label" parent="VBox/Vitals/Left/Morale/Bar"]
+[node name="Value" type="Label" parent="VBox/Vitals/Left/Morale/Bar"]
 margin_left = 1.5688
 margin_top = -0.679214
 margin_right = 150.569
@@ -165,6 +165,7 @@ margin_bottom = 300.0
 size_flags_vertical = 3
 
 [node name="Traits" type="VBoxContainer" parent="VBox/Bottom"]
+editor/display_folded = true
 margin_right = 248.0
 margin_bottom = 197.0
 size_flags_horizontal = 3
@@ -259,6 +260,6 @@ size_flags_vertical = 3
 
 [node name="Buffs" type="VBoxContainer" parent="VBox/Bottom/Right/BuffPanel"]
 margin_top = 4.0
-margin_right = 248.0
-margin_bottom = 124.0
+margin_right = 247.0
+margin_bottom = 88.0
 size_flags_horizontal = 3

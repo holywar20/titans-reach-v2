@@ -297,6 +297,12 @@ func getWeightStatBlock():
 func getWeightString():
 	return str( carryWeight.current ) + " / " + str(carryWeight.total )
 
+func getTexturePath( large = false ):
+	if( large ):
+		return texturePath
+	else:
+		return smallTexturePath
+
 func getBonus( primaryTrait, secondaryTrait ):
 	return traits[primaryTrait].total + ( traits[secondaryTrait].total / 2 )
 
@@ -331,6 +337,42 @@ func getFightableStatus():
 		isFightable = false
 
 	return isFightable
+
+# "Frame" : null, "LWeapon" : null,  "RWeapon" : null , "CEquip" : null , "LEquip" : null , "REquip" : null
+func getAllWeaponStrings():
+	var stringArray = []
+	if( gear.LWeapon ):
+		stringArray.append( gear.LWeapon.getItemDisplay( true ) )
+	if ( gear.RWeapon ):
+		stringArray.append( gear.RWeapon.getItemDisplay( true ) )
+
+	stringArray.append("None")
+	
+	return stringArray
+
+
+func getAllFrameStrings():
+	var stringArray = []
+	if( gear.Frame ):
+		stringArray.append( gear.Frame.getItemDisplay( true ) )
+
+	stringArray.append("None")
+	
+	return stringArray
+
+func getAllEquipmentStrings():
+	var stringArray = []
+	if( gear.LEquip ):
+		stringArray.append( gear.LEquip.getItemDisplay( true ) )
+	if( gear.REquip ):
+		stringArray.append( gear.REquip.getItemDisplay( true ) )
+	if( gear.CEquip ):
+		stringArray.append( gear.LEquip.getItemDisplay( true ) )
+
+	if( stringArray.size() >= 0 ):
+		stringArray.append("None")
+	
+	return stringArray
 
 func getStation():
 	return station

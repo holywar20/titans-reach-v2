@@ -47,6 +47,12 @@ func get_class():
 func is_class( name : String ): 
 	return name == "Item"
 
+func getItemDisplay( short = false ):
+	if( short ):
+		return itemDisplayNameShort
+	else:
+		return itemDisplayName
+
 func getMassDisplay():
 	return str( itemMass ) + " Kg"
 

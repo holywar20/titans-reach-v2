@@ -1,41 +1,38 @@
 extends Control
 
 onready var playerUnits = [
-	[get_node("Player/Unit_0_0") , get_node("Player/Unit_0_1") , get_node("Player/Unit_0_2") ] , 
-	[get_node("Player/Unit_1_0") , get_node("Player/Unit_1_1") , get_node("Player/Unit_1_2") ] , 
+	[get_node("Player/Unit_0_0") , get_node("Player/Unit_0_1") , get_node("Player/Unit_0_2") ],
+	[get_node("Player/Unit_1_0") , get_node("Player/Unit_1_1") , get_node("Player/Unit_1_2") ],
 	[get_node("Player/Unit_2_0") , get_node("Player/Unit_2_1") , get_node("Player/Unit_2_2") ]
 ]
 
 onready var playerField = [
-	[ get_node("Player/Floor_0_0"), get_node("Player/Floor_0_1"), get_node("Player/Floor_0_2") ] ,
-	[ get_node("Player/Floor_1_0"), get_node("Player/Floor_1_1"), get_node("Player/Floor_1_2") ], 
-	[ get_node("Player/Floor_2_0"), get_node("Player/Floor_2_1"), get_node("Player/Floor_2_2") ], 
+	[ get_node("Player/Floor_0_0"), get_node("Player/Floor_0_1"), get_node("Player/Floor_0_2") ],
+	[ get_node("Player/Floor_1_0"), get_node("Player/Floor_1_1"), get_node("Player/Floor_1_2") ],
+	[ get_node("Player/Floor_2_0"), get_node("Player/Floor_2_1"), get_node("Player/Floor_2_2") ]
 ]
 
 onready var enemyUnits = [
-	[get_node("Enemy/Unit_0_0") , get_node("Enemy/Unit_0_1") , get_node("Enemy/Unit_0_2") ] , 
-	[get_node("Enemy/Unit_1_0") , get_node("Enemy/Unit_1_1") , get_node("Enemy/Unit_1_2") ] , 
+	[get_node("Enemy/Unit_0_0") , get_node("Enemy/Unit_0_1") , get_node("Enemy/Unit_0_2") ],
+	[get_node("Enemy/Unit_1_0") , get_node("Enemy/Unit_1_1") , get_node("Enemy/Unit_1_2") ],
 	[get_node("Enemy/Unit_2_0") , get_node("Enemy/Unit_2_1") , get_node("Enemy/Unit_2_2") ]
 ]
 
 onready var enemyField = [
-	[ get_node("Enemy/Floor_0_0"), get_node("Enemy/Floor_0_1"), get_node("Enemy/Floor_0_2") ] ,
-	[ get_node("Enemy/Floor_1_0"), get_node("Enemy/Floor_1_1"), get_node("Enemy/Floor_1_2") ], 
-	[ get_node("Enemy/Floor_2_0"), get_node("Enemy/Floor_2_1"), get_node("Enemy/Floor_2_2") ], 
+	[ get_node("Enemy/Floor_0_0"), get_node("Enemy/Floor_0_1"), get_node("Enemy/Floor_0_2") ],
+	[ get_node("Enemy/Floor_1_0"), get_node("Enemy/Floor_1_1"), get_node("Enemy/Floor_1_2") ],
+	[ get_node("Enemy/Floor_2_0"), get_node("Enemy/Floor_2_1"), get_node("Enemy/Floor_2_2") ]
 ]
 
 var eventBus
 var playerCrew
 var enemyCrew
 
-func setupScene( eBus : EventBus , playerUnits , enemyUnits  ):
+func setupScene( eBus : EventBus , player , enemy ):
 	eventBus = eBus
-	playerCrew = playerUnits
-	enemyCrew = enemyUnits
+	playerCrew = player
+	enemyCrew = enemy
 
-	eventBus.register( "GeneralCancel"  , self , "_onGeneralCancel")
-
-func _ready():
 	for x in range( 0 , playerField.size() ):
 		for y in range( 0 , playerField[x].size() ):
 			playerField[x][y].setupScene( eventBus )
@@ -53,6 +50,10 @@ func _ready():
 			enemyUnits[x][y].setupScene( eventBus )
 
 	_setupBattleOrder( playerCrew , enemyCrew )
+	eventBus.register( "GeneralCancel"  , self , "_onGeneralCancel")
+
+func _ready():
+	pass
 
 func _onGeneralCancel():
 	pass

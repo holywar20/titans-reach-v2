@@ -14,11 +14,12 @@ var myUnitState = UNIT.PLAYER
 
 const TURN = { "NOT_ACTIVE": "NOT_ACTIVE" , "HOVER" : "HOVER", "ACTIVE" : "ACTIVE" }
 const TURN_STATE = {
-	"NOT_ACTIVE"	: { "Scale" : 1 	, "HighlightColor" : null }, 
-	"HOVER"			: { "Scale" : 1.2 , "HighlightColor" : null }, 
-	"ACTIVE"			: { "Scale" : 1.4 , "HighlightColor" : Color( .4 , .4 , .8 , 1 ) }, 
+	"NOT_ACTIVE":{ },
+	"HOVER"		:{ },
+	"ACTIVE"		:{ }
 }
 var myTurnState = TURN.NOT_ACTIVE
+var prevState = null
 
 var eventBus = null
 var crewman = null
@@ -36,7 +37,7 @@ func setupScene( eBus : EventBus , newCrewman : Crew  , newInit : int ):
 
 func set_turn_state( stateName : String ):
 	myTurnState = TURN[stateName]
-	set_scale( TURN_STATE[myTurnState].Color )
+	# Figure out a way to show the current turn in a nice way. May need to move turns over to sprite, so I can tweak with scale
 
 func set_unit_state( stateName : String ):
 	myUnitState = UNIT[stateName]
@@ -49,9 +50,18 @@ func _ready():
 	if( crewman ):
 		loadData()
 
+func getActor():
+	return self.crewman
+
 func loadEvents():
 	pass 
 
 func loadData():
 	nodes.Crewman.set_texture( load(crewman.smallTexturePath) )
 	nodes.Init.set_text( str(init) )
+
+func _onMouseEnter():
+	pass
+
+func _onMouseExit():
+	pass

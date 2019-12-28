@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Views/Battle/UI/Battle.gd" type="Script" id=1]
-[ext_resource path="res://ReusableUI/BattleInstants/BattleInstants.tscn" type="PackedScene" id=2]
-[ext_resource path="res://ReusableUI/CrewDetailCard.tscn" type="PackedScene" id=3]
-[ext_resource path="res://ReusableUI/StanceCard/StanceCard.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Views/Battle/UI/BattleMap.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ReusableUI/BattleInstants/BattleInstants.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ReusableUI/CrewDetailCard.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ReusableUI/AllActionCard/AllActionCard.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ReusableUI/ActionCard/ActionCard.tscn" type="PackedScene" id=6]
 
@@ -42,31 +42,37 @@ align = 1
 valign = 1
 
 [node name="TrackerContainer" type="HBoxContainer" parent="."]
+editor/display_folded = true
 margin_top = 54.0
 margin_right = 1920.0
 margin_bottom = 139.0
 
 [node name="Control" type="Control" parent="TrackerContainer"]
-margin_right = 954.0
+margin_right = 950.0
 margin_bottom = 85.0
 rect_min_size = Vector2( 200, 85 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="AfterTurn" type="HBoxContainer" parent="TrackerContainer"]
-margin_left = 958.0
-margin_right = 958.0
+margin_left = 954.0
+margin_right = 954.0
 margin_bottom = 85.0
 rect_min_size = Vector2( 0, 85 )
 
-[node name="BeforeTurn" type="HBoxContainer" parent="TrackerContainer"]
-margin_left = 962.0
+[node name="VSeparator" type="VSeparator" parent="TrackerContainer"]
+margin_left = 958.0
 margin_right = 962.0
+margin_bottom = 85.0
+
+[node name="BeforeTurn" type="HBoxContainer" parent="TrackerContainer"]
+margin_left = 966.0
+margin_right = 966.0
 margin_bottom = 85.0
 rect_min_size = Vector2( 0, 85 )
 
 [node name="Control2" type="Control" parent="TrackerContainer"]
-margin_left = 966.0
+margin_left = 970.0
 margin_right = 1920.0
 margin_bottom = 85.0
 rect_min_size = Vector2( 200, 85 )
@@ -80,8 +86,25 @@ margin_bottom = 722.0
 mouse_filter = 2
 size_flags_vertical = 3
 
+[node name="SpacerControl" type="Control" parent="Middle"]
+margin_right = 1916.0
+margin_bottom = 579.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Battle" parent="Middle/SpacerControl" instance=ExtResource( 2 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -10.6001
+margin_top = -121.852
+margin_right = -10.6001
+margin_bottom = -121.852
+size_flags_horizontal = 3
+
 [node name="VBox" type="VBoxContainer" parent="Middle"]
 editor/display_folded = true
+margin_left = 1920.0
+margin_right = 1920.0
 margin_bottom = 579.0
 mouse_filter = 2
 
@@ -102,18 +125,10 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="BattleInstants" parent="Middle/VBox" instance=ExtResource( 2 )]
+[node name="BattleInstants" parent="Middle/VBox" instance=ExtResource( 3 )]
 visible = false
 margin_top = 544.0
 margin_bottom = 579.0
-
-[node name="Spacer" type="Control" parent="Middle"]
-margin_left = 4.0
-margin_right = 1920.0
-margin_bottom = 579.0
-mouse_filter = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="BottomControls" type="HBoxContainer" parent="."]
 margin_top = 726.0
@@ -133,45 +148,40 @@ margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="LeftCrewDetail" parent="BottomControls/Selection" instance=ExtResource( 3 )]
+[node name="LeftCrewDetail" parent="BottomControls/Selection" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 501.0
 margin_bottom = 300.0
+respondsToHoverEvents = true
+isPlayer = true
 
-[node name="TurnData" type="PanelContainer" parent="BottomControls"]
+[node name="TurnData" type="Panel" parent="BottomControls"]
 margin_left = 709.0
 margin_right = 1210.0
 margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBox" type="VBoxContainer" parent="BottomControls/TurnData"]
-margin_right = 501.0
-margin_bottom = 300.0
+[node name="HBox" type="HBoxContainer" parent="BottomControls/TurnData"]
+margin_left = 14.0
+margin_top = 4.0
+margin_right = 490.0
+margin_bottom = 187.0
 
-[node name="Label" type="Label" parent="BottomControls/TurnData/VBox"]
-margin_right = 501.0
-margin_bottom = 31.0
-text = "Turn : Crewman \"Badass\" Badasser"
-align = 1
-valign = 1
-
-[node name="HBox" type="HBoxContainer" parent="BottomControls/TurnData/VBox"]
-editor/display_folded = true
-margin_top = 35.0
-margin_right = 501.0
-margin_bottom = 218.0
-
-[node name="StanceCard" parent="BottomControls/TurnData/VBox/HBox" instance=ExtResource( 4 )]
-
-[node name="AllActionCard" parent="BottomControls/TurnData/VBox/HBox" instance=ExtResource( 5 )]
-margin_left = 169.0
-margin_right = 501.0
+[node name="AllActionCard" parent="BottomControls/TurnData/HBox" instance=ExtResource( 5 )]
+margin_right = 476.0
 margin_bottom = 183.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
+
+[node name="ActionCard" parent="BottomControls/TurnData" instance=ExtResource( 6 )]
+visible = false
+margin_left = 14.4838
+margin_top = 12.0
+margin_right = 489.484
+margin_bottom = 295.0
 
 [node name="TargetData" type="PanelContainer" parent="BottomControls"]
 margin_left = 1214.0
@@ -179,17 +189,16 @@ margin_right = 1715.0
 margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+__meta__ = {
+"_edit_lock_": true
+}
 
-[node name="RightCrewDetail" parent="BottomControls/TargetData" instance=ExtResource( 3 )]
+[node name="RightCrewDetail" parent="BottomControls/TargetData" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 501.0
 margin_bottom = 300.0
-
-[node name="ActionCard" parent="BottomControls/TargetData" instance=ExtResource( 6 )]
-visible = false
-margin_right = 501.0
-margin_bottom = 300.0
+respondsToHoverEvents = true
 
 [node name="Spacer2" type="Control" parent="BottomControls"]
 margin_left = 1719.0

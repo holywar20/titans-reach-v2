@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://TextureBank/Bodys/placeholder.png" type="Texture" id=1]
-[ext_resource path="res://Views/Battle/Game/Battler.gd" type="Script" id=2]
+[ext_resource path="res://Views/Battle/UI/Battler.gd" type="Script" id=2]
 
 [node name="0_0" type="TextureRect"]
 mouse_filter = 2
