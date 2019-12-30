@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Views/Battle/UI/ActionStatus.gd" type="Script" id=1]
+
+[node name="ActionStatus" type="Panel"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -190.0
+margin_top = 189.0
+margin_right = 190.0
+margin_bottom = 229.0
+script = ExtResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 383.0
+margin_bottom = 36.0
+text = "{ ACTION NAME } | { TARGET STRING }"
+align = 1
+valign = 1

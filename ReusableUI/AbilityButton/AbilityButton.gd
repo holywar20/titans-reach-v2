@@ -7,6 +7,8 @@ func setupScene( eBus : EventBus, newAbility : Ability , disabled ):
 	eventBus = eBus
 	ability = newAbility
 
+	show()
+
 	set_disabled( disabled )
 	set_button_icon( load( ability.getIconPath() ) )
 

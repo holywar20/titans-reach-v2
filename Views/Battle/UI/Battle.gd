@@ -31,21 +31,22 @@ onready var bases = {
 }
 
 onready var cards = {
-	"LeftCrewDetailCard" 	: get_node("BottomControls/Selection/LeftCrewDetail"),
-
-	"AllActionCard"			: get_node("BottomControls/TurnData/HBox/AllActionCard"),
 	# TODO - add a stance card
 	# TODO - add an instant card
-	"ActionsContainer"		: get_node("BottomControls/TurnData/HBox"),
-	"ActionCard"				: get_node("BottomControls/TurnData/ActionCard"),
+	"LeftHover"		: get_node("BottomControls/Selection/LeftHover"),
+	"LeftDetail" 	: get_node("BottomControls/Selection/LeftDetail"),
 
-	"RightCrewDetailCard" 	: get_node("BottomControls/TargetData/RightCrewDetail"),
+	"AllActionCard"	: get_node("BottomControls/TurnData/AllActionCard"),
+	"EnemyActionCard"	: get_node("BottomControls/TurnData/EnemyActionCard"),
+	"ActionCard"		: get_node("BottomControls/TurnData/ActionCard"),
+
+	"RightDetail" 	: get_node("BottomControls/TargetData/RightDetail"),
+	"RightHover"	: get_node("BottomControls/TargetData/RightHover")
 }
 
 onready var nodes = {
 	"TurnLabel" 		: get_node("BottomControls/TurnData/VBox/Label"),
-	"ActionStatus"		: get_node("Header/UncontainedUI/ActionStatus"),
-	"ActionLabel"		: get_node("Header/UncontainedUI/ActionStatus/Label")
+	"ActionStatus"		: get_node("Header/UncontainedUI/ActionStatus")
 }
 
 var eventBus = null
@@ -69,8 +70,11 @@ func _ready():
 	cards.ActionCard.setupScene( eventBus , null )
 	cards.AllActionCard.setupScene( eventBus , null )
 
-	cards.LeftCrewDetailCard.setupScene( eventBus , null )
-	cards.RightCrewDetailCard.setupScene( eventBus , null )
+	cards.LeftHover.setupScene( eventBus, null )
+	cards.LeftDetail.setupScene( eventBus , null )
+
+	cards.RightHover.setupScene( eventBus , null )
+	cards.RightDetail.setupScene( eventBus , null )
 
 	bases.BattleMap.setupScene( eventBus, playerCrew, enemyCrew )
 
@@ -94,6 +98,9 @@ func loadEvents():
 func _nextPass():
 	var allActors = []
 	
+	for trackerIcon in bases.PostTurnTrackerBase.get_children():
+		trackerIcon.queue_free()
+
 	for crew in enemyCrew:
 		if( crew.getFightableStatus() ):
 			allActors.append( crew )
@@ -150,34 +157,80 @@ func _nextTurn():
 
 func _crewmanStartTurn( crewman : Crew ):
 	eventBus.emit("CrewmanTurnStart" , [ crewman ] )
-	loadData( crewman )
 
-	cards.LeftCrewDetailCard.loadData( crewman )
+	cards.AllActionCard.loadData( currentTurnActor )
+	cards.LeftDetail.loadData( currentTurnActor )
 
-func _crewmanTurnEnd( crewman : Crew ):
-	cards.LeftCrewDetailCard.loadData()
+# Action resolution & Targeting
+func _resolveAbility( ability : Ability ):
+	eventBus.emit( "ActionStarted" , [ ability ])
+	selectedAbility = ability
+	nodes.ActionStatus.setStatus( ability.getFullName() )
 
-	eventBus.emit( "CrewmanTurnEnd" , [ crewman ] )
-	eventBus.emit( "TurnEnd" , [ crewman ] )
+	# TODO - currently only permits 1 selection, should allow for multiple selections
+	var validTargets = ability.getValidTargets()
+	if( ability.targetType == "ALLY_UNIT" || ability.targetType == "SELF" ):
+		eventBus.emit("TargetingBattler" , [ validTargets , currentTurnActor.isPlayer ] )
+	elif( ability.targetType == "ALLY_FLOOR" ):
+		eventBus.emit("TargetingTile" , [ validTargets, currentTurnActor.isPlayer ] )
+	elif( ability.targetType == "ENEMY_FLOOR" ): # Here we send the opposite of player. So true if it's NOT a player, and false if it is.
+		eventBus.emit("TargetingTile" , [ validTargets , !currentTurnActor.isPlayer ] )
+	elif( ability.targetType == "ENEMY_UNIT" ):
+		eventBus.emit("TargetingBattler" , [ validTargets , !currentTurnActor.isPlayer ] )
+
+	eventBus.emit( "TargetingBegin" , [ ability ] )
+
+
+func _onTargetingSelected( myX , myY , targetIsPlayer ):
+	if( bases.BattleMap.isUnitOnTile( myX, myY ) ):
+		cards.RightDetail.loadData( bases.BattleMap.getUnitFromTile( myX , myY ) )
+	else:
+		cards.RightDetail.loadData()
+	
+	_completeAbility( myX , myY , targetIsPlayer )
+
+func _completeAbility( myX , myY , targetIsPlayer ):
+	#eventBus.emit( "ActionEnd" , [ action ] )
+	
+	var myTargets = bases.BattleMap.getTargetsFromLocation( myX , myY , selectedAbility , targetIsPlayer)
+	myRolls = selectedAbility.rollEffectRolls()
+
+	print( myTargets )
+	# print( myRolls )
+
+	yield( get_tree().create_timer( 3.0 ), "timeout" ) # Animation of thing happening
+	nodes.ActionStatus.setStatus()
+
+	_crewmanTurnEnd()
+
+func _crewmanTurnEnd():
+	cards.LeftDetail.loadData()
+	cards.RightDetail.loadData()
+	cards.ActionCard.loadData()
+	cards.AllActionCard.loadData()
+
+	eventBus.emit( "CrewmanTurnEnd" , [ currentTurnActor ] )
+	eventBus.emit( "TurnEnd" , [ currentTurnActor ] )
 
 func _enemyStartTurn ( crewman : Crew ):
 	eventBus.emit("EnemyTurnStart" , [ crewman ] )
 	
-	loadData( crewman )
-	
-	cards.RightCrewDetailCard.loadData( crewman )
-	nodes.ActionLabel.set_text( "Enemy" )
-	nodes.ActionStatus.show()
+	cards.AllActionCard.loadData()
+	cards.RightDetail.loadData( crewman )
 
-	yield( get_tree().create_timer(3.0), "timeout" )
-	
-	nodes.ActionStatus.hide()
-	nodes.ActionLabel.set_text("")
+	nodes.ActionStatus.setStatus( "Enemy: " + crewman.getFullName() )
+	# TODO - Write some AI!
+	# Enemy selects an Action
+	# Enemy picks a target
+	# _resolveAbility
+	yield( get_tree().create_timer( 3.0 ), "timeout" ) # Do animation for the thing
+	nodes.ActionStatus.setStatus()
 
 	_enemyTurnEnd( crewman )
 
 func _enemyTurnEnd( crewman ):
-	cards.RightCrewDetailCard.loadData()
+	cards.RightDetail.loadData()
+	cards.ActionCard.loadData()
 
 	eventBus.emit( "EnemyTurnEnd" , [crewman] )
 	eventBus.emit( "TurnEnd" , [ crewman ] )
@@ -185,76 +238,10 @@ func _enemyTurnEnd( crewman ):
 func _onTurnEnd( crewman : Crew ):
 	_nextTurn()
 
-# Action resolution & Targeting
-func _resolveAction( action : Ability ):
-	eventBus.emit( "ActionStarted" , [ action ])
-	selectedAbility = action
-	nodes.ActionLabel.set_text( action.fullName )
-	nodes.ActionStatus.show()
-
-	# TODO - currently only permits 1 selection, should allow for multiple selections
-	_targetingBegin( selectedAbility , currentTurnActor )
-
-func _targetingBegin( ability : Ability , crewman : Crew ):
-	eventBus.emit( "TargetingBegin" , [ ability , crewman ] )
-
-	var validTargets = ability.getValidTargets()
-	if( ability.targetType == "ALLY_UNIT" || ability.targetType == "SELF" ):
-		eventBus.emit("TargetingBattler" , [ validTargets , crewman.isPlayer ] )
-	elif( ability.targetType == "ALLY_FLOOR" ):
-		eventBus.emit("TargetingTile" , [ validTargets, crewman.isPlayer ] )
-	elif( ability.targetType == "ENEMY_FLOOR" ): # Here we send the opposite of player. So true if it's NOT a player, and false if it is.
-		eventBus.emit("TargetingTile" , [ validTargets , !crewman.isPlayer ])
-	elif( ability.targetType == "ENEMY_UNIT" ):
-		eventBus.emit("TargetingBattler" , [ validTargets , !crewman.isPlayer ])
-
-func _onTargetingSelected( myX , myY ):
-	_completeAction( myX , myY )
-
-func _completeAction(  targetX , targetY ):
-	#eventBus.emit( "ActionEnd" , [ action ] )
-	print("action Completion Reached!")
-
-	_resolvePassiveEffects()
-	_resolveDamageEffects()
-	_resolveMovement()
-	_resolveStatusEffects()
-	
-	# TODO : Validate if anyone is alive or not 
-
-	_crewmanTurnEnd( currentTurnActor )
-
-func _resolveMovement():
-	# Fire an event to inform battleOrder to update
-	pass
-
-func _resolveStatusEffects():
-	pass 
-
-func _resolvePassiveEffects():
-	pass
-
-func _resolveDamageEffects():
-	# TODO - figure out target map for area effects
-	pass
-
 func _onGeneralCancel():
 	if( selectedAbility ):
 		selectedAbility = null
-		nodes.ActionStatus.hide()
-
-# Other UI Events
-func _onCrewmanDeath( crewman : Crew ):
-	loadData( crewman )
-
-func _onCrewmanHover( crewman : Crew ):
-	loadData( crewman )
-
-func loadData( crewman = null ):
-	if( crewman ):
-		currentTurnActor = crewman
-		
-		cards.AllActionCard.loadData( currentTurnActor )
+		nodes.ActionStatus.setStatus()
 
 func _loadEndGame():
 	# Fire local event
@@ -268,17 +255,13 @@ func _loadEndBattle():
 # UI Events controlled by this script
 func _input( event ):
 	if( event.is_action_pressed("GUI_UNSELECT") ):
-		cards.ActionCard.hide()
-		cards.ActionsContainer.show()
-
+		cards.ActionCard.loadData()
 		eventBus.emit("GeneralCancel") 
 
 func _onActionButtonClicked( action : Ability ):
-	cards.ActionsContainer.hide()
 	cards.ActionCard.loadData( action )
-	cards.ActionCard.show()
 
-	_resolveAction( action )
+	_resolveAbility( action )
 
 func _onStanceButtonClicked( stance : Ability ):
 	print( stance.shortName )

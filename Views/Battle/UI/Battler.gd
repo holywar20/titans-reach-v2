@@ -56,9 +56,24 @@ func _ready():
 	pass
 
 func loadEvents():
+	# Targeting Events 
 	eventBus.register("TargetingTile" , self , "_onTargetingTile")
 	eventBus.register("TargetingBattler" , self, "_onTargetingBattler")
+
+	# Bailing Events
 	eventBus.register("GeneralCancel" , self, "_onGeneralCancel" )
+	eventBus.register("TurnEnd" , self , "_onTurnEnd")
+
+func hasCrewman():
+	if( crewman ):
+		return true
+	else:
+		return false
+
+func getCrewman():
+	if( crewman ):
+		return crewman
+	return false
 
 func setState( stateName : String ):
 	# print("setting state for battler , " , myX , " ",  myY , " " , stateName)
@@ -92,6 +107,10 @@ func loadData( newCrewman = null ):
 func _onTargetingTile( validTargetMatrix , targetsPlayer ):
 	setState( STATE.LOCK )
 
+func _onTurnEnd( crewman : Crew ):
+	# TODO - maybe do a match so it knows to roll some kind of targeting animation?
+	setState( STATE.CLEAR )
+
 func _onTargetingBattler( validTargetMatrix , targetsPlayer ):
 	if( isPlayer == targetsPlayer && validTargetMatrix[myX][myY] ):
 		setState( STATE.TARGETING )
@@ -105,7 +124,7 @@ func _onGeneralCancel():
 func _gui_input( input ):
 	if( myState == STATE.HIGHLIGHT && input.is_action_pressed( "GUI_SELECT" ) ):
 		print("Battler at " , myX , ":" , myY , " is a valid target and clicked")
-		eventBus.emit( "TargetingSelected" , [ myX , myY ] )
+		eventBus.emit( "TargetingSelected" , [ myX , myY , crewman.isPlayer ] )
 
 func _onMouseEntered():
 	if( myState == STATE.TARGETING ):

@@ -28,13 +28,41 @@ const TARGET_AREA = {
 	"SELF" 	: "SELF" , "SINGLE" : "SINGLE" ,"COLUMN" : "COLUMN", "ROW" 	: "ROW" , "ROW_DECAY" : "ROW_DECAY", "CROSS" : "CROSS", "ALL" :  "ALL"
 }
 const TARGET_AREA_DATA = {
-	"SELF"		: { "count" : 1 , "string" : "Self" },
-	"SINGLE" 	: { "count" : 1 , "string" : "Single" },
-	"COLUMN"		: { "count" : 3 , "string" : "Self" },
-	"ROW" 		: { "count" : 3 , "string" : "Row" },
-	"ROW_DECAY"	: { "count" : 2 , "string" : "Row Decay" },
-	"CROSS" 		: { "count" : 5 , "string" : "Cross" },
-	"ALL" 		: { "count" : 9 , "string" : "All" },
+	"SELF"	: { 
+		"count" 	: 1 , 
+		"string" : "Self" ,
+		"targetMatrix"	: null
+	},
+	"SINGLE" : { 	
+		"count" : 1 , 
+		"string" : "Single" ,
+		"targetMatrix" : [ [ 0 , 0 , 0 ] , [ 0 , 1 , 0 ] , [ 0 , 0 , 0 ] ],
+	},
+	"COLUMN"		: { 
+		"count" : 3 , 
+		"string" : "Self" ,
+		"targetMatrix" : [ [ 0 , 1 , 0 ] , [ 0 , 1 , 0 ] , [ 0 , 1 , 0 ] ],
+	},
+	"ROW" 		: { 
+		"count" : 3 , 
+		"string" : "Row" ,
+		"targetMatrix" : [ [ 0 , 0 , 0 ] , [ 1 , 1 , 1 ] , [ 0 , 0 , 0 ] ],
+	},
+	"ROW_DECAY"	: { 
+		"count" : 2 , 
+		"string" : "Row Decay" ,
+		"targetMatrix" : [ [ 0 , 0 , 0 ] , [ 0 , 1 , 1 ] , [ 0 , 0 , 0 ] ],
+	},
+	"CROSS" 		: { 
+		"count" : 5 , 
+		"string" : "Cross" ,
+		"targetMatrix" : [ [ 0 , 1 , 0 ] , [ 1 , 1 , 1 ] , [ 0 , 1 , 0 ] ],
+	},
+	"ALL" 		: { 
+		"count" : 9 , 
+		"string" : "All" ,
+		"targetMatrix" :[ [ 1 , 1 , 1 ] , [ 1 , 1 , 1 ] , [ 1 , 1 , 1 ] ],
+	},
 }
 
 const TARGET_TYPES  = {
@@ -183,6 +211,31 @@ func getValidTargets():
 				targetingArray[x][y] = true
 		
 	return targetingArray
+
+# Figures out which targets would be valid, based upon x ,y grid coordinates
+func getOffsetMatrix( myX , myY ):
+	var template = TARGET_AREA_DATA[targetArea].targetMatrix
+	var newMatrix = [ [0,0,0] , [0,0,0] , [0,0,0] ]
+
+	for x in range( 0 , template.size() ):
+		for y in range( 0 , template[x].size() ):
+			var isValid = true
+			var targetX = x + myX - 1
+			var targetY = y + myY - 1
+
+			if( targetX < 0 || targetX >= 3 ):
+				isValid = false
+			
+			if( targetX < 0 || targetY >= 3 ):
+				isValid = false
+
+			if( template[x][y] == 0 ):
+				isValid = false
+			
+			if( isValid ):
+				newMatrix[targetX][targetY] = 1
+	
+	return newMatrix
 
 # This method takes a Crew object ( maybe other types later ), and does all the math on it
 func calculateSelf( newActor = null ):

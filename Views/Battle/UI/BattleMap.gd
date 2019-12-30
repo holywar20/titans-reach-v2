@@ -28,6 +28,16 @@ var eventBus
 var playerCrew
 var enemyCrew
 
+const EMPTY_MATRIX = [ [ 0, 0, 0] , [ 0, 0, 0] , [ 0, 0, 0] ]
+const TARGET_AREAS = {
+	"SINGLE" 	: [ [ 0 , 0 , 0 ] , [ 0 , 1 , 0 ] , [ 0 , 0 , 0 ] ],
+	"ROW" 		: [ [ 0 , 0 , 0 ] , [ 1 , 1 , 1 ] , [ 0 , 0 , 0 ] ],
+	"ROW_DECAY"	: [ [ 0 , 0 , 0 ] , [ 0 , 1 , 1 ] , [ 0 , 0 , 0 ] ],
+	"COLUMN" 	: [ [ 0 , 1 , 0 ] , [ 0 , 1 , 0 ] , [ 0 , 1 , 0 ] ],
+	"CROSS" 		: [ [ 0 , 1 , 0 ] , [ 1 , 1 , 1 ] , [ 0 , 1 , 0 ] ],
+	"ALL" 		: [ [ 1 , 1 , 1 ] , [ 1 , 1 , 1 ] , [ 1 , 1 , 1 ] ]
+}
+
 func setupScene( eBus : EventBus , player , enemy ):
 	eventBus = eBus
 	playerCrew = player
@@ -57,6 +67,48 @@ func _ready():
 
 func _onGeneralCancel():
 	pass
+
+func isUnitOnTile( myX, myY , isPlayer = false ):
+	var targetField = null
+	if( isPlayer ):
+		targetField = playerUnits
+	else:
+		targetField = enemyUnits
+
+	if( targetField[myX][myY].hasCrewman() ):
+		return true
+	else:
+		return false
+
+func getUnitFromTile( myX , myY , isPlayer = false ):
+	var targetField = null
+	if( isPlayer ):
+		targetField = playerUnits
+	else:
+		targetField = enemyUnits
+
+	if( targetField[myX][myY].hasCrewman() ):
+		return targetField[myX][myY].getCrewman()
+	else:
+		return false
+
+func getTargetsFromLocation( myX , myY , ability : Ability , isPlayer : bool ):
+	
+	var targetField = null
+	if( isPlayer ):
+		targetField = playerUnits
+	else:
+		targetField = enemyUnits
+
+	var potentialValidTargets = ability.getOffsetMatrix( myX, myY )
+
+	for x in potentialValidTargets.size():
+		for y in potentialValidTargets[x].size():
+			if( targetField[x][y].hasCrewman() && potentialValidTargets[x][y] ):
+				potentialValidTargets[x][y] = targetField[x][y].getCrewman()
+
+	return potentialValidTargets
+
 
 func _setupBattleOrder( playerCrew , enemyCrew = null ):
 	# TODO - Create a pop up to allow this to be changed and saved before battle. For now , hardcode!
