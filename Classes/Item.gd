@@ -70,3 +70,7 @@ func addToAssigned():
 
 func subFromAssigned():
 	itemAssigned = itemAssigned - 1
+
+# meant to be overridden. Should return an array of strings.
+func getAbilities():
+	return []

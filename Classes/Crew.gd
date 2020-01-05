@@ -39,7 +39,7 @@ var gear = {
 var allAbilityKeys = {
 	"Basic"  : [ "Move" , "Brawl" , "Defend" ],
 	"Talent" : [] ,
-	"Weapon" : []
+	"Gear"	: []
 }
 
 # store off all this users abilities
@@ -108,8 +108,37 @@ func get_class():
 func is_class( name : String ): 
 	return name == "Crew"
 
-func loadAbilities():
+func calculateSelf( newCharacter = true ):
+
+	_getAbilityKeysFromGear()
+	_getAbilityKeysFromTalents()
+
+	_loadPassiveAbilitiesFromSavedKeys()
+	# Load passive abilities
+
+	_calculateTraits()
+	_loadAbilitiesFromSavedKeys()
+
+	_calculateResists()
+	_calculateCarryWeight()
+	_calculateDerivedStats( newCharacter )
+
+func _getAbilityKeysFromGear():
+	for key in gear:
+		if( gear[key] ):
+			var myAbilityKeys = gear[key].getAbilities()
+			for abilityKey in myAbilityKeys:
+				allAbilityKeys.Gear.append( abilityKey )
+
+func _getAbilityKeysFromTalents():
+	pass
+
+func _loadPassiveAbilitiesFromSavedKeys():
+	pass
+
+func _loadAbilitiesFromSavedKeys():
 	for category in allAbilityKeys:
+
 		for key in allAbilityKeys[category]:
 			var ability = AbilityFactory.getAbilityByKey( key )
 			ability.setActor( self )
@@ -129,17 +158,6 @@ func loadAbilities():
 			if( ability.abilityType == ability.ABILITY_TYPES.INSTANT ):
 				instants.append( ability )
 			# Parse key, put it in category that cares about it.
-
-func updateAbilities( inBattle = false ):
-	_updatePassives()
-
-	if( inBattle ):
-		_updateTempPassives()
-
-	calculateTraits()
-	calculateDerivedStats()
-	
-	# Roll through each ability, finalizing values
 
 func assign( console = null ):
 	station = console
@@ -181,21 +199,21 @@ func itemTransaction( item , itemSlot , sourceItemSlot ):
 		if( item ):
 			item.addToAssigned()
 		
-		calculateDerivedStats()
+		calculateSelf()
 		
 	return isValid
 
 func assignItem( item, itemSlot ):
 	var oldItem = gear[itemSlot]
 	gear[itemSlot] = item
-
+	
 	return oldItem
 
-func calculateTraits():
+func _calculateTraits():
 	for key in traits:
 		traits[key].total = traits[key].value + traits[key].mod
 
-func calculateCarryWeight():
+func _calculateCarryWeight():
 	carryWeight.total = BASE_WEIGHT + carryWeight.mod + traits.STR.total
 	
 	var current = 0
@@ -205,19 +223,10 @@ func calculateCarryWeight():
 		
 	carryWeight.current = current
 
-func calculateDerivedStats( newCharacter = false ):
+func _calculateDerivedStats( newCharacter = false ):
 	
-	# Process passives
-	for p in passives:
-		pass # TODO : add ability to go through items and modify MODS.
-	
-	calculateTraits()
-	calculateCarryWeight()
-
 	hp.total = BASE_HP + hp.mod + traits.STR.total
 	morale.total = BASE_MORALE + morale.mod + traits.CHA.total
-
-	_calculateResists()
 
 	if( newCharacter ):
 		hp.current = hp.total
