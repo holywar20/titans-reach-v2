@@ -25,7 +25,7 @@ onready var bars = {
 }
 
 onready var bases = {
-	"Buffs" : get_node("VBox/Bottom/Right/Buffs"),
+	"Buffs" : get_node("VBox/Bottom/Right/BuffPanel/Buffs"),
 	"Traits" : get_node("VBox/Bottom/Traits/Panel/Traits"),
 	"StatusEffects" : get_node("VBox/Bottom/Right/StatusEffectPanel/StatusEffects")
 }

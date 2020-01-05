@@ -27,6 +27,8 @@ const POP_UPS = {
 
 var globalBus = null
 
+const DEBUG_MODE = true
+
 onready var playerGear = null
 onready var playerShip = Starship.new()
 onready var playerCrew = CrewFactory.generateManyCrew( 30 , 5 )
@@ -35,7 +37,8 @@ func _ready():
 	globalBus = EventBusStore.getGlobalEventBus()
 	loadScreen( "TITLE" )
 
-	_generateDebugGear()
+	if( DEBUG_MODE ):
+		_generateDebugGear()
 
 	globalBus.register( "NewGame_Start_Begin" , self, 'startNewGame' )
 
@@ -50,6 +53,16 @@ func _generateDebugGear():
 	var equipment = EquipmentFactory.generateDebugEquipment()
 	for key in equipment:
 		playerGear[key] = equipment[key]
+
+	# Do some basic equiping so I can do fast testing
+	playerCrew[0].itemTransaction( playerGear["TerranMinigun"] , "LWeapon" )
+	playerCrew[1].itemTransaction( playerGear["TerranAssaultRifle"] , "LWeapon" )
+	playerCrew[2].itemTransaction( playerGear["TerranShotGun"] , "LWeapon" )
+	playerCrew[3].itemTransaction( playerGear["TerranHammer"] , "LWeapon" )
+	playerCrew[4].itemTransaction( playerGear["TerranSword"] , "LWeapon" )
+
+	for player in playerCrew:
+		player.itemTransaction( playerGear["TerranPistol"] , "RWeapon" )
 
 func _clearSelf():
 	for child in gameLayer.get_children():

@@ -46,7 +46,7 @@ onready var cards = {
 
 onready var nodes = {
 	"TurnLabel" 		: get_node("BottomControls/TurnData/VBox/Label"),
-	"ActionStatus"		: get_node("Header/UncontainedUI/ActionStatus")
+	"ActionStatus"		: get_node("Header/UncontainedUI/CanvasLayer/ActionStatus")
 }
 
 var eventBus = null
@@ -194,6 +194,9 @@ func _completeAbility( myX , myY , targetIsPlayer ):
 	var battlerMatrix = bases.BattleMap.getTargetsFromLocation( myX , myY , selectedAbility , targetIsPlayer)
 	var arrayOfEffects = selectedAbility.rollEffectRolls()
 
+	print( battlerMatrix )
+	print( arrayOfEffects )
+
 	for x in range(0 , battlerMatrix.size() ):
 		for y in range(0, battlerMatrix[x].size() ):
 			if( battlerMatrix[x][y] ):
@@ -217,7 +220,6 @@ func _crewmanTurnEnd():
 	cards.ActionCard.loadData()
 	cards.AllActionCard.loadData()
 
-	print( "Turn end called!")
 	eventBus.emit( "CrewmanTurnEnd" , [ currentTurnActor ] )
 	eventBus.emit( "TurnEnd" , [ currentTurnActor ] )
 

@@ -80,12 +80,11 @@ func stateDead():
 
 	stateAnimations.queue( ANIMATIONS.STATE.DEAD )
 	otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_IGNORE )
-	
-	yield( get_tree().create_timer( 4.0 ), "timeout" )
+	yield( get_tree().create_timer( 1.0 ), "timeout" )
+
 	hide() # TODO - have an unset state
 
 func stateEndTurn():
-	print("ending turn!")
 	myState = STATE.CLEAR
 
 	alwaysAnimations.play( ANIMATIONS.ALWAYS.IDLE )
@@ -99,8 +98,10 @@ func stateMiss( toHit ):
 	myState = STATE.MISS
 
 	stateAnimations.play( ANIMATIONS.STATE.MISS )
+	
+
 	otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_IGNORE )
-	otherNodes.MissText.set_text( "Miss! ( " + toHit  + "% )" )
+	otherNodes.MissText.set_text( "Miss! ( " + str(toHit)  + "% )" )
 
 func stateDamage( damage : int ):
 	myState = STATE.DAMAGE
@@ -108,10 +109,13 @@ func stateDamage( damage : int ):
 	otherNodes.DamageText.set_text( str(damage) )
 
 	stateAnimations.play( ANIMATIONS.STATE.DAMAGE )
+	yield( stateAnimations , "animation_finished" )
 
 	var isDead = crewman.applyDamage( damage, 'DMG_TYPE_NOT_IMPLIMENTED' )
 	if( isDead ):
 		setState( STATE.DEAD )
+	else:
+		setState( STATE.CLEAR )
 
 	loadData()
 
@@ -126,15 +130,11 @@ func stateHighlight():
 	stateAnimations.play( ANIMATIONS.STATE.HIGHLIGHT )
 
 func stateLock():
-	if( myState == STATE.CLEAR ):
-		if( crewman && isOnPlayerSide ):
-			print( "Locking " , crewman.getFullName() )
-		myState = STATE.LOCK
-		otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_PASS )
+	#if( myState == STATE.CLEAR ):
+	myState = STATE.LOCK
+	otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_IGNORE )
 
 func stateClear():
-	if( crewman && isOnPlayerSide ):
-		print( "crewman being cleared" , crewman.getFullName() )
 	if( prevState && prevState != STATE.CLEAR ):
 		setState( prevState )
 		prevState = null

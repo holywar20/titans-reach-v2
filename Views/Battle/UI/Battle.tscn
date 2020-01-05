@@ -25,7 +25,14 @@ rect_min_size = Vector2( 0, 50 )
 margin_right = 1920.0
 margin_bottom = 50.0
 
-[node name="ActionStatus" parent="Header/UncontainedUI" instance=ExtResource( 2 )]
+[node name="CanvasLayer" type="CanvasLayer" parent="Header/UncontainedUI"]
+
+[node name="ActionStatus" parent="Header/UncontainedUI/CanvasLayer" instance=ExtResource( 2 )]
+visible = true
+margin_left = -187.0
+margin_top = 143.795
+margin_right = 193.0
+margin_bottom = 198.795
 
 [node name="TrackerContainer" type="HBoxContainer" parent="."]
 editor/display_folded = true
@@ -82,9 +89,9 @@ size_flags_vertical = 3
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -10.6001
-margin_top = -121.852
+margin_top = -74.852
 margin_right = -10.6001
-margin_bottom = -121.852
+margin_bottom = -74.852
 size_flags_horizontal = 3
 
 [node name="VBox" type="VBoxContainer" parent="Middle"]

@@ -36,7 +36,7 @@ const EXPLORE_EVENTS = [
 	"DraggableCreated", "DraggableReleased", "DraggableMatched",
 	
 	# Events fired by UI elements that indicate succesful data changes, that other UI elements might care about.
-	"CrewmanAssigned",
+	"CrewmanAssigned", "WeaponAssigned" , "EquipmentAssigned",
 
 	# Interactable Collision Events , emitted by the players ship
 	"AnomolyEntered"		, "AnomolyExited",

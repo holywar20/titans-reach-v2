@@ -124,6 +124,8 @@ func calculateSelf( newCharacter = true ):
 	_calculateDerivedStats( newCharacter )
 
 func _getAbilityKeysFromGear():
+	allAbilityKeys.Gear = []
+	
 	for key in gear:
 		if( gear[key] ):
 			var myAbilityKeys = gear[key].getAbilities()
@@ -137,8 +139,13 @@ func _loadPassiveAbilitiesFromSavedKeys():
 	pass
 
 func _loadAbilitiesFromSavedKeys():
-	for category in allAbilityKeys:
+	actions = []
+	stances = []
+	triggered = []
+	instants = []
+	passives = []
 
+	for category in allAbilityKeys:
 		for key in allAbilityKeys[category]:
 			var ability = AbilityFactory.getAbilityByKey( key )
 			ability.setActor( self )
@@ -153,7 +160,7 @@ func _loadAbilitiesFromSavedKeys():
 				triggered.append( ability )
 
 			if( ability.abilityType == ability.ABILITY_TYPES.PASSIVE ):
-				triggered.append( ability )
+				passives.append( ability )
 
 			if( ability.abilityType == ability.ABILITY_TYPES.INSTANT ):
 				instants.append( ability )
@@ -181,7 +188,7 @@ func _validateItemTransaction( item , itemSlot ):
 	
 	return isValid
 
-func itemTransaction( item , itemSlot , sourceItemSlot ):
+func itemTransaction( item , itemSlot , sourceItemSlot = null ):
 	var isValid = true
 	if( item ):
 		isValid = _validateItemTransaction( item , itemSlot )
@@ -355,7 +362,8 @@ func getAllWeaponStrings():
 	if ( gear.RWeapon ):
 		stringArray.append( gear.RWeapon.getItemDisplay( true ) )
 
-	stringArray.append("None")
+	if( stringArray.size() == 0 ):
+		stringArray.append("None")
 	
 	return stringArray
 
@@ -364,8 +372,8 @@ func getAllFrameStrings():
 	var stringArray = []
 	if( gear.Frame ):
 		stringArray.append( gear.Frame.getItemDisplay( true ) )
-
-	stringArray.append("None")
+	else:
+		stringArray.append("None")
 	
 	return stringArray
 

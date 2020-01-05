@@ -36,7 +36,7 @@
 		"itemTexturePath" : "res://TextureBank/Items/Weapons/TerranHammer.jpg",
 		"itemTextureType" : 1,
 
-		"weaponActionKeys" : [ "TerranGravityHammerDefault" ]
+		"weaponActionKeys" : [ "TerranHammerDefault" ]
 	} ,
 	"TerranMinigun" : {
 		"itemKey" : "TerranMinigun",

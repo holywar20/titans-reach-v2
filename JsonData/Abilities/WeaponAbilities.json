@@ -4,19 +4,19 @@
 		"shortName" : "Rifle" ,
 		"fullName" : "Terran Rifle" ,
 		"abilityType" : "ACTION" ,
-		"damageHiBase" : 1 ,
-		"damageLoBase" : 3 ,
+		"damageHiBase" : 8 ,
+		"damageLoBase" : 4 ,
 		"toHitBase" : 90 ,
 		"validTargets" : [ 0 , 1 ] ,
 		"validFrom" : [ 0 , 1 ] ,
 		"targetType" : "ENEMY_UNIT" ,
 		"targetArea" : "SINGLE" ,
-		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/rifle.png" ,
 		"damageEffects" : [
 			{
-				"dmgTrait"			: "DEX",
+				"dmgTrait"			: "PER",
 				"dmgTraitMod"		: 0.1 ,
-				"toHitTrait"		: "STR" ,
+				"toHitTrait"		: "PER" ,
 				"toHitTraitMod" 	: 1
 			}
 		]
@@ -24,39 +24,39 @@
 
 	"TerranPistolDefault" : {
 		"key" : "TerranPistolDefault" ,
-		"shortName" : "Brawl" ,
-		"fullName" : "Brawl" ,
+		"shortName" : "Pistol" ,
+		"fullName" : "Terran Pistol" ,
 		"abilityType" : "ACTION" ,
-		"damageHiBase" : 1 ,
-		"damageLoBase" : 3 ,
+		"damageHiBase" : 6 ,
+		"damageLoBase" : 5 ,
 		"toHitBase" : 90 ,
-		"validTargets" : [ 2 ] ,
-		"validFrom" : [ 2 ] ,
+		"validTargets" : [ 1 , 2 ] ,
+		"validFrom" : [ 1 , 2 ] ,
 		"targetType" : "ENEMY_UNIT" ,
 		"targetArea" : "SINGLE" ,
-		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/pistol.png" ,
 		"damageEffects" : [
 			{
-				"dmgTrait"			: "STR",
+				"dmgTrait"			: "PER",
 				"dmgTraitMod"		: 0.1 ,
-				"toHitTrait"		: "STR" ,
+				"toHitTrait"		: "DEX" ,
 				"toHitTraitMod" 	: 1
 			}
 		]
 	} ,
-	"TerranGravityHammerDefault" : {
-		"key" : "Brawl" ,
-		"shortName" : "Brawl" ,
-		"fullName" : "Brawl" ,
+	"TerranHammerDefault" : {
+		"key" : "TerranHammerDefault" ,
+		"shortName" : "Hammer" ,
+		"fullName" : "Terran Hammer" ,
 		"abilityType" : "ACTION" ,
-		"damageHiBase" : 1 ,
+		"damageHiBase" : 8 ,
 		"damageLoBase" : 3 ,
 		"toHitBase" : 90 ,
 		"validTargets" : [ 2 ] ,
 		"validFrom" : [ 2 ] ,
 		"targetType" : "ENEMY_UNIT" ,
-		"targetArea" : "SINGLE" ,
-		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"targetArea" : "COLUMN" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/hammer.png" ,
 		"damageEffects" : [
 			{
 				"dmgTrait"			: "STR",
@@ -67,21 +67,21 @@
 		]
 	} ,
 	"TerranMinigunDefault" : {
-		"key" : "Brawl" ,
-		"shortName" : "Brawl" ,
-		"fullName" : "Brawl" ,
+		"key" : "TerranMinigunDefault" ,
+		"shortName" : "Minigun" ,
+		"fullName" : "Terran Minigun" ,
 		"abilityType" : "ACTION" ,
-		"damageHiBase" : 1 ,
-		"damageLoBase" : 3 ,
+		"damageHiBase" : 5 ,
+		"damageLoBase" : 2 ,
 		"toHitBase" : 90 ,
-		"validTargets" : [ 2 ] ,
-		"validFrom" : [ 2 ] ,
+		"validTargets" : [ 1, 2 ] ,
+		"validFrom" : [ 1 , 2 ] ,
 		"targetType" : "ENEMY_UNIT" ,
-		"targetArea" : "SINGLE" ,
-		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"targetArea" : "COLUMN" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/minigun.png" ,
 		"damageEffects" : [
 			{
-				"dmgTrait"			: "STR",
+				"dmgTrait"			: "PER",
 				"dmgTraitMod"		: 0.1 ,
 				"toHitTrait"		: "STR" ,
 				"toHitTraitMod" 	: 1
@@ -89,23 +89,23 @@
 		]
 	} , 
 	"TerranShotgunDefault" : {
-		"key" : "Brawl" ,
-		"shortName" : "Brawl" ,
-		"fullName" : "Brawl" ,
+		"key" : "TerranShotgunDefault" ,
+		"shortName" : "Shotgun" ,
+		"fullName" : "Terran Shotgun" ,
 		"abilityType" : "ACTION" ,
-		"damageHiBase" : 1 ,
+		"damageHiBase" : 8 ,
 		"damageLoBase" : 3 ,
 		"toHitBase" : 90 ,
 		"validTargets" : [ 2 ] ,
 		"validFrom" : [ 2 ] ,
 		"targetType" : "ENEMY_UNIT" ,
-		"targetArea" : "SINGLE" ,
-		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"targetArea" : "ROW_DECAY" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/shotgun.png" ,
 		"damageEffects" : [
 			{
-				"dmgTrait"			: "STR",
+				"dmgTrait"			: "PER",
 				"dmgTraitMod"		: 0.1 ,
-				"toHitTrait"		: "STR" ,
+				"toHitTrait"		: "DEX" ,
 				"toHitTraitMod" 	: 1
 			}
 		]
@@ -115,14 +115,14 @@
 		"shortName" : "Brawl" ,
 		"fullName" : "Brawl" ,
 		"abilityType" : "ACTION" ,
-		"damageHiBase" : 1 ,
-		"damageLoBase" : 3 ,
+		"damageHiBase" : 7 ,
+		"damageLoBase" : 4 ,
 		"toHitBase" : 90 ,
 		"validTargets" : [ 2 ] ,
 		"validFrom" : [ 2 ] ,
 		"targetType" : "ENEMY_UNIT" ,
 		"targetArea" : "SINGLE" ,
-		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/sword.png" ,
 		"damageEffects" : [
 			{
 				"dmgTrait"			: "STR",

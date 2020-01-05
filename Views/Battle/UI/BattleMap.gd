@@ -105,11 +105,16 @@ func getTargetsFromLocation( myX , myY , ability : Ability , isPlayer : bool , g
 
 	for x in potentialValidTargets.size():
 		for y in potentialValidTargets[x].size():
+			
 			if( targetField[x][y].hasCrewman() && potentialValidTargets[x][y] ):
 				if( getCrewman ):
 					potentialValidTargets[x][y] = targetField[x][y].getCrewman()
 				else:
 					potentialValidTargets[x][y] = targetField[x][y]
+			
+			else:
+				potentialValidTargets[x][y] = 0
+
 
 	return potentialValidTargets
 
@@ -123,8 +128,8 @@ func _setupBattleOrder( playerCrew , enemyCrew = null ):
 	playerUnits[0][1].loadData( playerCrew[4] )
 
 	# Randomly generate enemy Unit battle order
-	enemyUnits[1][0].loadData( enemyCrew[0] )
-	enemyUnits[1][1].loadData( enemyCrew[1] )
-	enemyUnits[1][2].loadData( enemyCrew[2] )
-	enemyUnits[2][1].loadData( enemyCrew[3] )
-	enemyUnits[0][1].loadData( enemyCrew[4] )
+	enemyUnits[0][1].loadData( enemyCrew[0] )
+	enemyUnits[1][2].loadData( enemyCrew[1] )
+	enemyUnits[2][2].loadData( enemyCrew[2] )
+	enemyUnits[1][1].loadData( enemyCrew[3] )
+	enemyUnits[0][2].loadData( enemyCrew[4] )

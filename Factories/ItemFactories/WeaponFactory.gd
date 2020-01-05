@@ -24,9 +24,9 @@ func generateDebugWeapons():
 	var weapons = {}
 
 	weapons["TerranAssaultRifle"] = generateWeaponObject( "TerranAssaultRifle" , 3 )
-	weapons["TerranMinigun"] = generateWeaponObject( "TerranMinigun" , 1 )
+	weapons["TerranMinigun"] = generateWeaponObject( "TerranMinigun" , 10 )
 	weapons["TerranShotGun"] = generateWeaponObject("TerranShotgun" , 3)
-	weapons["TerranHammer"] = generateWeaponObject( "TerranHammer" , 1 )
+	weapons["TerranHammer"] = generateWeaponObject( "TerranHammer" , 10 )
 	weapons["TerranPistol"] = generateWeaponObject("TerranPistol" , 10)
 	weapons["TerranSword"] = generateWeaponObject( "TerranSword"  , 3 )
 	

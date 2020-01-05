@@ -62,13 +62,11 @@ func _onTurnEnd( crewman : Crew ):
 	setState( STATE.CLEAR )
 
 func _onMouseEntered():
-	#print( "mouseEntered" , " " , myX , " ", myY)
 	if( myState == STATE.TARGETING ):
 		prevState = myState
 		setState( STATE.HIGHLIGHT )
 
 func _onMouseExited():
-	#print( "mouse exited" , " " , myX , " ", myY)
 	if( prevState ):
 		setState( prevState )
 		prevState = null
