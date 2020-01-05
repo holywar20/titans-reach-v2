@@ -92,7 +92,8 @@ func getUnitFromTile( myX , myY , isPlayer = false ):
 	else:
 		return false
 
-func getTargetsFromLocation( myX , myY , ability : Ability , isPlayer : bool ):
+# figures out which things an ability will hit. Normally returns battlers from the map, but can get the crewman as an optional flag.
+func getTargetsFromLocation( myX , myY , ability : Ability , isPlayer : bool , getCrewman = false ):
 	
 	var targetField = null
 	if( isPlayer ):
@@ -105,7 +106,10 @@ func getTargetsFromLocation( myX , myY , ability : Ability , isPlayer : bool ):
 	for x in potentialValidTargets.size():
 		for y in potentialValidTargets[x].size():
 			if( targetField[x][y].hasCrewman() && potentialValidTargets[x][y] ):
-				potentialValidTargets[x][y] = targetField[x][y].getCrewman()
+				if( getCrewman ):
+					potentialValidTargets[x][y] = targetField[x][y].getCrewman()
+				else:
+					potentialValidTargets[x][y] = targetField[x][y]
 
 	return potentialValidTargets
 

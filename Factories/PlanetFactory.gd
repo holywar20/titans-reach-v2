@@ -149,8 +149,8 @@ func _rollPlanetDetails( orbit, planetClass , star ):
 	var randomRadian = randf() * 3.14 * 2
 	
 	planet.radial = Vector2( cos(randomRadian) , sin(randomRadian) )
-	planet.radius = Common.randDiffPercents( p['radiusHi'], p['radiusLo'] )
-	planet.mass = Common.randDiffPercents( p['massHi'] , p['massLo'] )
+	planet.radius = Common.randDiffPercents(  p['radiusLo'] , p['radiusHi'] )
+	planet.mass = Common.randDiffPercents( p['massLo'] ,p['massHi']  )
 	planet.temp = 200 # TODO - base this on some formula
 
 	planet.fullTexturePath = "res://TextureBank/Stars/celestial_blank.png"

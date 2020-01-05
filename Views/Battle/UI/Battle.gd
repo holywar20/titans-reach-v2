@@ -191,14 +191,22 @@ func _onTargetingSelected( myX , myY , targetIsPlayer ):
 
 func _completeAbility( myX , myY , targetIsPlayer ):
 	#eventBus.emit( "ActionEnd" , [ action ] )
-	
-	var myTargets = bases.BattleMap.getTargetsFromLocation( myX , myY , selectedAbility , targetIsPlayer)
-	myRolls = selectedAbility.rollEffectRolls()
+	var battlerMatrix = bases.BattleMap.getTargetsFromLocation( myX , myY , selectedAbility , targetIsPlayer)
+	var arrayOfEffects = selectedAbility.rollEffectRolls()
 
-	print( myTargets )
-	# print( myRolls )
+	for x in range(0 , battlerMatrix.size() ):
+		for y in range(0, battlerMatrix[x].size() ):
+			if( battlerMatrix[x][y] ):
+				# Maybe push this into a 'resolve effect method'
+				for effect in arrayOfEffects:
+					var hitRoll = effect.toHitRolls.pop_front()
+					var dmgRoll = effect.damageRolls.pop_front()
+					if( hitRoll >= 100 ):
+						battlerMatrix[x][y].setState( Battler.STATE.DAMAGE , [ dmgRoll ] )
+					else:
+						battlerMatrix[x][y].setState( Battler.STATE.MISS , [ hitRoll ] )
 
-	yield( get_tree().create_timer( 3.0 ), "timeout" ) # Animation of thing happening
+	yield( get_tree().create_timer( 3.0 ), "timeout" ) # Just waiting for animation to finish. TODO - do this better.
 	nodes.ActionStatus.setStatus()
 
 	_crewmanTurnEnd()
@@ -209,6 +217,7 @@ func _crewmanTurnEnd():
 	cards.ActionCard.loadData()
 	cards.AllActionCard.loadData()
 
+	print( "Turn end called!")
 	eventBus.emit( "CrewmanTurnEnd" , [ currentTurnActor ] )
 	eventBus.emit( "TurnEnd" , [ currentTurnActor ] )
 

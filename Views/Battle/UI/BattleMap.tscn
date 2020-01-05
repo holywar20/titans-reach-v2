@@ -20,10 +20,10 @@ script = ExtResource( 1 )
 
 [node name="Player" type="TextureRect" parent="."]
 editor/display_folded = true
-margin_left = 186.0
-margin_top = -73.0
-margin_right = 958.0
-margin_bottom = 700.0
+margin_left = 129.198
+margin_top = -75.0
+margin_right = 901.198
+margin_bottom = 698.0
 mouse_filter = 2
 texture = ExtResource( 2 )
 
@@ -42,12 +42,11 @@ isPlayer = true
 [node name="Unit_0_0" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 294.0
-margin_top = 199.109
-margin_right = 422.0
-margin_bottom = 455.109
-rect_scale = Vector2( 0.8, 0.8 )
+margin_left = 330.169
+margin_top = 170.0
+margin_right = 330.169
+margin_bottom = 170.0
+rect_scale = Vector2( 0.85, 0.85 )
 
 [node name="Floor_0_1" parent="Player" groups=[
 "PlayerFloor",
@@ -65,12 +64,11 @@ myY = 1
 [node name="Unit_0_1" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 494.0
-margin_top = 203.0
-margin_right = 622.0
-margin_bottom = 459.0
-rect_scale = Vector2( 0.8, 0.8 )
+margin_left = 494.824
+margin_top = 170.0
+margin_right = 494.824
+margin_bottom = 170.0
+rect_scale = Vector2( 0.85, 0.85 )
 myY = 1
 
 [node name="Floor_0_2" parent="Player" groups=[
@@ -89,12 +87,11 @@ myY = 2
 [node name="Unit_0_2" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 653.0
-margin_top = 203.0
-margin_right = 781.0
-margin_bottom = 459.0
-rect_scale = Vector2( 0.8, 0.8 )
+margin_left = 680.745
+margin_top = 170.0
+margin_right = 680.745
+margin_bottom = 170.0
+rect_scale = Vector2( 0.85, 0.85 )
 myY = 2
 
 [node name="Floor_1_0" parent="Player" groups=[
@@ -113,11 +110,10 @@ myX = 1
 [node name="Unit_1_0" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 194.0
-margin_top = 283.0
-margin_right = 322.0
-margin_bottom = 539.0
+margin_left = 221.604
+margin_top = 270.0
+margin_right = 221.604
+margin_bottom = 270.0
 myX = 1
 
 [node name="Floor_1_1" parent="Player" groups=[
@@ -137,11 +133,10 @@ myY = 1
 [node name="Unit_1_1" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 414.0
-margin_top = 277.136
-margin_right = 542.0
-margin_bottom = 533.136
+margin_left = 402.513
+margin_top = 270.0
+margin_right = 402.513
+margin_bottom = 270.0
 myX = 1
 myY = 1
 
@@ -162,11 +157,10 @@ myY = 2
 [node name="Unit_1_2" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 604.0
-margin_top = 297.272
-margin_right = 732.0
-margin_bottom = 553.272
+margin_left = 608.473
+margin_top = 280.549
+margin_right = 608.473
+margin_bottom = 280.549
 myX = 1
 myY = 2
 
@@ -186,12 +180,11 @@ myX = 2
 [node name="Unit_2_0" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 74.0
-margin_top = 430.0
-margin_right = 202.0
-margin_bottom = 686.0
-rect_scale = Vector2( 1.2, 1.2 )
+margin_left = 89.8382
+margin_top = 420.0
+margin_right = 89.8382
+margin_bottom = 420.0
+rect_scale = Vector2( 1.15, 1.15 )
 myX = 2
 
 [node name="Floor_2_1" parent="Player" groups=[
@@ -211,12 +204,11 @@ myY = 1
 [node name="Unit_2_1" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 344.0
-margin_top = 429.64
-margin_right = 472.0
-margin_bottom = 685.64
-rect_scale = Vector2( 1.2, 1.2 )
+margin_left = 305.818
+margin_top = 420.0
+margin_right = 305.818
+margin_bottom = 420.0
+rect_scale = Vector2( 1.15, 1.15 )
 myX = 2
 myY = 1
 
@@ -237,23 +229,24 @@ myY = 2
 [node name="Unit_2_2" parent="Player" groups=[
 "PlayerBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 554.0
-margin_top = 423.0
-margin_right = 682.0
-margin_bottom = 679.0
-rect_scale = Vector2( 1.2, 1.2 )
+margin_left = 527.952
+margin_top = 420.0
+margin_right = 527.952
+margin_bottom = 420.0
+rect_scale = Vector2( 1.15, 1.15 )
 myX = 2
 myY = 2
 
 [node name="Enemy" type="TextureRect" parent="."]
-editor/display_folded = true
-margin_left = 1740.0
-margin_top = -73.0
-margin_right = 2512.0
-margin_bottom = 700.0
+margin_left = 1790.98
+margin_top = -75.0
+margin_right = 2562.98
+margin_bottom = 698.0
 rect_scale = Vector2( -1, 1 )
 texture = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Floor_0_2" parent="Enemy" groups=[
 "PlayerFloor",
@@ -270,13 +263,12 @@ myY = 2
 [node name="Unit_0_2" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 636.447
-margin_top = 219.109
-margin_right = 764.447
-margin_bottom = 475.109
-rect_scale = Vector2( 0.8, 0.8 )
-isPlayer = false
+margin_left = 303.497
+margin_top = 176.475
+margin_right = 303.497
+margin_bottom = 176.475
+rect_scale = Vector2( 0.85, 0.85 )
+isOnPlayerSide = false
 myY = 2
 
 [node name="Floor_0_1" parent="Enemy" groups=[
@@ -294,13 +286,12 @@ myY = 1
 [node name="Unit_0_1" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 460.0
-margin_top = 212.926
-margin_right = 588.0
-margin_bottom = 468.926
-rect_scale = Vector2( 0.8, 0.8 )
-isPlayer = false
+margin_left = 489.363
+margin_top = 170.0
+margin_right = 489.363
+margin_bottom = 170.0
+rect_scale = Vector2( 0.85, 0.85 )
+isOnPlayerSide = false
 myY = 1
 
 [node name="Floor_0_0" parent="Enemy" groups=[
@@ -316,13 +307,12 @@ rect_scale = Vector2( 0.95, 0.95 )
 [node name="Unit_0_0" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 300.0
-margin_top = 215.218
-margin_right = 428.0
-margin_bottom = 471.218
-rect_scale = Vector2( 0.8, 0.8 )
-isPlayer = false
+margin_left = 667.777
+margin_top = 165.683
+margin_right = 667.777
+margin_bottom = 165.683
+rect_scale = Vector2( 0.85, 0.85 )
+isOnPlayerSide = false
 
 [node name="Floor_1_2" parent="Enemy" groups=[
 "PlayerFloor",
@@ -340,12 +330,11 @@ myY = 2
 [node name="Unit_1_2" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 590.0
-margin_top = 311.136
-margin_right = 718.0
-margin_bottom = 567.136
-isPlayer = false
+margin_left = 598.839
+margin_top = 276.475
+margin_right = 598.839
+margin_bottom = 276.475
+isOnPlayerSide = false
 myX = 1
 myY = 2
 
@@ -365,12 +354,11 @@ myY = 1
 [node name="Unit_1_1" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 403.183
-margin_top = 301.136
-margin_right = 531.183
-margin_bottom = 557.136
-isPlayer = false
+margin_left = 407.524
+margin_top = 270.0
+margin_right = 407.524
+margin_bottom = 270.0
+isOnPlayerSide = false
 myX = 1
 myY = 1
 
@@ -389,12 +377,11 @@ myX = 1
 [node name="Unit_1_0" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 220.0
-margin_top = 294.408
-margin_right = 348.0
-margin_bottom = 550.408
-isPlayer = false
+margin_left = 204.673
+margin_top = 285.109
+margin_right = 204.673
+margin_bottom = 285.109
+isOnPlayerSide = false
 myX = 1
 
 [node name="Floor_2_2" parent="Enemy" groups=[
@@ -413,13 +400,12 @@ myY = 2
 [node name="Unit_2_2" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 530.0
-margin_top = 429.64
-margin_right = 658.0
-margin_bottom = 685.64
-rect_scale = Vector2( 1.2, 1.2 )
-isPlayer = false
+margin_left = 522.269
+margin_top = 420.0
+margin_right = 522.269
+margin_bottom = 420.0
+rect_scale = Vector2( 1.15, 1.15 )
+isOnPlayerSide = false
 myX = 2
 myY = 2
 
@@ -439,13 +425,12 @@ myY = 1
 [node name="Unit_2_1" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 347.447
-margin_top = 430.0
-margin_right = 475.447
-margin_bottom = 686.0
-rect_scale = Vector2( 1.2, 1.2 )
-isPlayer = false
+margin_left = 294.618
+margin_top = 420.0
+margin_right = 294.618
+margin_bottom = 420.0
+rect_scale = Vector2( 1.15, 1.15 )
+isOnPlayerSide = false
 myX = 2
 myY = 1
 
@@ -464,11 +449,10 @@ myX = 2
 [node name="Unit_2_0" parent="Enemy" groups=[
 "EnemyBattlers",
 ] instance=ExtResource( 4 )]
-visible = false
-margin_left = 130.0
-margin_top = 419.563
-margin_right = 258.0
-margin_bottom = 675.563
-rect_scale = Vector2( 1.2, 1.2 )
-isPlayer = false
+margin_left = 76.2915
+margin_top = 420.0
+margin_right = 76.2915
+margin_bottom = 420.0
+rect_scale = Vector2( 1.15, 1.15 )
+isOnPlayerSide = false
 myX = 2

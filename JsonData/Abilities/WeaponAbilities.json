@@ -1,0 +1,135 @@
+{
+	"TerranAssaultRifleDefault" : {
+		"key" : "TerranAssaultRifleDefault" ,
+		"shortName" : "Rifle" ,
+		"fullName" : "Terran Rifle" ,
+		"abilityType" : "ACTION" ,
+		"damageHiBase" : 1 ,
+		"damageLoBase" : 3 ,
+		"toHitBase" : 90 ,
+		"validTargets" : [ 0 , 1 ] ,
+		"validFrom" : [ 0 , 1 ] ,
+		"targetType" : "ENEMY_UNIT" ,
+		"targetArea" : "SINGLE" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"damageEffects" : [
+			{
+				"dmgTrait"			: "DEX",
+				"dmgTraitMod"		: 0.1 ,
+				"toHitTrait"		: "STR" ,
+				"toHitTraitMod" 	: 1
+			}
+		]
+	}, 
+
+	"TerranPistolDefault" : {
+		"key" : "TerranPistolDefault" ,
+		"shortName" : "Brawl" ,
+		"fullName" : "Brawl" ,
+		"abilityType" : "ACTION" ,
+		"damageHiBase" : 1 ,
+		"damageLoBase" : 3 ,
+		"toHitBase" : 90 ,
+		"validTargets" : [ 2 ] ,
+		"validFrom" : [ 2 ] ,
+		"targetType" : "ENEMY_UNIT" ,
+		"targetArea" : "SINGLE" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"damageEffects" : [
+			{
+				"dmgTrait"			: "STR",
+				"dmgTraitMod"		: 0.1 ,
+				"toHitTrait"		: "STR" ,
+				"toHitTraitMod" 	: 1
+			}
+		]
+	} ,
+	"TerranGravityHammerDefault" : {
+		"key" : "Brawl" ,
+		"shortName" : "Brawl" ,
+		"fullName" : "Brawl" ,
+		"abilityType" : "ACTION" ,
+		"damageHiBase" : 1 ,
+		"damageLoBase" : 3 ,
+		"toHitBase" : 90 ,
+		"validTargets" : [ 2 ] ,
+		"validFrom" : [ 2 ] ,
+		"targetType" : "ENEMY_UNIT" ,
+		"targetArea" : "SINGLE" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"damageEffects" : [
+			{
+				"dmgTrait"			: "STR",
+				"dmgTraitMod"		: 0.1 ,
+				"toHitTrait"		: "STR" ,
+				"toHitTraitMod" 	: 1
+			}
+		]
+	} ,
+	"TerranMinigunDefault" : {
+		"key" : "Brawl" ,
+		"shortName" : "Brawl" ,
+		"fullName" : "Brawl" ,
+		"abilityType" : "ACTION" ,
+		"damageHiBase" : 1 ,
+		"damageLoBase" : 3 ,
+		"toHitBase" : 90 ,
+		"validTargets" : [ 2 ] ,
+		"validFrom" : [ 2 ] ,
+		"targetType" : "ENEMY_UNIT" ,
+		"targetArea" : "SINGLE" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"damageEffects" : [
+			{
+				"dmgTrait"			: "STR",
+				"dmgTraitMod"		: 0.1 ,
+				"toHitTrait"		: "STR" ,
+				"toHitTraitMod" 	: 1
+			}
+		]
+	} , 
+	"TerranShotgunDefault" : {
+		"key" : "Brawl" ,
+		"shortName" : "Brawl" ,
+		"fullName" : "Brawl" ,
+		"abilityType" : "ACTION" ,
+		"damageHiBase" : 1 ,
+		"damageLoBase" : 3 ,
+		"toHitBase" : 90 ,
+		"validTargets" : [ 2 ] ,
+		"validFrom" : [ 2 ] ,
+		"targetType" : "ENEMY_UNIT" ,
+		"targetArea" : "SINGLE" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"damageEffects" : [
+			{
+				"dmgTrait"			: "STR",
+				"dmgTraitMod"		: 0.1 ,
+				"toHitTrait"		: "STR" ,
+				"toHitTraitMod" 	: 1
+			}
+		]
+	} , 
+	"TerranSwordDefault" : {
+		"key" : "TerranSwordDefault" ,
+		"shortName" : "Brawl" ,
+		"fullName" : "Brawl" ,
+		"abilityType" : "ACTION" ,
+		"damageHiBase" : 1 ,
+		"damageLoBase" : 3 ,
+		"toHitBase" : 90 ,
+		"validTargets" : [ 2 ] ,
+		"validFrom" : [ 2 ] ,
+		"targetType" : "ENEMY_UNIT" ,
+		"targetArea" : "SINGLE" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/brawl.png" ,
+		"damageEffects" : [
+			{
+				"dmgTrait"			: "STR",
+				"dmgTraitMod"		: 0.1 ,
+				"toHitTrait"		: "STR" ,
+				"toHitTraitMod" 	: 1
+			}
+		]
+	}
+}

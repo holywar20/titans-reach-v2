@@ -5,23 +5,13 @@ class_name Ability
 const USE_TRAIT = true 
 const NO_USE_TRAIT = false 
 
+# Used to sort effects
 const ABILITY_TYPES = { 
 	"STANCE" : "STANCE", 
 	"INSTANT": "INSTANT", 
 	"ACTION" : "ACTION",  
 	"TRIGGERED" : "TRIGGERED", 
 	"PASSIVE" : "PASSIVE" 
-}
-
-const DMG_TYPES = { 
-	'KINETIC'	: "KINETIC", 'THERMAL'	: "THERMAL", 'TOXIC'	: "TOXIC", 'EM' : "EM", 'HEALING'	: "HEALING"	,'NONE' 		: "NONE"
-}
-
-const EFFECT_TYPE = {
-	"DAMAGE" 	: "Damage" , 
-	"HEALING"	: "Healing", 
-	"STATUS"		: "Status", 
-	"PASSIVE"	: "Passive", 
 }
 
 const TARGET_AREA = {
@@ -76,13 +66,6 @@ const TARGET_TYPE_DATA = {
 	"SELF" : { "string" :"Self" }
 }
 
-const DMG_TRAITS = { 
-	'STR' : 'STR', 'DEX' : 'DEX', 'CHA' : 'CHA', 'PER' : 'PER', 'INT' : 'INT' , 'ALWAYS' : 'ALWAYS'
-}
-const HIT_TRAITS = { 
-	'STR' : 'STR', 'DEX' : 'DEX', 'CHA' : 'CHA', 'PER' : 'PER', 'INT' : 'INT' , 'ALWAYS' : 'ALWAYS'
-}
-
 const MOVE_EFFECT_PROTOTYPE = {
 	'moveType'		: null,
 	'toHitTrait'	: null,
@@ -91,20 +74,6 @@ const MOVE_EFFECT_PROTOTYPE = {
 	'targetType'	: null,
 	'targetArea'	: null,
 	'forcedMovement': false,
-}
-
-const DMG_EFFECT_PROTOTYPE = {
-	'dmgTrait'		: null,
-	'dmgTraitMod'	: null,
-	'dmgType'		: null,
-	'dmgMod'			: 0,
-	'dmgTotal'		: null,
-	'toHitTrait'	: null,
-	'toHitMod'		: null,
-	'toHitTotal'	: 0,
-	'targetArea'	: null,
-	'targetType'	: null,
-	'duration'		: null
 }
 
 const STATUS_EFFECT_PROTOTYPE = {
@@ -126,10 +95,6 @@ const PASSIVE_EFFECT_PROTOTYPE = {
 	'duration'			: null
 }
 
-const ROLL_PROTOTYPE = {
-
-}
-
 const MAX_TO_HIT = 200
 const BASE_TO_HIT = 80
 const TO_HIT_TRAIT_BONUS = 3
@@ -141,14 +106,15 @@ var key = null
 var shortName = null
 var fullName = null
 var abilityType = null
-var damageHiBase = null
-var damageLoBase = null
-var toHitBase = null
 var validTargets = null
 var validFrom = null
 var targetType = null
 var targetArea = null
 var iconPath = null
+
+var damageHiBase = null
+var damageLoBase = null
+var toHitBase = null
 
 var damageEffects = []
 var statusEffects = []
@@ -158,16 +124,16 @@ var movementEffects = []
 
 # Data that will mutate and change. 
 var abilityLearned = false
-var dmgHiTotal = 0
-var dmgLoTotal = 0
-var toHitTotal = 0
 var actor = null
 
 func _init():
-	pass
+	setActor( CrewFactory.getDummyCrewman() )
+
 
 func setActor( newActor : Crew ):
 	actor = newActor
+
+	calculateSelf()
 
 func appendEffect( effect , effectType ):
 	match effectType:
@@ -241,82 +207,17 @@ func getOffsetMatrix( myX , myY ):
 func calculateSelf( newActor = null ):
 	if( newActor ):
 		setActor( actor )
+		for effect in damageEffects:
+			effect = effect.calculateSelf( self , actor )
 	else:
 		# TODO - Build a dummy character so actions can exist in their 'naked, unmodified form'
 		pass
-
-	for effect in damageEffects:
-		effect = _calculateDamageEffect( effect )
-
-	for effect in passiveEffects:
-		effect = _calculatePassiveEffect( effect )
-
-	for effect in healingEffects:
-		effect = _calculateHealingEffect( effect )
-
-	for effect in statusEffects:
-		effect = _calculateStatusEffect( effect )
-
-func _calculateDamageEffect( effect ):
-	pass
-
-func _calculatePassiveEffect( effect ):
-	pass
-
-func _calculateHealingEffect( effect ):
-	pass
-
-func _calculateStatusEffect( effect ):
-	pass
-
-func makeRollFromEffect( effect ):
-	var roll = ROLL_PROTOTYPE.duplicate()
-
-	roll.damageRolls	= []
-	roll.toHitRolls	= []
-	roll.statusRoll	= []
-
-	roll.effectType = effect.effectType
-	roll.damageType = effect.damageType
-	# roll.effectString = EFFECT_TEMPLATE_STRINGS[roll.effectType]
-
-	if( effect.targetArea ):
-		# roll.potentialTargets = AREA_COUNT[effect.targetArea]
-		roll.targetArea 		 = targetArea
-		roll.targetType 		 = targetType 
-	else:
-		# roll.potentialTargets = AREA_COUNT[targetArea]
-		roll.targetArea		 = effect.targetArea
-		roll.targetType		 = effect.targetType
-
-	return roll 
 
 func rollEffectRolls():
 	var rollArray = []
 	
 	for effect in damageEffects:
-		var roll = makeRollFromEffect( effect )
-
-		for x in roll.potentialTargets:
-			var toHitRoll = 0
-			if( toHitTotal >= MAX_TO_HIT ): # if action itself always hits, use that
-				toHitRoll = MAX_TO_HIT
-			elif( effect.alwaysHit == true ): # otherwise, check if effect always hits
-				toHitRoll = MAX_TO_HIT
-			else: # else make a tohit roll
-				toHitRoll = Common.randDiffPercents( 99 , 0 ) + ( toHitTotal * effect.toHitMod )
-			
-			roll.toHitRolls.append( toHitRoll )
-
-			var dmgRoll = 0 # Calucalate damage and apply to dmg roll
-			if( effect.effectType == EFFECT_TYPE.DAMAGE ):
-				dmgRoll = Common.randDiffValues( dmgHiTotal , dmgLoTotal ) * effect.dmgMod
-			elif( effect.effectType == EFFECT_TYPE.HEALING ):
-				dmgRoll = Common.randDiffValues( dmgHiTotal , dmgLoTotal ) * effect.dmgMod
-				dmgRoll = -dmgRoll # Healing is always considered 'negative'
-		
-			roll.damageRolls.append(dmgRoll)
-		rollArray.append(roll)
+		rollArray.append( effect.rollEffect( self , actor ) )
 
 	return rollArray
 
@@ -324,31 +225,6 @@ func getEffectDisplayArray():
 	var displayArray = []
 
 	for effect in damageEffects:
-		var toHitString = ""
-		var effectString = ""
-		var targetString = ""
-
-		if( effect.dmgType != DMG_TYPES.NONE ):
-			effectString = "[color=red] " + str( dmgLoTotal * effect.dmgMod) + " - " + str( dmgHiTotal  * effect.dmgMod ) + " " + effect.dmgType + " [/color]"
-		else:
-			effectString = ""
-
-		if( toHitTotal >= 200 ):
-			toHitString = ""
-		else:
-			toHitString = "( [color=green]" + str( toHitTotal * effect.toHitMod ) + " %[/color] )"
-		
-		# Get target type. Use the default action area if effect has no target
-		if( effect.targetArea ):
-			targetString = "to " + TARGET_AREA[effect.targetArea].string
-		else:
-			targetString = "to " + targetArea.string
-
-		#if( effect.targetType ):
-		#	targetString = targetString + " ( [color=blue]"  + TARGET_AREA[effect.targetArea].string )+ "[/color] )"
-		#else:
-		#	targetString = targetString + " ( [color=blue]"  + getTargetTypeString() + " [/color] )"
-
-		displayArray.append(toHitString + " " + effectString + " " + targetString )
+		pass
 
 	return displayArray

@@ -470,7 +470,7 @@ func applyDamage( damage , damageType ):
 		hp.current = 0;
 		isDead = true
 	
-	return hp.current
+	return isDead
 
 func applyStatusEffect( percentileRoll , effect):
 	pass

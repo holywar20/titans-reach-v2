@@ -32,8 +32,16 @@ const HOMEWORLDS = [ "Earth" , "Nova" , "Calderas" , "Solaris"]
 const MAJOR_RACE = [ "Human" ]
 const HUMAN_SECTS = ["Meridian" , "Novan" , "Terran" ]
 
+var dummyCrewman
+
 func _ready():
 	pass
+
+func createDummyCrewman():
+	dummyCrewman = generateNewCrew( 0 )
+
+func getDummyCrewman():
+	return dummyCrewman
 
 func generateManyCrew( cp : int  , numOfCrew : int  ):
 	var crewArray = []

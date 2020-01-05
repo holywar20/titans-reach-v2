@@ -138,8 +138,8 @@ func generateRandomStar( textureSize : int , thisSeed = 100000 ):
 	var lastNameIdx = randi() % starSystemFirstNames.size()
 	myStar.setName( starSystemFirstNames[firstNameIdx] , starSystemLastNames[lastNameIdx] )
 
-	myStar['mass'] = Common.randDiffPercents( pro['massHi'], pro['massLo'] )
-	myStar['mass'] = Common.randDiffPercents( pro['tempHi'], pro['tempLo'] )
+	myStar['mass'] = Common.randDiffPercents( pro['massLo'] , pro['massHi'] )
+	myStar['mass'] = Common.randDiffPercents( pro['tempLo'] , pro['tempHi'] )
 
 	return myStar
 

@@ -3,8 +3,6 @@ extends Node
 
 const ABILITY_DATA_DIRECTORY = "res://JsonData/Abilities/"
 
-var MANDATORY_DMG_EFFECT_VARS = [ 'dmgTrait' , 'dmgType' , 'dmgMod' , 'toHitTrait', 'toHitMod' ]
-
 var abilityDictionary = {}
 
 func _ready():
@@ -50,42 +48,22 @@ func getAbilityByKey( key ):
 		#Log.add( Log.ALERT , "ActionGenerator : There was an issue finding ability:" + key )
 
 func buildAbilityFromDict( dict ):
-	var ability = _fillAndValidateAbility( dict )
+	var ability = _validateAndFillAbility( dict )
+
 	if( !ability ):
 		print( "ability failed to build")
 		return false
+
+	# now replace all the effects with proper prototypes
+	var properEffects = []
+	for effect in ability.damageEffects:
+		properEffects.append( _validateAndFillDamageEffect( ability , effect ) )
 	
-	# ability.calculateSelf()
-	
+	ability.damageEffects = properEffects
+
 	return ability
 
-func _fillAndValidateDamageEffect( ability, effectData ):
-	var isValid = true
-	for keyName in MANDATORY_DMG_EFFECT_VARS:
-		if( !effectData.has( keyName ) ):
-			isValid = false
-			#Log.add( Log.ALERT , "ActionGenerator : Invalid Effect for ( " + ability.key + " , " + keyName + " )" )
-	
-	if( isValid ):
-		var dmgEffect = Ability.DMG_EFFECT_PROTOTYPE.duplicate()
-		for key in dmgEffect:
-			if( effectData.has(key) ):
-				dmgEffect[key] = effectData[key]
-		
-		ability.appendEffect( dmgEffect , ability.EFFECT_TYPE.DAMAGE )
-	
-	return ability
-
-func _fillAndValidateStatusEffect( ability, effectData ):
-	return ability
-
-func _fillAndValidateHealingEffect( ability, effectData ):
-	return ability
-
-func _fillAndValidatePassiveEffect( ability, effectData ):
-	return ability
-
-func _fillAndValidateAbility( dict ):
+func _validateAndFillAbility( dict ):
 	var ability = Ability.new()
 	
 	for key in dict:
@@ -96,10 +74,44 @@ func _fillAndValidateAbility( dict ):
 	for x in range(0 , ability.validFrom.size() ):
 		ability.validFrom[x] = int( ability.validFrom[x] )
 
+	# Force all our integer values, since Godot makes everything into floats
 	ability.damageHiBase = int( ability.damageHiBase )
 	ability.damageLoBase = int( ability.damageLoBase )
-	# Next we type force all our integer values that should be integers into integers because Godot turns everything into real numbers from Json imports
-	
 
 	return ability
+
+func _validateAndFillDamageEffect( ability, effectData ):
+	var isValid = true
+	var dmgEffect = DmgEffect.new()
+
+	for idx in effectData:
+		if ( idx in dmgEffect ):
+			dmgEffect[idx] = effectData[idx]
+		else:
+			print("Ability Error : found a key named " , idx , " that doesnt exist in the damage effect for ability ", ability.getFullName() )
+
+	# Add in any default values from ability
+	if( !dmgEffect.targetArea ):
+		dmgEffect.targetArea = ability.targetArea
+	if( !dmgEffect.targetType ):
+		dmgEffect.targetType = ability.targetType
+
+	# Now hardcode any type fixes we want to do
+	dmgEffect.dmgTraitMod = float( dmgEffect.dmgTraitMod )
+	dmgEffect.dmgBaseMod = float( dmgEffect.dmgBaseMod )
+	dmgEffect.toHitBaseMod = float( dmgEffect.toHitBaseMod )
+	dmgEffect.toHitTraitMod = float( dmgEffect.toHitTraitMod )
+	
+	return dmgEffect
+
+func _fillAndValidateStatusEffect( ability, effectData ):
+	return ability
+
+func _fillAndValidateHealingEffect( ability, effectData ):
+	return ability
+
+func _fillAndValidatePassiveEffect( ability, effectData ):
+	return ability
+
+
 

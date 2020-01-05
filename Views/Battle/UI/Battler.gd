@@ -1,5 +1,7 @@
 extends Control
 
+class_name Battler
+
 onready var barNodesStandard = {
 	"Handle"		: get_node("Standard"),
 	"HealthBar" : get_node("Standard/Health/Bar"),
@@ -16,25 +18,131 @@ onready var barNodesReversed = {
 	"MoraleValue" : get_node( "Reversed/Morale/Bar/Value")
 }
 
+onready var otherNodes = {
+	"Texture"	: get_node("Texture"),
+	"DamageText": get_node("DamageText"),
+	"MissText"	: get_node("MissText"),
+	"DeadText" 	: get_node("DeadText")
+}
+
+onready var stateAnimations = get_node("StateAnimations")
+onready var alwaysAnimations = get_node("AlwaysAnimations")
+
 var barNodes = null
 
-const STATE = { "TARGETING" : "TARGETING" , "TARGETED" : "TARGETED" , "HIGHLIGHT" : "HIGHLIGHT" , "CLEAR" : "CLEAR" , "LOCK" : "LOCK" }
-const STATE_DATA = {
-	"TARGETING" : { "Color" : Color( .6 , .6  , .3 , 1 ) , "IsInteractable" : true },
-	"TARGETED"  : { "Color" : Color( .6 , .3 , .3 , 1 ) , "IsInteractable" : false },
-	"HIGHLIGHT" : { "Color" : Color( .3 , .6 , .3 , 1 ) , "IsInteractable" : true },
-	"LOCK"		: { "Color" : Color( 1  , 1 , 1 ,  1 ) , "IsInteractable" : false },
-	"CLEAR" 		: { "Color" : Color( 1 , 1  ,  1 , 1 )	, "IsInteractable" : true }
+const ANIMATIONS = {
+	"STATE" : {
+		"HIGHLIGHT"		: "Highlight",
+		"TARGETING"		: "Targeting",
+		"CLEAR"			: "Clear",
+		"DAMAGE"			: "Damage",
+		"MISS"			: "Miss",
+		"HEALING"		: "Healing",
+		"DEAD"			: "Dead"
+	} , 
+	"ALWAYS" : {
+		"IDLE"			: "Idle",
+		"ACTING"			: "Acting"
+	}
 }
+
+
+const STATE = { 
+	"TARGETING" : "stateTargeting" , 
+	"HIGHLIGHT" : "stateHighlight" , 
+	"DAMAGE"		: "stateDamage", 
+	"HEALING"	: "stateHealing", 
+	"MISS"		: "stateMiss" ,
+	"DEAD"		: "stateDead" ,
+	"ACTING"		: "stateActing", 
+	"ENDINGTURN": "stateEndTurn",
+	"CLEAR"		: "stateClear" , 
+	"LOCK"		: "stateLock" 
+}
+
 var myState = null
 var prevState = null
 
 var eventBus = null
 var crewman = null
 
-export(bool) var isPlayer = true
+export(bool) var isOnPlayerSide = true
 export(int) var myX = 0
 export(int) var myY = 0
+
+func stateActing():
+	myState = STATE.ACTING
+	alwaysAnimations.play( ANIMATIONS.ALWAYS.ACTING )
+	otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_IGNORE )
+
+func stateDead():
+	myState = STATE.DEAD
+
+	stateAnimations.queue( ANIMATIONS.STATE.DEAD )
+	otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_IGNORE )
+	
+	yield( get_tree().create_timer( 4.0 ), "timeout" )
+	hide() # TODO - have an unset state
+
+func stateEndTurn():
+	print("ending turn!")
+	myState = STATE.CLEAR
+
+	alwaysAnimations.play( ANIMATIONS.ALWAYS.IDLE )
+
+	setState( STATE.CLEAR )
+
+func stateHealing():
+	pass
+
+func stateMiss( toHit ):
+	myState = STATE.MISS
+
+	stateAnimations.play( ANIMATIONS.STATE.MISS )
+	otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_IGNORE )
+	otherNodes.MissText.set_text( "Miss! ( " + toHit  + "% )" )
+
+func stateDamage( damage : int ):
+	myState = STATE.DAMAGE
+	otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_IGNORE )
+	otherNodes.DamageText.set_text( str(damage) )
+
+	stateAnimations.play( ANIMATIONS.STATE.DAMAGE )
+
+	var isDead = crewman.applyDamage( damage, 'DMG_TYPE_NOT_IMPLIMENTED' )
+	if( isDead ):
+		setState( STATE.DEAD )
+
+	loadData()
+
+func stateTargeting():
+	myState = STATE.TARGETING
+	stateAnimations.play( ANIMATIONS.STATE.TARGETING )
+	otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_PASS )
+
+func stateHighlight():
+	prevState = myState 
+	myState = STATE.HIGHLIGHT
+	stateAnimations.play( ANIMATIONS.STATE.HIGHLIGHT )
+
+func stateLock():
+	if( myState == STATE.CLEAR ):
+		if( crewman && isOnPlayerSide ):
+			print( "Locking " , crewman.getFullName() )
+		myState = STATE.LOCK
+		otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_PASS )
+
+func stateClear():
+	if( crewman && isOnPlayerSide ):
+		print( "crewman being cleared" , crewman.getFullName() )
+	if( prevState && prevState != STATE.CLEAR ):
+		setState( prevState )
+		prevState = null
+	else: 
+		prevState = null 
+		myState = STATE.CLEAR
+		stateAnimations.play( ANIMATIONS.STATE.CLEAR )
+		otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_PASS )
 
 func setupScene( eBus : EventBus ):
 	eventBus = eBus
@@ -45,24 +153,56 @@ func setupScene( eBus : EventBus ):
 	if( is_inside_tree() ):
 		loadData()
 	
-	if( isPlayer ):
+	if( isOnPlayerSide ):
 		barNodesStandard.Handle.show()
 		barNodes = barNodesStandard
 	else:
 		barNodesReversed.Handle.show()
 		barNodes = barNodesReversed
 
+		otherNodes.DamageText.set_scale( Vector2( -1 , 1 ) )
+		otherNodes.MissText.set_scale( Vector2( -1, 1 ) )
+		otherNodes.DeadText.set_scale( Vector2( -1, 1) )
+
 func _ready():
-	pass
+	alwaysAnimations.play( ANIMATIONS.ALWAYS.IDLE )
+	setState( STATE.CLEAR )
 
 func loadEvents():
-	# Targeting Events 
+	# Targeting Events
+	if( isOnPlayerSide ):
+		eventBus.register("CrewmanTurnStart" , self , "_onCrewmanTurnStart" )
+		eventBus.register("CrewmanTurnEnd" , self , "_onCrewmanTurnEnd")
+	else:
+		eventBus.register("EnemyTurnStart" , self, "_onEnemyTurnStart" )
+		eventBus.register("EnemyTurnEnd" , self , "_onEnemyTurnEnd")
+	
 	eventBus.register("TargetingTile" , self , "_onTargetingTile")
 	eventBus.register("TargetingBattler" , self, "_onTargetingBattler")
 
 	# Bailing Events
 	eventBus.register("GeneralCancel" , self, "_onGeneralCancel" )
 	eventBus.register("TurnEnd" , self , "_onTurnEnd")
+
+func _onCrewmanTurnEnd( turnCrewman : Crew ):
+	if( crewman ):
+		if( turnCrewman.getFullName() == crewman.getFullName() ):
+			setState( STATE.ENDINGTURN )
+
+func _onEnemyTurnEnd( turnCrewman : Crew ):
+	if( crewman ):
+		if( turnCrewman.getFullName() == crewman.getFullName() ):
+			setState( STATE.ENDINGTURN )
+
+func _onCrewmanTurnStart( turnCrewman : Crew ):
+	if( crewman ):
+		if( turnCrewman.getFightableStatus() && turnCrewman.getFullName() == crewman.getFullName() ): # TODO : Stupid way to check, but fine for now
+			setState( STATE.ACTING )
+
+func _onEnemyTurnStart( turnCrewman : Crew ):
+	if( crewman ):
+		if( turnCrewman.getFightableStatus() && turnCrewman.getFullName() == crewman.getFullName()  ):
+			setState( STATE.ACTING )
 
 func hasCrewman():
 	if( crewman ):
@@ -75,15 +215,8 @@ func getCrewman():
 		return crewman
 	return false
 
-func setState( stateName : String ):
-	# print("setting state for battler , " , myX , " ",  myY , " " , stateName)
-	myState = STATE[stateName]
-	set_self_modulate( STATE_DATA[myState].Color )
-
-	if( STATE_DATA[myState].IsInteractable ):
-		set_mouse_filter( MOUSE_FILTER_PASS )
-	else:
-		set_mouse_filter( MOUSE_FILTER_IGNORE )
+func setState( stateName : String , params = [] ):
+	callv( stateName , params )
 
 func loadData( newCrewman = null ):
 	if( newCrewman ):
@@ -107,35 +240,28 @@ func loadData( newCrewman = null ):
 func _onTargetingTile( validTargetMatrix , targetsPlayer ):
 	setState( STATE.LOCK )
 
-func _onTurnEnd( crewman : Crew ):
-	# TODO - maybe do a match so it knows to roll some kind of targeting animation?
-	setState( STATE.CLEAR )
-
 func _onTargetingBattler( validTargetMatrix , targetsPlayer ):
-	if( isPlayer == targetsPlayer && validTargetMatrix[myX][myY] ):
+	if( isOnPlayerSide == targetsPlayer && validTargetMatrix[myX][myY] ):
 		setState( STATE.TARGETING )
 	else:
 		setState( STATE.LOCK )
 
 func _onGeneralCancel():
-	if( myState != STATE.CLEAR ):
-		setState( STATE.CLEAR )
+	setState( STATE.CLEAR )
+
+func _onTurnEnd( crewman : Crew ):
+	# TODO - maybe do a match so it knows to roll some kind of targeting animation?
+	setState( STATE.CLEAR )
 
 func _gui_input( input ):
-	if( myState == STATE.HIGHLIGHT && input.is_action_pressed( "GUI_SELECT" ) ):
+	if( myState == STATE.HIGHLIGHT && prevState == STATE.TARGETING && input.is_action_pressed( "GUI_SELECT" ) ):
 		print("Battler at " , myX , ":" , myY , " is a valid target and clicked")
 		eventBus.emit( "TargetingSelected" , [ myX , myY , crewman.isPlayer ] )
 
 func _onMouseEntered():
-	if( myState == STATE.TARGETING ):
-		prevState = myState
-		setState( STATE.HIGHLIGHT )
-	
+	setState( STATE.HIGHLIGHT )
 	eventBus.emit("HoverCrewman" , [ crewman ] )
 
 func _onMouseExited():
-	if( prevState ):
-		setState( prevState )
-		prevState = null
-	
+	setState( STATE.CLEAR )
 	eventBus.emit("UnhoverCrewman" , [ crewman ])

@@ -27,7 +27,7 @@ func randDiffValues( low, hi ):
 	
 	return random
 
-func randDiffPercents( high , low ):
+func randDiffPercents( low , high ):
 	var random = randi()%100 + 1.0
 	var diff = ( high - low ) * ( random / 100 )
 	var newValue = diff + low

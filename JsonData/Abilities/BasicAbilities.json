@@ -6,7 +6,7 @@
 		"abilityType" : "ACTION" ,
 		"damageHiBase" : 1 ,
 		"damageLoBase" : 3 ,
-		"toHitBase" : 80 ,
+		"toHitBase" : 90 ,
 		"validTargets" : [ 2 ] ,
 		"validFrom" : [ 2 ] ,
 		"targetType" : "ENEMY_UNIT" ,
@@ -15,17 +15,9 @@
 		"damageEffects" : [
 			{
 				"dmgTrait"			: "STR",
-				"dmgTraitMod"		: 0.2 , 
-				"dmgType"			: "KINETIC",
-				"dmgMod"				: 1,
-				"dmgTotal"			: null,
+				"dmgTraitMod"		: 0.1 ,
 				"toHitTrait"		: "STR" ,
-				"toHitTraitMod" 	: 0.2,
-				"toHitMod"			: 1,
-				"toHitModTotal"	: 0,
-				"targetArea"		: null,
-				"targetType"		: null,
-				"duration"			: null
+				"toHitTraitMod" 	: 1
 			}
 		]
 	} , 
