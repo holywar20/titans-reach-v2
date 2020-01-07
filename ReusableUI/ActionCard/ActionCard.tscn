@@ -89,3 +89,4 @@ margin_top = 104.0
 margin_right = 500.0
 margin_bottom = 300.0
 size_flags_vertical = 3
+bbcode_enabled = true

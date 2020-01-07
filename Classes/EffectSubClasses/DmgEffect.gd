@@ -1,50 +1,23 @@
-extends Resource
+extends Effect
 
 class_name DmgEffect
 
-const ROLL = {
-	"damageRolls" : null , "toHitRolls"	: null , "animationKey" : null, "damageType" : "KINETIC"
-}
-
-# TODO - a bunch of work here is needed.
-const HIT_STRING = "You rolled %s to hit %s, and you dealt %s %s dmg."
-const MISS_STRING = "You rolled %s to hit %s. You missed."
-
-const DMG_DISPLAY_STRING = "This attack deals %s damage to %s targets in an %area"
-const HEAL_DISPLAY_STRING = ""
-
-const SELF_DMG_STRING = ""
-const SELF_HEAL_STRING = ""
-
-var successString = null
-var failString = null
-
-const DMG_TYPES = { 
-	'KINETIC'	: "KINETIC", 'THERMAL'	: "THERMAL", 'TOXIC'	: "TOXIC", 'EM' : "EM", 'HEALING': "HEALING"	,'NONE' 	: "NONE"
+const DMG_TYPES = { "KINETIC": "KINETIC" , "CORROSIVE": "CORROSIVE" , "THERMAL": "THERMAL" , "EM" : "EM" }
+const DMG_TYPES_DATA = { 
+	'KINETIC'	: { "color": "gray" , "string" : "Kinetic" }, 
+	'THERMAL'	: { "color": "red" , "string" : "Thermal" }, 
+	'CORROSIVE'	: { "color": "lime" , "string" : "Corrosive" }, 
+	'EM' 			: { "color": "blue" , "string" : "EM" }
 	}
 
-const TRAITS = {
-	"STR" : "STR" , "INT" : "INT" , "DEX" : "DEX" , "CHA" : "CHA"
-}
-
-# These should all be filled from saved params 
-var dmgType = DMG_TYPES.KINETIC
+# filled by Json 
+var damageType = DMG_TYPES.KINETIC
 var dmgTrait = null
-var dmgTraitMod = null
+var dmgTraitMod = 0
 var dmgBaseMod = 1
 
-var toHitTrait = null
-var toHitBaseMod = 0
-var toHitTraitMod = 0
-
-var alwaysHit = false
-var targetArea = null
-var targetType = null
-var animationKeys = [ "DEFAULT" ] # TODO not sure how to ref these yet.
-
-# Calculate self determines the value for these
+# Calculated values
 var dmgTotalMod = 1
-var toHitTotalMod = 0
 
 func get_class():
 	return "DmgEffect"
@@ -52,11 +25,7 @@ func get_class():
 func is_class( className ):
 	return className == "DmgEffect"
 
-func _init():
-	pass
-
-func calculateSelf( ability : Ability , actor ):
-	
+func _postCalculateSelf( ability : Ability , actor : Crew ):
 	if( dmgTrait ):
 		var statBlock = actor.getTraitStatBlock( dmgTrait )
 		var traitValue = statBlock.total
@@ -65,40 +34,38 @@ func calculateSelf( ability : Ability , actor ):
 	else:
 		dmgTotalMod = dmgBaseMod
 
-	if( toHitTrait ):
-		var statBlock = actor.getTraitStatBlock( toHitTrait )
-		var traitValue = statBlock.total
-		
-		toHitTotalMod = ( traitValue * toHitTraitMod ) + toHitBaseMod
-	else:
-		toHitTotalMod = toHitBaseMod
-
-func rollEffect( ability : Ability , actor : Crew ):
-	calculateSelf( ability , actor )
-
-	var rollSet = ROLL.duplicate()
-	rollSet.damageRolls = []
-	rollSet.toHitRolls = []
-	rollSet.animationKey = animationKeys
-
-	var numRolls = Ability.TARGET_AREA_DATA[targetArea].count
+func _rollResult( ability : Ability , actor : Crew , numRolls : int ):
+	var rolls = []
 
 	for x in range( 0 , numRolls ):
-		
 		var dmgHi = ability.damageHiBase * dmgTotalMod
 		var dmgLo = ability.damageLoBase * dmgTotalMod
 		var dmgRoll = Common.randDiffValues( dmgLo, dmgHi )
 
-		var toHitRoll = 0
-		if( alwaysHit ):
-			toHitRoll = Ability.MAX_TO_HIT
-		else:
-			toHitRoll = randi() % 99 + ( ability.toHitBase + toHitTotalMod )
-		
-		rollSet.damageRolls.append( dmgRoll )
-		rollSet.toHitRolls.append( toHitRoll )
+		rolls.append( dmgRoll )
 
-	return rollSet
+	return rolls
 
-func displayEffect():
-	pass
+# Override to add a display line to this effect
+func _postDisplayEffect( ability : Ability ):
+	var effectSubString = " Deals [color=red]{lo}-{hi}[/color] [color={dmgColor}]{dmgType}[/color] Damage in a {area}"
+
+	var dmgHi = ability.damageHiBase * dmgTotalMod
+	var dmgLo = ability.damageLoBase * dmgTotalMod
+
+	effectSubString = effectSubString.format({
+		"hi" : str( int(dmgHi) ) ,
+		"lo" : str( int(dmgLo) ) ,
+		"dmgType" : _getDmgTypeString(),
+		"dmgColor" : _getDmgTypeColor(),
+		"area" : ability.getTargetTypeString()
+	})
+
+	return effectSubString
+
+# Internal methods specific to this effect.
+func _getDmgTypeString():
+	return DMG_TYPES_DATA[damageType].string
+
+func _getDmgTypeColor():
+	return DMG_TYPES_DATA[damageType].color

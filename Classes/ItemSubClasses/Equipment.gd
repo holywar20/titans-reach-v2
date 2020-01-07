@@ -21,3 +21,6 @@ func get_class():
 
 func is_class( name : String ):
 	return name == "Equipment"
+
+func getAbilities():
+	return equipmentActionKeys

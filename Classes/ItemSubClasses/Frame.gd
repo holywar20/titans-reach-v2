@@ -10,6 +10,7 @@ var frameClass = FRAME_CLASS.LIGHT
 var frameClassString = "Light Frame"
 var frameInitCost = 0
 var frameWeight = 1
+var frameActionKeys = []
 
 enum FRAME_CLASS { LIGHT, MEDIUM, HEAVY, ASSAULT }
 const FRAME_CLASS_DATA = [
@@ -30,10 +31,6 @@ func get_class():
 func is_class( name : String ): 
 	return name == "Frame"
 
-# TODO add sanity checks?
-func equip():
-	itemAssigned = itemAssigned + 1
+func getAbilities():
+	return frameActionKeys
 
-# TODO add sanity checks?
-func unequip():
-	itemAssigned = itemAssigned - 1

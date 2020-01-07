@@ -54,7 +54,14 @@ func getActor():
 	return self.crewman
 
 func loadEvents():
-	pass 
+	if( crewman.isPlayer ): 
+		eventBus.register( "CrewmanDeath" , self , "_onDeath" )
+	else:
+		eventBus.register( "EnemyDeath" , self, "_onDeath" )
+
+func _onDeath( deadCrewman : Crew ):
+	if( crewman.getId() == deadCrewman.getId() ):
+		queue_free()
 
 func loadData():
 	nodes.Crewman.set_texture( load(crewman.smallTexturePath) )

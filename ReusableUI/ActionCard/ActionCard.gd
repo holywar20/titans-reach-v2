@@ -61,6 +61,8 @@ func loadData( newAbility = null , isPlayer = false ):
 				validTargets[key].set_self_modulate( ICON_COLORS.VALID )
 			else:
 				validTargets[key].set_self_modulate( ICON_COLORS.INVALID )
+
+		nodes.RichText.set_bbcode( ability.getDisplayText() )
 	else:
 		hide()
 		ability = null

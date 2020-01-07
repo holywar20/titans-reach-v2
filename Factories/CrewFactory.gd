@@ -72,7 +72,6 @@ func generateNewCrew( cp = 30 ):
 func _rollTalents( crewman : Crew ):
 	return crewman
 
-
 func _rollTraits( myCrewman : Crew , cp = 30):
 	var statTotal = 0
 

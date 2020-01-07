@@ -12,7 +12,6 @@ var myState = STATE.CLEAR
 var prevState = null
 
 var eventBus
-var occupant
 
 export(bool) var isPlayer = false
 export(int) var myX = 0
@@ -22,9 +21,6 @@ func setupScene( eBus : EventBus ):
 	eventBus = eBus
 	setState( STATE.CLEAR )
 	loadEvents()
-
-func updateOccupant( crewman ):
-	occupant = crewman
 
 func loadEvents():
 	# Targeting events
@@ -73,7 +69,7 @@ func _onMouseExited():
 
 func _gui_input( input ):
 	if( myState == STATE.HIGHLIGHT && input.is_action_pressed( "GUI_SELECT" ) ):
-		eventBus.emit("TargetingSelected" , [ myX , myY , occupant ] )
+		eventBus.emit("TargetingSelected" , [ myX , myY , isPlayer ] )
 
 func _ready():
 	pass # Replace with function body.

@@ -1,0 +1,75 @@
+{
+	"TerranFragGrenadeDefault" : {
+		"key" : "TerranFragGrenadeDefault" ,
+		"shortName" : "Frag" ,
+		"fullName" : "Terran Frag Grenade" ,
+		"abilityType" : "ACTION" ,
+		"damageHiBase" : 8 ,
+		"damageLoBase" : 4 ,
+		"toHitBase" : 200 ,
+		"validTargets" : [ 0 , 1 , 2 ] ,
+		"validFrom" : [ 0 , 1 , 2 ] ,
+		"targetType" : "ENEMY_FLOOR" ,
+		"targetArea" : "CROSS" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/frag.png" ,
+		"damageEffects" : [
+			{
+				"dmgTrait" 		: null,
+				"toHitTrait"	: "STR" ,
+				"toHitTraitMod": 1
+			}
+		]
+	}, 
+	"TerranEmpGrenadeDefault" : {
+		"key" : "TerranEmpGrenadeDefault" ,
+		"shortName" : "EMP" ,
+		"fullName" : "Terran EMP Grenade" ,
+		"abilityType" : "ACTION" ,
+		"toHitBase" : 90 ,
+		"validTargets" : [ 0 , 1 , 2 ] ,
+		"validFrom" : [ 0 , 1 , 2 ] ,
+		"targetType" : "ENEMY_FLOOR" ,
+		"targetArea" : "CROSS" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/emp.png" ,
+		"damageHiBase" : 8 ,
+		"damageLoBase" : 4 ,
+		"damageEffects" : [
+			{
+				"dmgTrait" 		: null,
+				"toHitTrait"	: "STR" ,
+				"toHitTraitMod": 1
+			}
+		]
+	}, 
+	"TerranShieldGenDefault" : {
+		"key" : "TerranShieldGenDefault" ,
+		"shortName" : "Shield" ,
+		"fullName" : "Terran Shield Generator" ,
+		"abilityType" : "ACTION" ,
+		"toHitBase" : 90 ,
+		"validTargets" : [ 0 , 1 , 2 ] ,
+		"validFrom" : [ 0 , 1 , 2 ] ,
+		"targetType" : "ALLY_UNIT" ,
+		"targetArea" : "SINGLE" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/shield.png" 
+	}, 
+	"TerranMedKitDefault" : {
+		"key" : "TerranMedKitDefault" ,
+		"shortName" : "Medical" ,
+		"fullName" : "Terran MedKit" ,
+		"abilityType" : "ACTION" ,
+		"toHitBase" : 90 ,
+		"validTargets" : [ 0 , 1 , 2 ] ,
+		"validFrom" : [ 0 , 1 , 2 ] ,
+		"targetType" : "ALLY_UNIT" ,
+		"targetArea" : "SINGLE" ,
+		"iconPath" : "res://TextureBank/AbilityIcons/healthkit.png" ,
+		"healingHiBase" : 8 ,
+		"healingLoBase" : 4 ,
+		"healingEffects" : [
+			{
+
+			}
+		]
+	}
+}

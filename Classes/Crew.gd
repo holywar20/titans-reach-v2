@@ -108,6 +108,9 @@ func get_class():
 func is_class( name : String ): 
 	return name == "Crew"
 
+func _init():
+	id = Common.genRandomKey()
+
 func calculateSelf( newCharacter = true ):
 
 	_getAbilityKeysFromGear()
@@ -262,6 +265,9 @@ func _calculateResists():
 	resists.CHA.Lock.total 		= resists.CHA.Lock.value 	+ resists.CHA.Lock.mod
 	resists.CHA.Slow.total 		= resists.CHA.Slow.value 	+ resists.CHA.Slow.mod
 
+func getId():
+	return id
+
 func getGearAt( key : String ):
 	return gear[key]
 
@@ -406,79 +412,6 @@ func getAllInstants():
 func isDead():
 	return isDead
 
-# Update all the passive abilities from equipment
-func _updatePassives():
-	passives = []
-
-	#for itemKey in equipment:
-	#	var myItem = ItemManager.getCrewEquipableItem( itemKey )
-
-	#	for passive in myItem.passives:
-	#		passives.append( passives )
-	#		
-	#		if( passive.PASSIVE_TYPE.TRAIT_MOD ):
-	#			pass
-	#		elif( passive.PASSIVE_TYPE.DERIVED_MOD ):
-	#			pass
-	#			#traits[passive.effect].mod += passive.value
-	#		elif( passive.PASSIVE_TYPE.STATUS_EFFECT_BONUS ):
-	#			pass
-	#		elif( passive.PASSIVE_TYPE.STATUS_EFFECT ):
-	#			pass
-
-# Update all temporary passives from status effects / equipment, etc. Essentially passives on a timer. 
-func _updateTempPassives():
-	passives = []
-	
-	#for passive in temporaryPassives:
-	#	if( passive.passRound() ):
-	#		
-	#		if( passive.PASSIVE_TYPE.TRAIT ):
-	#			pass
-	#		elif( passive.PASSIVE_TYPE.DERIVED ):
-	#			pass
-	#			#self[passive.effect].mod += passive.value
-	#		elif( passive.PASSIVE_TYPE.STATUS_EFFECT):
-	#pass
-	#	
-	#	else:
-	#		pass # TODO some kind of code to clean up the passive without blowing the dictionary up.
-
-func _updateEquipmentActions():
-	# TODO - impliment
-	pass
-	#for itemKey in equipment:
-	#	var myItem = ItemManager.getCrewEquipableItem( itemKey )
-
-	#	for action in myItem.actions:
-	#		var crewAction = action.duplicate( 15 )
-
-	#		if( action.actionType == action.ACTION_TYPES.ACTION ):
-	#			crewAction.calculateSelf( self )
-	#			actions.append( crewAction )
-
-	#		if( action.actionType == action.ACTION_TYPES.STANCE ):
-	#			crewAction.calculateSelf( self )
-	#			stances.append( crewAction )
-
-	#		if( action.actionType == action.ACTION_TYPES.INSTANT ):
-	#			crewAction.calculateSelf( self )
-	#			instants.append( crewAction )
-
-func _updateTalentActions():
-	pass
-
-# Return a dictionary of 'modified' crewman actions that include any status effects
-func getCrewmanActions():
-	# TODO - Impliment
-	pass
-
-func addPowers( arrayOfPowers ):
-	pass
-	# Figure out kind of action it is ( or maybe change to 'power' )
-
-
-
 func applyDamage( damage , damageType ):
 	# TODO impliment damage reduction
 	hp.current = hp.current - damage;
@@ -488,6 +421,13 @@ func applyDamage( damage , damageType ):
 		isDead = true
 	
 	return isDead
+
+func applyHealing( healing ):
+
+	hp.current = hp.current + healing;
+
+	if( hp.current >= hp.total ):
+		hp.current = hp.total
 
 func applyStatusEffect( percentileRoll , effect):
 	pass

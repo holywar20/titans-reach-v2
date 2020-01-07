@@ -25,13 +25,16 @@ onready var nodes = {
 	'description'		: get_node("Scroll/Text")
 }
 
+var item = null
+
 func _ready():
 	pass 
 
-func loadItemData( item ):
+func loadItemData( newItem : Item ):
+	item = newItem
+	
 	nodes.name.set_text( item.itemDisplayName )
 	nodes.icon.set_texture( load(item.itemTexturePath) )
-
 	_clearDisplay()
 
 	if ( item.is_class("Weapon") ):
@@ -91,8 +94,7 @@ func _displayAsWeapon( item  ):
 	nodes.subHeaderWeight.set_visible( true )
 	nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemCarryWeight ) )
 
-	#Log.log(   item.getAllActionDisplay() )
-	#_displayLines( item.getAllActionDisplay() )
+	#_displayLines()
 
 func _displayAsEquipment( item  ):
 	nodes.targeting.set_visible( true )
@@ -104,7 +106,8 @@ func _displayAsEquipment( item  ):
 	nodes.subHeaderWeight.set_visible( true )
 	nodes.subHeaderWeight.set_text( "Weight : " + str( item.itemCarryWeight ) )
 
-	#_displayLines( item.getAllActionDisplay() )
+	#_displayLines()
+
 
 func _displayAsFrame( item ):
 	nodes.subHeader.set_visible( true )

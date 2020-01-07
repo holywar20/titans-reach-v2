@@ -54,12 +54,17 @@ func buildAbilityFromDict( dict ):
 		print( "ability failed to build")
 		return false
 
-	# now replace all the effects with proper prototypes
+	# Replace damageEffects ( currently a raw dictionary ), and turn them into damageEffect objects 
 	var properEffects = []
 	for effect in ability.damageEffects:
 		properEffects.append( _validateAndFillDamageEffect( ability , effect ) )
-	
 	ability.damageEffects = properEffects
+	
+	# Replace healingEffects( currently a raw dictionary ), and turn them into healingEffect objects
+	properEffects = []
+	for effect in ability.healingEffects:
+		properEffects.append( _validateAndFillHealingEffect( ability , effect ) )
+	ability.healingEffects = properEffects
 
 	return ability
 
@@ -74,11 +79,36 @@ func _validateAndFillAbility( dict ):
 	for x in range(0 , ability.validFrom.size() ):
 		ability.validFrom[x] = int( ability.validFrom[x] )
 
-	# Force all our integer values, since Godot makes everything into floats
-	ability.damageHiBase = int( ability.damageHiBase )
-	ability.damageLoBase = int( ability.damageLoBase )
+	if( ability.damageHiBase && ability.damageLoBase ):
+		ability.damageHiBase = int( ability.damageHiBase )
+		ability.damageLoBase = int( ability.damageLoBase )
 
 	return ability
+
+func _validateAndFillHealingEffect( ability , effectData ):
+	var isValid = true
+	var healingEffect = HealingEffect.new()
+
+	for idx in effectData:
+		if ( idx in healingEffect ):
+			healingEffect[idx] = effectData[idx]
+		else:
+			print("Ability Error : found a key named " , idx , " that doesnt exist in the damage effect for ability ", ability.getFullName() )
+
+	# Add in any default values from ability
+	if( !healingEffect.targetArea ):
+		healingEffect.targetArea = ability.targetArea
+	if( !healingEffect.targetType ):
+		healingEffect.targetType = ability.targetType
+
+	# Now hardcode any type fixes we want to do
+	healingEffect.healTraitMod = float( healingEffect.healTraitMod )
+	healingEffect.healBaseMod = float( healingEffect.healBaseMod )
+	healingEffect.toHitBaseMod = float( healingEffect.toHitBaseMod )
+	healingEffect.toHitTraitMod = float( healingEffect.toHitTraitMod )
+	
+	return healingEffect
+
 
 func _validateAndFillDamageEffect( ability, effectData ):
 	var isValid = true
@@ -105,13 +135,13 @@ func _validateAndFillDamageEffect( ability, effectData ):
 	return dmgEffect
 
 func _fillAndValidateStatusEffect( ability, effectData ):
-	return ability
+	return null
 
 func _fillAndValidateHealingEffect( ability, effectData ):
-	return ability
+	return null
 
 func _fillAndValidatePassiveEffect( ability, effectData ):
-	return ability
+	return null
 
 
 

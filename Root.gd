@@ -28,6 +28,9 @@ const POP_UPS = {
 var globalBus = null
 
 const DEBUG_MODE = true
+const DEBUG_OPTIONS = {
+	"GENERATE_CREW_WITH_WOUNDS" : true
+}
 
 onready var playerGear = null
 onready var playerShip = Starship.new()
@@ -40,6 +43,10 @@ func _ready():
 	if( DEBUG_MODE ):
 		_generateDebugGear()
 
+	if( DEBUG_OPTIONS.GENERATE_CREW_WITH_WOUNDS ):
+		for crew in playerCrew:
+			crew.applyDamage( 10 , "KINETIC")
+	
 	globalBus.register( "NewGame_Start_Begin" , self, 'startNewGame' )
 
 func _generateDebugGear():
@@ -61,8 +68,9 @@ func _generateDebugGear():
 	playerCrew[3].itemTransaction( playerGear["TerranHammer"] , "LWeapon" )
 	playerCrew[4].itemTransaction( playerGear["TerranSword"] , "LWeapon" )
 
-	for player in playerCrew:
-		player.itemTransaction( playerGear["TerranPistol"] , "RWeapon" )
+	for x in range( 0 , playerCrew.size() ):
+		playerCrew[x].itemTransaction( playerGear["TerranPistol"] , "RWeapon" )
+		playerCrew[x].itemTransaction( playerGear["TerranMedKit"] , "LEquip" )
 
 func _clearSelf():
 	for child in gameLayer.get_children():

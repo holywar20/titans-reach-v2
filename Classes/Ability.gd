@@ -30,7 +30,7 @@ const TARGET_AREA_DATA = {
 	},
 	"COLUMN"		: { 
 		"count" : 3 , 
-		"string" : "Self" ,
+		"string" : "Column" ,
 		"targetMatrix" : [ [ 0 , 1 , 0 ] , [ 0 , 1 , 0 ] , [ 0 , 1 , 0 ] ],
 	},
 	"ROW" 		: { 
@@ -66,35 +66,6 @@ const TARGET_TYPE_DATA = {
 	"SELF" : { "string" :"Self" }
 }
 
-const MOVE_EFFECT_PROTOTYPE = {
-	'moveType'		: null,
-	'toHitTrait'	: null,
-	'toHitMod' 		: null,
-	'toHit'			: null,
-	'targetType'	: null,
-	'targetArea'	: null,
-	'forcedMovement': false,
-}
-
-const STATUS_EFFECT_PROTOTYPE = {
-	'statusEffect'	: null,
-	'toHitTrait'	: null,
-	'toHitMod'		: null,
-	'targetArea'	: null,
-	'targetType'	: null
-}
-
-const PASSIVE_EFFECT_PROTOTYPE = {
-	'passiveEffect'	: null, 
-	'passiveAmount'	: null,
-	'passiveTrait' 	: null,
-	'toHitTrait'		: null,
-	'toHitMod'			: null,
-	'targetArea'		: null,
-	'targetType'		: null,
-	'duration'			: null
-}
-
 const MAX_TO_HIT = 200
 const BASE_TO_HIT = 80
 const TO_HIT_TRAIT_BONUS = 3
@@ -112,9 +83,12 @@ var targetType = null
 var targetArea = null
 var iconPath = null
 
-var damageHiBase = null
-var damageLoBase = null
-var toHitBase = null
+var damageHiBase = 0
+var damageLoBase = 0
+var healingHiBase = 0
+var healingLoBase = 0
+var toStatusEffectBase = 0
+var toHitBase = 80
 
 var damageEffects = []
 var statusEffects = []
@@ -128,7 +102,6 @@ var actor = null
 
 func _init():
 	setActor( CrewFactory.getDummyCrewman() )
-
 
 func setActor( newActor : Crew ):
 	actor = newActor
@@ -161,11 +134,20 @@ func getTargetType():
 func getIconPath():
 	return iconPath
 
+func getTargetAreaCount():
+	return TARGET_AREA_DATA[targetType].count
+
+func getTargetAreaString():
+	return TARGET_AREA_DATA[targetType].string
+
+func getTargetAreaMatrix():
+	return TARGET_AREA_DATA[targetType].targetMatrix
+
 func getTargetTypeString():
 	var targetTypeString = TARGET_TYPE_DATA[targetType].string
 	var myTargetArea = TARGET_AREA_DATA[targetArea].string
 	
-	return myTargetArea + " | " + targetTypeString
+	return myTargetArea + " vs. " + targetTypeString
 
 # Note should is also used for an action validity test. 
 func getValidTargets():
@@ -214,17 +196,31 @@ func calculateSelf( newActor = null ):
 		pass
 
 func rollEffectRolls():
-	var rollArray = []
+	var effectArray = []
 	
 	for effect in damageEffects:
-		rollArray.append( effect.rollEffect( self , actor ) )
+		effect.rollEffect( self , actor )
+		effectArray.append( effect )
 
-	return rollArray
+	for effect in healingEffects:
+		effect.rollEffect( self, actor )
+		effectArray.append( effect )
+
+	return effectArray
+
+func getDisplayText():
+	var displayArray = getEffectDisplayArray()
+	var displayString = PoolStringArray( displayArray ).join(" , ")
+
+	return displayString
 
 func getEffectDisplayArray():
 	var displayArray = []
 
 	for effect in damageEffects:
-		pass
+		displayArray.append( effect.displayEffect( self ) )
+	
+	for effect in healingEffects:
+		displayArray.append( effect.displayEffect( self ) )
 
 	return displayArray

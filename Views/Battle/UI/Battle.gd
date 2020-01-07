@@ -162,7 +162,7 @@ func _crewmanStartTurn( crewman : Crew ):
 	cards.LeftDetail.loadData( currentTurnActor )
 
 # Action resolution & Targeting
-func _resolveAbility( ability : Ability ):
+func _startAbility( ability : Ability ):
 	eventBus.emit( "ActionStarted" , [ ability ])
 	selectedAbility = ability
 	nodes.ActionStatus.setStatus( ability.getFullName() )
@@ -187,32 +187,50 @@ func _onTargetingSelected( myX , myY , targetIsPlayer ):
 	else:
 		cards.RightDetail.loadData()
 	
-	_completeAbility( myX , myY , targetIsPlayer )
+	_resolveAbility( myX , myY , targetIsPlayer )
 
-func _completeAbility( myX , myY , targetIsPlayer ):
-	#eventBus.emit( "ActionEnd" , [ action ] )
+# All targeting is done, now we resolve the ability in question
+func _resolveAbility( myX , myY , targetIsPlayer ):
+	# eventBus.emit( "ActionEnd" , [ action ] )
 	var battlerMatrix = bases.BattleMap.getTargetsFromLocation( myX , myY , selectedAbility , targetIsPlayer)
 	var arrayOfEffects = selectedAbility.rollEffectRolls()
 
-	print( battlerMatrix )
-	print( arrayOfEffects )
+	print("_resolveAbility : ")
+	print(arrayOfEffects)
 
 	for x in range(0 , battlerMatrix.size() ):
 		for y in range(0, battlerMatrix[x].size() ):
-			if( battlerMatrix[x][y] ):
-				# Maybe push this into a 'resolve effect method'
-				for effect in arrayOfEffects:
-					var hitRoll = effect.toHitRolls.pop_front()
-					var dmgRoll = effect.damageRolls.pop_front()
-					if( hitRoll >= 100 ):
-						battlerMatrix[x][y].setState( Battler.STATE.DAMAGE , [ dmgRoll ] )
-					else:
-						battlerMatrix[x][y].setState( Battler.STATE.MISS , [ hitRoll ] )
+			
+			if( !battlerMatrix[x][y] ):
+				continue
 
-	yield( get_tree().create_timer( 3.0 ), "timeout" ) # Just waiting for animation to finish. TODO - do this better.
+			for effect in arrayOfEffects:
+				print( effect.displayEffect( selectedAbility ) )
+				var hitRoll = effect.toHitRolls.pop_front()
+				var effectRoll = effect.resultRolls.pop_front()
+			
+				if( effect.is_class("DmgEffect") ):
+					_resolveDamageEffect( battlerMatrix[x][y] , hitRoll , effectRoll )
+				elif( effect.is_class("HealingEffect") ):
+					_resolveHealingEffect( battlerMatrix[x][y] , hitRoll, effectRoll )
+
+	yield( get_tree().create_timer( 2.5 ), "timeout" ) # Just waiting for animation to finish. TODO - do this better.
 	nodes.ActionStatus.setStatus()
 
 	_crewmanTurnEnd()
+
+func _resolveDamageEffect( battler , hitRoll, dmgRoll ):
+	if( hitRoll >= 100 ):
+		battler.setState( Battler.STATE.DAMAGE , [ dmgRoll ] )
+	else:
+		battler.setState( Battler.STATE.MISS , [ hitRoll ] )
+
+func _resolveHealingEffect( battler, hitRoll, healRoll ):
+	print( battler, hitRoll , healRoll )
+	if( hitRoll >= 100 ):
+		battler.setState( Battler.STATE.HEALING , [ healRoll ] )
+	else:
+		battler.setState( Battler.STATE.MISS , [ hitRoll ] )
 
 func _crewmanTurnEnd():
 	cards.LeftDetail.loadData()
@@ -272,7 +290,7 @@ func _input( event ):
 func _onActionButtonClicked( action : Ability ):
 	cards.ActionCard.loadData( action )
 
-	_resolveAbility( action )
+	_startAbility( action )
 
 func _onStanceButtonClicked( stance : Ability ):
 	print( stance.shortName )

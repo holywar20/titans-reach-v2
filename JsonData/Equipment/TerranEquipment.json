@@ -10,7 +10,7 @@
 		"itemTextureType" : 1,
 		"itemCarryWeight" : 1,
 
-		"equipmentActionKeys" : [ "TerranShieldGeneratorDefault"]
+		"equipmentActionKeys" : [ "TerranShieldGenDefault"]
 	} ,
 	"TerranMedKit" : {
 		"itemKey" : "TerranMedKit",
@@ -36,7 +36,7 @@
 		"itemTextureType" : 1 ,
 		"itemCarryWeight" : 1,
 	
-		"equipmentActionKeys" : [ "TerranFragGrenade" ]
+		"equipmentActionKeys" : [ "TerranFragGrenadeDefault" ]
 	},
 	"TerranEmpGrenade" :{
 		"itemKey" : "TerranEmpGrenade",
@@ -49,7 +49,7 @@
 		"itemTextureType" : 1,
 		"itemCarryWeight" : 1,
 
-		"equipmentActionKeys" : [ "TerranEmpGrenade" ]
+		"equipmentActionKeys" : [ "TerranEmpGrenadeDefault" ]
 	}
 }
 

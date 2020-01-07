@@ -22,7 +22,8 @@ onready var otherNodes = {
 	"Texture"	: get_node("Texture"),
 	"DamageText": get_node("DamageText"),
 	"MissText"	: get_node("MissText"),
-	"DeadText" 	: get_node("DeadText")
+	"DeadText" 	: get_node("DeadText"),
+	"HealText"	: get_node("HealText")
 }
 
 onready var stateAnimations = get_node("StateAnimations")
@@ -56,7 +57,7 @@ const STATE = {
 	"DEAD"		: "stateDead" ,
 	"ACTING"		: "stateActing", 
 	"ENDINGTURN": "stateEndTurn",
-	"CLEAR"		: "stateClear" , 
+	"CLEAR"		: "stateClear" ,
 	"LOCK"		: "stateLock" 
 }
 
@@ -77,12 +78,20 @@ func stateActing():
 
 func stateDead():
 	myState = STATE.DEAD
+	
+	if( crewman ):
+		if( crewman.isPlayer ):
+			eventBus.emit( "CrewmanDeath" , [ crewman ] )
+		else:
+			eventBus.emit( "EnemyDeath" , [ crewman ] )
 
+	# Queue the animation here, because the character should resolve any damage / healing animations first
 	stateAnimations.queue( ANIMATIONS.STATE.DEAD )
 	otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_IGNORE )
 	yield( get_tree().create_timer( 1.0 ), "timeout" )
 
-	hide() # TODO - have an unset state
+	crewman = null
+	hide()
 
 func stateEndTurn():
 	myState = STATE.CLEAR
@@ -91,17 +100,25 @@ func stateEndTurn():
 
 	setState( STATE.CLEAR )
 
-func stateHealing():
-	pass
+func stateHealing( healing : int ):
+	myState = STATE.HEALING
+	otherNodes.HealText.set_text( str( healing ) )
+	otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_IGNORE )
+	crewman.applyHealing( healing )
+
+	stateAnimations.play( ANIMATIONS.STATE.HEALING )
+	
+	yield( stateAnimations , "animation_finished" )
+
+	loadData()
 
 func stateMiss( toHit ):
 	myState = STATE.MISS
+	otherNodes.MissText.set_text( "Miss! ( " + str(toHit)  + "% )" )
 
 	stateAnimations.play( ANIMATIONS.STATE.MISS )
-	
 
 	otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_IGNORE )
-	otherNodes.MissText.set_text( "Miss! ( " + str(toHit)  + "% )" )
 
 func stateDamage( damage : int ):
 	myState = STATE.DAMAGE
@@ -130,7 +147,6 @@ func stateHighlight():
 	stateAnimations.play( ANIMATIONS.STATE.HIGHLIGHT )
 
 func stateLock():
-	#if( myState == STATE.CLEAR ):
 	myState = STATE.LOCK
 	otherNodes.Texture.set_mouse_filter( otherNodes.Texture.MOUSE_FILTER_IGNORE )
 
@@ -157,12 +173,14 @@ func setupScene( eBus : EventBus ):
 		barNodesStandard.Handle.show()
 		barNodes = barNodesStandard
 	else:
+		# Because battlers are mirrored, I need to reverse all text nodes here to compensate for right-hand-side units
 		barNodesReversed.Handle.show()
 		barNodes = barNodesReversed
 
 		otherNodes.DamageText.set_scale( Vector2( -1 , 1 ) )
 		otherNodes.MissText.set_scale( Vector2( -1, 1 ) )
-		otherNodes.DeadText.set_scale( Vector2( -1, 1) )
+		otherNodes.DeadText.set_scale( Vector2( -1, 1 ) )
+		otherNodes.HealText.set_scale( Vector2( -1 , 1 ) )
 
 func _ready():
 	alwaysAnimations.play( ANIMATIONS.ALWAYS.IDLE )
@@ -186,22 +204,22 @@ func loadEvents():
 
 func _onCrewmanTurnEnd( turnCrewman : Crew ):
 	if( crewman ):
-		if( turnCrewman.getFullName() == crewman.getFullName() ):
+		if( turnCrewman.getId() == crewman.getId() ):
 			setState( STATE.ENDINGTURN )
 
 func _onEnemyTurnEnd( turnCrewman : Crew ):
 	if( crewman ):
-		if( turnCrewman.getFullName() == crewman.getFullName() ):
+		if( turnCrewman.getId() == crewman.getId() ):
 			setState( STATE.ENDINGTURN )
 
 func _onCrewmanTurnStart( turnCrewman : Crew ):
 	if( crewman ):
-		if( turnCrewman.getFightableStatus() && turnCrewman.getFullName() == crewman.getFullName() ): # TODO : Stupid way to check, but fine for now
+		if( turnCrewman.getFightableStatus() && turnCrewman.getId() == crewman.getId() ): # TODO : Stupid way to check, but fine for now
 			setState( STATE.ACTING )
 
 func _onEnemyTurnStart( turnCrewman : Crew ):
 	if( crewman ):
-		if( turnCrewman.getFightableStatus() && turnCrewman.getFullName() == crewman.getFullName()  ):
+		if( turnCrewman.getFightableStatus() && turnCrewman.getId() == crewman.getId()  ):
 			setState( STATE.ACTING )
 
 func hasCrewman():

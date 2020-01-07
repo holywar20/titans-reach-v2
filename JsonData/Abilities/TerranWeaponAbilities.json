@@ -16,7 +16,7 @@
 			{
 				"dmgTrait"			: "PER",
 				"dmgTraitMod"		: 0.1 ,
-				"toHitTrait"		: "PER" ,
+				"toHitTrait"		: "DEX" ,
 				"toHitTraitMod" 	: 1
 			}
 		]
