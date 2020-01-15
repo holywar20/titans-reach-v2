@@ -11,7 +11,7 @@ const ORBIT_COUNT = 8 # should result in 9 orbits, due to index of zero being fi
 const ORBIT_SIZE_FACTOR = 1000
 const ORBIT_LINE_WIDTH = 5
 const ORBIT_LINE_SEGMENTS = 128
-const CONNECTION_COLOR = Color( .2, .4 , .2, .5)
+const CONNECTION_COLOR = Color( .2, .6 , .2, .5)
 
 var firstName = "X"
 var lastName = "X"
@@ -61,6 +61,9 @@ func getName():
 
 func getColor():
 	return color
+
+func getSeed():
+	return starSeed
 
 func setOrbitState( orbit : int , state : bool ):
 	orbitArray[orbit] = state 

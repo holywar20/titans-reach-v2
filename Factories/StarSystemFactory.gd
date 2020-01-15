@@ -2,32 +2,30 @@ extends Node
 
 const PLANET_CHANCE_PER_ORBIT = 100 # percent chance a planet will be found any particular orbit.
 
-var currentSeed = 10000
+var currentSeed = null
 
 func _ready():
 	pass
 
-func generateRandomSystem( thisSeed = currentSeed ):
+func generateRandomSystem( mySeed ):
 
-	var connections = _generateNewConnections( thisSeed )
-	var decorators = _generateDecorators( thisSeed )
-	var myPlanets = _generateAllRandomPlanets( thisSeed , myStar , decorators )	
-
-	var myStar = StarFactory.generateRandomStar( thisSeed )
-	
-	var myPlanets = "IMPLIMENT ME!"
+	var myStar = StarFactory.generateRandomStar( Star.TEXTURE.FULL , mySeed )
+	var connections = _generateNewConnections( mySeed )
+	var myPlanets = _generateAllRandomPlanets( mySeed , myStar )	
+	var myAnoms = _generateAnomolies( mySeed, myStar , myPlanets )
 
 	var starSystemDictionary = {
 		'star' 			: myStar,
 		'planets'		: myPlanets,
+		'anoms'			: myAnoms,
 		'connections'	: connections
 		# TODO - Events, Encounters, Text, etc
 	}
 	
 	return starSystemDictionary
 
-func _generateNewConnections( thisSeed ): # TODO - need this to be much more sophisticated. 
-	seed( thisSeed )
+func _generateNewConnections( mySeed ): # TODO - need this to be much more sophisticated. 
+	seed( mySeed )
 	randi()
 
 	var numConnections = randi()%5 + 3
@@ -47,7 +45,18 @@ func _generateNewConnections( thisSeed ): # TODO - need this to be much more sop
 		connect.degrees = randi() % 60 + currentDegrees
 		currentDegrees += connect.degrees
 
-func _generateAllRandomPlanets( thisSeed ):
-	seed( thisSeed )
+func _generateAllRandomPlanets( mySeed , star ):
+	seed( mySeed )
 	randi()
-	# TODO Generate Planets using PlanetFactory
+
+	var planets = PlanetFactory.generateAllPlanetsFromStar( star )
+
+	return planets
+			
+func _generateAnomolies( mySeed, star , planets ):
+	seed( mySeed )
+	randi()
+
+	var anoms = AnomolyFactory.generateSystemAnomolies( planets, star )
+
+	return anoms

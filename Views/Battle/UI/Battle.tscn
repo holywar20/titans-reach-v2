@@ -28,7 +28,6 @@ margin_bottom = 50.0
 [node name="CanvasLayer" type="CanvasLayer" parent="Header/UncontainedUI"]
 
 [node name="ActionStatus" parent="Header/UncontainedUI/CanvasLayer" instance=ExtResource( 2 )]
-visible = true
 margin_left = -187.0
 margin_top = 143.795
 margin_right = 193.0

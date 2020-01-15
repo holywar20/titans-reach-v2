@@ -32,6 +32,7 @@ const DEBUG_OPTIONS = {
 	"GENERATE_CREW_WITH_WOUNDS" : true
 }
 
+# TODO : Put this into a save game system of some kind, instead of loading from scratch
 onready var playerGear = null
 onready var playerShip = Starship.new()
 onready var playerCrew = CrewFactory.generateManyCrew( 30 , 5 )
@@ -61,7 +62,7 @@ func _generateDebugGear():
 	for key in equipment:
 		playerGear[key] = equipment[key]
 
-	# Do some basic equiping so I can do fast testing
+	# Do some basic equiping on game start so I can do fast testing
 	playerCrew[0].itemTransaction( playerGear["TerranMinigun"] , "LWeapon" )
 	playerCrew[1].itemTransaction( playerGear["TerranAssaultRifle"] , "LWeapon" )
 	playerCrew[2].itemTransaction( playerGear["TerranShotGun"] , "LWeapon" )

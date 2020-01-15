@@ -34,6 +34,8 @@ func setupScene( ebus : EventBus , anAbility : Ability ):
 
 	if( is_inside_tree() && ability ):
 		loadData( ability )
+	elif( is_inside_tree() ):
+		loadData( ability )
 
 func _ready():
 	pass

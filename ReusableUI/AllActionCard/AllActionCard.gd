@@ -1,6 +1,6 @@
 extends PanelContainer
 
-onready var grid = get_node("Panel/Center/HBox/Grid")
+onready var grid = get_node("VBox/Panel/Center/HBox/Grid")
 onready var buttons = [
 	get_node("VBox/Panel/HBox/Grid/Row1/A1"),
 	get_node("VBox/Panel/HBox/Grid/Row1/A2"),
@@ -27,9 +27,9 @@ func setupScene( eBus : EventBus, newCrewman ):
 	crewman = newCrewman
 
 	if( crewman ):
-		show()
+		loadData( crewman )
 	else:
-		hide()
+		loadData()
 
 func _ready():
 	if( crewman ):

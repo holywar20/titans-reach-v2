@@ -11,7 +11,6 @@ onready var nodes = {
 	"BioCard" : get_node("HBox/Right/BioCard"),
 	"ResistanceCard" : get_node("HBox/Right/ResistanceCard"),
 	"ActionCard" : get_node("HBox/Center/ActionCard"),
-	"AllActionCard" : get_node("HBox/Left/AllActionCard"),
 
 	# Text nodes
 	"CharacterPoints" : get_node("HBox/Left/CharacterPoints/Amount"),

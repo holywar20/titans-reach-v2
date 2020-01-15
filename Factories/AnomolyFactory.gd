@@ -5,35 +5,118 @@ const MIN_ANOMS_PER_SYSTEM = 3
 
 var anomolyScene = load("res://ReusableGameObjects/Anomoly/Anomoly.tscn")
 
+const TEST_NARRATIVE = {
+	"START" 	: {
+		"narrativeTitle" : "Starting a narrative",
+		"narrativeText"  : "A Narrative has started on this thing",
+		"narrativeImage" : "res://icon.png" ,
+		"childNarratives" : [ "BattleTest" , "LootTest" , "END" ]
+	} , 
+	"BattleTest" : {
+		"narrativeTitle" : "Accord Scavengers attack you!",
+		"narrativeText"  : "Start a fight text" ,
+		"narrativeImage" : "res://icon.png" ,
+		"ownOptionTitle" : "Battle!",
+		"ownOptionText"  : "Start a fight!",
+		"terminationEvent"  : "NarrativeBattleStart",
+		"eventParams" : {
+			"Faction" : "THE_ACCORD",
+			"EnemyNum": 5 ,
+			"EnemyCP" : 30
+		}
+	} ,
+	"LootTest"	: {
+		"narrativeTitle" : "You found Salvage!",
+		"narrativeText"  : "Find salvage Text" ,
+		"narrativeImage" : "res://icon.png" ,
+		"ownOptionTitle" : "Loot!",
+		"ownOptionText"  : "Loot some shit!",
+		"terminationEvent" : "NarrativeLootStart",
+		"eventParams" : {
+			"Items" : {
+				"Key" : "TerranAssaultRifle" , "Rarity" : "Common" , "Number" : 1 
+			}
+		}
+	} ,
+	"END"	: {
+		"narrativeTitle" : "You leave.",
+		"narrativeText"  : "Leaving ..." ,
+		"narrativeImage" : "res://icon.png" ,
+		"ownOptionTitle" : "Leave",
+		"ownOptionText"  : "You leave, getting nothing, but taking no risk",
+		"terminationEvent" : "NarrativeOver",
+	}
+}
+
 func _ready():
 	pass
 
-func generateAnomoly( parentCelestial , eventBus = null ):
+func generateAnomoly( parentCelestial, star , eventBus = null , typeOverride = null, anomolySeed = null ):
 	var anom = anomolyScene.instance()
+
+	if( anomolySeed ):
+		seed( anomolySeed )
+		randi()
 
 	if( eventBus ):
 		anom.setEvents( eventBus )
+
+	var narrativeDictionary = generateNarratives()
+	anom.defaultNarrative = narrativeDictionary[ "END" ]
 	
-	anom.set_global_position( Vector2( 0 , 0 ) )
-	# TODO - work out global position based on random math & parent celestial
-	# will need offsets for system / planet / orbit size. not sure best way to do that yet.
-	
+	anom.setParents( parentCelestial, star )
+	anom.setAnomType( typeOverride )
+
 	return anom
 
+func generateNarratives():
+	var allNarratives = {}
 
-func generateSystemAnomolies( planets : Planet , star : Star , anomolySeed : int ):
-	seed( anomolySeed )
+	# Init narative and load params into it
+	for key in TEST_NARRATIVE:
+		var newNarrative = Narrative.new()
+		var narrativeData = TEST_NARRATIVE[key].duplicate()
+
+		for param in narrativeData:
+			newNarrative.set( param , TEST_NARRATIVE[key][param] )
+
+		if( narrativeData.has("childNarratives") ):
+			newNarrative.childNarratives = narrativeData["childNarratives"].duplicate()
+		
+		newNarrative.ownOptionKey = key
+		allNarratives[key] = newNarrative
+
+	# Bind all the narative keys to the actual objects by refrence. 
+	for key in allNarratives:
+		var narrative = allNarratives[key]
+
+		if( narrative.childNarratives.size() >= 1):
+			for x in range( 0 , narrative.childNarratives.size() ):
+				print( narrative.childNarratives[x] )
+				# narrative.childNarratives[x] = allNarratives[narrative.childNarratives[x]]
+
+	return allNarratives
+
+func generateSystemAnomolies( planets , star : Star , eventBus = null ):
+	seed( star.getSeed() )
 	randi()
-
+	
+	var anomArray = []
 	var numOfAnoms = Common.randDiffValues( MIN_ANOMS_PER_SYSTEM , MAX_ANOMS_PER_SYSTEM )
 
-	for x in range( 1 , numOfAnoms ):
-		pass
+	for x in range( 0 , numOfAnoms ):
+		var randomPlanet = randi() % planets.size()
+		var anom = generateAnomoly( planets[randomPlanet] , star , eventBus )
+		anomArray.append( anom )
 
-	# Each planet should get at least 1 anomoly, for orbiting
-	# Generate additional anomolies for stations
-	# Generate additional anomolies for discoverable orbital events
+	
 	for planet in planets:
-		pass
+		var anom = generateAnomoly( planet , star, eventBus , Anomoly.ANOM_TYPES.ORBIT )
+		anomArray.append( anom )
 
-	# Then generate an anomoly for the star
+		# TODO -- when should a station appear?
+		# if( planet.isHabitable ):
+		var dock = generateAnomoly( planet , star, eventBus , Anomoly.ANOM_TYPES.ORBIT_DOCK )
+		anomArray.append( dock )
+
+	return anomArray

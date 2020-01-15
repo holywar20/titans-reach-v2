@@ -24,21 +24,89 @@ margin_right = 390.0
 margin_bottom = 400.0
 
 [node name="Map" parent="Body/VBox" instance=ExtResource( 3 )]
+margin_bottom = 260.0
 script = ExtResource( 4 )
 
 [node name="Data" type="PanelContainer" parent="Body/VBox"]
-margin_top = 268.0
+margin_top = 264.0
 margin_right = 390.0
 margin_bottom = 400.0
 size_flags_vertical = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Body/VBox/Data"]
+[node name="VBox" type="VBoxContainer" parent="Body/VBox/Data"]
 margin_right = 390.0
-margin_bottom = 132.0
-text = "Ink
-Fuel
-Food
-Date"
+margin_bottom = 136.0
+
+[node name="Date" type="HBoxContainer" parent="Body/VBox/Data/VBox"]
+margin_right = 390.0
+margin_bottom = 31.0
+
+[node name="Label" type="Label" parent="Body/VBox/Data/VBox/Date"]
+margin_right = 193.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "Datetime"
+
+[node name="Value" type="Label" parent="Body/VBox/Data/VBox/Date"]
+margin_left = 197.0
+margin_right = 390.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "01  JAN 5671 - 18:35"
+
+[node name="Fuel" type="HBoxContainer" parent="Body/VBox/Data/VBox"]
+margin_top = 35.0
+margin_right = 390.0
+margin_bottom = 66.0
+
+[node name="Label" type="Label" parent="Body/VBox/Data/VBox/Fuel"]
+margin_right = 193.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "Menoeshium"
+
+[node name="Value" type="Label" parent="Body/VBox/Data/VBox/Fuel"]
+margin_left = 197.0
+margin_right = 390.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "18.01 m3"
+
+[node name="Food" type="HBoxContainer" parent="Body/VBox/Data/VBox"]
+margin_top = 70.0
+margin_right = 390.0
+margin_bottom = 101.0
+
+[node name="Label" type="Label" parent="Body/VBox/Data/VBox/Food"]
+margin_right = 193.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "Life Support"
+
+[node name="Label2" type="Label" parent="Body/VBox/Data/VBox/Food"]
+margin_left = 197.0
+margin_right = 390.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "18 Days ( 3.1m3  )"
+
+[node name="Ink" type="HBoxContainer" parent="Body/VBox/Data/VBox"]
+margin_top = 105.0
+margin_right = 390.0
+margin_bottom = 136.0
+
+[node name="Label" type="Label" parent="Body/VBox/Data/VBox/Ink"]
+margin_right = 193.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "Ink"
+
+[node name="Label2" type="Label" parent="Body/VBox/Data/VBox/Ink"]
+margin_left = 197.0
+margin_right = 390.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "$xxxxx"
 
 [node name="Button" type="Button" parent="."]
 anchor_left = 1.0

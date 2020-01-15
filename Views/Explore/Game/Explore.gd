@@ -8,22 +8,31 @@ onready var shipAvatar = get_node("PlayerShip")
 var eventBus = null
 var globalEventBus = EventBusStore.getGlobalEventBus()
 
-var star = null
-var planets = null
+var planets = []
+
+var star = []
 var ship = null
+var anoms = []
+var connections = []
 
 func _ready():
 	globalEventBus.emit( "ExploreScreen_Open_Begin" , [ "EXPLORE" ] )
 	eventBus.emit("CelestialsLoadingOnMap")
 
-	# TODO - take a seed
-	_buildStar()
-	_buildPlanets()
-	_buildAnoms()
-
 	ship = Starship.new()
 	shipAvatar.setEvents( eventBus )
 	shipAvatar.setStarship( ship )
+
+	var starDictionary = StarSystemFactory.generateRandomSystem( 100000 )
+	
+	star = starDictionary.star
+	planets = starDictionary.planets
+	anoms = starDictionary.anoms
+	connections = starDictionary.connections
+
+	_buildStar( star )
+	_buildPlanets( star , planets )
+	_buildAnoms( star , planets , eventBus )
 
 	# TODO - Hoist this into a loadSolarSystem method.
 	##TODO - Clicking self event
@@ -35,15 +44,12 @@ func _exit_tree():
 	# Any clean up we care to do? 
 	globalEventBus.emit("ExploreScreen_Close_End" , [ "EXPLORE" ] )
 
-func _buildStar():
-	star = StarFactory.generateRandomStar( Star.TEXTURE.FULL )
+func _buildStar( star : Star ):
 	star.set_global_position( Vector2( 0 , 0 ) )
 	star.setEvents( eventBus )
 	systemBase.add_child( star )
 
-func _buildPlanets():
-	planets = PlanetFactory.generateAllPlanetsFromStar( star )
-
+func _buildPlanets( star , planets ):
 	for planet in planets:
 		if( planet ):
 			var orbitSize = star.getOrbitalDistance( planet.orbit )
@@ -53,12 +59,14 @@ func _buildPlanets():
 		else:
 			pass
 
-func _buildAnoms():
-	var anom = AnomolyFactory.generateAnomoly( null , eventBus )
-	anomBase.add_child( anom ) 
+func _buildAnoms( star , planets, eventBus ):
+	for anom in anoms:
+		anom.setEvents( eventBus )
+		anomBase.add_child( anom )
 
 func setEvents( eBus : EventBus ):
 	eventBus = eBus
+
 
 func _unhandled_input( event ):
 	if( event.is_action_pressed("GUI_UNSELECT") ):
@@ -68,6 +76,7 @@ func _clearStarSystem():
 	var myChildren = systemBase.get_children()
 	for child in myChildren:
 		child.queue_free()
+
 
 func _positionStarship( someVector ):
 	pass

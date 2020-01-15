@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Themes/Core.tres" type="Theme" id=1]
 [ext_resource path="res://Views/Explore/UI/Explore.gd" type="Script" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://ReusableUI/NarrativeCard/NarrativeCard.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Views/Explore/UI/Minimap/Minimap.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ReusableUI/Context/Context.tscn" type="PackedScene" id=5]
 
@@ -13,81 +13,86 @@ mouse_filter = 2
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Narrative" parent="CanvasLayer" instance=ExtResource( 3 )]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -400.0
+margin_top = -300.0
+margin_right = 400.0
+margin_bottom = 300.0
+
 [node name="Buttons" type="HBoxContainer" parent="."]
-editor/display_folded = true
 margin_right = 1920.0
-margin_bottom = 72.0
-custom_constants/separation = 20
+margin_bottom = 60.0
+custom_constants/separation = 10
 
 [node name="Assignments" type="Button" parent="Buttons"]
-margin_right = 200.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 200, 60 )
+margin_right = 100.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 100, 60 )
 focus_mode = 0
 custom_constants/hseparation = 20
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Assignments"
-icon = ExtResource( 3 )
 
 [node name="Personal" type="Button" parent="Buttons"]
-margin_left = 220.0
-margin_right = 420.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 200, 60 )
+margin_left = 110.0
+margin_right = 210.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 100, 60 )
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Crew"
-icon = ExtResource( 3 )
 
 [node name="Equipment" type="Button" parent="Buttons"]
-margin_left = 440.0
-margin_right = 640.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 200, 60 )
+margin_left = 220.0
+margin_right = 320.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 100, 60 )
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Equipment"
-icon = ExtResource( 3 )
 
 [node name="Ship" type="Button" parent="Buttons"]
-margin_left = 660.0
-margin_right = 860.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 200, 60 )
+margin_left = 330.0
+margin_right = 430.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 100, 60 )
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Ship"
-icon = ExtResource( 3 )
 
 [node name="Cargo" type="Button" parent="Buttons"]
-margin_left = 880.0
-margin_right = 1080.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 200, 60 )
+margin_left = 440.0
+margin_right = 540.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 100, 60 )
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Cargo"
-icon = ExtResource( 3 )
 
 [node name="Starmap" type="Button" parent="Buttons"]
-margin_left = 1100.0
-margin_right = 1300.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 200, 60 )
+margin_left = 550.0
+margin_right = 650.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 100, 60 )
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Starmap"
-icon = ExtResource( 3 )
 
 [node name="Dynamic" type="HBoxContainer" parent="."]
-editor/display_folded = true
-margin_top = 76.0
+margin_top = 64.0
 margin_right = 1920.0
 margin_bottom = 1016.0
 mouse_filter = 2
@@ -96,7 +101,7 @@ size_flags_vertical = 3
 
 [node name="Tab-Bind" type="Control" parent="Dynamic"]
 margin_right = 1516.0
-margin_bottom = 940.0
+margin_bottom = 952.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -104,7 +109,7 @@ size_flags_vertical = 3
 [node name="Right" type="VBoxContainer" parent="Dynamic"]
 margin_left = 1520.0
 margin_right = 1920.0
-margin_bottom = 940.0
+margin_bottom = 952.0
 rect_min_size = Vector2( 400, 0 )
 mouse_filter = 0
 
@@ -117,44 +122,38 @@ margin_bottom = 400.0
 [node name="Spacer" type="Control" parent="Dynamic/Right"]
 margin_top = 404.0
 margin_right = 400.0
-margin_bottom = 536.0
+margin_bottom = 548.0
 size_flags_vertical = 3
 
 [node name="Context" parent="Dynamic/Right" instance=ExtResource( 5 )]
-margin_top = 540.0
-margin_bottom = 940.0
+margin_top = 552.0
+margin_bottom = 952.0
 
 [node name="Footer" type="Panel" parent="."]
-editor/display_folded = true
 margin_top = 1020.0
 margin_right = 1920.0
 margin_bottom = 1080.0
 rect_min_size = Vector2( 0, 60 )
 
 [node name="Near" type="Panel" parent="Footer"]
+visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -107.0
+margin_left = -128.0
 margin_top = -102.0
-margin_right = 107.0
+margin_right = 122.0
 margin_bottom = -62.0
+rect_min_size = Vector2( 250, 0 )
 
-[node name="Button" type="Button" parent="Footer/Near"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -67.0
-margin_top = -15.5
-margin_right = 67.0
-margin_bottom = 15.5
-grow_horizontal = 0
-grow_vertical = 0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-text = "Investigate Anomoly"
+[node name="Buttons" type="VBoxContainer" parent="Footer/Near"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 5.0
+margin_bottom = 5.0
 [connection signal="pressed" from="Buttons/Assignments" to="." method="menuButtonPressed" binds= [ "ASSIGNMENTS" ]]
 [connection signal="pressed" from="Buttons/Personal" to="." method="menuButtonPressed" binds= [ "CREW" ]]
 [connection signal="pressed" from="Buttons/Equipment" to="." method="menuButtonPressed" binds= [ "EQUIPMENT" ]]

@@ -73,6 +73,7 @@ margin_right = 396.0
 margin_bottom = 72.0
 
 [node name="Row2" type="HBoxContainer" parent="VBox/Panel/HBox/Grid"]
+editor/display_folded = true
 margin_top = 76.0
 margin_right = 396.0
 margin_bottom = 148.0

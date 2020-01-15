@@ -25,7 +25,7 @@ var command = [
 		"PriTrait" : "PER",
 		"SecTrait" : "DEX",
 		"Effects" : {
-			"shipSpeed" : 2 
+			"shipSpeedPercent" : 2 
 		}
 	}
 ]

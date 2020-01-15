@@ -1,6 +1,15 @@
 extends VBoxContainer
 
+onready var anomButtonScene = load("res://Views/Explore/UI/AnomolyButton/AnomolyButton.tscn")
+
 onready var tabBase		= get_node("Dynamic/Tab-Bind")
+onready var anomButtonBase = get_node("Footer/Near/Buttons")
+
+onready var nodes = {
+	"AnomButtons"			: get_node("Footer/Near"),
+	"Context"				: get_node("Dynamic/Right/Context"),
+	"Minimap"				: get_node("Dynamic/Right/Minimap")
+}
 
 # Passed in by the parent
 var eventBus = null
@@ -27,7 +36,7 @@ const EXPLORE_EVENTS = [
 	# Fired when a planet or star has been clicked
 	"StarClickedStart" 			,"StarClickedEnd",
 	"PlanetClickedStart"			,"PlanetClickedEnd",
-	"AnomolyClicked",
+	"AnomolyClicked"				,"AnomButtonPressed",
 
 	# Called on the _ready function of the Explore Page
 	"CelestialsLoadingOnMap" 	, "CelestialsLoadedOnMap",
@@ -57,17 +66,11 @@ const EXPLORE_EVENTS = [
 	"GeneralCancel"
 ]
 
-onready var nodes = {
-	"NearObjectModal"		: get_node("Footer/Near"),
-	"NearObjectButton"	: get_node("Footer/Near/Button"),
-	"Context"				: get_node("Dynamic/Right/Context"),
-	"Minimap"				: get_node("Dynamic/Right/Minimap")
-}
-
 func setupScene( eBus : EventBus, pShip : Starship , pCrew , pGear ):
 	eventBus = eBus
 	eventBus.addEvents( EXPLORE_EVENTS )
 
+	eventBus.register( "AnomButtonPressed" , self , "_onAnomButtonPressed")
 	eventBus.register( "PlayerContactingAreasUpdated" , self , "_onPlayerContactingAreasUpdated" )
 
 	playerShip = pShip
@@ -116,15 +119,22 @@ func getPrevCrewman():
 	
 	return playerCrew[currentCrewmanIdx]
 
-func _onPlayerContactingAreasUpdated( bodies ):
-	if( bodies.size() == 0 ):
-		nodes.NearObjectModal.hide()
-	elif( bodies.size() == 1 ):
-		nodes.NearObjectModal.show()
-		nodes.NearObjectButton.set_text( bodies[0].showText )
-	elif( bodies.size() >= 2):
-		nodes.NearObjectModal.show()
-		nodes.NearObjectButton.set_text( "Investigate Anomoly" )
+
+func _onPlayerContactingAreasUpdated( anoms ):
+	if( anoms.size() == 0 ):
+		nodes.AnomButtons.hide()
+	else:
+		for child in anomButtonBase.get_children():
+			child.queue_free()
+
+		for anom in anoms:
+			var button = anomButtonScene.instance()
+			button.set_text( anom.getShowText() )
+			button.setupScene( anom , eventBus )
+			anomButtonBase.add_child( button )
+
+		nodes.AnomButtons.show()
+
 
 # TODO - Add an underscore here.
 func menuButtonPressed( menuTarget : String ):
@@ -141,3 +151,6 @@ func menuButtonPressed( menuTarget : String ):
 		_setupSubUI( menuTarget , subUI )
 
 		tabBase.add_child( subUI )
+
+func _onAnomButtonPressed( anom ):
+	print( anom )

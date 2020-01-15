@@ -1,0 +1,59 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ReusableUI/ActionBuyCard/ActionBuyCard.gd" type="Script" id=1]
+
+[node name="ActionBuyCard" type="VBoxContainer"]
+margin_top = 292.0
+margin_right = 330.0
+margin_bottom = 800.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+script = ExtResource( 1 )
+
+[node name="Title" type="Label" parent="."]
+margin_right = 330.0
+margin_bottom = 31.0
+text = "Actions"
+align = 1
+
+[node name="Available" type="VBoxContainer" parent="."]
+margin_top = 35.0
+margin_right = 330.0
+margin_bottom = 269.0
+size_flags_vertical = 3
+
+[node name="Label" type="Button" parent="Available"]
+margin_right = 330.0
+margin_bottom = 31.0
+text = "Available"
+align = 0
+
+[node name="Skills" type="VBoxContainer" parent="Available"]
+margin_top = 35.0
+margin_right = 330.0
+margin_bottom = 199.0
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="Available"]
+margin_top = 203.0
+margin_right = 330.0
+margin_bottom = 234.0
+text = "Show Grid ( Placeholder )"
+
+[node name="Owned" type="VBoxContainer" parent="."]
+margin_top = 273.0
+margin_right = 330.0
+margin_bottom = 508.0
+size_flags_vertical = 3
+
+[node name="Label" type="Button" parent="Owned"]
+margin_right = 330.0
+margin_bottom = 31.0
+text = "Owned"
+align = 0
+
+[node name="Skills" type="VBoxContainer" parent="Owned"]
+margin_top = 35.0
+margin_right = 330.0
+margin_bottom = 235.0
+size_flags_vertical = 3

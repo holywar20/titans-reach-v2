@@ -1,11 +1,11 @@
 extends RigidBody2D
 
-var rotationSpeed = 10
-var rotationAcceleration = .2
+var rotationSpeed = 5
+var rotationAcceleration = .1
 
 # TODO - Set lower speed when not debugging, should be about 200 for acceleration & 500 for velocityMaxForward
-var acceleration = 10000
-var velocityMaxForward = 5000
+var acceleration = 200
+var velocityMaxForward = 500
 
 const MAX_ZOOM_IN = .5
 const MAX_ZOOM_OUT = 6

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Themes/DataText.tres" type="Theme" id=1]
+[ext_resource path="res://Views/Explore/UI/AnomolyButton/AnomolyButton.gd" type="Script" id=2]
+
+[node name="Button" type="Button"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -67.0
+margin_top = -15.5
+margin_right = 67.0
+margin_bottom = 15.5
+grow_horizontal = 0
+grow_vertical = 0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "Investigate Anomoly"
+script = ExtResource( 2 )
+[connection signal="pressed" from="." to="." method="_onButtonPressed"]

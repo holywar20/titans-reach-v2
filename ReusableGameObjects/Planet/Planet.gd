@@ -54,8 +54,13 @@ func getIconTexturePath():
 func getColor():
 	return color
 
+func getOrbit():
+	return orbit
+
+func getFullName():
+	return fullName
+
 func getDetailText():
-	var bbcodeText = """[table][/table]
-"""
+	var bbcodeText = """[table][/table]"""
 
 	return bbcodeText
