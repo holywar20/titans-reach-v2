@@ -168,10 +168,12 @@ func _onAnomButtonPressed( anom ):
 	GlobalEventBus.emit( "LaunchAnomolyPopup" , [ anom , eventBus ] )
 
 func _onNarrativeBattleStart( narrative : Narrative ):
-	var params = narrative.eventParams
+	var p = narrative.eventParams
+	GlobalEventBus.emit("LaunchBattleStart" , [ p.Faction , p.EnemyNum , p.EnemyCP ] )
 
 func _onNarrativeLootStart( narrative : Narrative ):
-	var params = narrative.eventParams
+	var p = narrative.eventParams
+
 
 func _onNarrativeOver( narrative : Narrative ):
-	var params = narrative.eventParams
+	var p = narrative.eventParams

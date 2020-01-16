@@ -24,7 +24,8 @@ const VIEWS = {
 }
 
 const POP_UPS = {
-	"NarrativeResolution" : "res://ReusableUI/NarrativeCard/NarrativeCard.tscn"
+	"NarrativeResolution" : "res://ReusableUI/NarrativeCard/NarrativeCard.tscn",
+	"LootResolution" : "res://ReusableUI/LootCard/LootCard.tscn"
 }
 
 var GlobalEventBus = null
@@ -36,6 +37,7 @@ const DEBUG_OPTIONS = {
 
 # TODO : Put this into a save game system of some kind, instead of loading from scratch
 onready var playerGear = null
+onready var playerItems = null
 onready var playerShip = Starship.new()
 onready var playerCrew = CrewFactory.generateManyCrew( 30 , 5 )
 
@@ -51,8 +53,11 @@ func _ready():
 			crew.applyDamage( 10 , "KINETIC")
 	
 	GlobalEventBus.register( "NewGame_Start_Begin" , self, 'startNewGame' )
+
 	GlobalEventBus.register( "LaunchAnomolyPopup" , self, "_onLaunchAnomolyPopup" )
 	GlobalEventBus.register( "ResolveAnomolyPopup" , self , "_onResolveAnomolyPopup" )
+
+	GlobalEventBus.register( "LaunchBattleStart" , self , "_loadBattleScreen" )
 
 func _generateDebugGear():
 	playerGear = FrameFactory.generateDebugFrames()
@@ -123,14 +128,13 @@ func _loadTitleScreen():
 	var uiInstance = ui.instance()
 	UILayer.add_child( uiInstance )
 
-func _loadBattleScreen():
+func _loadBattleScreen( factionKey = "THE_ACCORD" , numOfEnemy = 5 , cp = 30 ):
 	_clearSelf()
 	var eventBus = EventBus.new()
 	var enemyCrew = []
 
-	# TODO this should be populated from some event
-	for x in range( 0 , 5 ):
-		enemyCrew.append( CrewFactory.generateNewCrewWithEquipment( 30 , 30 , CrewFactory.MAKE_ENEMY ) )
+	for x in range( 0 , numOfEnemy ):
+		enemyCrew.append( CrewFactory.generateNewCrewWithEquipment( cp , cp , CrewFactory.MAKE_ENEMY ) )
 
 	# TODO - hook for a battleConfig object of some kind
 	var ui = load( VIEWS.BATTLE.UI )

@@ -1,0 +1,178 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ReusableUI/LootCard/LootCard.gd" type="Script" id=1]
+[ext_resource path="res://Themes/DataText.tres" type="Theme" id=2]
+
+[node name="Control" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1120.0
+margin_bottom = -480.0
+script = ExtResource( 1 )
+
+[node name="VBox" type="VBoxContainer" parent="."]
+margin_right = 800.0
+margin_bottom = 600.0
+
+[node name="TitleRow" type="HBoxContainer" parent="VBox"]
+editor/display_folded = true
+margin_right = 800.0
+margin_bottom = 31.0
+
+[node name="Label" type="Label" parent="VBox/TitleRow"]
+margin_right = 768.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "Loot"
+align = 1
+
+[node name="CloseButton" type="Button" parent="VBox/TitleRow"]
+margin_left = 772.0
+margin_right = 800.0
+margin_bottom = 31.0
+text = " X "
+
+[node name="Middle" type="HBoxContainer" parent="VBox"]
+editor/display_folded = true
+margin_top = 35.0
+margin_right = 800.0
+margin_bottom = 540.0
+size_flags_vertical = 3
+custom_constants/separation = 20
+
+[node name="Enemy" type="VBoxContainer" parent="VBox/Middle"]
+margin_right = 362.0
+margin_bottom = 505.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBox/Middle/Enemy"]
+margin_right = 362.0
+margin_bottom = 31.0
+text = "{ Faction Name Enemy }"
+align = 1
+
+[node name="ItemTree" type="Tree" parent="VBox/Middle/Enemy"]
+margin_top = 35.0
+margin_right = 362.0
+margin_bottom = 505.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBox/Middle"]
+margin_left = 382.0
+margin_right = 418.0
+margin_bottom = 505.0
+
+[node name="Button" type="Button" parent="VBox/Middle/VBoxContainer"]
+margin_right = 36.0
+margin_bottom = 31.0
+text = ">>>>"
+
+[node name="Button2" type="Button" parent="VBox/Middle/VBoxContainer"]
+margin_top = 35.0
+margin_right = 36.0
+margin_bottom = 66.0
+text = "<<<<"
+
+[node name="Self" type="VBoxContainer" parent="VBox/Middle"]
+margin_left = 438.0
+margin_right = 800.0
+margin_bottom = 505.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="VBox/Middle/Self"]
+margin_right = 362.0
+margin_bottom = 31.0
+text = "{ SHIP Name }"
+align = 1
+
+[node name="Tree2" type="Tree" parent="VBox/Middle/Self"]
+margin_top = 35.0
+margin_right = 362.0
+margin_bottom = 505.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MassRow" type="HBoxContainer" parent="VBox"]
+margin_top = 544.0
+margin_right = 800.0
+margin_bottom = 570.0
+theme = ExtResource( 2 )
+
+[node name="EnemyLabel" type="Label" parent="VBox/MassRow"]
+margin_right = 156.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+text = "Mass Remaining :"
+
+[node name="Remaining" type="Label" parent="VBox/MassRow"]
+margin_left = 160.0
+margin_right = 316.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+text = "X"
+align = 1
+
+[node name="X" type="Label" parent="VBox/MassRow"]
+margin_left = 320.0
+margin_right = 476.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+align = 1
+
+[node name="PlayerLabel" type="Label" parent="VBox/MassRow"]
+margin_left = 480.0
+margin_right = 636.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+text = "Mass Left:"
+
+[node name="Left" type="Label" parent="VBox/MassRow"]
+margin_left = 640.0
+margin_right = 800.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+text = "X"
+align = 1
+
+[node name="VolumeRow" type="HBoxContainer" parent="VBox"]
+margin_top = 574.0
+margin_right = 800.0
+margin_bottom = 600.0
+theme = ExtResource( 2 )
+
+[node name="EnemyLabel" type="Label" parent="VBox/VolumeRow"]
+margin_right = 156.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+text = "Volume :"
+
+[node name="Remaining" type="Label" parent="VBox/VolumeRow"]
+margin_left = 160.0
+margin_right = 316.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+text = "X"
+align = 1
+
+[node name="X" type="Label" parent="VBox/VolumeRow"]
+margin_left = 320.0
+margin_right = 476.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+align = 1
+
+[node name="PlayerLabel" type="Label" parent="VBox/VolumeRow"]
+margin_left = 480.0
+margin_right = 636.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+text = "Volume Left:"
+
+[node name="Left" type="Label" parent="VBox/VolumeRow"]
+margin_left = 640.0
+margin_right = 800.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+text = "X"
+align = 1

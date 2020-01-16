@@ -12,7 +12,10 @@ const GLOBAL_LIFECYCLE_EVENTS = [
 	"BattleScreen_Open_Begin"	, "BattleScreen_Open_End",
 	"BattleScreen_Close_Begin"	, "BattleScreen_Close_End",
 	"ExploreScreen_Open_Begin"	, "ExploreScreen_Open_End",
-	"ExploreScreen_Close_Begin"	, "ExploreScreen_Close_End"
+	"ExploreScreen_Close_Begin"	, "ExploreScreen_Close_End",
+
+	# Events fired by other things that want root to do something
+	"LaunchBattleStart"
 ]
 
 const POP_UP_EVENTS = [
