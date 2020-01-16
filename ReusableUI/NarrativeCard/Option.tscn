@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ReusableUI/NarrativeCard/Option.gd" type="Script" id=1]
+[ext_resource path="res://Themes/DataText.tres" type="Theme" id=2]
+
+[node name="Option" type="VBoxContainer"]
+margin_right = 120.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 120, 150 )
+script = ExtResource( 1 )
+
+[node name="Button" type="Button" parent="."]
+margin_right = 120.0
+margin_bottom = 31.0
+rect_min_size = Vector2( 120, 30 )
+text = "{ OPTION }"
+
+[node name="Detail" type="RichTextLabel" parent="."]
+margin_top = 35.0
+margin_right = 120.0
+margin_bottom = 150.0
+size_flags_vertical = 3
+theme = ExtResource( 2 )
+bbcode_enabled = true
+bbcode_text = "{ Option Detail Text }"
+text = "{ Option Detail Text }"
+[connection signal="mouse_entered" from="Button" to="." method="_onMouseEntered"]
+[connection signal="mouse_exited" from="Button" to="." method="_onMouseExited"]
+[connection signal="pressed" from="Button" to="." method="_onPressed"]

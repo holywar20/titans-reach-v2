@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Views/Explore/UI/SubUI/System.gd" type="Script" id=1]
+
+[node name="Control" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -920.0
+margin_bottom = -280.0
+rect_min_size = Vector2( 1000, 800 )
+script = ExtResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_top = 384.0
+margin_right = 1000.0
+margin_bottom = 415.0
+text = "System!"

@@ -15,8 +15,13 @@ const GLOBAL_LIFECYCLE_EVENTS = [
 	"ExploreScreen_Close_Begin"	, "ExploreScreen_Close_End"
 ]
 
+const POP_UP_EVENTS = [
+	"LaunchAnomolyPopup" , "ResolveAnomolyPopup"
+]
+
 func _ready():
 	_globalEventBus.addEvents( GLOBAL_LIFECYCLE_EVENTS )
+	_globalEventBus.addEvents( POP_UP_EVENTS )
 
 func getGlobalEventBus():
 	return _globalEventBus

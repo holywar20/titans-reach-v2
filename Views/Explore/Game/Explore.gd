@@ -70,7 +70,7 @@ func setEvents( eBus : EventBus ):
 
 func _unhandled_input( event ):
 	if( event.is_action_pressed("GUI_UNSELECT") ):
-		eventBus.emit("GeneralCancel") 
+		eventBus.emit("GeneralCancel")
 
 func _clearStarSystem():
 	var myChildren = systemBase.get_children()

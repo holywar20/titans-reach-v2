@@ -67,8 +67,7 @@ var isVisible = false
 var isForced = false
 
 var defaultNarrative = null
-var triggeredNarrative = null
-var resolvedNarratives = []
+var resolvedNarrative = null
 
 
 # Calculated data
@@ -114,6 +113,10 @@ func setAnomType( newAnomType ):
 	radial = Vector2( cos(randomRadian) , sin(randomRadian) )
 	var dist = ANOM_TYPE_DATA[anomType].DistanceRange
 	distanceFromParent = Common.randDiffValues( dist[0] , dist[1] )
+
+func getNarrative():
+	# Add support for multiple narritives
+	return defaultNarrative
 
 # Getters
 func getShowText():

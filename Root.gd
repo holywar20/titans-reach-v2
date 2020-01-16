@@ -1,10 +1,12 @@
 extends Node
 
 onready var UILayer 		= get_node( "UILayer" )
-onready var pauseLayer	= get_node( "PauseLayer" )
-onready var popupLayer	= get_node( "PopupLayer" )
+onready var pauseLayer	= get_node( "PauseLayer/TextureRect" )
+onready var popupLayer	= get_node( "PopupLayer/PopupContainer" )
 onready var gameLayer	= get_node( "GameLayer" )
 onready var debugLayer	= get_node( "DebugLayer" )
+
+onready var popupPoint  = get_node( "PopupLayer/Position2D")
 
 const VIEWS = {
 	"EXPLORE" : {
@@ -22,10 +24,10 @@ const VIEWS = {
 }
 
 const POP_UPS = {
-	"BattlePosition" : ""
-	}
+	"NarrativeResolution" : "res://ReusableUI/NarrativeCard/NarrativeCard.tscn"
+}
 
-var globalBus = null
+var GlobalEventBus = null
 
 const DEBUG_MODE = true
 const DEBUG_OPTIONS = {
@@ -38,7 +40,7 @@ onready var playerShip = Starship.new()
 onready var playerCrew = CrewFactory.generateManyCrew( 30 , 5 )
 
 func _ready():
-	globalBus = EventBusStore.getGlobalEventBus()
+	GlobalEventBus = EventBusStore.getGlobalEventBus()
 	loadScreen( "TITLE" )
 
 	if( DEBUG_MODE ):
@@ -48,10 +50,11 @@ func _ready():
 		for crew in playerCrew:
 			crew.applyDamage( 10 , "KINETIC")
 	
-	globalBus.register( "NewGame_Start_Begin" , self, 'startNewGame' )
+	GlobalEventBus.register( "NewGame_Start_Begin" , self, 'startNewGame' )
+	GlobalEventBus.register( "LaunchAnomolyPopup" , self, "_onLaunchAnomolyPopup" )
+	GlobalEventBus.register( "ResolveAnomolyPopup" , self , "_onResolveAnomolyPopup" )
 
 func _generateDebugGear():
-
 	playerGear = FrameFactory.generateDebugFrames()
 
 	var weapons = WeaponFactory.generateDebugWeapons()
@@ -73,6 +76,10 @@ func _generateDebugGear():
 		playerCrew[x].itemTransaction( playerGear["TerranPistol"] , "RWeapon" )
 		playerCrew[x].itemTransaction( playerGear["TerranMedKit"] , "LEquip" )
 
+func _clearPopupLayer():
+	for child in popupLayer.get_children():
+		child.queue_free()
+
 func _clearSelf():
 	for child in gameLayer.get_children():
 		child.queue_free()
@@ -80,16 +87,7 @@ func _clearSelf():
 	for child in UILayer.get_children():
 		child.queue_free()
 	
-	for child in popupLayer.get_children():
-		child.queue_free()
-
-func _loadBattlePositionPopup( myCrew, battleType , myBattleOrder , inBattle = true):
-
-	var myPopupScene = load( POP_UPS["BattlePosition"] )
-	var myPopup = myPopupScene.instance()
-	myPopup.initScene( myCrew, battleType , myBattleOrder , inBattle )
-
-	popupLayer.add_child( myPopup )
+	_clearPopupLayer()
 
 func getPlayerCrew():
 	return playerCrew
@@ -101,9 +99,6 @@ func startNewGame():
 	loadScreen( "EXPLORE" )
 
 func loadSavedGame():
-	pass
-
-func loadPopup():
 	pass
 
 func loadScreen( screenName ):
@@ -163,3 +158,30 @@ func _loadExploreScreen():
 	# Generate the previous system, by using the random seed, which was saved in StarSystemGenerator
 	# var systemDict = StarSystemGenerator.generateRandomSystem( 100 ) # TODO - Starsystem shouldn't depend on a scene.
 	# travelMapInstance.populateStarSystem(systemDict.star, systemDict.planets, systemDict.connections, systemDict.decorators )
+
+func pause( shouldPause ):
+	if( shouldPause ):
+		pauseLayer.show()
+		get_tree().paused = true
+	else:
+		pauseLayer.hide()
+		get_tree().paused = false
+
+# Methods that respond directly to global events. Generally loading popups
+func _onLaunchAnomolyPopup( anom : Anomoly , ebus : EventBus ):
+	pause( true )
+	
+	var narrativeCardScene = load( POP_UPS.NarrativeResolution )
+	var narrativeCard = narrativeCardScene.instance()
+	narrativeCard.setupScene( ebus )
+
+	popupLayer.add_child( narrativeCard )
+	narrativeCard.loadData( anom.getNarrative() )
+
+func _onResolveAnomolyPopup( anom : Anomoly ):
+	pause( false )
+	
+	_clearPopupLayer()
+
+func _loadBattlePositionPopup( myCrew, battleType , myBattleOrder , inBattle = true):
+	pass

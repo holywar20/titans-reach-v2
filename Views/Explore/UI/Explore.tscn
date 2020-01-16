@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Themes/Core.tres" type="Theme" id=1]
 [ext_resource path="res://Views/Explore/UI/Explore.gd" type="Script" id=2]
-[ext_resource path="res://ReusableUI/NarrativeCard/NarrativeCard.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Views/Explore/UI/Minimap/Minimap.tscn" type="PackedScene" id=4]
-[ext_resource path="res://ReusableUI/Context/Context.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Views/Explore/UI/Minimap/Minimap.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ReusableUI/Context/Context.tscn" type="PackedScene" id=4]
 
 [node name="Explore" type="VBoxContainer"]
 anchor_right = 1.0
@@ -12,19 +11,6 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Narrative" parent="CanvasLayer" instance=ExtResource( 3 )]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -400.0
-margin_top = -300.0
-margin_right = 400.0
-margin_bottom = 300.0
 
 [node name="Buttons" type="HBoxContainer" parent="."]
 margin_right = 1920.0
@@ -91,6 +77,26 @@ shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Starmap"
 
+[node name="Markets" type="Button" parent="Buttons"]
+margin_left = 660.0
+margin_right = 760.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 100, 60 )
+focus_mode = 0
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+text = "Markets"
+
+[node name="System" type="Button" parent="Buttons"]
+margin_left = 770.0
+margin_right = 870.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 100, 60 )
+focus_mode = 0
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+text = "System"
+
 [node name="Dynamic" type="HBoxContainer" parent="."]
 margin_top = 64.0
 margin_right = 1920.0
@@ -113,7 +119,7 @@ margin_bottom = 952.0
 rect_min_size = Vector2( 400, 0 )
 mouse_filter = 0
 
-[node name="Minimap" parent="Dynamic/Right" instance=ExtResource( 4 )]
+[node name="Minimap" parent="Dynamic/Right" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 0.0
 margin_right = 400.0
@@ -125,7 +131,7 @@ margin_right = 400.0
 margin_bottom = 548.0
 size_flags_vertical = 3
 
-[node name="Context" parent="Dynamic/Right" instance=ExtResource( 5 )]
+[node name="Context" parent="Dynamic/Right" instance=ExtResource( 4 )]
 margin_top = 552.0
 margin_bottom = 952.0
 
@@ -160,3 +166,5 @@ margin_bottom = 5.0
 [connection signal="pressed" from="Buttons/Ship" to="." method="menuButtonPressed" binds= [ "SHIP" ]]
 [connection signal="pressed" from="Buttons/Cargo" to="." method="menuButtonPressed" binds= [ "CARGO" ]]
 [connection signal="pressed" from="Buttons/Starmap" to="." method="menuButtonPressed" binds= [ "STARMAP" ]]
+[connection signal="pressed" from="Buttons/Markets" to="." method="menuButtonPressed" binds= [ "MARKETS" ]]
+[connection signal="pressed" from="Buttons/System" to="." method="menuButtonPressed" binds= [ "SYSTEM" ]]

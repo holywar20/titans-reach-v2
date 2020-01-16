@@ -45,6 +45,7 @@ const TEST_NARRATIVE = {
 		"ownOptionTitle" : "Leave",
 		"ownOptionText"  : "You leave, getting nothing, but taking no risk",
 		"terminationEvent" : "NarrativeOver",
+		"isLeavable" : true
 	}
 }
 
@@ -61,21 +62,23 @@ func generateAnomoly( parentCelestial, star , eventBus = null , typeOverride = n
 	if( eventBus ):
 		anom.setEvents( eventBus )
 
-	var narrativeDictionary = generateNarratives()
-	anom.defaultNarrative = narrativeDictionary[ "END" ]
-	
+	var narrativeDictionary = generateNarratives( anom )
+	anom.defaultNarrative = narrativeDictionary[ "START" ]
+
 	anom.setParents( parentCelestial, star )
 	anom.setAnomType( typeOverride )
 
 	return anom
 
-func generateNarratives():
+func generateNarratives( anom : Anomoly ):
 	var allNarratives = {}
 
 	# Init narative and load params into it
 	for key in TEST_NARRATIVE:
 		var newNarrative = Narrative.new()
 		var narrativeData = TEST_NARRATIVE[key].duplicate()
+		
+		newNarrative.parentAnomoly = anom # passing in anomoly from refrence in case we need it.
 
 		for param in narrativeData:
 			newNarrative.set( param , TEST_NARRATIVE[key][param] )
@@ -93,7 +96,7 @@ func generateNarratives():
 		if( narrative.childNarratives.size() >= 1):
 			for x in range( 0 , narrative.childNarratives.size() ):
 				print( narrative.childNarratives[x] )
-				# narrative.childNarratives[x] = allNarratives[narrative.childNarratives[x]]
+				narrative.childNarratives[x] = allNarratives[narrative.childNarratives[x]]
 
 	return allNarratives
 

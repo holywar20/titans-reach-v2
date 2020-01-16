@@ -6,6 +6,7 @@ class_name Narrative
 var narrativeTitle = null
 var narrativeImage = null
 var narrativeText = null
+var parentAnomoly = null
 
 # Optional options
 var childNarratives = []
@@ -15,6 +16,9 @@ var ownOptionKey = null
 var ownOptionTitle = null
 var ownOptionDetail = null 
 
+# Flags
+var isLeavable = false # Allows user to hit 'end' by closing the window. Not all narratives permit ending this way.
+
 func getClass():
 	return "Narrative"
 
@@ -22,20 +26,33 @@ func isClass( compareString : String ):
 	return compareString == "Narrative"
 
 func getOwnOption():
-	var dictionary = {
+	var optionDict = {
 		"Title"  : ownOptionTitle,
 		"Detail" : ownOptionDetail,
 		"Key"		: ownOptionKey
-	} 
+	}
+
+	return optionDict
 
 func getOptions():
-	var optionArray = []
+	var optionDict = {}
 
 	for child in childNarratives:
-		optionArray.append( child.getOwnOption() )
+		var option = child.getOwnOption()
+		optionDict[option.Key] = option
 
+	return optionDict
+
+# Returns narrative by option key, returns null if this narrative is terminating
 func getNext( optionKey : String ):
-	pass
+	
+	var next = null
+	for narrative in childNarratives:
+		if( narrative.ownOptionKey == optionKey ):
+			next = narrative
+
+	return next
+
 
 func terminateNarrative( optionSelected ):
 	if( terminationEvent ):
