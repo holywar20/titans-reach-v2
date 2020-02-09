@@ -6,6 +6,8 @@ const RAND_KEY_SIZE = 10
 const RAND_KEY_POSSIBLE_VALUES = 35
 const SEED_SIZE = 100000000
 
+const SCALE_2DTO3D_FACTOR = 1000
+
 const DRAGGABLE_LAYER = "/root/Root/Draggable"
 
 var randSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345689" 

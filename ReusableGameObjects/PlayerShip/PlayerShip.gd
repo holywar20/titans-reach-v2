@@ -13,11 +13,16 @@ const ZOOM_STEP = .05
 const ROTATION_SPEED_THRESHOLD = 5
 const MOVEMENT_SPEED_THRESHOLD = 1
 
+const CAM_OFFSET_X = 0
+const CAM_OFFSET_Y = 0
+
 var vectorDirection = Vector2(0,0)
 var speed = 0
 
 onready var myCamera = get_node("Camera")
 onready var area2D = get_node("ShipArea") # I need this for collision detection of areas for some reason. Rigid2D Bodies can't poll for areas, only for bodies, and i'm using mostly areas.
+onready var ship = get_node("Ship")
+onready var viewPortCamera = get_node("../Viewport/ViewportContainer/Viewport/Camera")
 
 var eventBus = null
 var starship = null
@@ -82,7 +87,14 @@ func _physics_process( delta ):
 		angularVelocity = 0
 
 	if( linearVelocity.x != 0 || linearVelocity.y != 0 || angularVelocity != 0 ):
-		pass
+		var position = get_position()
+		print( position )
+		var x = ( position.x + CAM_OFFSET_X ) / Common.SCALE_2DTO3D_FACTOR
+		var y = ( position.y + CAM_OFFSET_Y ) / Common.SCALE_2DTO3D_FACTOR
+
+		if( viewPortCamera ):
+			var currentCameraPosition = viewPortCamera.get_translation()
+			viewPortCamera.set_translation( Vector3( x , currentCameraPosition.y , y ) )
 		# BIG TODO - Update time
 		# World.addToTime( TIME_FACTOR * delta )
 		#EventBus.emit( EventBus.GLOBAL_STARSHIP_MOVEMENT ,[ get_rotation() , get_global_position() ] )

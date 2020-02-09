@@ -1,55 +1,67 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Views/Explore/Game/Explore.gd" type="Script" id=1]
-[ext_resource path="res://ReusableGameObjects/PlayerShip/PlayerShip.tscn" type="PackedScene" id=2]
-[ext_resource path="res://TextureBank/Backgrounds/starfield.png" type="Texture" id=3]
-
-[sub_resource type="CanvasItemMaterial" id=1]
+[ext_resource path="res://TextureBank/Backgrounds/Space001.png" type="Texture" id=2]
+[ext_resource path="res://TextureBank/Backgrounds/Starfield.png" type="Texture" id=3]
+[ext_resource path="res://Views/Explore/Game/Camera.gd" type="Script" id=4]
+[ext_resource path="res://ReusableGameObjects/PlayerShip/PlayerShip.tscn" type="PackedScene" id=5]
 
 [node name="TravelMapScene" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="Background" type="Node2D" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -30
 
-[node name="PlayerShip" parent="." instance=ExtResource( 2 )]
+[node name="Background" type="TextureRect" parent="CanvasLayer"]
+margin_left = -236.85
+margin_top = -507.523
+margin_right = 1363.15
+margin_bottom = 1092.48
+rect_scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 2 )
+stretch_mode = 1
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+layer = -25
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.5, 0.5 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+scale = Vector2( 1925.87, 1082.21 )
+texture = ExtResource( 3 )
+region_enabled = true
+
+[node name="ViewPortCanvas" type="CanvasLayer" parent="."]
+layer = -5
+
+[node name="ViewportContainer" type="ViewportContainer" parent="ViewPortCanvas"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Celestials" type="Viewport" parent="ViewPortCanvas/ViewportContainer"]
+size = Vector2( 1920, 1080 )
+transparent_bg = true
+handle_input_locally = false
+msaa = 2
+render_target_update_mode = 3
+
+[node name="Camera" type="Camera" parent="ViewPortCanvas/ViewportContainer/Celestials"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 3.497, 0 )
+doppler_tracking = 1
+current = true
+fov = 38.0
+script = ExtResource( 4 )
+
+[node name="PlayerShip" parent="." instance=ExtResource( 5 )]
+position = Vector2( 956.806, 541.167 )
+gravity_scale = 0.0
 
 [node name="System" type="Node2D" parent="."]
+visible = false
 
 [node name="Anomolies" type="Node2D" parent="."]
-
-[node name="StarField" type="ParallaxBackground" parent="."]
-scroll_ignore_camera_zoom = true
-
-[node name="High" type="ParallaxLayer" parent="StarField"]
-modulate = Color( 0.734375, 0.734375, 0.734375, 0.972392 )
-material = SubResource( 1 )
-motion_mirroring = Vector2( 1920, 1080 )
-
-[node name="Sprite" type="Sprite" parent="StarField/High"]
-position = Vector2( 968.616, 535 )
-scale = Vector2( 2.76748, 2.32609 )
-texture = ExtResource( 3 )
-
-[node name="Mid" type="ParallaxLayer" parent="StarField"]
-modulate = Color( 0.628906, 0.62645, 0.62645, 0.635333 )
-material = SubResource( 1 )
-motion_scale = Vector2( 0.25, 0.25 )
-motion_offset = Vector2( 500, 500 )
-motion_mirroring = Vector2( 1920, 1080 )
-
-[node name="Sprite" type="Sprite" parent="StarField/Mid"]
-position = Vector2( 968.616, 535 )
-scale = Vector2( 2.76748, 2.32609 )
-texture = ExtResource( 3 )
-
-[node name="Low" type="ParallaxLayer" parent="StarField"]
-modulate = Color( 0.4375, 0.411865, 0.411865, 0.701647 )
-material = SubResource( 1 )
-motion_scale = Vector2( 0.12, 0.12 )
-motion_offset = Vector2( 1000, 1000 )
-motion_mirroring = Vector2( 1920, 1080 )
-
-[node name="Sprite" type="Sprite" parent="StarField/Low"]
-position = Vector2( 968.616, 535 )
-scale = Vector2( 2.76748, 2.32609 )
-texture = ExtResource( 3 )
