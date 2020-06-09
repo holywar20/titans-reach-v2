@@ -34,6 +34,7 @@ var isHabitable = false
 #img DATA
 var iconTexturePath = ""
 var fullTexturePath = ""
+var planetAvatar = "res://ReusableGameObjects/Planet/TerranPlanet.tscn"
 
 func _ready():
 	nodes.nameLabel.set_text( fullName )
@@ -46,6 +47,12 @@ func setEvents( eBus : EventBus ):
 func _onAreaInputEvent( viewport, event, shape_idx ):
 	if( event.is_action_pressed( "GUI_SELECT" ) ):
 		eventBus.emit( "PlanetClickedStart" , [self] )
+
+func instanceAvatar():
+	var planetAvatarScene = load(planetAvatar)
+
+	return planetAvatarScene.instance()
+
 
 # Getters & Setters
 func getIconTexturePath():

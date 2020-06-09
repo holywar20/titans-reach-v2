@@ -23,6 +23,8 @@ shape = SubResource( 1 )
 rotation = 1.5708
 scale = Vector2( 1.5625, 2.34375 )
 current = true
+drag_margin_h_enabled = false
+drag_margin_v_enabled = false
 
 [node name="Texture" type="Sprite" parent="."]
 position = Vector2( 4.99994, 0 )

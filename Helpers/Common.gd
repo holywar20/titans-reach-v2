@@ -15,6 +15,11 @@ var randSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345689"
 func _ready():
 	pass
 
+func translate2dPositionTo3d( pos : Vector2 , height = 0 ):
+	var x = ( pos.x ) / Common.SCALE_2DTO3D_FACTOR
+	var y = ( pos.y ) / Common.SCALE_2DTO3D_FACTOR
+	return Vector3( x , height, y )
+
 func randDiffValues( low, hi ):
 	hi 	= int( round( hi  * ROUND_PRECISION ) ) # To deal with fractions and modulo  Also this caps precision at 4 decimals
 	low 	= int( round( low * ROUND_PRECISION ) )

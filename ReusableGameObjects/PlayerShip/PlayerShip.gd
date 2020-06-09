@@ -5,7 +5,7 @@ var rotationAcceleration = .1
 
 # TODO - Set lower speed when not debugging, should be about 200 for acceleration & 500 for velocityMaxForward
 var acceleration = 200
-var velocityMaxForward = 500
+var velocityMaxForward = 1000
 
 const MAX_ZOOM_IN = .5
 const MAX_ZOOM_OUT = 6
@@ -13,8 +13,6 @@ const ZOOM_STEP = .05
 const ROTATION_SPEED_THRESHOLD = 5
 const MOVEMENT_SPEED_THRESHOLD = 1
 
-const CAM_OFFSET_X = 0
-const CAM_OFFSET_Y = 0
 
 var vectorDirection = Vector2(0,0)
 var speed = 0
@@ -22,7 +20,7 @@ var speed = 0
 onready var myCamera = get_node("Camera")
 onready var area2D = get_node("ShipArea") # I need this for collision detection of areas for some reason. Rigid2D Bodies can't poll for areas, only for bodies, and i'm using mostly areas.
 onready var ship = get_node("Ship")
-onready var viewPortCamera = get_node("../Viewport/ViewportContainer/Viewport/Camera")
+onready var viewPortCamera = get_node("../ViewPortCanvas/ViewportContainer/Celestials/Camera")
 
 var eventBus = null
 var starship = null
@@ -87,17 +85,12 @@ func _physics_process( delta ):
 		angularVelocity = 0
 
 	if( linearVelocity.x != 0 || linearVelocity.y != 0 || angularVelocity != 0 ):
-		var position = get_position()
-		print( position )
-		var x = ( position.x + CAM_OFFSET_X ) / Common.SCALE_2DTO3D_FACTOR
-		var y = ( position.y + CAM_OFFSET_Y ) / Common.SCALE_2DTO3D_FACTOR
+		var position = myCamera.get_global_position()
+		var viewPortCamPos = viewPortCamera.get_translation()
 
-		if( viewPortCamera ):
-			var currentCameraPosition = viewPortCamera.get_translation()
-			viewPortCamera.set_translation( Vector3( x , currentCameraPosition.y , y ) )
-		# BIG TODO - Update time
-		# World.addToTime( TIME_FACTOR * delta )
-		#EventBus.emit( EventBus.GLOBAL_STARSHIP_MOVEMENT ,[ get_rotation() , get_global_position() ] )
+		var translatedVector3 = Common.translate2dPositionTo3d( position , viewPortCamPos.y )
+		viewPortCamera.set_translation( translatedVector3 )
+		#TODO - Update time
 
 func goRotation( direction, delta ):
 	var newRotationSpeed = get_angular_velocity() + ( rotationSpeed * delta * direction )

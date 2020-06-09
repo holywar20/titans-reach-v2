@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://TextureBank/Planets/Barren/Barren.tres" type="Material" id=1]
+[ext_resource path="res://ReusableGameObjects/Planet/TerranPlanet.gd" type="Script" id=2]
+
+[sub_resource type="SphereMesh" id=1]
+
+[sub_resource type="Animation" id=2]
+resource_name = "Rotation"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2.5, 5, 7.5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, -90, 0 ), Vector3( 0, -180, 0 ), Vector3( 0, -270, 0 ), Vector3( 0, -359, 0 ) ]
+}
+
+[node name="TerranPlanet" type="MeshInstance"]
+transform = Transform( 0.499924, 0, 0.00872607, 0.00707402, 0.292747, -0.405277, -0.00510905, 0.405339, 0.292702, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 0.5
+anims/Rotation = SubResource( 2 )

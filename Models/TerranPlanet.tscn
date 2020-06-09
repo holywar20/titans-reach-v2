@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[sub_resource type="SphereMesh" id=2]
-
-[node name="TerranPlanet" type="MeshInstance"]
-transform = Transform( 0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 6.09027, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = null

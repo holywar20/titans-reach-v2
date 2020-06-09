@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Views/Explore/Game/Explore.gd" type="Script" id=1]
 [ext_resource path="res://TextureBank/Backgrounds/Space001.png" type="Texture" id=2]
-[ext_resource path="res://TextureBank/Backgrounds/Starfield.png" type="Texture" id=3]
-[ext_resource path="res://Views/Explore/Game/Camera.gd" type="Script" id=4]
-[ext_resource path="res://ReusableGameObjects/PlayerShip/PlayerShip.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Views/Explore/Game/Camera.gd" type="Script" id=3]
+[ext_resource path="res://ReusableGameObjects/PlayerShip/PlayerShip.tscn" type="PackedScene" id=4]
 
 [node name="TravelMapScene" type="Node2D"]
 script = ExtResource( 1 )
@@ -21,18 +20,8 @@ rect_scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 2 )
 stretch_mode = 1
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-layer = -25
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 0.5, 0.5 )
-
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
-scale = Vector2( 1925.87, 1082.21 )
-texture = ExtResource( 3 )
-region_enabled = true
-
 [node name="ViewPortCanvas" type="CanvasLayer" parent="."]
+editor/display_folded = true
 layer = -5
 
 [node name="ViewportContainer" type="ViewportContainer" parent="ViewPortCanvas"]
@@ -55,9 +44,9 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 3.
 doppler_tracking = 1
 current = true
 fov = 38.0
-script = ExtResource( 4 )
+script = ExtResource( 3 )
 
-[node name="PlayerShip" parent="." instance=ExtResource( 5 )]
+[node name="PlayerShip" parent="." instance=ExtResource( 4 )]
 position = Vector2( 956.806, 541.167 )
 gravity_scale = 0.0
 

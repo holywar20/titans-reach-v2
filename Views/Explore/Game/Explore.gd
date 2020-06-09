@@ -7,15 +7,13 @@ onready var shipAvatar = get_node("PlayerShip")
 onready var celestialBase = get_node("ViewPortCanvas/ViewportContainer/Celestials")
 
 onready var starAvatarScene = load("res://ReusableGameObjects/Star/StarAvatar.tscn")
-# onready var planetAvatarScene = load("")
-
 
 var eventBus = null
 var globalEventBus = EventBusStore.getGlobalEventBus()
 
 var planets = []
 
-var stars = []
+var star = null
 var ship = null
 var anoms = []
 var connections = []
@@ -30,19 +28,19 @@ func _ready():
 
 	var starDictionary = StarSystemFactory.generateRandomSystem( 100000 )
 	
-	stars = [ starDictionary.star ]
+	star = starDictionary.star
 	planets = starDictionary.planets
 	anoms = starDictionary.anoms
 	connections = starDictionary.connections
 
 	_buildStar( star )
-	# _buildPlanets( star , planets )
+	_buildPlanets( star , planets )
 	_buildAnoms( star , planets , eventBus )
 
 	# TODO - Hoist this into a loadSolarSystem method.
 	##TODO - Clicking self event
 	globalEventBus.emit( "ExploreScreen_Open_End" , [ "EXPLORE" ] )
-	eventBus.emit("CelestialsLoadedOnMap" , [ planets, star, null ] )
+	eventBus.emit("CelestialsLoadedOnMap" , [ planets, star , null ] )
 
 func _exit_tree():
 	globalEventBus.emit("ExploreScreen_Close_Begin" , [ "EXPLORE" ] )
@@ -51,28 +49,32 @@ func _exit_tree():
 
 func _buildStar( star : Star ):
 
-	for star in stars: # TODO - ability to have binary and or multiple kinds of stars
-		star.set_global_position( Vector2( 0 , 0 ) )
-		star.setEvents( eventBus )
-		systemBase.add_child( star )
+	# TODO - ability to have binary and or multiple kinds of stars
+	star.set_global_position( Vector2( 0 , 0 ) )
+	star.setEvents( eventBus )
+	systemBase.add_child( star )
 
-		var starAvatar = starAvatarScene.instance()
-		starAvatar.setupScene( star )
-		starAvatar.set_global_transform()
-		celestialBase.add( newStar )
-
-
-
-
-
+	var starAvatar = starAvatarScene.instance()
+	starAvatar.setupScene( star )
+	starAvatar.set_translation( Vector3(0 , 0 ,0 ) )
+	celestialBase.add_child( starAvatar )
 
 func _buildPlanets( star , planets ):
 	for planet in planets:
 		if( planet ):
+			# Set up 2d Planet
 			var orbitSize = star.getOrbitalDistance( planet.orbit )
 			planet.set_global_position( planet.radial * orbitSize )
 			planet.setEvents( eventBus )
 			systemBase.add_child( planet )
+
+			# Now add 3d Avatar
+			var planetAvatar = planet.instanceAvatar()
+			var planetPos = planet.get_global_position()
+			var planetTranslation = Common.translate2dPositionTo3d( planetPos )
+			planetAvatar.set_translation( planetTranslation )
+			celestialBase.add_child( planetAvatar )
+			
 		else:
 			pass
 
