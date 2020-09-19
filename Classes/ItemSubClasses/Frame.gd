@@ -20,9 +20,8 @@ const FRAME_CLASS_DATA = [
 	{ "frameClassString" : "Assault"  , "frameInitCost" : 6 , "frameWeight" : 4}
 ]
 
-func _init( key : String ):
-	itemKey = key
-	itemTextureType = TEXTURE_GRID_TYPE.COL
+func _init( dataDict : Dictionary ):
+	self.prepareItem( dataDict );
 
 # Overrides
 func get_class(): 

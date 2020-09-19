@@ -1,6 +1,5 @@
 extends PanelContainer
 
-onready var grid = get_node("VBox/Panel/Center/HBox/Grid")
 onready var buttons = [
 	get_node("VBox/Panel/HBox/Grid/Row1/A1"),
 	get_node("VBox/Panel/HBox/Grid/Row1/A2"),

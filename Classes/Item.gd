@@ -37,7 +37,6 @@ const RARITY_DATA = [
 	{ "String" : "Unique"	,"Color" : Color(0 ,0 ,0 ,0) }
 ]
 
-
 func _init():
 	pass
 
@@ -46,6 +45,22 @@ func get_class():
 
 func is_class( name : String ): 
 	return name == "Item"
+
+func prepareItem( dataDict ):
+	self.itemKey = dataDict.itemKey
+	self.itemMass = dataDict.itemMass
+	self.itemVolume = dataDict.itemVolume
+	self.itemValue = dataDict.itemValue
+	self.itemDisplayName = dataDict.itemDisplayName
+	self.itemDisplayNameShort = dataDict.itemDisplayNameShort
+	self.itemTexturePath = dataDict.itemTexturePath
+	self.itemTextureType = dataDict.itemTextureType
+
+func setOwned( num ):
+	itemOwned = num;
+
+func getOwned( num ):
+	return itemOwned;
 
 func getItemDisplay( short = false ):
 	if( short ):

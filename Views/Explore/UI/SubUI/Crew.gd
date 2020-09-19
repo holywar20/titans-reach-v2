@@ -17,24 +17,24 @@ onready var nodes = {
 	"CrewmanName"		: get_node("HBox/Center/Crewman/Name")
 }
 
-func setupScene( eBus : EventBus , parentNode ):
+func setupScene( eBus : EventBus , pNode ):
 	eventBus = eBus
-	parentNode = parentNode
+	parentNode = pNode
 	crewman = parentNode.getCurrentCrewman()
 
 func _ready():
 	eventBus.emit("SubUIAnyOpenEnd")
 	loadCrewmanData( crewman )
 
-func loadCrewmanData( crewman : Crew ):
-	nodes.CharacterPoints.set_text( crewman.getCPointString() )
-	nodes.CrewmanName.set_text( crewman.getFullName() )
+func loadCrewmanData( cMan : Crew ):
+	nodes.CharacterPoints.set_text( cMan.getCPointString() )
+	nodes.CrewmanName.set_text( cMan.getFullName() )
 
-	nodes.TraitsCard.loadData( crewman )
-	nodes.ResistanceCard.loadData( crewman )
+	nodes.TraitsCard.loadData( cMan )
+	nodes.ResistanceCard.loadData( cMan )
 
-	nodes.VitalsCard.loadData( crewman )
-	nodes.BioCard.loadData( crewman )
+	nodes.VitalsCard.loadData( cMan )
+	nodes.BioCard.loadData( cMan )
 
 # Buttons
 func _onNextPressed():

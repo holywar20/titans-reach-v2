@@ -36,7 +36,7 @@ const DEBUG_OPTIONS = {
 }
 
 # TODO : Put this into a save game system of some kind, instead of loading from scratch
-onready var playerGear = null
+onready var playerGear = {}
 onready var playerItems = null
 onready var playerShip = Starship.new()
 onready var playerCrew = CrewFactory.generateManyCrew( 30 , 5 )
@@ -60,26 +60,17 @@ func _ready():
 	GlobalEventBus.register( "LaunchBattleStart" , self , "_loadBattleScreen" )
 
 func _generateDebugGear():
-	playerGear = FrameFactory.generateDebugFrames()
+	var testFrameList = ["TerranLightFrame", "TerranHeavyFrame" , "TerranAssaultFrame" , "TerranMediumFrame"]
+	for key in testFrameList:
+		playerGear[key] = ItemDB.getCoreItem( key );
 
-	var weapons = WeaponFactory.generateDebugWeapons()
-	for key in weapons:
-		playerGear[key] = weapons[key]
+	var testWeaponList = ["TerranSword" , "TerranPistol" , "TerranHammer" , "TerranMinigun" , "TerranShotgun" , "TerranAssaultRifle" ]
+	for key in testWeaponList:
+		playerGear[key] = ItemDB.getCoreItem( key )
 
-	var equipment = EquipmentFactory.generateDebugEquipment()
-	for key in equipment:
-		playerGear[key] = equipment[key]
-
-	# Do some basic equiping on game start so I can do fast testing
-	playerCrew[0].itemTransaction( playerGear["TerranMinigun"] , "LWeapon" )
-	playerCrew[1].itemTransaction( playerGear["TerranAssaultRifle"] , "LWeapon" )
-	playerCrew[2].itemTransaction( playerGear["TerranShotGun"] , "LWeapon" )
-	playerCrew[3].itemTransaction( playerGear["TerranHammer"] , "LWeapon" )
-	playerCrew[4].itemTransaction( playerGear["TerranSword"] , "LWeapon" )
-
-	for x in range( 0 , playerCrew.size() ):
-		playerCrew[x].itemTransaction( playerGear["TerranPistol"] , "RWeapon" )
-		playerCrew[x].itemTransaction( playerGear["TerranMedKit"] , "LEquip" )
+	var testEquipmentList = ["TerranShieldGenerator" , "TerranMedKit" , "TerranFragGrenade" , "TerranEmpGrenade"]
+	for key in testEquipmentList:
+		playerGear[key] = ItemDB.getCoreItem( key )
 
 func _clearPopupLayer():
 	for child in popupLayer.get_children():

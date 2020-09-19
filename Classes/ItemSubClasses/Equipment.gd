@@ -12,9 +12,8 @@ var equipmentActionKeys = []
 func _ready():
 	pass # Replace with function body.
 
-func _init( key: String):
-	itemKey = key
-	itemTextureType = TEXTURE_GRID_TYPE.SINGLE
+func _init( dataDict : Dictionary ):
+	self.prepareItem( dataDict );
 
 func get_class():
 	return "Equipment"

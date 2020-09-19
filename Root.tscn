@@ -17,7 +17,6 @@ mouse_filter = 2
 layer = 10
 
 [node name="PauseLayer" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="TextureRect" type="TextureRect" parent="PauseLayer"]
 visible = false

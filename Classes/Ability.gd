@@ -73,15 +73,15 @@ const HI_DMG_TRAIT_MOD = 1
 const LO_DMG_TRAIT_MOD = .5
 
 # Meta data. This is loaded from a dictionary and should be validated.
-var key = null
-var shortName = null
-var fullName = null
-var abilityType = null
-var validTargets = null
-var validFrom = null
-var targetType = null
-var targetArea = null
-var iconPath = null
+var key : String
+var fullName : String
+var shortName : String
+var abilityType : String
+var validTargets : Array = [2]
+var validFrom : Array = [2]
+var targetType : String
+var targetArea : String
+var iconPath : String
 
 var damageHiBase = 0
 var damageLoBase = 0
@@ -100,8 +100,28 @@ var movementEffects = []
 var abilityLearned = false
 var actor = null
 
-func _init():
+func _init( dict = null ):
 	setActor( CrewFactory.getDummyCrewman() )
+	
+	if( dict ):
+		key = dict.key;
+		fullName = dict.fullName
+		shortName = dict.shortName
+		abilityType = dict.abilityType
+		damageHiBase = dict.damageHiBase
+		damageLoBase = dict.damageLoBase
+		healingHiBase = dict.healingHiBase
+		healingLoBase = dict.healingLoBase
+		toStatusEffectBase = dict.toStatusEffectBase
+		toHitBase = dict.toHitBase
+		validTargets = dict.validTargets
+		validFrom = dict.validFrom
+		targetType = dict.targetType
+		targetArea = dict.targetArea
+		iconPath = dict.iconPath
+
+	# Loop though effects and load them.
+
 
 func setActor( newActor : Crew ):
 	actor = newActor

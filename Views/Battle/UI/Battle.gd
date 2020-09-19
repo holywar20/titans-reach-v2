@@ -45,7 +45,7 @@ onready var cards = {
 }
 
 onready var nodes = {
-	"TurnLabel" 		: get_node("BottomControls/TurnData/VBox/Label"),
+	"TurnLabel" 		: null,
 	"ActionStatus"		: get_node("Header/UncontainedUI/CanvasLayer/ActionStatus")
 }
 

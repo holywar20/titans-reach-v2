@@ -11,9 +11,8 @@ var weaponActionKeys = []
 func _ready():
 	pass
 
-func _init( key : String ):
-	itemKey = key
-	itemTextureType = TEXTURE_GRID_TYPE.ROW
+func _init( dataDict : Dictionary ):
+	self.prepareItem( dataDict );
 # Overrides
 func get_class(): 
 	return "Weapon"
