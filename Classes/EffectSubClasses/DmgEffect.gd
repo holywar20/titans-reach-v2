@@ -7,10 +7,9 @@ const DMG_TYPES_DATA = {
 	'KINETIC'	: { "color": "gray" , "string" : "Kinetic" }, 
 	'THERMAL'	: { "color": "red" , "string" : "Thermal" }, 
 	'CORROSIVE'	: { "color": "lime" , "string" : "Corrosive" }, 
-	'EM' 			: { "color": "blue" , "string" : "EM" }
+	'EM' 		: { "color": "blue" , "string" : "EM" }
 	}
 
-# filled by Json 
 var damageType = DMG_TYPES.KINETIC
 var dmgTrait = null
 var dmgTraitMod = 0
@@ -18,6 +17,9 @@ var dmgBaseMod = 1
 
 # Calculated values
 var dmgTotalMod = 1
+
+# TODO - not yet implimented
+var animationName = null;
 
 func get_class():
 	return "DmgEffect"
@@ -59,7 +61,7 @@ func _postDisplayEffect( ability : Ability ):
 		"dmgType" : _getDmgTypeString(),
 		"dmgColor" : _getDmgTypeColor(),
 		"area" : ability.getTargetTypeString()
-	})
+	});
 
 	return effectSubString
 

@@ -32,7 +32,7 @@ enum RARITY { COMMON , UNCOMMON , RARE , LEGENDARY , UNIQUE }
 const RARITY_DATA = [
 	{ "String" : "Common" 	,"Color" : Color(0 ,0 ,0 ,0) },
 	{ "String" : "Uncommon" ,"Color" : Color(0 ,0 ,0 ,0) },
-	{ "String" : "Rare" 		,"Color" : Color(0 ,0 ,0 ,0) },
+	{ "String" : "Rare" 	,"Color" : Color(0 ,0 ,0 ,0) },
 	{ "String" : "Legendary","Color" : Color(0 ,0 ,0 ,0) },
 	{ "String" : "Unique"	,"Color" : Color(0 ,0 ,0 ,0) }
 ]
