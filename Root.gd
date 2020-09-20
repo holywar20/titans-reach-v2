@@ -68,7 +68,7 @@ func _generateDebugGear():
 	for key in testWeaponList:
 		playerGear[key] = ItemDB.getCoreItem( key )
 
-	var testEquipmentList = ["TerranShieldGenerator" , "TerranMedKit" , "TerranFragGrenade" , "TerranEmpGrenade"]
+	var testEquipmentList = ["TerranShieldGenerator" , "TerranMedkit" , "TerranFragGrenade" , "TerranEMPGrenade"]
 	for key in testEquipmentList:
 		playerGear[key] = ItemDB.getCoreItem( key )
 
@@ -175,8 +175,7 @@ func _onLaunchAnomolyPopup( anom : Anomoly , ebus : EventBus ):
 
 func _onResolveAnomolyPopup( anom : Anomoly ):
 	pause( false )
-	
-	_clearPopupLayer()
+	print("anom resolved");
+	print(anom);
 
-func _loadBattlePositionPopup( myCrew, battleType , myBattleOrder , inBattle = true):
-	pass
+	_clearPopupLayer()

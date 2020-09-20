@@ -50,7 +50,7 @@ func getCoreAbility( abilityKey : String ):
 		if( coreDB.query_result.size() >= 1 ):
 			newAbility = Ability.new( coreDB.query_result[0] )
 		else:
-			print("Could not find item : " + itemKey )
+			print("Could not find item : " + abilityKey )
 
 	return newAbility
 
