@@ -77,8 +77,8 @@ var key : String
 var fullName : String
 var shortName : String
 var abilityType : String
-var validTargets : Array = [2]
-var validFrom : Array = [2]
+var validTargets : Array = []
+var validFrom : Array = []
 var targetType : String
 var targetArea : String
 var iconPath : String
@@ -114,11 +114,33 @@ func _init( dict = null ):
 		healingLoBase = dict.healingLoBase
 		toStatusEffectBase = dict.toStatusEffectBase
 		toHitBase = dict.toHitBase
-		validTargets = dict.validTargets
-		validFrom = dict.validFrom
 		targetType = dict.targetType
 		targetArea = dict.targetArea
 		iconPath = dict.iconPath
+
+		# Need to take a comma seperated string and turn it into array of intergers
+		var vTargets = dict.validTargets.split(",")
+		for x in range( 0 , vTargets.size() ):
+			validTargets.append( vTargets[x] as int )
+		
+		var vFrom = dict.validFrom.split(",")
+		for x in range( 0, vFrom.size() ):
+			validFrom.append( vFrom[x] as int)
+		
+
+	#var defaultEffect : Effect
+	var defaultEffect = null
+	if( dict.defaultEffect ):
+		defaultEffect = ItemDB.getCoreEffect( dict.defaultEffect )
+	
+	if( defaultEffect ):
+		match defaultEffect.effectType:
+			"DAMAGE":
+				damageEffects.append( defaultEffect )
+			"HEALING":
+				healingEffects.append( defaultEffect )
+			"STATUS_EFFECTS":
+				statusEffects.append( defaultEffect )
 
 	# Loop though effects and load them.
 
@@ -172,9 +194,11 @@ func getTargetTypeString():
 # Note should is also used for an action validity test. 
 func getValidTargets():
 	var targetingArray = [ [ false , false , false ] , [ false, false , false] , [ false, false, false] ]
+	print( validTargets )
 
 	for x in range(0 , targetingArray.size() ):
 		for y in range( 0 , targetingArray[x].size() ):
+			print( x , y )
 			if( validTargets.has( y ) ):
 				targetingArray[x][y] = true
 		
@@ -208,12 +232,10 @@ func getOffsetMatrix( myX , myY ):
 # This method takes a Crew object ( maybe other types later ), and does all the math on it
 func calculateSelf( newActor = null ):
 	if( newActor ):
-		setActor( actor )
-		for effect in damageEffects:
-			effect = effect.calculateSelf( self , actor )
-	else:
-		# TODO - Build a dummy character so actions can exist in their 'naked, unmodified form'
-		pass
+		setActor( newActor )
+		
+	for effect in damageEffects:
+		effect = effect.calculateSelf( self , actor )
 
 func rollEffectRolls():
 	var effectArray = []

@@ -259,6 +259,9 @@ func _onTargetingTile( validTargetMatrix , targetsPlayer ):
 	setState( STATE.LOCK )
 
 func _onTargetingBattler( validTargetMatrix , targetsPlayer ):
+	print( validTargetMatrix )
+	print( targetsPlayer )
+	
 	if( isOnPlayerSide == targetsPlayer && validTargetMatrix[myX][myY] ):
 		setState( STATE.TARGETING )
 	else:

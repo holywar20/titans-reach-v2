@@ -167,16 +167,24 @@ func _startAbility( ability : Ability ):
 	selectedAbility = ability
 	nodes.ActionStatus.setStatus( ability.getFullName() )
 
+	print("_startAbility : ")
+	print( ability.targetType )
+
 	# TODO - currently only permits 1 selection, should allow for multiple selections
 	var validTargets = ability.getValidTargets()
-	if( ability.targetType == "ALLY_UNIT" || ability.targetType == "SELF" ):
+	print(validTargets)
+	if( ability.targetType == "ALLY_UNIT" or ability.targetType == "SELF" ):
 		eventBus.emit("TargetingBattler" , [ validTargets , currentTurnActor.isPlayer ] )
 	elif( ability.targetType == "ALLY_FLOOR" ):
 		eventBus.emit("TargetingTile" , [ validTargets, currentTurnActor.isPlayer ] )
 	elif( ability.targetType == "ENEMY_FLOOR" ): # Here we send the opposite of player. So true if it's NOT a player, and false if it is.
 		eventBus.emit("TargetingTile" , [ validTargets , !currentTurnActor.isPlayer ] )
 	elif( ability.targetType == "ENEMY_UNIT" ):
+		print("I'm emmitting stuff")
 		eventBus.emit("TargetingBattler" , [ validTargets , !currentTurnActor.isPlayer ] )
+
+
+
 
 	eventBus.emit( "TargetingBegin" , [ ability ] )
 

@@ -150,23 +150,25 @@ func _loadAbilitiesFromSavedKeys():
 
 	for category in allAbilityKeys:
 		for key in allAbilityKeys[category]:
-			var ability = AbilityFactory.getAbilityByKey( key )
-			ability.setActor( self )
+			var ability = ItemDB.getCoreAbility( key )
+			print( ability );
+			if( ability ):
+				ability.setActor( self )
 
-			if( ability.abilityType == ability.ABILITY_TYPES.ACTION ):
-				actions.append( ability )
-			
-			if( ability.abilityType == ability.ABILITY_TYPES.STANCE ):
-				stances.append( ability )
+				if( ability.abilityType == ability.ABILITY_TYPES.ACTION ):
+					actions.append( ability )
+				
+				if( ability.abilityType == ability.ABILITY_TYPES.STANCE ):
+					stances.append( ability )
 
-			if( ability.abilityType == ability.ABILITY_TYPES.TRIGGERED ):
-				triggered.append( ability )
+				if( ability.abilityType == ability.ABILITY_TYPES.TRIGGERED ):
+					triggered.append( ability )
 
-			if( ability.abilityType == ability.ABILITY_TYPES.PASSIVE ):
-				passives.append( ability )
+				if( ability.abilityType == ability.ABILITY_TYPES.PASSIVE ):
+					passives.append( ability )
 
-			if( ability.abilityType == ability.ABILITY_TYPES.INSTANT ):
-				instants.append( ability )
+				if( ability.abilityType == ability.ABILITY_TYPES.INSTANT ):
+					instants.append( ability )
 			# Parse key, put it in category that cares about it.
 
 func assign( console = null ):

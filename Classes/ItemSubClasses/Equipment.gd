@@ -14,6 +14,10 @@ func _ready():
 
 func _init( dataDict : Dictionary ):
 	self.prepareItem( dataDict );
+	if( dataDict.defaultAbility ):
+		equipmentActionKeys.insert( 0 , dataDict.defaultAbility )
+	else:
+		equipmentActionKeys.insert( 0 , null )
 
 func get_class():
 	return "Equipment"

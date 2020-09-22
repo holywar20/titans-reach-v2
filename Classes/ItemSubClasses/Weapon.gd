@@ -13,6 +13,10 @@ func _ready():
 
 func _init( dataDict : Dictionary ):
 	self.prepareItem( dataDict );
+	if( dataDict.defaultAbility ):
+		weaponActionKeys.insert( 0 , dataDict.defaultAbility )
+	else:
+		weaponActionKeys.insert( 0 , null )
 # Overrides
 func get_class(): 
 	return "Weapon"

@@ -95,7 +95,7 @@ func generateNarratives( anom : Anomoly ):
 
 		if( narrative.childNarratives.size() >= 1):
 			for x in range( 0 , narrative.childNarratives.size() ):
-				print( narrative.childNarratives[x] )
+				#print( narrative.childNarratives[x] )
 				narrative.childNarratives[x] = allNarratives[narrative.childNarratives[x]]
 
 	return allNarratives

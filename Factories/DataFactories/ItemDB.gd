@@ -10,7 +10,7 @@ var saveDBPath : String;
 func _ready():
 	coreDB = SQLite.new();
 	coreDB.path = coreDBPath;
-	coreDB.verbose_mode = true;
+	coreDB.verbose_mode = false;
 	coreDB.open_db();
 
 	# Get path for saveDB
@@ -46,13 +46,22 @@ func _generateItemFromQueryResult( queryResult : Dictionary , isShallow = false 
 
 	var newItem = null;
 	if( itemType == "Weapon" ):
-		newItem
+		newItem = Weapon.new( queryResult )
+	if( itemType == "Equipment" ):
+		newItem = Equipment.new( queryResult )
+	if( itemType == "Frame" ):
+		newItem = Frame.new( queryResult )
+
+	# TODO : Generate item from ability name
+	# var defaultAbilityName = queryResult.defaultAbility
+
+	return newItem
 
 
 func getCoreAbility( abilityKey : String ):
 	var abilityQuery = """
-		SELECT * FROM Items
-		WHERE abilityKey = '%s'
+		SELECT * FROM Abilities
+		WHERE key = '%s'
 		"""
 	
 	abilityQuery = abilityQuery % [ abilityKey ];
@@ -70,18 +79,20 @@ func getCoreAbility( abilityKey : String ):
 func getCoreEffect( effectKey : String ):
 	var effectQuery = """
 		SELECT * FROM Effects
-		WHERE effectKey = '%s'
+		WHERE key = '%s'
 	"""
 
 	effectQuery = effectQuery % [ effectKey ]
 	var success = coreDB.query( effectQuery );
 
-	var newAbility = null;
+	var newEffect = null;
 	if( success ):
-		if( coreDB.query_result.size >= 1 ):
+		if( coreDB.query_result.size() >= 1 ):
 			newEffect = Effect.new( coreDB.query_result[0] )
 		else:
 			print("Could not find effect : " + effectKey )
+
+	return newEffect
 
 func saveItem( item : Item ):
 	pass

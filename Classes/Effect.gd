@@ -6,17 +6,45 @@ const TRAITS = {
 	"STR" : "STR" , "INT" : "INT" , "DEX" : "DEX" , "CHA" : "CHA"
 }
 
-# Filled by Json
-var toHitTrait = null
-var toHitBaseMod = 0
-var toHitTraitMod = 0
+const EFFECT_TYPES = {
+	"DAMAGE" : "DAMAGE" , "HEALING" : "HEALING"
+}
 
-var alwaysHit = false
-var targetArea = null
-var targetType = null
-var animationKeys = [] 
+# Filled by DB
+var key : String = "NONE"
+var effectType : String = "DAMAGE"
+var toHitTrait : String
+var toHitBaseMod : float =  0.0
+var toHitTraitMod : float = 0.0
+
+# effectType - Damage
+var dmgType : String
+var dmgBaseMod : float
+var dmgTrait : String 
+var dmgTraitMod : float
+
+# effectType - Healing
+var healBaseMod : float
+var healTrait : String
+var healTraitMod : float
+
+# effectType - Status Effects
+var statusEffect : String
+var statusEffectTrait : String
+var statusEffectBaseMod : float
+var statusEffectTraitMod : float
+
+# effectType - Movement
+# TODO - figure out how to define this.likely just a constant with some behavior attached to it.
+# IE Pull, Push + a vector, or free move ( user selects )
+
+# effectType - Status effect
+var targetArea : String = "SELF"
+var targetType : String = "SELF"
+var animationKey : String = ""
 
 # Calculated values 
+var alwaysHit = false
 var toHitTotalMod = 0
 var toHitRolls = []
 var resultRolls = []
@@ -27,6 +55,36 @@ func get_class():
 
 func is_class( className ):
 	return className == "Effect"
+
+func _init( effectDict : Dictionary ):
+	
+	key = effectDict.key
+	effectType = effectDict.effectType as String
+	toHitTrait = effectDict.toHitTrait as String
+	toHitBaseMod = effectDict.toHitBaseMod as float
+	toHitTraitMod = effectDict.toHitTraitMod as float
+	targetType = effectDict.targetType as String
+	targetArea = effectDict.targetArea as String
+	animationKey = effectDict.animationKey as String
+
+	match effectType:
+		"DAMAGE":
+			dmgType  = effectDict.dmgType
+			dmgBaseMod = effectDict.dmgBaseMod
+			dmgTrait = effectDict.dmgTrait
+			dmgTraitMod = effectDict.dmgTraitMod
+		"HEALING":
+			healBaseMod = effectDict.healBaseMod
+			healTrait = effectDict.healTrait
+			healTraitMod = effectDict.healTraitMod
+		"STATUS":
+			statusEffect = effectDict.statusEffect
+			statusEffectTrait = effectDict.statusEffectTrait
+			statusEffectBaseMod = effectDict.statusEffectBaseMod
+			statusEffectTraitMod = effectDict.statusEffectTraitMod
+	
+	print( self )
+
 
 func calculateSelf( ability : Ability , actor : Crew ):
 	if( toHitTrait ):
