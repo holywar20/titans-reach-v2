@@ -19,28 +19,27 @@ var toHitTraitMod : float = 0.0
 
 # effectType - Damage
 var dmgType : String
-var dmgBaseMod : float
+var dmgBaseMod : float = 0.0
 var dmgTrait : String 
-var dmgTraitMod : float
+var dmgTraitMod : float = 0.0
 
 # effectType - Healing
-var healBaseMod : float
+var healBaseMod : float = 0.0
 var healTrait : String
-var healTraitMod : float
+var healTraitMod : float = 0.0
 
 # effectType - Status Effects
 var statusEffect : String
 var statusEffectTrait : String
-var statusEffectBaseMod : float
-var statusEffectTraitMod : float
+var statusEffectBaseMod : float = 0.0
+var statusEffectTraitMod : float = 0.0
 
 # effectType - Movement
 # TODO - figure out how to define this.likely just a constant with some behavior attached to it.
 # IE Pull, Push + a vector, or free move ( user selects )
 
-# effectType - Status effect
-var targetArea : String = "SELF"
-var targetType : String = "SELF"
+var targetArea : String
+var targetType : String
 var animationKey : String = ""
 
 # Calculated values 
@@ -49,6 +48,8 @@ var toHitTotalMod = 0
 var toHitRolls = []
 var resultRolls = []
 var fullDisplay = ""
+var parentAbility = null;
+var parentCrewman = null;
 
 func get_class():
 	return "Effect"
@@ -56,63 +57,80 @@ func get_class():
 func is_class( className ):
 	return className == "Effect"
 
-func _init( effectDict : Dictionary ):
+func _init( effectDict : Dictionary , ability : Ability ):
 	
 	key = effectDict.key
+	parentAbility = ability
+	parentCrewman = ability.actor
+	
 	effectType = effectDict.effectType as String
 	toHitTrait = effectDict.toHitTrait as String
 	toHitBaseMod = effectDict.toHitBaseMod as float
 	toHitTraitMod = effectDict.toHitTraitMod as float
-	targetType = effectDict.targetType as String
-	targetArea = effectDict.targetArea as String
 	animationKey = effectDict.animationKey as String
+
+	if( effectDict.targetType ):
+		targetType = effectDict.targetType as String
+		targetArea = effectDict.targetArea as String
+	elif( ability !=null ):
+		targetType = ability.targetType
+		targetArea = ability.targetArea
+	else:
+		targetType = Ability.TARGET_TYPES.SELF;
+		targetArea = Ability.TARGET_AREA.SELF;
 
 	match effectType:
 		"DAMAGE":
-			dmgType  = effectDict.dmgType
-			dmgBaseMod = effectDict.dmgBaseMod
-			dmgTrait = effectDict.dmgTrait
-			dmgTraitMod = effectDict.dmgTraitMod
+			dmgType  = effectDict.dmgType as String
+			dmgBaseMod = effectDict.dmgBaseMod as float
+			dmgTrait = effectDict.dmgTrait as String
+			dmgTraitMod = effectDict.dmgTraitMod as float
 		"HEALING":
-			healBaseMod = effectDict.healBaseMod
-			healTrait = effectDict.healTrait
-			healTraitMod = effectDict.healTraitMod
+			healBaseMod = effectDict.healBaseMod as float
+			healTrait = effectDict.healTrait as String
+			healTraitMod = effectDict.healTraitMod as float
 		"STATUS":
-			statusEffect = effectDict.statusEffect
-			statusEffectTrait = effectDict.statusEffectTrait
-			statusEffectBaseMod = effectDict.statusEffectBaseMod
-			statusEffectTraitMod = effectDict.statusEffectTraitMod
-	
-	print( self )
+			statusEffect = effectDict.statusEffect as String
+			statusEffectTrait = effectDict.statusEffectTrait as String
+			statusEffectBaseMod = effectDict.statusEffectBaseMod as float
+			statusEffectTraitMod = effectDict.statusEffectTraitMod as float
 
-
-func calculateSelf( ability : Ability , actor : Crew ):
+func calculateSelf():
 	if( toHitTrait ):
-		var statBlock = actor.getTraitStatBlock( toHitTrait )
+		var statBlock = parentCrewman.getTraitStatBlock( toHitTrait )
 		var traitValue = statBlock.total
 		
 		toHitTotalMod = ( traitValue * toHitTraitMod ) + toHitBaseMod
 	else:
 		toHitTotalMod = toHitBaseMod
 
-	_postCalculateSelf( ability , actor  )
+	_postCalculateSelf()
 
 # Override for any preexecution calculation
-func _postCalculateSelf( ability : Ability , actor : Crew ):
+func _postCalculateSelf():
 	pass
 
-func rollEffect( ability : Ability , actor : Crew ):
-	calculateSelf( ability , actor )
-	
+func rollEffect():
+	calculateSelf()
+
 	var numRolls = Ability.TARGET_AREA_DATA[targetArea].count
-	toHitRolls  = _rollToHit( ability , actor , numRolls )
-	resultRolls = _rollResult( ability , actor , numRolls )
+	toHitRolls  = _rollToHit( numRolls )
+	resultRolls = _rollResult( numRolls )
 
 # Override for any rolls you want this effect to store
-func _rollResult( ability : Ability , actor : Crew , numRolls : int ):
-	return []
+func _rollResult( numRolls : int ):
+	var rolls = []
 
-func _rollToHit( ability : Ability , actor : Crew , numRolls : int ):
+	if( effectType == self.EFFECT_TYPES.DAMAGE ):
+		for x in range( 0 , numRolls ):
+			var loDmg = parentAbility.damageLoBase + ( parentCrewman.getTraitTotal( dmgTrait ) * dmgTraitMod )
+			var hiDmg = 0
+			var dmgRoll = Common.randDiffValues( loDmg , hiDmg );
+			rolls.append( dmgRoll )
+
+	return rolls;
+
+func _rollToHit( numRolls : int ):
 	var rolls = []
 	
 	for x in range( 0 , numRolls ):
@@ -120,27 +138,21 @@ func _rollToHit( ability : Ability , actor : Crew , numRolls : int ):
 		if( alwaysHit ):
 			toHitRoll = Ability.MAX_TO_HIT
 		else:
-			toHitRoll = randi() % 99 + ( ability.toHitBase + toHitTotalMod )
+			toHitRoll = randi() % 99 + ( parentAbility.toHitBase + toHitTotalMod )
 			rolls.append( toHitRoll )
 			
 	return rolls
 
-func displayAbilityResult( ability : Ability  ):
-	pass 
-
-func _postDisplayAbilityResolt( ability : Ability ):
-	pass
-
-func displayEffect( ability : Ability ):
+func displayEffect():
 	var totalString = "{toHit}% to hit."
 
-	var total = ability.toHitBase + toHitTotalMod
-	totalString = totalString.format( { "toHit" : int( total ) } ) + _postDisplayEffect( ability )
+	var total = parentAbility.toHitBase + toHitTotalMod
+	totalString = totalString.format( { "toHit" : int( total ) } ) + _postDisplayEffect()
 
 	return totalString
 
 # Override to add a display line to this effect
-func _postDisplayEffect( ability : Ability ):
+func _postDisplayEffect():
 	var effectSubString = ""
 
 	return effectSubString

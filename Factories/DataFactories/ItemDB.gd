@@ -58,7 +58,7 @@ func _generateItemFromQueryResult( queryResult : Dictionary , isShallow = false 
 	return newItem
 
 
-func getCoreAbility( abilityKey : String ):
+func getCoreAbility( abilityKey : String , crewman = null ):
 	var abilityQuery = """
 		SELECT * FROM Abilities
 		WHERE key = '%s'
@@ -70,13 +70,13 @@ func getCoreAbility( abilityKey : String ):
 	var newAbility = null;
 	if( success ):
 		if( coreDB.query_result.size() >= 1 ):
-			newAbility = Ability.new( coreDB.query_result[0] )
+			newAbility = Ability.new( coreDB.query_result[0] , crewman )
 		else:
 			print("Could not find item : " + abilityKey )
 
 	return newAbility
 
-func getCoreEffect( effectKey : String ):
+func getCoreEffect( effectKey : String , ability : Ability ):
 	var effectQuery = """
 		SELECT * FROM Effects
 		WHERE key = '%s'
@@ -88,15 +88,20 @@ func getCoreEffect( effectKey : String ):
 	var newEffect = null;
 	if( success ):
 		if( coreDB.query_result.size() >= 1 ):
-			newEffect = Effect.new( coreDB.query_result[0] )
+			newEffect = Effect.new( coreDB.query_result[0] , ability )
 		else:
 			print("Could not find effect : " + effectKey )
 
 	return newEffect
 
 func saveItem( item : Item ):
-	pass
+	return item
 
+func saveAbility( ability : Ability ):
+	return ability
+
+func saveEffect( effect : Effect ):
+	return effect
 
 # These get methods will first check if a core db record of that key exists. If not, it will pull from savegame item tables.
 func getItem( itemName : String ):
@@ -115,8 +120,8 @@ func getAbility( abilityName : String ):
 	else:
 		return abilityName
 
-func getEffect( effectName : String ):
-	var coreEffect = getCoreEffect( effectName );
+func getEffect( effectName : String , ability ):
+	var coreEffect = getCoreEffect( effectName , ability);
 
 	if( coreEffect ):
 		return coreEffect

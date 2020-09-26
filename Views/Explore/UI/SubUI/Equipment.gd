@@ -61,22 +61,25 @@ func _layoutGear():
 
 	for key in allGear:
 		var item = allGear[key]
-		var display = item.itemDisplayNameShort + " x" + str( item.getRemaining() )
+		if( item ):
+			var display = item.itemDisplayNameShort + " x" + str( item.getRemaining() )
+			
+			if( item.is_class("Frame") && item.getRemaining() > 0 ):
+				bases.FrameList.add_item( display, load( item.itemTexturePath ), true )
+				bases.FrameList.set_item_metadata( itemIdx.Frames , item )
+				itemIdx.Frames = itemIdx.Frames + 1
 
-		if( item.is_class("Frame") && item.getRemaining() > 0 ):
-			bases.FrameList.add_item( display, load( item.itemTexturePath ), true )
-			bases.FrameList.set_item_metadata( itemIdx.Frames , item )
-			itemIdx.Frames = itemIdx.Frames + 1
+			if( item.is_class("Weapon") && item.getRemaining() > 0 ):
+				bases.WeaponList.add_item( display , load( item.itemTexturePath) , true )
+				bases.WeaponList.set_item_metadata( itemIdx.Weapons , item )
+				itemIdx.Weapons = itemIdx.Weapons + 1
 
-		if( item.is_class("Weapon") && item.getRemaining() > 0 ):
-			bases.WeaponList.add_item( display , load( item.itemTexturePath) , true )
-			bases.WeaponList.set_item_metadata( itemIdx.Weapons , item )
-			itemIdx.Weapons = itemIdx.Weapons + 1
-
-		if( item.is_class("Equipment") && item.getRemaining() > 0  ):
-			bases.EquipmentList.add_item( display , load( item.itemTexturePath) , true )
-			bases.EquipmentList.set_item_metadata( itemIdx.Equipment , item )
-			itemIdx.Equipment = itemIdx.Equipment + 1
+			if( item.is_class("Equipment") && item.getRemaining() > 0  ):
+				bases.EquipmentList.add_item( display , load( item.itemTexturePath) , true )
+				bases.EquipmentList.set_item_metadata( itemIdx.Equipment , item )
+				itemIdx.Equipment = itemIdx.Equipment + 1
+		else:
+			print("Equipment Page: item is null for key" , item )
 
 func _ready():
 	eventBus.emit("SubUIAnyOpenEnd")

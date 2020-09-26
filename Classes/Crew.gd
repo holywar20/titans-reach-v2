@@ -150,7 +150,7 @@ func _loadAbilitiesFromSavedKeys():
 
 	for category in allAbilityKeys:
 		for key in allAbilityKeys[category]:
-			var ability = ItemDB.getCoreAbility( key )
+			var ability = ItemDB.getCoreAbility( key , self )
 			print( ability );
 			if( ability ):
 				ability.setActor( self )
@@ -327,13 +327,14 @@ func getTexturePath( large = false ):
 	else:
 		return smallTexturePath
 
-func getBonus( primaryTrait, secondaryTrait ):
+func getBonus( primaryTrait : String , secondaryTrait : String ):
 	return traits[primaryTrait].total + ( traits[secondaryTrait].total / 2 )
 
-func getTraitTotal( trait ):
+func getTraitTotal( trait : String ):
 	if( traits.has( trait ) ):
 		return traits[trait].total
 	else:
+		print("Dev Error: requested a trait that doesn't exist:" , trait )
 		return null
 
 func getTraitStatBlock( trait ):

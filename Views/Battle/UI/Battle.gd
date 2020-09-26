@@ -183,9 +183,6 @@ func _startAbility( ability : Ability ):
 		print("I'm emmitting stuff")
 		eventBus.emit("TargetingBattler" , [ validTargets , !currentTurnActor.isPlayer ] )
 
-
-
-
 	eventBus.emit( "TargetingBegin" , [ ability ] )
 
 
@@ -213,13 +210,13 @@ func _resolveAbility( myX , myY , targetIsPlayer ):
 				continue
 
 			for effect in arrayOfEffects:
-				print( effect.displayEffect( selectedAbility ) )
+				print( effect.displayEffect() )
 				var hitRoll = effect.toHitRolls.pop_front()
 				var effectRoll = effect.resultRolls.pop_front()
 			
-				if( effect.is_class("DmgEffect") ):
+				if( effect.effectType == effect.EFFECT_TYPES.DAMAGE ):
 					_resolveDamageEffect( battlerMatrix[x][y] , hitRoll , effectRoll )
-				elif( effect.is_class("HealingEffect") ):
+				elif( effect.effectType == effect.EFFECT_TYPES.HEALING  ):
 					_resolveHealingEffect( battlerMatrix[x][y] , hitRoll, effectRoll )
 
 	yield( get_tree().create_timer( 2.5 ), "timeout" ) # Just waiting for animation to finish. TODO - do this better.

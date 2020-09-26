@@ -100,8 +100,11 @@ var movementEffects = []
 var abilityLearned = false
 var actor = null
 
-func _init( dict = null ):
-	setActor( CrewFactory.getDummyCrewman() )
+func _init( dict = null , crewman = null):
+	if(crewman):
+		setActor( crewman )
+	else:	
+		setActor( CrewFactory.getDummyCrewman() )
 	
 	if( dict ):
 		key = dict.key;
@@ -126,22 +129,26 @@ func _init( dict = null ):
 		var vFrom = dict.validFrom.split(",")
 		for x in range( 0, vFrom.size() ):
 			validFrom.append( vFrom[x] as int)
+		#var defaultEffect : Effect
+
+		print( "dict.defaultEffect:" , dict.defaultEffect )
+
+		var defaultEffect = null
+		if( dict.defaultEffect ):
+			defaultEffect = ItemDB.getCoreEffect( dict.defaultEffect , self )
 		
+		print("Default Effect Node:" , defaultEffect )
 
-	#var defaultEffect : Effect
-	var defaultEffect = null
-	if( dict.defaultEffect ):
-		defaultEffect = ItemDB.getCoreEffect( dict.defaultEffect )
-	
-	if( defaultEffect ):
-		match defaultEffect.effectType:
-			"DAMAGE":
-				damageEffects.append( defaultEffect )
-			"HEALING":
-				healingEffects.append( defaultEffect )
-			"STATUS_EFFECTS":
-				statusEffects.append( defaultEffect )
+		if( defaultEffect ):
+			match defaultEffect.effectType:
+				"DAMAGE":
+					damageEffects.append( defaultEffect )
+				"HEALING":
+					healingEffects.append( defaultEffect )
+				"STATUS_EFFECTS":
+					statusEffects.append( defaultEffect )
 
+		print( key , ":" , damageEffects )
 	# Loop though effects and load them.
 
 
@@ -152,13 +159,13 @@ func setActor( newActor : Crew ):
 
 func appendEffect( effect , effectType ):
 	match effectType:
-		"Damage":
+		"DAMAGE":
 			damageEffects.append( effect )
-		"Healing":
+		"HEALING":
 			healingEffects.append( effect )
-		"Status" :
+		"STATUS_EFFECTS" :
 			statusEffects.append( effect )
-		"Passive":
+		"PASSIVE":
 			statusEffects.append( effect )
 
 func getValidFromArray():
@@ -233,19 +240,22 @@ func getOffsetMatrix( myX , myY ):
 func calculateSelf( newActor = null ):
 	if( newActor ):
 		setActor( newActor )
-		
+	
 	for effect in damageEffects:
-		effect = effect.calculateSelf( self , actor )
+		effect = effect.calculateSelf()
 
 func rollEffectRolls():
 	var effectArray = []
 	
+	print(damageEffects)
+	print(healingEffects)
+
 	for effect in damageEffects:
-		effect.rollEffect( self , actor )
+		effect.rollEffect()
 		effectArray.append( effect )
 
 	for effect in healingEffects:
-		effect.rollEffect( self, actor )
+		effect.rollEffect()
 		effectArray.append( effect )
 
 	return effectArray
@@ -260,9 +270,9 @@ func getEffectDisplayArray():
 	var displayArray = []
 
 	for effect in damageEffects:
-		displayArray.append( effect.displayEffect( self ) )
+		displayArray.append( effect.displayEffect() )
 	
 	for effect in healingEffects:
-		displayArray.append( effect.displayEffect( self ) )
+		displayArray.append( effect.displayEffect() )
 
 	return displayArray
