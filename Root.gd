@@ -175,7 +175,5 @@ func _onLaunchAnomolyPopup( anom : Anomoly , ebus : EventBus ):
 
 func _onResolveAnomolyPopup( anom : Anomoly ):
 	pause( false )
-	print("anom resolved");
-	print(anom);
 
 	_clearPopupLayer()

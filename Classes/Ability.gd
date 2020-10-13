@@ -131,14 +131,11 @@ func _init( dict = null , crewman = null):
 			validFrom.append( vFrom[x] as int)
 		#var defaultEffect : Effect
 
-		print( "dict.defaultEffect:" , dict.defaultEffect )
-
 		var defaultEffect = null
 		if( dict.defaultEffect ):
 			defaultEffect = ItemDB.getCoreEffect( dict.defaultEffect , self )
 		
-		print("Default Effect Node:" , defaultEffect )
-
+		# TODO - Add ability to handle multiple effects
 		if( defaultEffect ):
 			match defaultEffect.effectType:
 				"DAMAGE":
@@ -147,8 +144,9 @@ func _init( dict = null , crewman = null):
 					healingEffects.append( defaultEffect )
 				"STATUS_EFFECTS":
 					statusEffects.append( defaultEffect )
+				"MOVEMENT":
+					movementEffects.append( defaultEffect )
 
-		print( key , ":" , damageEffects )
 	# Loop though effects and load them.
 
 
@@ -201,41 +199,13 @@ func getTargetTypeString():
 # Note should is also used for an action validity test. 
 func getValidTargets():
 	var targetingArray = [ [ false , false , false ] , [ false, false , false] , [ false, false, false] ]
-	print( validTargets )
 
 	for x in range(0 , targetingArray.size() ):
 		for y in range( 0 , targetingArray[x].size() ):
-			print( x , y )
 			if( validTargets.has( y ) ):
 				targetingArray[x][y] = true
 		
 	return targetingArray
-
-# Figures out which targets would be valid, based upon x ,y grid coordinates
-func getOffsetMatrix( myX , myY ):
-	var template = TARGET_AREA_DATA[targetArea].targetMatrix
-	var newMatrix = [ [0,0,0] , [0,0,0] , [0,0,0] ]
-
-	for x in range( 0 , template.size() ):
-		for y in range( 0 , template[x].size() ):
-			var isValid = true
-			var targetX = x + myX - 1
-			var targetY = y + myY - 1
-
-			if( targetX < 0 || targetX >= 3 ):
-				isValid = false
-			
-			if( targetX < 0 || targetY >= 3 ):
-				isValid = false
-
-			if( template[x][y] == 0 ):
-				isValid = false
-			
-			if( isValid ):
-				newMatrix[targetX][targetY] = 1
-	
-	return newMatrix
-
 # This method takes a Crew object ( maybe other types later ), and does all the math on it
 func calculateSelf( newActor = null ):
 	if( newActor ):
@@ -246,15 +216,16 @@ func calculateSelf( newActor = null ):
 
 func rollEffectRolls():
 	var effectArray = []
-	
-	print(damageEffects)
-	print(healingEffects)
 
 	for effect in damageEffects:
 		effect.rollEffect()
 		effectArray.append( effect )
 
 	for effect in healingEffects:
+		effect.rollEffect()
+		effectArray.append( effect )
+
+	for effect in movementEffects:
 		effect.rollEffect()
 		effectArray.append( effect )
 

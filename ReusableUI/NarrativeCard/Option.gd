@@ -33,5 +33,4 @@ func _onMouseExited():
 	print("Exiting!")
 
 func _onPressed():
-	print("pressed the option!")
 	eventBus.emit("NarrativeOptionSelected" , [ optionKey ] )

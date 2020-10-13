@@ -233,6 +233,20 @@ func getCrewman():
 		return crewman
 	return false
 
+func resolveDamageEffect( hitRoll : int , dmgRoll : int ):
+	# TODO - check effect for damage type 
+	# TODO - Manage damage resistance
+	if( hitRoll >= 100):
+		setState( self.STATE.DAMAGE , [ dmgRoll ] )
+	else:
+		setState( self.STATE.MISS , [ hitRoll ] )
+
+func resolveHealingEffect( hitRoll : int , healRoll : int ):
+	if( hitRoll >= 100 ):
+		setState( self.STATE.HEAL , [ healRoll ] )
+	else:
+		setState( self.STATE.MISS , [ hitRoll ] )
+
 func setState( stateName : String , params = [] ):
 	callv( stateName , params )
 
@@ -259,9 +273,6 @@ func _onTargetingTile( validTargetMatrix , targetsPlayer ):
 	setState( STATE.LOCK )
 
 func _onTargetingBattler( validTargetMatrix , targetsPlayer ):
-	print( validTargetMatrix )
-	print( targetsPlayer )
-	
 	if( isOnPlayerSide == targetsPlayer && validTargetMatrix[myX][myY] ):
 		setState( STATE.TARGETING )
 	else:
@@ -276,7 +287,6 @@ func _onTurnEnd( crewman : Crew ):
 
 func _gui_input( input ):
 	if( myState == STATE.HIGHLIGHT && prevState == STATE.TARGETING && input.is_action_pressed( "GUI_SELECT" ) ):
-		print("Battler at " , myX , ":" , myY , " is a valid target and clicked")
 		eventBus.emit( "TargetingSelected" , [ myX , myY , crewman.isPlayer ] )
 
 func _onMouseEntered():

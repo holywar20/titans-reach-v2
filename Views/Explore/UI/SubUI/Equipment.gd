@@ -79,7 +79,7 @@ func _layoutGear():
 				bases.EquipmentList.set_item_metadata( itemIdx.Equipment , item )
 				itemIdx.Equipment = itemIdx.Equipment + 1
 		else:
-			print("Equipment Page: item is null for key" , item )
+			print("Dev Error: Equipment Page: item is null for key" , item )
 
 func _ready():
 	eventBus.emit("SubUIAnyOpenEnd")

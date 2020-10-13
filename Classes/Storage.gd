@@ -2,7 +2,7 @@ extends Node
 
 class_name Storage
 
-items = {}
+var items = {}
 
 func _init():
 	pass

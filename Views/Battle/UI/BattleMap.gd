@@ -68,6 +68,25 @@ func _ready():
 func _onGeneralCancel():
 	pass
 
+# Finds a specific crewman. If not found, return null
+func getBattlerCrewPosition( crewman : Crew ):
+	var myUnits = null
+	if( crewman.isPlayer ):
+		myUnits = playerUnits
+	else:
+		myUnits = enemyUnits
+
+	var crewmanVector = null
+	for x in range( 0 , myUnits.size() ):
+		for y in range ( 0 , myUnits[x].size() ):
+			if( !playerUnits[x][y] ):
+				continue
+			
+			if( playerUnits[x][y].crewman == crewman ):
+				crewmanVector = Vector2( x , y )
+	
+	return crewmanVector
+
 func isUnitOnTile( myX, myY , isPlayer = false ):
 	var targetField = null
 	if( isPlayer ):
@@ -93,7 +112,7 @@ func getUnitFromTile( myX , myY , isPlayer = false ):
 		return false
 
 # figures out which things an ability will hit. Normally returns battlers from the map, but can get the crewman as an optional flag.
-func getTargetsFromLocation( myX , myY , ability : Ability , isPlayer : bool , getCrewman = false ):
+func getTargetsFromLocation( myX , myY , effect : Effect , isPlayer : bool , getCrewman = false ):
 	
 	var targetField = null
 	if( isPlayer ):
@@ -101,7 +120,7 @@ func getTargetsFromLocation( myX , myY , ability : Ability , isPlayer : bool , g
 	else:
 		targetField = enemyUnits
 
-	var potentialValidTargets = ability.getOffsetMatrix( myX, myY )
+	var potentialValidTargets = effect.getOffsetMatrix( myX, myY )
 
 	for x in potentialValidTargets.size():
 		for y in potentialValidTargets[x].size():
@@ -115,21 +134,36 @@ func getTargetsFromLocation( myX , myY , ability : Ability , isPlayer : bool , g
 			else:
 				potentialValidTargets[x][y] = 0
 
-
 	return potentialValidTargets
 
+func resolveMoveSwap( pos : Vector2, pos2 : Vector2 , effect : Effect , isPlayer : bool ):
+	# WORK
+	# TODO - Allow a hook for animation
 
-func _setupBattleOrder( playerCrew , enemyCrew = null ):
+func resolveMovePush( pos : Vector2, pos2 : Vector2 , isPlayer: bool ):
+	pass
+	# TODO - Allow a hook for animiations
+
+func resolveMovePull( pos: Vector2, pos2 : Vector2 , isPlayer : bool ):
+	pass
+
+func resolveMoveSetAny():
+	pass
+
+func resolveMoveScramble():
+	pass
+
+func _setupBattleOrder( pCrew , eCrew = null ):
 	# TODO - Create a pop up to allow this to be changed and saved before battle. For now , hardcode!
-	playerUnits[1][0].loadData( playerCrew[0] )
-	playerUnits[1][1].loadData( playerCrew[1] )
-	playerUnits[1][2].loadData( playerCrew[2] )
-	playerUnits[2][1].loadData( playerCrew[3] )
-	playerUnits[0][1].loadData( playerCrew[4] )
+	playerUnits[1][0].loadData( pCrew[0] )
+	playerUnits[1][1].loadData( pCrew[1] )
+	playerUnits[1][2].loadData( pCrew[2] )
+	playerUnits[2][1].loadData( pCrew[3] )
+	playerUnits[0][1].loadData( pCrew[4] )
 
-	# Randomly generate enemy Unit battle order
-	enemyUnits[0][1].loadData( enemyCrew[0] )
-	enemyUnits[1][2].loadData( enemyCrew[1] )
-	enemyUnits[2][2].loadData( enemyCrew[2] )
-	enemyUnits[1][1].loadData( enemyCrew[3] )
-	enemyUnits[0][2].loadData( enemyCrew[4] )
+	# TODO - Randomly generate enemy Unit battle order
+	enemyUnits[0][1].loadData( eCrew[0] )
+	enemyUnits[1][2].loadData( eCrew[1] )
+	enemyUnits[2][2].loadData( eCrew[2] )
+	enemyUnits[1][1].loadData( eCrew[3] )
+	enemyUnits[0][2].loadData( eCrew[4] )

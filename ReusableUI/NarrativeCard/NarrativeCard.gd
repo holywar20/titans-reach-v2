@@ -80,9 +80,7 @@ func loadData( narrative = null ):
 		show()
 
 func _onNarrativeOptionSelected( optionKey ):
-	print( optionKey )
 	var nextNarrative = currentNarrative.getNext( optionKey )
-	print("Next Narrative!" , nextNarrative )
 
 	loadData( nextNarrative )
 
@@ -90,7 +88,6 @@ func _onCloseButtonPressed():
 	_terminateNarrative()
 
 func _terminateNarrative():
-	print("Terminating!")
 	GlobalEventBus.emit( "ResolveAnomolyPopup" ,  [ currentNarrative.parentAnomoly ] )
 	eventBus.emit( currentNarrative.terminationEvent , [ currentNarrative ] )
 

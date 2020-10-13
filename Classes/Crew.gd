@@ -111,7 +111,7 @@ func is_class( name : String ):
 func _init():
 	id = Common.genRandomKey()
 
-func calculateSelf( newCharacter = true ):
+func calculateSelf( newCharacter = false ):
 
 	_getAbilityKeysFromGear()
 	_getAbilityKeysFromTalents()
@@ -151,7 +151,7 @@ func _loadAbilitiesFromSavedKeys():
 	for category in allAbilityKeys:
 		for key in allAbilityKeys[category]:
 			var ability = ItemDB.getCoreAbility( key , self )
-			print( ability );
+
 			if( ability ):
 				ability.setActor( self )
 

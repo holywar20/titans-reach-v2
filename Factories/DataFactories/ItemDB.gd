@@ -34,7 +34,7 @@ func getCoreItem( itemKey : String , numOfItem = 6 , isShallow = false ):
 			newItem = _generateItemFromQueryResult( coreDB.query_result[0] , isShallow )
 			newItem.itemOwned = numOfItem
 		else:
-			print("Could not find item : " + itemKey )
+			print("DB Error : Could not find item : " + itemKey )
 
 	return newItem
 
@@ -72,7 +72,7 @@ func getCoreAbility( abilityKey : String , crewman = null ):
 		if( coreDB.query_result.size() >= 1 ):
 			newAbility = Ability.new( coreDB.query_result[0] , crewman )
 		else:
-			print("Could not find item : " + abilityKey )
+			print("DB Error : Could not find item : " + abilityKey )
 
 	return newAbility
 
@@ -90,7 +90,7 @@ func getCoreEffect( effectKey : String , ability : Ability ):
 		if( coreDB.query_result.size() >= 1 ):
 			newEffect = Effect.new( coreDB.query_result[0] , ability )
 		else:
-			print("Could not find effect : " + effectKey )
+			print("DB Error : Could not find effect : " + effectKey )
 
 	return newEffect
 

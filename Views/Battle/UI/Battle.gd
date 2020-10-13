@@ -54,8 +54,8 @@ var eventBus = null
 # Battle state
 var playerCrew = []
 var enemyCrew = []
-var currentTurnActor = null
-var selectedAbility = null
+var currentTurnActor : Crew
+var selectedAbility : Ability
 
 # Potential config options should be declared here.=
 
@@ -167,12 +167,12 @@ func _startAbility( ability : Ability ):
 	selectedAbility = ability
 	nodes.ActionStatus.setStatus( ability.getFullName() )
 
-	print("_startAbility : ")
-	print( ability.targetType )
-
-	# TODO - currently only permits 1 selection, should allow for multiple selections
+	# TODO - Allow for multiple selections.
+	# TODO - Select from effect rather than ability
+	# TODO - Merge targeting in some way. 
+	# - IE if ability == effect target use that. 
+	# - otherwise create a seperate targeting round
 	var validTargets = ability.getValidTargets()
-	print(validTargets)
 	if( ability.targetType == "ALLY_UNIT" or ability.targetType == "SELF" ):
 		eventBus.emit("TargetingBattler" , [ validTargets , currentTurnActor.isPlayer ] )
 	elif( ability.targetType == "ALLY_FLOOR" ):
@@ -180,7 +180,6 @@ func _startAbility( ability : Ability ):
 	elif( ability.targetType == "ENEMY_FLOOR" ): # Here we send the opposite of player. So true if it's NOT a player, and false if it is.
 		eventBus.emit("TargetingTile" , [ validTargets , !currentTurnActor.isPlayer ] )
 	elif( ability.targetType == "ENEMY_UNIT" ):
-		print("I'm emmitting stuff")
 		eventBus.emit("TargetingBattler" , [ validTargets , !currentTurnActor.isPlayer ] )
 
 	eventBus.emit( "TargetingBegin" , [ ability ] )
@@ -196,46 +195,72 @@ func _onTargetingSelected( myX , myY , targetIsPlayer ):
 
 # All targeting is done, now we resolve the ability in question
 func _resolveAbility( myX , myY , targetIsPlayer ):
-	# eventBus.emit( "ActionEnd" , [ action ] )
-	var battlerMatrix = bases.BattleMap.getTargetsFromLocation( myX , myY , selectedAbility , targetIsPlayer)
+	
 	var arrayOfEffects = selectedAbility.rollEffectRolls()
 
-	print("_resolveAbility : ")
-	print(arrayOfEffects)
+	for effect in arrayOfEffects:
 
-	for x in range(0 , battlerMatrix.size() ):
-		for y in range(0, battlerMatrix[x].size() ):
-			
-			if( !battlerMatrix[x][y] ):
-				continue
-
-			for effect in arrayOfEffects:
-				print( effect.displayEffect() )
-				var hitRoll = effect.toHitRolls.pop_front()
-				var effectRoll = effect.resultRolls.pop_front()
-			
-				if( effect.effectType == effect.EFFECT_TYPES.DAMAGE ):
-					_resolveDamageEffect( battlerMatrix[x][y] , hitRoll , effectRoll )
-				elif( effect.effectType == effect.EFFECT_TYPES.HEALING  ):
-					_resolveHealingEffect( battlerMatrix[x][y] , hitRoll, effectRoll )
+		if( effect.effectType == Effect.EFFECT_TYPES.DAMAGE ):
+			_resolveDamageEffects( myX, myY , effect , targetIsPlayer )
+		elif( effect.effectType == Effect.EFFECT_TYPES.HEALING  ):
+			_resolveHealingEffects( myX, myY , effect , targetIsPlayer )
+		elif( effect.effectType == Effect.EFFECT_TYPES.MOVEMENT ):
+			print("executing movement")
+			_resolveMovementEffects( myX, myY, effect , targetIsPlayer )
 
 	yield( get_tree().create_timer( 2.5 ), "timeout" ) # Just waiting for animation to finish. TODO - do this better.
 	nodes.ActionStatus.setStatus()
 
 	_crewmanTurnEnd()
 
-func _resolveDamageEffect( battler , hitRoll, dmgRoll ):
-	if( hitRoll >= 100 ):
-		battler.setState( Battler.STATE.DAMAGE , [ dmgRoll ] )
-	else:
-		battler.setState( Battler.STATE.MISS , [ hitRoll ] )
+# Resolve movement effects. Each MOVEMENT_TYPE is handled by it's own unique BattleMap method
+# which will manage the relationships between Battlers as they shift position.
+func _resolveMovementEffects( tarX : int  , tarY : int , effect : Effect , targetIsPlayer : bool ):
+	if( Effect.MOVEMENT_TYPES.SWAP ):
+		var selfPos = bases.BattleMap.getBattlerCrewPosition( currentTurnActor )
+		var tarPos = Vector2( tarX , tarY )
 
-func _resolveHealingEffect( battler, hitRoll, healRoll ):
-	print( battler, hitRoll , healRoll )
-	if( hitRoll >= 100 ):
-		battler.setState( Battler.STATE.HEALING , [ healRoll ] )
-	else:
-		battler.setState( Battler.STATE.MISS , [ hitRoll ] )
+		if(!selfPos): # if you can't find 'yourself', what the hell are we using 'swap' for?
+			print("Dev Error: Battle - Cant find current actor on Battle Map")
+		else:
+			bases.BattleMap.resolveMoveSwap( selfPos , tarPos , effect, targetIsPlayer ) #
+	elif( Effect.MOVEMENT_TYPES.PUSH ):
+		bases.BattleMap.resolveMovePush()
+	elif( Effect.MOVEMENT_TYPES.PULL ):
+		bases.BattleMap.resolveMovePull()
+	elif( Effect.MOVEMENT_TYPES.SET_ANY ):
+		bases.BattleMap.resolveMoveSetAny()
+	elif( Effect.MOVEMENT_TYPES.SCRAMBLE ):
+		bases.BattleMap.resolveMoveScramble()
+
+
+# Resolve damage effects by looping through valid Battlers, as determined by BattleMap + Effect
+func _resolveDamageEffects( myX, myY , effect : Effect , targetIsPlayer : bool ):
+	var battlerMatrix = bases.BattleMap.getTargetsFromLocation( myX , myY , effect , targetIsPlayer )
+	
+	for x in range(0 , battlerMatrix.size() ):
+		for y in range(0, battlerMatrix[x].size() ):
+
+			if( !battlerMatrix[x][y] ):
+				continue # No target, so don't do anything
+
+			var hitRoll = effect.toHitRolls.pop_front()
+			var effectRoll = effect.resultRolls.pop_front()
+			battlerMatrix[x][y].resolveDamageEffect( hitRoll, effectRoll )
+
+# Resolve healing effects by looping through valid Battlers, as determined by BattleMap + Effect
+func _resolveHealingEffects( myX, myY , effect : Effect , targetIsPlayer : bool ):
+	var battlerMatrix = bases.BattleMap.getTargetsFromLocation( myX , myY , effect , targetIsPlayer)
+	
+	for x in range(0 , battlerMatrix.size() ):
+		for y in range(0, battlerMatrix[x].size() ):
+
+			if( !battlerMatrix[x][y] ):
+				continue # No target, so don't do anything
+
+			var hitRoll = effect.toHitRolls.pop_front()
+			var effectRoll = effect.resultRolls.pop_front()
+			battlerMatrix[x][y].resolveHealingEffect( hitRoll, effectRoll )
 
 func _crewmanTurnEnd():
 	cards.LeftDetail.loadData()
@@ -298,7 +323,8 @@ func _onActionButtonClicked( action : Ability ):
 	_startAbility( action )
 
 func _onStanceButtonClicked( stance : Ability ):
-	print( stance.shortName )
+	# TODO - Stances!
+	pass
 
 # Helper methods
 func _validateAlive( someCrew ):

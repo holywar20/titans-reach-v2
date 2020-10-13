@@ -52,8 +52,3 @@ func getNext( optionKey : String ):
 			next = narrative
 
 	return next
-
-
-func terminateNarrative( optionSelected ):
-	if( terminationEvent ):
-		print( "Resolving " , optionSelected )

@@ -7,7 +7,16 @@ const TRAITS = {
 }
 
 const EFFECT_TYPES = {
-	"DAMAGE" : "DAMAGE" , "HEALING" : "HEALING"
+	"DAMAGE" : "DAMAGE" , 
+	"HEALING" : "HEALING" , 
+	"MOVEMENT" : "MOVEMENT" , 
+	"STATUS_EFFECT" : "STATUS_EFFECT"
+}
+
+const MOVEMENT_TYPES = {
+	"SWAP" : "SWAP",
+	"PUSH" : "PUSH",
+	"PULL" : "PULL"  
 }
 
 # Filled by DB
@@ -16,6 +25,9 @@ var effectType : String = "DAMAGE"
 var toHitTrait : String
 var toHitBaseMod : float =  0.0
 var toHitTraitMod : float = 0.0
+
+# effectType - Movement
+var moveType : String
 
 # effectType - Damage
 var dmgType : String
@@ -80,6 +92,8 @@ func _init( effectDict : Dictionary , ability : Ability ):
 		targetArea = Ability.TARGET_AREA.SELF;
 
 	match effectType:
+		"MOVEMENT":
+			moveType = effectDict.moveType as String
 		"DAMAGE":
 			dmgType  = effectDict.dmgType as String
 			dmgBaseMod = effectDict.dmgBaseMod as float
@@ -116,6 +130,31 @@ func rollEffect():
 	var numRolls = Ability.TARGET_AREA_DATA[targetArea].count
 	toHitRolls  = _rollToHit( numRolls )
 	resultRolls = _rollResult( numRolls )
+
+# Figures out which targets would be valid, based upon x ,y grid coordinates
+func getOffsetMatrix( myX , myY ):
+	var template = Ability.TARGET_AREA_DATA[targetArea].targetMatrix
+	var newMatrix = [ [0,0,0] , [0,0,0] , [0,0,0] ]
+
+	for x in range( 0 , template.size() ):
+		for y in range( 0 , template[x].size() ):
+			var isValid = true
+			var targetX = x + myX - 1
+			var targetY = y + myY - 1
+
+			if( targetX < 0 || targetX >= 3 ):
+				isValid = false
+			
+			if( targetX < 0 || targetY >= 3 ):
+				isValid = false
+
+			if( template[x][y] == 0 ):
+				isValid = false
+			
+			if( isValid ):
+				newMatrix[targetX][targetY] = 1
+	
+	return newMatrix
 
 # Override for any rolls you want this effect to store
 func _rollResult( numRolls : int ):
