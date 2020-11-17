@@ -52,9 +52,6 @@ func _generateItemFromQueryResult( queryResult : Dictionary , isShallow = false 
 	if( itemType == "Frame" ):
 		newItem = Frame.new( queryResult )
 
-	# TODO : Generate item from ability name
-	# var defaultAbilityName = queryResult.defaultAbility
-
 	return newItem
 
 

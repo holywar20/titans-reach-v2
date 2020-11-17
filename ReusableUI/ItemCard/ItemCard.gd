@@ -3,7 +3,6 @@ extends VBoxContainer
 const INVALID_TARGET = Color( .8, .3 , .3 )
 const VALID_TARGET = Color( .3, .8, .3)
 
-# TODO - Figure out what's missing here.
 onready var nodes = {
 	'name'			: get_node( "Header/Text/Name" ),
 	'icon'			: get_node( "Header/Icon"),

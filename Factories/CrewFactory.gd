@@ -3,7 +3,7 @@ extends Node
 const MAKE_ENEMY = false
 const MAKE_PLAYER = true
 
-# TODO - Write script that populates this data from a folder.
+# TODO - Write script that populates this data from a database
 const MALE_PORTRAITS_FOLDER = "res://TextureBank/Faces/BorrowedMen/"
 const MALE_PORTRAITS = [
 	"man-1", "man-2", "man-3" , "man-4" , "man-5" , "man-6"

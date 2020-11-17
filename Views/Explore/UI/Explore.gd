@@ -148,7 +148,6 @@ func _onPlayerContactingAreasUpdated( anoms ):
 
 		nodes.AnomButtons.show()
 
-# TODO - Add an underscore here.
 func menuButtonPressed( menuTarget : String ):
 	for tab in tabBase.get_children():
 		tab.queue_free()

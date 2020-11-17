@@ -13,10 +13,19 @@ var starSystemLastNames = [
 	"Theta" , "Omega", "Epsilon" , "Alpha", "Bravo" , "Tango" , "Danger", "Prime" , "Primus" , "Mundi" , "Crash" , "Reach"
 ]
 
+# Use a generic weighting
 var randomStarTable = {
-	"M" : 20 , "K" : 15 , "G" : 15 , "F" : 15 , 
-	"A" : 10,  "B" : 10 , "O" : 2,
-	"N" : 2 ,  "R" : 10 , "H" : 1 
+	"M" : 20 , 
+	"K" : 15 , 
+	"G" : 15 , 
+	"F" : 15 , 
+	"A" : 10,  
+	"B" : 10 , 
+	"O" : 2,
+	"N" : 2 ,  
+	"R" : 10 , 
+	"H" : 1 ,
+	"BINARY" : 2 # Special hook for binary
 }
 
 # TODO - load all this shit from a json file.

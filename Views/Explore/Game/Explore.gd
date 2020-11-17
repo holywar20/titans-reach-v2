@@ -26,7 +26,7 @@ func _ready():
 	shipAvatar.setEvents( eventBus )
 	shipAvatar.setStarship( ship )
 
-	var starDictionary = StarSystemFactory.generateRandomSystem( 100000 )
+	var starDictionary : StarSystem = StarSystemFactory.generateRandomSystem( 100000 )
 	
 	star = starDictionary.star
 	planets = starDictionary.planets

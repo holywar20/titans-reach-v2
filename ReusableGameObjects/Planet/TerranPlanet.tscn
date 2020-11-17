@@ -1,12 +1,102 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://TextureBank/Planets/Barren/Barren.tres" type="Material" id=1]
+[ext_resource path="res://new_cubemap.tres" type="CubeMap" id=1]
 [ext_resource path="res://ReusableGameObjects/Planet/TerranPlanet.gd" type="Script" id=2]
 
-[sub_resource type="SphereMesh" id=1]
+[sub_resource type="VisualShaderNodeCubeMap" id=7]
+cube_map = ExtResource( 1 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "Rotation"
+[sub_resource type="VisualShader" id=8]
+code = "shader_type spatial;
+render_mode specular_schlick_ggx;
+
+uniform samplerCube cube_frg_2;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// CubeMap:2
+	vec3 n_out2p0;
+	float n_out2p1;
+	{
+		vec4 cube_frg_2_read = texture(cube_frg_2 , vec3(UV, 0.0));
+		n_out2p0 = cube_frg_2_read.rgb;
+		n_out2p1 = cube_frg_2_read.a;
+	}
+
+// Output:0
+	ALBEDO = n_out2p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+nodes/fragment/0/position = Vector2( 1120, 60 )
+nodes/fragment/2/node = SubResource( 7 )
+nodes/fragment/2/position = Vector2( 500, 140 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0 )
+
+[sub_resource type="ShaderMaterial" id=9]
+shader = SubResource( 8 )
+
+[sub_resource type="SphereMesh" id=1]
+material = SubResource( 9 )
+
+[sub_resource type="VisualShaderNodeCubeMap" id=3]
+output_port_for_preview = 1
+cube_map = ExtResource( 1 )
+
+[sub_resource type="VisualShader" id=4]
+code = "shader_type spatial;
+render_mode specular_schlick_ggx;
+
+uniform samplerCube cube_frg_2;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// CubeMap:2
+	vec3 n_out2p0;
+	float n_out2p1;
+	{
+		vec4 cube_frg_2_read = texture(cube_frg_2 , vec3(UV, 0.0));
+		n_out2p0 = cube_frg_2_read.rgb;
+		n_out2p1 = cube_frg_2_read.a;
+	}
+
+// Output:0
+	EMISSION = n_out2p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+nodes/fragment/0/position = Vector2( 1600, 100 )
+nodes/fragment/2/node = SubResource( 3 )
+nodes/fragment/2/position = Vector2( 940, 100 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 5 )
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 4 )
+shader_param/cube_frg_2 = ExtResource( 1 )
+
+[sub_resource type="Animation" id=6]
 length = 10.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rotation_degrees")
@@ -22,11 +112,11 @@ tracks/0/keys = {
 }
 
 [node name="TerranPlanet" type="MeshInstance"]
-transform = Transform( 0.499924, 0, 0.00872607, 0.00707402, 0.292747, -0.405277, -0.00510905, 0.405339, 0.292702, 0, 0, 0 )
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 mesh = SubResource( 1 )
-material/0 = ExtResource( 1 )
+material/0 = SubResource( 5 )
 script = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 0.5
-anims/Rotation = SubResource( 2 )
+anims/Rotation = SubResource( 6 )

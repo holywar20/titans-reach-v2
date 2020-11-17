@@ -51,9 +51,6 @@ var instants = []
 
 var temporaryPassives = {}
 
-
-# TODO make this an enum index
-# enum TRAITS { NONE , STR , DEX , PER, INT, CHA }
 const TRAITS = {
 	"CHA" : "Charisma" , "INT" : "Intelligence" , "DEX" : "Dexerity" ,  "STR" : "Strength" , "PER" : "Perception"
 }

@@ -28,8 +28,7 @@ func emit( eventName : String , p = [] ):
 		print("Dev Warning : the event with eventName: " , eventName , " doesn't exist, but something is trying to emit it")
 		return null
 	else:
-		pass
-		#print("Emitting Event : " , eventName ,  " with Payload " , p )
+		print("Emitting Event : " , eventName ,  " with Payload " , p )
 
 	if( p.size() >= 5 ):
 		emit_signal( eventName , p[0], p[1] , p[2] , p[3] , p[4] )

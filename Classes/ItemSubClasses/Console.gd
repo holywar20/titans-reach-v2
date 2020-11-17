@@ -3,7 +3,7 @@ extends Item
 class_name Console
 
 const ASSIGNABLE = "Assignable"
-# TODO - Change to enum + array index instead
+
 const CATEGORY = {
 	"COMMAND" 	: "Command" , 
 	"SECURITY"	: "Security", 

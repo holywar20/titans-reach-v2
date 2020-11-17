@@ -35,7 +35,7 @@ const DEBUG_OPTIONS = {
 	"GENERATE_CREW_WITH_WOUNDS" : true
 }
 
-# TODO : Put this into a save game system of some kind, instead of loading from scratch
+# TODO : Add this stuff into the storage class. Storage class should ref a savegame class.
 onready var playerGear = {}
 onready var playerItems = null
 onready var playerShip = Starship.new()

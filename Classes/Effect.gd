@@ -46,9 +46,6 @@ var statusEffectTrait : String
 var statusEffectBaseMod : float = 0.0
 var statusEffectTraitMod : float = 0.0
 
-# effectType - Movement
-# TODO - figure out how to define this.likely just a constant with some behavior attached to it.
-# IE Pull, Push + a vector, or free move ( user selects )
 
 var targetArea : String
 var targetType : String
